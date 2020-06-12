@@ -21,8 +21,25 @@ allprojects {
     }
 }
 
+subprojects {
+    plugins.withType<com.android.build.gradle.internal.plugins.BasePlugin>() {
+        configure<com.android.build.gradle.BaseExtension> {
+            compileSdkVersion(29)
+            buildToolsVersion = "29.0.2"
+
+            defaultConfig {
+                minSdkVersion(24)
+                targetSdkVersion(29)
+                versionCode = 1
+                versionName = "1.0"
+                testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+            }
+        }
+    }
+}
+
 tasks {
     val clean by registering(Delete::class) {
-        delete (buildDir)
+        delete(buildDir)
     }
 }
