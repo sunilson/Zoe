@@ -26,6 +26,8 @@ android {
 
 dependencies {
     implementation(fileTree("dir" to "libs", "include" to listOf("*.jar")))
+    implementation(project(":authentication"))
+    implementation(project(":presentationCore"))
     implementation(Dependencies.kotlinStdLib)
     implementation(Dependencies.coreKtx)
     implementation(Dependencies.appcompat)
