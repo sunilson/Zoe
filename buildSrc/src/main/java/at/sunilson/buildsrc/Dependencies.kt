@@ -2,6 +2,7 @@ package at.sunilson.buildsrc
 
 const val LIFECYCLE_VERSION = "2.2.0"
 const val NAVIGATION_VERSION = "2.3.0-rc01"
+const val RESULT_VERSION = "3.0.0"
 
 object Dependencies {
     const val appcompat = "androidx.appcompat:appcompat:1.1.0"
@@ -18,4 +19,7 @@ object Dependencies {
     const val navigation = "androidx.navigation:navigation-fragment-ktx:$NAVIGATION_VERSION"
     const val navigationUi = "androidx.navigation:navigation-ui-ktx:$NAVIGATION_VERSION"
     const val material = "com.google.android.material:material:1.3.0-alpha01"
+    const val result = "com.github.kittinunf.result:result:$RESULT_VERSION"
+    const val resultCoroutines = "com.github.kittinunf.result:result-coroutines:$RESULT_VERSION"
+    const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7"
 }

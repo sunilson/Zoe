@@ -1,6 +1,5 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    val kotlin_version by extra("1.3.72")
     repositories {
         google()
         jcenter()
@@ -18,6 +17,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven(url = "https://jitpack.io")
     }
 }
 
@@ -40,11 +40,5 @@ subprojects {
                 targetCompatibility = JavaVersion.VERSION_1_8
             }
         }
-    }
-}
-
-tasks {
-    val clean by registering(Delete::class) {
-        delete(buildDir)
     }
 }

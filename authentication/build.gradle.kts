@@ -23,12 +23,7 @@ android {
 dependencies {
     implementation(fileTree("dir" to "libs", "include" to listOf("*.jar")))
     implementation(project(":presentationCore"))
-    implementation(Dependencies.kotlinStdLib)
-    implementation(Dependencies.coreKtx)
-    implementation(Dependencies.appcompat)
-    implementation(Dependencies.lifecycleViewModel)
-    implementation(Dependencies.navigation)
-    implementation(Dependencies.constraintlayout)
+    implementation(project(":core"))
     implementation(Dependencies.retrofit)
-    implementation(Dependencies.material)
+
 }

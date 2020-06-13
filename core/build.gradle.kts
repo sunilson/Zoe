@@ -22,11 +22,11 @@ android {
 
 dependencies {
     implementation(fileTree("dir" to "libs", "include" to listOf("*.jar")))
-    implementation(project(":core"))
-    api(Dependencies.navigation)
-    api(Dependencies.lifecycleViewModel)
-    api(Dependencies.lifecycleRuntime)
-    api(Dependencies.lifecycleLiveData)
-    api(Dependencies.constraintlayout)
-    api(Dependencies.material)
+    api(Dependencies.kotlinStdLib)
+    api(Dependencies.coreKtx)
+    api(Dependencies.appcompat)
+    api(Dependencies.coroutines)
+    api(Dependencies.result)
+    api(Dependencies.resultCoroutines)
+    api(Dependencies.kotlinStdLib)
 }

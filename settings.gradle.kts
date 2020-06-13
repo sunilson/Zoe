@@ -1,3 +1,4 @@
+include(":core")
 include(":presentationCore")
 include(":authentication")
 include(":app")

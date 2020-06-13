@@ -4,7 +4,7 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Path
 
-internal interface KamereonService {
+interface KamereonService {
     @GET("persons/{person_id}?country=AT")
     suspend fun kamereonAccount(
         @Path("person_id") personId: String,

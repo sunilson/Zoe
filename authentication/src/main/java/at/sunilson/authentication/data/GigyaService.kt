@@ -5,7 +5,7 @@ import at.sunilson.authentication.data.networkEntities.GigyaLoginResponse
 import retrofit2.http.Field
 import retrofit2.http.POST
 
-internal interface GigyaService {
+interface GigyaService {
     @POST("accounts.login")
     suspend fun gigyaLogin(
         @Field("ApiKey") apiKey: String,
@@ -13,7 +13,7 @@ internal interface GigyaService {
         @Field("password") password: String
     ): GigyaLoginResponse
 
-    @POST("accounts..getAccountInfo")
+    @POST("accounts.getAccountInfo")
     suspend fun gigyaAccountInfo(@Field("oauth_token") oauthToken: String): GigyaAccountInfo
 
     @POST("accounts.getJWT")

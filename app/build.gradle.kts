@@ -7,9 +7,7 @@ plugins {
     kotlin("kapt")
 }
 
-apply {
-    plugin("dagger.hilt.android.plugin")
-}
+apply(plugin = "dagger.hilt.android.plugin")
 
 android {
     defaultConfig {
@@ -19,7 +17,10 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 }
@@ -28,7 +29,7 @@ dependencies {
     implementation(fileTree("dir" to "libs", "include" to listOf("*.jar")))
     implementation(project(":authentication"))
     implementation(project(":presentationCore"))
-    implementation(Dependencies.kotlinStdLib)
+    implementation(project(":core"))
     implementation(Dependencies.coreKtx)
     implementation(Dependencies.appcompat)
     implementation(Dependencies.hilt)
