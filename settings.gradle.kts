@@ -1,3 +1,5 @@
+include(":vehicleCore")
+include(":database")
 include(":core")
 include(":presentationCore")
 include(":authentication")

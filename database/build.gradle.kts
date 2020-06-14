@@ -24,12 +24,7 @@ android {
 
 dependencies {
     implementation(fileTree("dir" to "libs", "include" to listOf("*.jar")))
-    implementation(project(":presentationCore"))
     implementation(project(":core"))
-    implementation(Dependencies.retrofitMoshiAdapter)
-    implementation(Dependencies.retrofit)
-    implementation(Dependencies.hiltViewModel)
     implementation(Dependencies.hilt)
     kapt(Dependencies.hiltKapt)
-    kapt(Dependencies.hiltKaptJetpack)
 }

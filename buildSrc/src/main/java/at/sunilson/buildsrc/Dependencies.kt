@@ -10,6 +10,9 @@ object Dependencies {
     const val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:1.3.72"
     const val constraintlayout = "androidx.constraintlayout:constraintlayout:2.0.0-beta6"
     const val retrofit = "com.squareup.retrofit2:retrofit:2.9.0"
+    const val retrofitMoshiAdapter = "com.squareup.retrofit2:converter-moshi:2.9.0"
+    const val okhttp = "com.squareup.okhttp3:okhttp:4.7.2"
+    const val chucker = "com.github.chuckerteam.chucker:library:3.2.0"
     const val hilt = "com.google.dagger:hilt-android:2.28-alpha"
     const val hiltKapt = "com.google.dagger:hilt-android-compiler:2.28-alpha"
     const val hiltKaptJetpack = "androidx.hilt:hilt-compiler:1.0.0-alpha01"
@@ -24,4 +27,5 @@ object Dependencies {
     const val result = "com.github.kittinunf.result:result:$RESULT_VERSION"
     const val resultCoroutines = "com.github.kittinunf.result:result-coroutines:$RESULT_VERSION"
     const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7"
+    const val timber = "com.jakewharton.timber:timber:4.7.1"
 }

@@ -19,8 +19,10 @@ internal class LoginFragment : Fragment(R.layout.fragment_login) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.loginButton.setOnClickListener {
-            TODO("Login")
+            viewModel.login(
+                binding.usernameInput.text.toString(),
+                binding.passwordInput.text.toString()
+            )
         }
     }
-
 }
