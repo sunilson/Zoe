@@ -5,9 +5,9 @@ plugins {
     kotlin("android")
     kotlin("android.extensions")
     kotlin("kapt")
+    id("dagger.hilt.android.plugin")
 }
 
-apply(plugin = "dagger.hilt.android.plugin")
 
 android {
     defaultConfig {
@@ -33,7 +33,10 @@ dependencies {
     implementation(Dependencies.coreKtx)
     implementation(Dependencies.appcompat)
     implementation(Dependencies.hilt)
+    implementation(Dependencies.hiltViewModel)
     kapt(Dependencies.hiltKapt)
+    kapt(Dependencies.hiltKaptJetpack)
+
     testImplementation("junit:junit:4.13")
     androidTestImplementation("androidx.test.ext:junit:1.1.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.2.0")

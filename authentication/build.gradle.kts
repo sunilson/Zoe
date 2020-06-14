@@ -4,6 +4,8 @@ plugins {
     id("com.android.library")
     kotlin("android")
     kotlin("android.extensions")
+    kotlin("kapt")
+    id("dagger.hilt.android.plugin")
 }
 android {
 
@@ -25,5 +27,7 @@ dependencies {
     implementation(project(":presentationCore"))
     implementation(project(":core"))
     implementation(Dependencies.retrofit)
-
+    implementation(Dependencies.hiltViewModel)
+    implementation(Dependencies.hilt)
+    kapt(Dependencies.hiltKapt)
 }

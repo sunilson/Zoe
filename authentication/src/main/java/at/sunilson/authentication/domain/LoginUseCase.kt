@@ -6,8 +6,9 @@ import at.sunilson.authentication.data.KamereonService
 import at.sunilson.authentication.domain.entities.LoginParams
 import at.sunilson.core.usecases.AsyncUseCase
 import com.github.kittinunf.result.coroutines.SuspendableResult
+import javax.inject.Inject
 
-class LoginUseCase(
+class LoginUseCase @Inject constructor(
     private val gigyaService: GigyaService,
     private val kamereonService: KamereonService
 ) : AsyncUseCase<Unit, LoginParams>() {

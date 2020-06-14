@@ -12,6 +12,8 @@ object Dependencies {
     const val retrofit = "com.squareup.retrofit2:retrofit:2.9.0"
     const val hilt = "com.google.dagger:hilt-android:2.28-alpha"
     const val hiltKapt = "com.google.dagger:hilt-android-compiler:2.28-alpha"
+    const val hiltKaptJetpack = "androidx.hilt:hilt-compiler:1.0.0-alpha01"
+    const val hiltViewModel = "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha01"
     const val lifecycleViewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$LIFECYCLE_VERSION"
     const val lifecycleLiveData = "androidx.lifecycle:lifecycle-livedata-ktx:$LIFECYCLE_VERSION"
     const val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime-ktx:$LIFECYCLE_VERSION"
