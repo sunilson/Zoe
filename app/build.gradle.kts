@@ -30,6 +30,7 @@ dependencies {
     implementation(project(":authentication"))
     implementation(project(":presentationCore"))
     implementation(project(":core"))
+    implementation(project(":navigation"))
     implementation(Dependencies.coreKtx)
     implementation(Dependencies.appcompat)
     implementation(Dependencies.hilt)

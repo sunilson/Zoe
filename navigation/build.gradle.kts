@@ -3,9 +3,6 @@ import at.sunilson.buildsrc.Dependencies
 plugins {
     id("com.android.library")
     kotlin("android")
-    kotlin("android.extensions")
-    kotlin("kapt")
-    id("dagger.hilt.android.plugin")
 }
 android {
 
@@ -24,13 +21,5 @@ android {
 
 dependencies {
     implementation(fileTree("dir" to "libs", "include" to listOf("*.jar")))
-    implementation(project(":presentationCore"))
     implementation(project(":core"))
-    implementation(project(":navigation"))
-    implementation(Dependencies.retrofitMoshiAdapter)
-    implementation(Dependencies.retrofit)
-    implementation(Dependencies.hiltViewModel)
-    implementation(Dependencies.hilt)
-    kapt(Dependencies.hiltKapt)
-    kapt(Dependencies.hiltKaptJetpack)
 }

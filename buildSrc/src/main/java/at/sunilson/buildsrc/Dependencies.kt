@@ -3,6 +3,7 @@ package at.sunilson.buildsrc
 const val LIFECYCLE_VERSION = "2.2.0"
 const val NAVIGATION_VERSION = "2.3.0-rc01"
 const val RESULT_VERSION = "3.0.0"
+const val ROOM_VERSION = "2.2.5"
 
 object Dependencies {
     const val appcompat = "androidx.appcompat:appcompat:1.1.0"
@@ -28,4 +29,7 @@ object Dependencies {
     const val resultCoroutines = "com.github.kittinunf.result:result-coroutines:$RESULT_VERSION"
     const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7"
     const val timber = "com.jakewharton.timber:timber:4.7.1"
+    const val room = "androidx.room:room-runtime:$ROOM_VERSION"
+    const val roomCoroutines = "androidx.room:room-ktx:$ROOM_VERSION"
+    const val roomKapt = "androidx.room:room-compiler:$ROOM_VERSION"
 }

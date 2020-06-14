@@ -28,5 +28,8 @@ dependencies {
     implementation(Dependencies.retrofitMoshiAdapter)
     implementation(Dependencies.retrofit)
     implementation(Dependencies.hilt)
+    implementation(Dependencies.room)
+    implementation(Dependencies.roomCoroutines)
+    kapt(Dependencies.roomKapt)
     kapt(Dependencies.hiltKapt)
 }

@@ -1,3 +1,4 @@
+include(":navigation")
 include(":vehicleCore")
 include(":database")
 include(":core")
