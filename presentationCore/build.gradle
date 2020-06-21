@@ -26,5 +26,5 @@ dependencies {
     api(Dependencies.constraintlayout)
     api(Dependencies.material)
     api(Dependencies.hiltViewModel)
-    api 'com.github.sunilson:Unidirectional-ViewModel:0.4'
+    api(Dependencies.sunilsonViewModel)
 }

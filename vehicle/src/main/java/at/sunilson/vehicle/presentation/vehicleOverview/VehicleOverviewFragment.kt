@@ -57,6 +57,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     private fun renderVehicle(vehicle: Vehicle) {
         binding.vehicleName.text = vehicle.modelName
         binding.vehicleVin.text = vehicle.vin
+        binding.batterStatusBar.progress = vehicle.batteryStatus.batteryLevel
         binding.vehicleImage.load(vehicle.imageUrl)
     }
 

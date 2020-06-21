@@ -52,6 +52,7 @@ class AuthenticationInterceptor @Inject constructor(
 
     private fun createRequest(originalChain: Interceptor.Chain) =
         originalChain.request().newBuilder().apply {
+            addHeader("Content-type", "application/vnd.api+json")
             addHeader("apikey", ApiKeys.KAMEREON_API_KEY)
             addHeader("x-gigya-id_token", requireNotNull(gigyaJWT))
             addHeader("x-kamereon-authorization", "Bearer $kamereonToken")

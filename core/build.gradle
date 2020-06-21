@@ -27,7 +27,7 @@ dependencies {
     api(Dependencies.kotlinStdLib)
     api(Dependencies.timber)
     api(Dependencies.okhttp)
-    api 'com.github.sunilson:android-kotlin-extensions:0.35'
+    api(Dependencies.sunilsonExtensions)
     implementation(Dependencies.hilt)
     debugImplementation(Dependencies.chucker)
     kapt(Dependencies.hiltKapt)

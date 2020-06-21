@@ -9,8 +9,16 @@ class RefreshAllVehicles @Inject constructor(private val vehicleRepository: Vehi
     AsyncUseCase<Unit, Unit>() {
     override suspend fun run(params: Unit) = SuspendableResult.of<Unit, Exception> {
         val vehicles = vehicleRepository.getRefreshedVehicles().get()
-        Timber.i("Got vehicle list: $vehicles")
+        Timber.d("Got vehicle list: $vehicles")
+
+        Timber.d("Refreshing vehicles battery status...")
+        //TODO Parallel
+        val vehiclesWithBattery = vehicles.map {
+            val batteryStatus = vehicleRepository.getBatteryStatus(it.vin).get()
+            it.copy(batteryStatus = batteryStatus)
+        }
+
         //TODO Filter only for zoes
-        vehicleRepository.saveVehiclesToLocalStorage(vehicles).get()
+        vehicleRepository.saveVehiclesToLocalStorage(vehiclesWithBattery).get()
     }
 }
