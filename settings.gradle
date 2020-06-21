@@ -1,0 +1,10 @@
+include(":app")
+include(":entities")
+include(":networkingCore")
+include(":navigation")
+include(":vehicle")
+include(":database")
+include(":core")
+include(":presentationCore")
+include(":authentication")
+rootProject.name = "Zoe"

@@ -1,0 +1,34 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'dagger.hilt.android.plugin'
+
+android {
+
+    buildFeatures.viewBinding = true
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api(Dependencies.kotlinStdLib)
+    api(Dependencies.coreKtx)
+    api(Dependencies.appcompat)
+    api(Dependencies.coroutines)
+    api(Dependencies.result)
+    api(Dependencies.resultCoroutines)
+    api(Dependencies.kotlinStdLib)
+    api(Dependencies.timber)
+    api(Dependencies.okhttp)
+    api 'com.github.sunilson:android-kotlin-extensions:0.35'
+    implementation(Dependencies.hilt)
+    debugImplementation(Dependencies.chucker)
+    kapt(Dependencies.hiltKapt)
+}

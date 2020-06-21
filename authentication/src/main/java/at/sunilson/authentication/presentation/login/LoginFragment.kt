@@ -1,23 +1,26 @@
 package at.sunilson.authentication.presentation.login
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import at.sunilson.authentication.R
 import at.sunilson.authentication.databinding.FragmentLoginBinding
+import at.sunilson.core.Do
 import at.sunilson.navigation.ActivityNavigator
 import at.sunilson.navigation.ActivityNavigatorParams
 import at.sunilson.presentationcore.base.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
 internal class LoginFragment : Fragment(R.layout.fragment_login) {
 
     @Inject
-    private lateinit var activityNavigator: ActivityNavigator
+    lateinit var activityNavigator: ActivityNavigator
 
     private val binding: FragmentLoginBinding by viewBinding(FragmentLoginBinding::bind)
     private val viewModel: LoginViewModel by viewModels()
@@ -31,11 +34,21 @@ internal class LoginFragment : Fragment(R.layout.fragment_login) {
                 binding.passwordInput.text.toString()
             )
         }
+
+        observeEvents()
     }
 
+
     private fun observeEvents() {
-        startActivity(Intent().apply {
-            activityNavigator.startMainActivity(ActivityNavigatorParams(requireActivity()))
-        })
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.events.collect {
+                Do exhaustive when (it) {
+                    LoginEvent.LoginSuccess -> activityNavigator.startMainActivity(
+                        ActivityNavigatorParams(requireActivity())
+                    )
+                    LoginEvent.LoginFailure -> TODO()
+                }
+            }
+        }
     }
 }

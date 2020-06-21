@@ -1,0 +1,30 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+
+    buildFeatures.viewBinding = true
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation(project(":core"))
+    implementation(Dependencies.hilt)
+    api(Dependencies.coil)
+    api(Dependencies.navigation)
+    api(Dependencies.lifecycleViewModel)
+    api(Dependencies.lifecycleRuntime)
+    api(Dependencies.lifecycleLiveData)
+    api(Dependencies.constraintlayout)
+    api(Dependencies.material)
+    api(Dependencies.hiltViewModel)
+    api 'com.github.sunilson:Unidirectional-ViewModel:0.4'
+}

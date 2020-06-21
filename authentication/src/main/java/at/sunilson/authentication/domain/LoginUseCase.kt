@@ -4,26 +4,44 @@ import android.content.SharedPreferences
 import androidx.core.content.edit
 import at.sunilson.authentication.data.GigyaService
 import at.sunilson.authentication.data.KamereonService
+import at.sunilson.authentication.data.AuthSharedPrefConstants.GIGYA_JWT
+import at.sunilson.authentication.data.AuthSharedPrefConstants.GIGYA_PERSON_ID
+import at.sunilson.authentication.data.AuthSharedPrefConstants.GIGYA_TOKEN
+import at.sunilson.authentication.data.AuthSharedPrefConstants.KAMEREON_ACCESS_TOKEN
+import at.sunilson.authentication.data.AuthSharedPrefConstants.KAMEREON_ACCOUNT_ID
+import at.sunilson.authentication.data.AuthSharedPrefConstants.LAST_SUCCESSFUL_LOGIN
 import at.sunilson.authentication.data.networkEntities.KamereonHeader
 import at.sunilson.authentication.domain.entities.LoginParams
-import at.sunilson.core.extensions.doOnFailure
+import at.sunilson.authentication.domain.exceptions.LoginException
 import at.sunilson.core.usecases.AsyncUseCase
+import at.sunilson.networkingcore.constants.ApiKeys.GIGYA_API_KEY
+import at.sunilson.networkingcore.constants.ApiKeys.KAMEREON_API_KEY
 import com.github.kittinunf.result.coroutines.SuspendableResult
+import com.github.kittinunf.result.coroutines.mapError
 import javax.inject.Inject
 
 class LoginUseCase @Inject constructor(
     private val gigyaService: GigyaService,
     private val kamereonService: KamereonService,
     private val sp: SharedPreferences
-) : AsyncUseCase<Unit, LoginParams>() {
+) : AsyncUseCase<Unit, LoginParams?>() {
 
-    override suspend fun run(params: LoginParams) = SuspendableResult.of<Unit, Exception> {
-        val isSameUser = sp.getString(LAST_SUCCESSFUL_LOGIN, "") == params.username
-
+    /**
+     * Logs the given user in. If [params] is null this usecase tries to refresh the existing users login
+     */
+    override suspend fun run(params: LoginParams?) = SuspendableResult.of<Unit, Exception> {
         val lastGigyaToken = sp.getString(GIGYA_TOKEN, null)
+        val isSameUser =
+            params == null || sp.getString(LAST_SUCCESSFUL_LOGIN, "") == params.username
+
+        if(lastGigyaToken == null && params == null) {
+            TODO("Login not possible, throw error")
+        }
+
         val gigyaToken = if (isSameUser && lastGigyaToken != null) {
             lastGigyaToken
         } else {
+            requireNotNull(params)
             gigyaService.gigyaLogin(
                 GIGYA_API_KEY,
                 params.username,
@@ -56,29 +74,18 @@ class LoginUseCase @Inject constructor(
         sp.edit { putString(KAMEREON_ACCOUNT_ID, kamereonAccountId) }
         //TODO Save ID + any other account info that could be of value for app
 
-        kamereonService.kamereonTokens(
+        val kamereonAccessToken = kamereonService.kamereonTokens(
             kamereonAccountId,
             KamereonHeader(gigyaJWT, KAMEREON_API_KEY)
-        )
-        //TODO Save these tokens for future requests
+        ).accessToken
+        sp.edit { putString(KAMEREON_ACCESS_TOKEN, kamereonAccessToken) }
 
-        sp.edit { putString(LAST_SUCCESSFUL_LOGIN, params.username) }
-    }.doOnFailure {
-        //TODO Logout
+        if (params != null) {
+            sp.edit { putString(LAST_SUCCESSFUL_LOGIN, params.username) }
+        }
     }
 
     companion object {
-        const val GIGYA_TOKEN = "gigyaToken"
-        const val GIGYA_PERSON_ID = "gigyaPersonId"
-        const val GIGYA_JWT = "gigyaJWT"
-        const val KAMEREON_ACCOUNT_ID = "kamereonAccountId"
-        const val KAMEREON_ACCESS_TOKEN = "kamereonAccessToken"
-        const val LAST_SUCCESSFUL_LOGIN = "lastSuccessfulLogin"
-
         const val LOG_TAG = "LoginUseCase"
-        const val GIGYA_API_KEY =
-            "3__B4KghyeUb0GlpU62ZXKrjSfb7CPzwBS368wioftJUL5qXE0Z_sSy0rX69klXuHy"
-        const val KAMEREON_API_KEY = "oF09WnKqvBDcrQzcW1rJNpjIuy7KdGaB"
     }
-
 }

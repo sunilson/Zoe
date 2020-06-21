@@ -11,5 +11,5 @@ import dagger.hilt.android.components.ApplicationComponent
 @Module
 object ApplicationModule {
     @Provides
-    fun provideActivityNaviagtor(): ActivityNavigator = ActivityNavigatorImpl()
+    fun provideActivityNavigator(): ActivityNavigator = ActivityNavigatorImpl()
 }
