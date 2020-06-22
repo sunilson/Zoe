@@ -34,5 +34,9 @@
             android:id="@+id/vehicleDetailsFragment"
             android:name="at.sunilson.vehicle.presentation.vehicleDetails.VehicleDetailsFragment"
             android:label="VehicleDetailsFragment"
-            tools:layout="@layout/fragment_vehicle_details" />
+            tools:layout="@layout/fragment_vehicle_details" >
+        <argument
+                android:name="vehicleVin"
+                app:argType="string" />
+    </fragment>
 </navigation>

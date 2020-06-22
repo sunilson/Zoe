@@ -6,18 +6,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <LinearLayout
+    <at.sunilson.presentationcore.views.MotionLayoutSavedState
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:padding="20dp">
+            app:layoutDescription="@xml/fragment_overview_motion_scene">
 
         <ImageView
                 android:id="@+id/vehicle_image"
-                android:layout_width="wrap_content"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:contentDescription="Image of the selected vehicle" />
+                android:adjustViewBounds="true"
+                android:contentDescription="Image of the selected vehicle"
+                android:scaleType="centerInside"
+                android:transitionName="vehicleImage"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/placeholder" />
 
         <TextView
                 android:id="@+id/vehicle_name"
@@ -26,6 +31,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:gravity="center_horizontal"
+                app:layout_constraintTop_toBottomOf="@id/vehicle_image"
                 tools:text="Fahrzeug Name" />
 
         <com.google.android.material.progressindicator.ProgressIndicator
@@ -35,42 +41,75 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
                 android:indeterminate="false"
-                app:indicatorType="linear" />
+                app:indicatorType="linear"
+                app:layout_constraintTop_toBottomOf="@id/vehicle_name" />
 
-        <TextView
-                android:id="@+id/vehicle_mileage"
+        <androidx.core.widget.NestedScrollView
+                android:id="@+id/content_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:gravity="center_horizontal"
-                tools:text="Kilometerstand: 60012k m" />
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/batter_status_bar">
 
-        <TextView
-                android:id="@+id/vehicle_vin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:gravity="center_horizontal"
-                tools:text="Fahrzeug VIN" />
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:padding="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/vehicle_image">
+
+                <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        app:cardElevation="6dp">
+
+                    <TextView
+                            android:id="@+id/vehicle_mileage"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            tools:text="Kilometerstand: 60012k m" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        app:cardElevation="6dp">
+
+                    <TextView
+                            android:id="@+id/vehicle_vin"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            tools:text="Fahrzeug VIN" />
+
+                </com.google.android.material.card.MaterialCardView>
 
 
-        <com.google.android.material.button.MaterialButton
-                android:id="@+id/start_hvac_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="20dp"
-                android:text="Klimatisierung starten" />
+                <com.google.android.material.button.MaterialButton
+                        android:id="@+id/start_hvac_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="20dp"
+                        android:text="Klimatisierung starten" />
 
-        <com.google.android.material.button.MaterialButton
-                android:id="@+id/vehicle_details_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Fahrzeugdetails" />
-    </LinearLayout>
+                <com.google.android.material.button.MaterialButton
+                        android:id="@+id/vehicle_details_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Fahrzeugdetails" />
+            </LinearLayout>
 
+        </androidx.core.widget.NestedScrollView>
+    </at.sunilson.presentationcore.views.MotionLayoutSavedState>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/settings_button"

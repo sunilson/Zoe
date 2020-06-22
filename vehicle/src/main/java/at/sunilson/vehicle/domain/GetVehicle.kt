@@ -1,13 +1,10 @@
 package at.sunilson.vehicle.domain
 
 import at.sunilson.core.usecases.FlowUseCase
-import at.sunilson.database.databaseentities.DatabaseVehicle
-import kotlinx.coroutines.flow.Flow
+import at.sunilson.entities.Vehicle
 import javax.inject.Inject
 
 class GetVehicle @Inject constructor(private val vehicleRepository: VehicleRepository) :
-    FlowUseCase<DatabaseVehicle?, String>() {
-    override fun run(params: String): Flow<DatabaseVehicle?> {
-        TODO("Not yet implemented")
-    }
+    FlowUseCase<Vehicle?, String>() {
+    override fun run(params: String) = vehicleRepository.getVehicle(params)
 }

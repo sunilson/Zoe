@@ -18,6 +18,7 @@ data class VehicleOverviewState(val loading: Boolean = false, val selectedVehicl
 
 sealed class VehicleOverviewEvents
 data class ShowToast(val message: String) : VehicleOverviewEvents()
+data class ShowVehicleDetails(val vin: String): VehicleOverviewEvents()
 
 class VehicleOverviewViewModel @ViewModelInject constructor(
     private val getSelectedVehicle: GetSelectedVehicle,
@@ -47,6 +48,14 @@ class VehicleOverviewViewModel @ViewModelInject constructor(
                 { sendEvent(ShowToast("Klimatisierungs Anfrage gesendet!")) },
                 { Timber.e(it) }
             )
+        }
+    }
+
+    fun showVehicleDetails() {
+        getState {
+            it.selectedVehicle?.let { vehicle ->
+                sendEvent(ShowVehicleDetails(vehicle.vin))
+            }
         }
     }
 

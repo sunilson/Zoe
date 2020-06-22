@@ -5,10 +5,15 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import at.sunilson.core.Do
 import at.sunilson.entities.Vehicle
 import at.sunilson.ktx.context.showToast
+import at.sunilson.ktx.fragment.setNavigationBarColor
+import at.sunilson.ktx.fragment.setStatusBarColor
+import at.sunilson.ktx.fragment.useLightNavigationBarIcons
+import at.sunilson.ktx.fragment.useLightStatusBarIcons
 import at.sunilson.presentationcore.base.viewBinding
 import at.sunilson.vehicle.R
 import at.sunilson.vehicle.databinding.FragmentVehicleOverviewBinding
@@ -40,7 +45,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
         }
 
         binding.vehicleDetailsButton.setOnClickListener {
-            findNavController().navigate(R.id.show_vehicle_details)
+            viewModel.showVehicleDetails()
         }
     }
 
@@ -53,6 +58,12 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
             viewModel.events.collect { event ->
                 Do exhaustive when (event) {
                     is ShowToast -> requireContext().showToast(event.message)
+                    is ShowVehicleDetails -> {
+                        findNavController().navigate(
+                            VehicleOverviewFragmentDirections.showVehicleDetails(event.vin),
+                            FragmentNavigatorExtras(binding.vehicleImage to "vehicleImage")
+                        )
+                    }
                 }
             }
         }
@@ -79,5 +90,9 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     override fun onResume() {
         super.onResume()
         viewModel.refreshVehicles()
+        setStatusBarColor(android.R.color.white)
+        setNavigationBarColor(android.R.color.white)
+        useLightStatusBarIcons(false)
+        useLightNavigationBarIcons(false)
     }
 }
