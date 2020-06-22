@@ -7,11 +7,17 @@ import at.sunilson.database.VehicleDao
 import at.sunilson.database.mappers.toDatabaseEntity
 import at.sunilson.database.mappers.toEntity
 import at.sunilson.entities.Vehicle
+import at.sunilson.vehicle.data.entities.KamereonPostBody
 import at.sunilson.vehicle.data.entities.batterystatus.BatteryStatusResponse
+import at.sunilson.vehicle.data.entities.cockpit.CockpitResponse
 import at.sunilson.vehicle.domain.VehicleRepository
 import com.github.kittinunf.result.coroutines.SuspendableResult
 import com.github.kittinunf.result.coroutines.map
 import kotlinx.coroutines.flow.map
+import java.time.LocalDateTime
+import java.time.OffsetDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 class VehicleRepositoryImpl @Inject constructor(
@@ -39,9 +45,34 @@ class VehicleRepositoryImpl @Inject constructor(
             vehicleService.getBatteryStatus(kamereonAccountID, vehicleVin)
         }.map { it.toEntity() }
 
+    override suspend fun getKilometerReading(vehicleVin: String) =
+        SuspendableResult.of<CockpitResponse, Exception> {
+            vehicleService.getKilometerReading(kamereonAccountID, vehicleVin)
+        }.map { it.toEntity() }
+
     override fun getVehicle(id: String) = vehicleDao.getVehicle(id).map { it?.toEntity() }
 
     override fun getAllVehicles() = vehicleDao.getAllVehicles().map { it.map { it.toEntity() } }
+
+    override suspend fun startClimeateControl(vehicleVin: String) =
+        SuspendableResult.of<Unit, Exception> {
+            //TODO Let user decide temperature
+            //TODO Let user decide start date
+            // https://github.com/jamesremuscat/pyze/blob/develop/src/pyze/api/kamereon.py#L348
+            vehicleService.startHVAC(
+                kamereonAccountID,
+                vehicleVin,
+                KamereonPostBody(
+                    KamereonPostBody.Data(
+                        "HvacStart",
+                        mapOf(
+                            "action" to "start",
+                            "targetTemperature" to 21
+                        )
+                    )
+                )
+            )
+        }
 
     private val kamereonAccountID: String
         get() = requireNotNull(

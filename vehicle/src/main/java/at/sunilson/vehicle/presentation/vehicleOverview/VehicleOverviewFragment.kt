@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import at.sunilson.core.Do
 import at.sunilson.entities.Vehicle
+import at.sunilson.ktx.context.showToast
 import at.sunilson.presentationcore.base.viewBinding
 import at.sunilson.vehicle.R
 import at.sunilson.vehicle.databinding.FragmentVehicleOverviewBinding
@@ -22,19 +24,21 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupSettingsButton()
+        setupClickListeners()
         setupRefreshLayout()
-        setupVehicleDetailsButton()
         observeState()
+        observeEvents()
     }
 
-    private fun setupSettingsButton() {
+    private fun setupClickListeners() {
+        binding.startHvacButton.setOnClickListener {
+            viewModel.startClimateControl()
+        }
+
         binding.settingsButton.setOnClickListener {
             findNavController().navigate(R.id.show_settings_dialog)
         }
-    }
 
-    private fun setupVehicleDetailsButton() {
         binding.vehicleDetailsButton.setOnClickListener {
             findNavController().navigate(R.id.show_vehicle_details)
         }
@@ -42,6 +46,16 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
 
     private fun setupRefreshLayout() {
         //TODO
+    }
+
+    private fun observeEvents() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.events.collect { event ->
+                Do exhaustive when (event) {
+                    is ShowToast -> requireContext().showToast(event.message)
+                }
+            }
+        }
     }
 
     private fun observeState() {
@@ -55,6 +69,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     }
 
     private fun renderVehicle(vehicle: Vehicle) {
+        binding.vehicleMileage.text = "Kilometerstand ${vehicle.mileageKm} Kilometer"
         binding.vehicleName.text = vehicle.modelName
         binding.vehicleVin.text = vehicle.vin
         binding.batterStatusBar.progress = vehicle.batteryStatus.batteryLevel

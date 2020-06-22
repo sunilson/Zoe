@@ -8,7 +8,9 @@ interface VehicleRepository {
     var selectedVehicle: String?
     suspend fun getRefreshedVehicles(): SuspendableResult<List<Vehicle>, Exception>
     suspend fun getBatteryStatus(vehicleVin: String): SuspendableResult<Vehicle.BatteryStatus, Exception>
+    suspend fun getKilometerReading(vehicleVin: String): SuspendableResult<Int, Exception>
     suspend fun saveVehiclesToLocalStorage(vehicles: List<Vehicle>): SuspendableResult<Unit, Exception>
+    suspend fun startClimeateControl(vehicleVin: String): SuspendableResult<Unit, Exception>
     fun getVehicle(id: String): Flow<Vehicle?>
     fun getAllVehicles(): Flow<List<Vehicle>>
 }

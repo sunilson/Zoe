@@ -7,6 +7,7 @@ import at.sunilson.unidirectionalviewmodel.core.UniDirectionalViewModel
 import at.sunilson.unidirectionalviewmodel.savedstate.PersistableState
 import at.sunilson.vehicle.domain.GetSelectedVehicle
 import at.sunilson.vehicle.domain.RefreshAllVehicles
+import at.sunilson.vehicle.domain.StartClimateControl
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -15,11 +16,13 @@ import timber.log.Timber
 @PersistableState
 data class VehicleOverviewState(val loading: Boolean = false, val selectedVehicle: Vehicle? = null)
 
-class VehicleOverviewEvents
+sealed class VehicleOverviewEvents
+data class ShowToast(val message: String) : VehicleOverviewEvents()
 
 class VehicleOverviewViewModel @ViewModelInject constructor(
     private val getSelectedVehicle: GetSelectedVehicle,
-    private val refreshAllVehicles: RefreshAllVehicles
+    private val refreshAllVehicles: RefreshAllVehicles,
+    private val startClimateControl: StartClimateControl
 ) : UniDirectionalViewModel<VehicleOverviewState, VehicleOverviewEvents>(VehicleOverviewState()) {
 
     private var selectedVehicleJob: Job? = null
@@ -33,6 +36,15 @@ class VehicleOverviewViewModel @ViewModelInject constructor(
         viewModelScope.launch {
             refreshAllVehicles(Unit).fold(
                 { updateSelectedVehicle() },
+                { Timber.e(it) }
+            )
+        }
+    }
+
+    fun startClimateControl(targetTemperature: Int = 21, startTime: Long? = null) {
+        viewModelScope.launch {
+            startClimateControl(Unit).fold(
+                { sendEvent(ShowToast("Klimatisierungs Anfrage gesendet!")) },
                 { Timber.e(it) }
             )
         }

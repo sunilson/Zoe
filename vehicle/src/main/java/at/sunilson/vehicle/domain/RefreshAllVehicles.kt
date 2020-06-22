@@ -8,17 +8,19 @@ import javax.inject.Inject
 class RefreshAllVehicles @Inject constructor(private val vehicleRepository: VehicleRepository) :
     AsyncUseCase<Unit, Unit>() {
     override suspend fun run(params: Unit) = SuspendableResult.of<Unit, Exception> {
+        //TODO Filter only for zoes
         val vehicles = vehicleRepository.getRefreshedVehicles().get()
         Timber.d("Got vehicle list: $vehicles")
 
         Timber.d("Refreshing vehicles battery status...")
         //TODO Parallel
-        val vehiclesWithBattery = vehicles.map {
+        val enrichedVehicles = vehicles.map {
             val batteryStatus = vehicleRepository.getBatteryStatus(it.vin).get()
-            it.copy(batteryStatus = batteryStatus)
+            val kilometerReading = vehicleRepository.getKilometerReading(it.vin).get()
+            it.copy(batteryStatus = batteryStatus, mileageKm = kilometerReading)
         }
 
-        //TODO Filter only for zoes
-        vehicleRepository.saveVehiclesToLocalStorage(vehiclesWithBattery).get()
+
+        vehicleRepository.saveVehiclesToLocalStorage(enrichedVehicles).get()
     }
 }

@@ -7,6 +7,7 @@ data class Vehicle(
     val vin: String,
     val modelName: String,
     val imageUrl: String,
+    val mileageKm: Int,
     val batteryStatus: BatteryStatus
 ) {
     @JsonClass(generateAdapter = true)

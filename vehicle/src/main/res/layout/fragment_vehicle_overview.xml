@@ -38,6 +38,15 @@
                 app:indicatorType="linear" />
 
         <TextView
+                android:id="@+id/vehicle_mileage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_horizontal"
+                tools:text="Kilometerstand: 60012k m" />
+
+        <TextView
                 android:id="@+id/vehicle_vin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -45,6 +54,15 @@
                 android:layout_marginBottom="10dp"
                 android:gravity="center_horizontal"
                 tools:text="Fahrzeug VIN" />
+
+
+        <com.google.android.material.button.MaterialButton
+                android:id="@+id/start_hvac_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:text="Klimatisierung starten" />
 
         <com.google.android.material.button.MaterialButton
                 android:id="@+id/vehicle_details_button"
