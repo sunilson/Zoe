@@ -8,6 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import at.sunilson.authentication.R
 import at.sunilson.authentication.databinding.FragmentLoginBinding
 import at.sunilson.core.Do
+import at.sunilson.ktx.context.showToast
 import at.sunilson.navigation.ActivityNavigator
 import at.sunilson.navigation.ActivityNavigatorParams
 import at.sunilson.presentationcore.base.viewBinding
@@ -46,7 +47,7 @@ internal class LoginFragment : Fragment(R.layout.fragment_login) {
                     LoginEvent.LoginSuccess -> activityNavigator.startMainActivity(
                         ActivityNavigatorParams(requireActivity())
                     )
-                    LoginEvent.LoginFailure -> TODO()
+                    LoginEvent.LoginFailure -> requireContext().showToast("Login fehlgeschlagen!")
                 }
             }
         }

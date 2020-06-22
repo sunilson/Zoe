@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
+import androidx.navigation.fragment.findNavController
 import at.sunilson.presentationcore.base.viewBinding
 import at.sunilson.vehicle.R
 import at.sunilson.vehicle.databinding.DialogFragmentSettingsBinding
@@ -21,6 +23,13 @@ class SettingsDialogFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.dialog_fragment_settings, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.openSettings.setOnClickListener {
+            findNavController().navigate("https://zoe.app/settings".toUri())
+        }
     }
 
 }

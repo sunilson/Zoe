@@ -42,6 +42,7 @@ class VehicleRepositoryImpl @Inject constructor(
 
     override suspend fun getBatteryStatus(vehicleVin: String) =
         SuspendableResult.of<BatteryStatusResponse, Exception> {
+            vehicleService.getHVACStatus(kamereonAccountID, vehicleVin)
             vehicleService.getBatteryStatus(kamereonAccountID, vehicleVin)
         }.map { it.toEntity() }
 
