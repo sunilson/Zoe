@@ -11,5 +11,9 @@ data class Vehicle(
     val batteryStatus: BatteryStatus
 ) {
     @JsonClass(generateAdapter = true)
-    data class BatteryStatus(val batteryLevel: Int, val batteryTemperature: Int)
+    data class BatteryStatus(
+        val batteryLevel: Int,
+        val batteryTemperature: Int,
+        val pluggedIn: Boolean
+    )
 }

@@ -80,6 +80,11 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     }
 
     private fun renderVehicle(vehicle: Vehicle) {
+        binding.vehicleBatteryPlugged.text = if (vehicle.batteryStatus.pluggedIn) {
+            getString(R.string.plugged_in)
+        } else {
+            getString(R.string.not_plugged_in)
+        }
         binding.vehicleMileage.text = "Kilometerstand ${vehicle.mileageKm} Kilometer"
         binding.vehicleName.text = vehicle.modelName
         binding.vehicleVin.text = vehicle.vin

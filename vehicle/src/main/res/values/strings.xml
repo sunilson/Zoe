@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="plugged_in">Zoe ist derzeit am Laden!</string>
+    <string name="not_plugged_in">Zoe ist derzeit nicht am Laden!</string>
+</resources>

@@ -63,7 +63,22 @@
 
                 <com.google.android.material.card.MaterialCardView
                         android:layout_width="match_parent"
-                        android:layout_height="150dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        app:cardElevation="6dp">
+
+                    <TextView
+                            android:id="@+id/vehicle_battery_plugged"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            tools:text="Battere nicht eingesteckt" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
                         app:cardElevation="6dp">
@@ -78,7 +93,7 @@
 
                 <com.google.android.material.card.MaterialCardView
                         android:layout_width="match_parent"
-                        android:layout_height="150dp"
+                        android:layout_height="100dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
                         app:cardElevation="6dp">

@@ -11,11 +11,15 @@ fun AllVehiclesResponse.toVehicleList() = vehicleLinks.map { vehicleLink ->
         vehicleLink.vehicleDetails.model.label,
         vehicleLink.vehicleDetails.assets.first().renditions.first().url,
         0,
-        Vehicle.BatteryStatus(0, 0)
+        Vehicle.BatteryStatus(0, 0, false)
     )
 }
 
 fun BatteryStatusResponse.toEntity() =
-    Vehicle.BatteryStatus(data.attributes.batteryLevel, data.attributes.batteryTemperature)
+    Vehicle.BatteryStatus(
+        data.attributes.batteryLevel,
+        data.attributes.batteryTemperature,
+        data.attributes.plugStatus == 1
+    )
 
 fun CockpitResponse.toEntity() = data.attributes.totalMileage
