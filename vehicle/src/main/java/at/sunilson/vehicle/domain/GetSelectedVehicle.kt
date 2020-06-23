@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class GetSelectedVehicle @Inject constructor(private val vehicleRepository: VehicleRepository) :
+internal class GetSelectedVehicle @Inject constructor(private val vehicleRepository: VehicleRepository) :
     FlowUseCase<Vehicle?, Unit>() {
     override fun run(params: Unit) = flow {
         val selectedId = vehicleRepository.selectedVehicle

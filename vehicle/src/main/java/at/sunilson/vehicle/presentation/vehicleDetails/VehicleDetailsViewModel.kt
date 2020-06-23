@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 data class VehicleDetailsState(val vehicle: Vehicle? = null)
 class VehicleDetailsEvent
 
-class VehicleDetailsViewModel @ViewModelInject constructor(private val getVehicle: GetVehicle) :
+internal class VehicleDetailsViewModel @ViewModelInject constructor(private val getVehicle: GetVehicle) :
     UniDirectionalViewModel<VehicleDetailsState, VehicleDetailsEvent>(VehicleDetailsState()) {
 
     fun loadVehicle(vin: String) {

@@ -2,6 +2,8 @@ package at.sunilson.vehicle.presentation.vehicleOverview
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.net.toUri
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -10,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import at.sunilson.core.Do
 import at.sunilson.entities.Vehicle
 import at.sunilson.ktx.context.showToast
+import at.sunilson.ktx.fragment.drawBelowStatusBar
 import at.sunilson.ktx.fragment.setNavigationBarColor
 import at.sunilson.ktx.fragment.setStatusBarColor
 import at.sunilson.ktx.fragment.useLightNavigationBarIcons
@@ -19,6 +22,7 @@ import at.sunilson.vehicle.R
 import at.sunilson.vehicle.databinding.FragmentVehicleOverviewBinding
 import coil.api.load
 import dagger.hilt.android.AndroidEntryPoint
+import dev.chrisbanes.insetter.doOnApplyWindowInsets
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -33,6 +37,9 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
         setupRefreshLayout()
         observeState()
         observeEvents()
+        view.doOnApplyWindowInsets { v, insets, initialState ->
+            v.updatePadding(top = initialState.paddings.top + insets.systemWindowInsetTop)
+        }
     }
 
     private fun setupClickListeners() {
@@ -47,6 +54,14 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
         binding.vehicleDetailsButton.setOnClickListener {
             viewModel.showVehicleDetails()
         }
+
+        binding.vehicleStatisticsButton.setOnClickListener {
+            viewModel.showVehicleStatistics()
+        }
+
+        binding.vehicleLocationButton.setOnClickListener {
+            viewModel.showVehicleLocation()
+        }
     }
 
     private fun setupRefreshLayout() {
@@ -58,12 +73,14 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
             viewModel.events.collect { event ->
                 Do exhaustive when (event) {
                     is ShowToast -> requireContext().showToast(event.message)
-                    is ShowVehicleDetails -> {
-                        findNavController().navigate(
-                            VehicleOverviewFragmentDirections.showVehicleDetails(event.vin),
-                            FragmentNavigatorExtras(binding.vehicleImage to "vehicleImage")
-                        )
-                    }
+                    is ShowVehicleLocation -> findNavController().navigate(
+                        VehicleOverviewFragmentDirections.showVehicleLocation(event.vin)
+                    )
+                    is ShowVehicleStatistics -> findNavController().navigate("https://zoe.app/statistics/${event.vin}".toUri())
+                    is ShowVehicleDetails -> findNavController().navigate(
+                        VehicleOverviewFragmentDirections.showVehicleDetails(event.vin),
+                        FragmentNavigatorExtras(binding.vehicleImage to "vehicleImage")
+                    )
                 }
             }
         }
@@ -95,9 +112,10 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     override fun onResume() {
         super.onResume()
         viewModel.refreshVehicles()
-        setStatusBarColor(android.R.color.white)
+        setStatusBarColor(android.R.color.transparent)
         setNavigationBarColor(android.R.color.white)
         useLightStatusBarIcons(false)
         useLightNavigationBarIcons(false)
+        drawBelowStatusBar()
     }
 }

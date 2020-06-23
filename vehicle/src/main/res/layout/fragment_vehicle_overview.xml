@@ -120,7 +120,21 @@
                         android:id="@+id/vehicle_details_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
                         android:text="Fahrzeugdetails" />
+
+                <com.google.android.material.button.MaterialButton
+                        android:id="@+id/vehicle_location_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:text="Fahrzeug Position" />
+
+                <com.google.android.material.button.MaterialButton
+                        android:id="@+id/vehicle_statistics_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Fahrzeug-Statistiken" />
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>

@@ -2,5 +2,10 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         package="at.sunilson.vehicle">
 
-    /
+    <application>
+        <meta-data
+                android:name="com.google.android.geo.API_KEY"
+                android:value="AIzaSyD3B_rTKn2CUPI0eHNIzMC414cSv5usZ5M" />
+    </application>
+
 </manifest>

@@ -33,6 +33,8 @@ object Dependencies {
     val roomCoroutines = "androidx.room:room-ktx:$ROOM_VERSION"
     val roomKapt = "androidx.room:room-compiler:$ROOM_VERSION"
     val coil = "io.coil-kt:coil:0.11.0"
+    val insetter = "dev.chrisbanes:insetter:0.2.0"
+    val insetterKtx = "dev.chrisbanes:insetter-ktx:0.2.0"
     val sunilsonExtensions = "com.github.sunilson:android-kotlin-extensions:0.35"
     val sunilsonViewModel = "com.github.sunilson:Unidirectional-ViewModel:0.4"
 }

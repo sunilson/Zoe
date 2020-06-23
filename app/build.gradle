@@ -27,6 +27,7 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":navigation"))
     implementation(project(":settings"))
+    implementation(project(":statistics"))
     implementation Dependencies.coreKtx
     implementation(Dependencies.appcompat)
     implementation(Dependencies.room)

@@ -5,7 +5,7 @@ import com.github.kittinunf.result.coroutines.SuspendableResult
 import timber.log.Timber
 import javax.inject.Inject
 
-class RefreshAllVehicles @Inject constructor(private val vehicleRepository: VehicleRepository) :
+internal class RefreshAllVehicles @Inject constructor(private val vehicleRepository: VehicleRepository) :
     AsyncUseCase<Unit, Unit>() {
     override suspend fun run(params: Unit) = SuspendableResult.of<Unit, Exception> {
         //TODO Filter only for zoes

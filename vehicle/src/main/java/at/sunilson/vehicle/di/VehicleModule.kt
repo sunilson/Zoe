@@ -20,7 +20,7 @@ import javax.inject.Singleton
 abstract class VehicleBindingModule {
     @Binds
     @Singleton
-    abstract fun bindVehicleRepository(vehicleRepositoryImpl: VehicleRepositoryImpl): VehicleRepository
+    internal abstract fun bindVehicleRepository(vehicleRepositoryImpl: VehicleRepositoryImpl): VehicleRepository
 }
 
 @InstallIn(ApplicationComponent::class)

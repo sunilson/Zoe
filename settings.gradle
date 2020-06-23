@@ -1,3 +1,4 @@
+include ':statistics'
 include ':settings'
 include(":app")
 include(":entities")

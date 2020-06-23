@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/statistics_nav_graph"
+        app:startDestination="@id/statisticsOverviewFragment">
+
+    <fragment
+            android:id="@+id/statisticsOverviewFragment"
+            android:name="at.sunilson.statistics.presentation.overview.StatisticsOverviewFragment"
+            android:label="StatisticsOverviewFragment"
+            tools:layout="@layout/fragment_statistics_overview">
+        <argument
+                android:name="vin"
+                app:argType="string" />
+        <deepLink
+                android:id="@+id/deepLink"
+                app:uri="https://zoe.app/statistics/{vin}" />
+    </fragment>
+
+
+</navigation>

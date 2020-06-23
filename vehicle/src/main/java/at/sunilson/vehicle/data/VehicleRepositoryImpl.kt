@@ -10,16 +10,15 @@ import at.sunilson.entities.Vehicle
 import at.sunilson.vehicle.data.entities.KamereonPostBody
 import at.sunilson.vehicle.data.entities.batterystatus.BatteryStatusResponse
 import at.sunilson.vehicle.data.entities.cockpit.CockpitResponse
+import at.sunilson.vehicle.data.entities.location.LocationResponse
 import at.sunilson.vehicle.domain.VehicleRepository
 import com.github.kittinunf.result.coroutines.SuspendableResult
 import com.github.kittinunf.result.coroutines.map
 import kotlinx.coroutines.flow.map
-import java.time.LocalDateTime
-import java.time.OffsetDateTime
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class VehicleRepositoryImpl @Inject constructor(
     private val vehicleService: VehicleService,
     private val sharedPreferences: SharedPreferences,
@@ -48,6 +47,11 @@ class VehicleRepositoryImpl @Inject constructor(
     override suspend fun getKilometerReading(vehicleVin: String) =
         SuspendableResult.of<CockpitResponse, Exception> {
             vehicleService.getKilometerReading(kamereonAccountID, vehicleVin)
+        }.map { it.toEntity() }
+
+    override suspend fun locateVehicle(vehicleVin: String) =
+        SuspendableResult.of<LocationResponse, Exception> {
+            vehicleService.getVehicleLocation(kamereonAccountID, vehicleVin)
         }.map { it.toEntity() }
 
     override fun getVehicle(id: String) = vehicleDao.getVehicle(id).map { it?.toEntity() }
