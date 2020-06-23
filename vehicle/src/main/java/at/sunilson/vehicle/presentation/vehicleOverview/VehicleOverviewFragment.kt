@@ -85,7 +85,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
         } else {
             getString(R.string.not_plugged_in)
         }
-        binding.vehicleMileage.text = "Kilometerstand ${vehicle.mileageKm} Kilometer"
+        binding.vehicleMileage.text = getString(R.string.mileage, vehicle.mileageKm.toString())
         binding.vehicleName.text = vehicle.modelName
         binding.vehicleVin.text = vehicle.vin
         binding.batterStatusBar.progress = vehicle.batteryStatus.batteryLevel

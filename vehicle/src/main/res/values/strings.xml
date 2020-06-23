@@ -2,4 +2,5 @@
 <resources>
     <string name="plugged_in">Zoe ist derzeit am Laden!</string>
     <string name="not_plugged_in">Zoe ist derzeit nicht am Laden!</string>
+    <string name="mileage">Kilometerstand: %s km</string>
 </resources>
