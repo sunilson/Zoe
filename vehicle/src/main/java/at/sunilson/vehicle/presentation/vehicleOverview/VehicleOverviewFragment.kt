@@ -34,11 +34,17 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupClickListeners()
-        setupRefreshLayout()
+        setupSwipeRefreshLayout()
         observeState()
         observeEvents()
         view.doOnApplyWindowInsets { v, insets, initialState ->
             v.updatePadding(top = initialState.paddings.top + insets.systemWindowInsetTop)
+        }
+    }
+
+    private fun setupSwipeRefreshLayout() {
+        binding.contentContainer.setOnRefreshListener {
+            viewModel.refreshVehicles()
         }
     }
 
@@ -64,10 +70,6 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
         }
     }
 
-    private fun setupRefreshLayout() {
-        //TODO
-    }
-
     private fun observeEvents() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.events.collect { event ->
@@ -89,6 +91,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.state.collect { state ->
+                binding.contentContainer.isRefreshing = state.loading
                 if (state.selectedVehicle != null) {
                     renderVehicle(state.selectedVehicle)
                 }
@@ -97,13 +100,11 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     }
 
     private fun renderVehicle(vehicle: Vehicle) {
-        binding.vehicleBatteryPlugged.text = if (vehicle.batteryStatus.pluggedIn) {
-            getString(R.string.plugged_in)
-        } else {
-            getString(R.string.not_plugged_in)
-        }
+        binding.vehicleChargeState.text = "Ladestatus: ${vehicle.batteryStatus.chargeState}"
+        binding.vehicleBatteryPlugged.text =
+            "Ladekabel angesteckt: ${vehicle.batteryStatus.pluggedIn}"
         binding.vehicleMileage.text = getString(R.string.mileage, vehicle.mileageKm.toString())
-        binding.vehicleName.text = vehicle.modelName
+        binding.vehicleName.text = "${vehicle.modelName} (${vehicle.batteryStatus.batteryLevel}%)"
         binding.vehicleVin.text = vehicle.vin
         binding.batterStatusBar.progress = vehicle.batteryStatus.batteryLevel
         binding.vehicleImage.load(vehicle.imageUrl)

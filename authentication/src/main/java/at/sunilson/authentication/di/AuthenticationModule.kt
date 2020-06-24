@@ -18,6 +18,9 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.time.Duration
+import java.time.temporal.TemporalUnit
+import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -50,6 +53,7 @@ object AuthenticationModule {
                 collector = ChuckerCollector(application, showNotification = true)
             )
         )
+        .callTimeout(10, TimeUnit.SECONDS)
         .addInterceptor(authenticationInterceptor)
         .build()
 

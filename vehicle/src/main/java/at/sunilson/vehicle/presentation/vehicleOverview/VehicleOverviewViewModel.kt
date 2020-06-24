@@ -4,7 +4,6 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import at.sunilson.entities.Vehicle
 import at.sunilson.unidirectionalviewmodel.core.UniDirectionalViewModel
-import at.sunilson.unidirectionalviewmodel.savedstate.PersistableState
 import at.sunilson.vehicle.domain.GetSelectedVehicle
 import at.sunilson.vehicle.domain.RefreshAllVehicles
 import at.sunilson.vehicle.domain.StartClimateControl
@@ -13,14 +12,13 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-@PersistableState
 data class VehicleOverviewState(val loading: Boolean = false, val selectedVehicle: Vehicle? = null)
 
 sealed class VehicleOverviewEvents
 data class ShowToast(val message: String) : VehicleOverviewEvents()
-data class ShowVehicleDetails(val vin: String): VehicleOverviewEvents()
-data class ShowVehicleLocation(val vin: String): VehicleOverviewEvents()
-data class ShowVehicleStatistics(val vin: String): VehicleOverviewEvents()
+data class ShowVehicleDetails(val vin: String) : VehicleOverviewEvents()
+data class ShowVehicleLocation(val vin: String) : VehicleOverviewEvents()
+data class ShowVehicleStatistics(val vin: String) : VehicleOverviewEvents()
 
 internal class VehicleOverviewViewModel @ViewModelInject constructor(
     private val getSelectedVehicle: GetSelectedVehicle,
@@ -34,13 +32,14 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
         loadSelectedVehicle()
     }
 
-
     fun refreshVehicles() {
         viewModelScope.launch {
+            setState { copy(loading = true) }
             refreshAllVehicles(Unit).fold(
                 { updateSelectedVehicle() },
                 { Timber.e(it) }
             )
+            setState { copy(loading = false) }
         }
     }
 

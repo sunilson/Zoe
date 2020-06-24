@@ -12,7 +12,7 @@ data class Attributes (
 	val batteryCapacity : Int,
 	val batteryAvailableEnergy : Int,
 	val plugStatus : Int,
-	val chargingStatus : Int,
+	val chargingStatus : Double,
 	val chargingRemainingTime : Int,
-	val chargingInstantaneousPower : Int
+	val chargingInstantaneousPower : Float
 )

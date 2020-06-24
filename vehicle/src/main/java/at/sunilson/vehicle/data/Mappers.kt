@@ -6,8 +6,6 @@ import at.sunilson.vehicle.data.entities.AllVehiclesResponse
 import at.sunilson.vehicle.data.entities.batterystatus.BatteryStatusResponse
 import at.sunilson.vehicle.data.entities.cockpit.CockpitResponse
 import at.sunilson.vehicle.data.entities.location.LocationResponse
-import java.time.LocalDateTime
-import java.time.ZoneOffset
 
 fun AllVehiclesResponse.toVehicleList() = vehicleLinks.map { vehicleLink ->
     Vehicle(
@@ -15,7 +13,7 @@ fun AllVehiclesResponse.toVehicleList() = vehicleLinks.map { vehicleLink ->
         vehicleLink.vehicleDetails.model.label,
         vehicleLink.vehicleDetails.assets.first().renditions.first().url,
         0,
-        Vehicle.BatteryStatus(0, 0, false)
+        Vehicle.BatteryStatus(0, 0, false, Vehicle.BatteryStatus.ChargeState.NOT_CHARGING)
     )
 }
 
@@ -23,7 +21,10 @@ fun BatteryStatusResponse.toEntity() =
     Vehicle.BatteryStatus(
         data.attributes.batteryLevel,
         data.attributes.batteryTemperature,
-        data.attributes.plugStatus == 1
+        data.attributes.plugStatus == 1,
+        Vehicle.BatteryStatus.ChargeState.values()
+            .firstOrNull { it.stateCode == data.attributes.chargingStatus }
+            ?: Vehicle.BatteryStatus.ChargeState.NOT_CHARGING
     )
 
 fun CockpitResponse.toEntity() = data.attributes.totalMileage

@@ -29,4 +29,5 @@ dependencies {
     api(Dependencies.material)
     api(Dependencies.hiltViewModel)
     api(Dependencies.sunilsonViewModel)
+    api("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 }

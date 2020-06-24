@@ -44,100 +44,121 @@
                 app:indicatorType="linear"
                 app:layout_constraintTop_toBottomOf="@id/vehicle_name" />
 
-        <androidx.core.widget.NestedScrollView
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/content_container"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/batter_status_bar">
 
-            <LinearLayout
+            <androidx.core.widget.NestedScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clipToPadding="false"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical"
-                    android:padding="20dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/vehicle_image">
+                    android:layout_height="match_parent">
 
-                <com.google.android.material.card.MaterialCardView
+                <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        app:cardElevation="6dp">
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="false"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical"
+                        android:padding="20dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/vehicle_image">
 
-                    <TextView
-                            android:id="@+id/vehicle_battery_plugged"
+                    <com.google.android.material.card.MaterialCardView
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            tools:text="Battere nicht eingesteckt" />
-                </com.google.android.material.card.MaterialCardView>
+                            android:layout_height="100dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            app:cardElevation="6dp">
 
-                <com.google.android.material.card.MaterialCardView
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        app:cardElevation="6dp">
+                        <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:orientation="vertical">
 
-                    <TextView
-                            android:id="@+id/vehicle_mileage"
+                            <TextView
+                                    android:id="@+id/vehicle_battery_plugged"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    tools:text="Battere nicht eingesteckt" />
+
+                            <TextView
+                                    android:id="@+id/vehicle_charge_state"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center" />
+                        </LinearLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            tools:text="Kilometerstand: 60012k m" />
-                </com.google.android.material.card.MaterialCardView>
+                            android:layout_height="100dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            app:cardElevation="6dp">
 
-                <com.google.android.material.card.MaterialCardView
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        app:cardElevation="6dp">
+                        <TextView
+                                android:id="@+id/vehicle_mileage"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                tools:text="Kilometerstand: 60012k m" />
+                    </com.google.android.material.card.MaterialCardView>
 
-                    <TextView
-                            android:id="@+id/vehicle_vin"
+                    <com.google.android.material.card.MaterialCardView
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            tools:text="Fahrzeug VIN" />
+                            android:layout_height="100dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            app:cardElevation="6dp">
 
-                </com.google.android.material.card.MaterialCardView>
+                        <TextView
+                                android:id="@+id/vehicle_vin"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                tools:text="Fahrzeug VIN" />
+
+                    </com.google.android.material.card.MaterialCardView>
 
 
-                <com.google.android.material.button.MaterialButton
-                        android:id="@+id/start_hvac_button"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="20dp"
-                        android:text="Klimatisierung starten" />
+                    <com.google.android.material.button.MaterialButton
+                            android:id="@+id/start_hvac_button"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="20dp"
+                            android:text="Klimatisierung starten" />
 
-                <com.google.android.material.button.MaterialButton
-                        android:id="@+id/vehicle_details_button"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dp"
-                        android:text="Fahrzeugdetails" />
+                    <com.google.android.material.button.MaterialButton
+                            android:id="@+id/vehicle_details_button"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="20dp"
+                            android:text="Fahrzeugdetails" />
 
-                <com.google.android.material.button.MaterialButton
-                        android:id="@+id/vehicle_location_button"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dp"
-                        android:text="Fahrzeug Position" />
+                    <com.google.android.material.button.MaterialButton
+                            android:id="@+id/vehicle_location_button"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="20dp"
+                            android:text="Fahrzeug Position" />
 
-                <com.google.android.material.button.MaterialButton
-                        android:id="@+id/vehicle_statistics_button"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Fahrzeug-Statistiken" />
-            </LinearLayout>
+                    <com.google.android.material.button.MaterialButton
+                            android:id="@+id/vehicle_statistics_button"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Fahrzeug-Statistiken" />
+                </LinearLayout>
 
-        </androidx.core.widget.NestedScrollView>
+            </androidx.core.widget.NestedScrollView>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
     </at.sunilson.presentationcore.views.MotionLayoutSavedState>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

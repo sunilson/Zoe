@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="fragment_transition_duration">300</integer>
+    <integer name="white_transparent_header_animation_duration">300</integer>
 </resources>

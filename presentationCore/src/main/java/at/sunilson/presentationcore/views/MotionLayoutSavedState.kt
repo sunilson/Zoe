@@ -4,7 +4,10 @@ import android.content.Context
 import android.os.Parcel
 import android.os.Parcelable
 import android.util.AttributeSet
+import android.view.View
 import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.core.widget.NestedScrollView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 
 class MotionLayoutSavedState @JvmOverloads constructor(
     context: Context,
@@ -55,5 +58,26 @@ class MotionLayoutSavedState @JvmOverloads constructor(
         } else {
             super.onRestoreInstanceState(state)
         }
+    }
+
+    override fun onNestedPreScroll(target: View, dx: Int, dy: Int, consumed: IntArray, type: Int) {
+        if (target !is SwipeRefreshLayout) {
+            return super.onNestedPreScroll(target, dx, dy, consumed, type)
+        }
+
+        val scrollView = target.getChildAt(0)
+
+        if (scrollView !is NestedScrollView) {
+            return super.onNestedPreScroll(target, dx, dy, consumed, type)
+        }
+
+
+        val canScrollVertically = scrollView.canScrollVertically(-1)
+        if (dy < 0 && canScrollVertically) {
+            // don't start motionLayout transition
+            return;
+        }
+
+        super.onNestedPreScroll(target, dx, dy, consumed, type)
     }
 }
