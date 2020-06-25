@@ -37,4 +37,7 @@ object Dependencies {
     val insetterKtx = "dev.chrisbanes:insetter-ktx:0.2.0"
     val sunilsonExtensions = "com.github.sunilson:android-kotlin-extensions:0.35"
     val sunilsonViewModel = "com.github.sunilson:Unidirectional-ViewModel:0.4"
+    val maps = "com.google.android.libraries.maps:maps:3.1.0-beta"
+    val epoxy = "com.airbnb.android:epoxy:3.11.0"
+    val epoxyKapt = "com.airbnb.android:epoxy-processor:3.11.0"
 }

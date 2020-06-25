@@ -26,8 +26,9 @@ dependencies {
     implementation(project(":entities"))
     implementation(project(":core"))
     implementation(Dependencies.hilt)
-    implementation 'com.google.android.libraries.maps:maps:3.1.0-beta'
+    implementation(Dependencies.maps)
     kapt(Dependencies.moshiKapt)
     kapt(Dependencies.hiltKapt)
     kapt(Dependencies.hiltKaptJetpack)
+    kapt(Dependencies.epoxyKapt)
 }

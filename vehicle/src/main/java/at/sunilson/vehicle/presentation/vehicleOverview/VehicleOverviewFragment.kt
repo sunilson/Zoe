@@ -20,6 +20,8 @@ import at.sunilson.ktx.fragment.useLightStatusBarIcons
 import at.sunilson.presentationcore.base.viewBinding
 import at.sunilson.vehicle.R
 import at.sunilson.vehicle.databinding.FragmentVehicleOverviewBinding
+import at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models.batteryStatusWidget
+import at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models.buttonWidget
 import coil.api.load
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.doOnApplyWindowInsets
@@ -49,24 +51,8 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     }
 
     private fun setupClickListeners() {
-        binding.startHvacButton.setOnClickListener {
-            viewModel.startClimateControl()
-        }
-
         binding.settingsButton.setOnClickListener {
             findNavController().navigate(R.id.show_settings_dialog)
-        }
-
-        binding.vehicleDetailsButton.setOnClickListener {
-            viewModel.showVehicleDetails()
-        }
-
-        binding.vehicleStatisticsButton.setOnClickListener {
-            viewModel.showVehicleStatistics()
-        }
-
-        binding.vehicleLocationButton.setOnClickListener {
-            viewModel.showVehicleLocation()
         }
     }
 
@@ -100,14 +86,44 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     }
 
     private fun renderVehicle(vehicle: Vehicle) {
-        binding.vehicleChargeState.text = "Ladestatus: ${vehicle.batteryStatus.chargeState}"
-        binding.vehicleBatteryPlugged.text =
-            "Ladekabel angesteckt: ${vehicle.batteryStatus.pluggedIn}"
+        /*
+
         binding.vehicleMileage.text = getString(R.string.mileage, vehicle.mileageKm.toString())
-        binding.vehicleName.text = "${vehicle.modelName} (${vehicle.batteryStatus.batteryLevel}%)"
         binding.vehicleVin.text = vehicle.vin
+         */
+        binding.vehicleName.text = "${vehicle.modelName} (${vehicle.batteryStatus.batteryLevel}%)"
         binding.batterStatusBar.progress = vehicle.batteryStatus.batteryLevel
         binding.vehicleImage.load(vehicle.imageUrl)
+        binding.recyclerView.withModels {
+            batteryStatusWidget {
+                id("batteryStatusWidget")
+                batteryStatus(vehicle.batteryStatus)
+            }
+
+            buttonWidget {
+                id("hvacButton")
+                buttonText("Klimatisierung starten")
+                onClick { viewModel.startClimateControl() }
+            }
+
+            buttonWidget {
+                id("detailsButton")
+                buttonText("Fahrzeug Details")
+                onClick { viewModel.showVehicleDetails() }
+            }
+
+            buttonWidget {
+                id("locationButton")
+                buttonText("Fahrzeug Location")
+                onClick { viewModel.showVehicleLocation() }
+            }
+
+            buttonWidget {
+                id("statisticsButton")
+                buttonText("Fahrzeug-Statistiken")
+                onClick { viewModel.showVehicleStatistics() }
+            }
+        }
     }
 
     override fun onResume() {

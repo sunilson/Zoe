@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.widget.NestedScrollView
+import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 
 class MotionLayoutSavedState @JvmOverloads constructor(
@@ -67,7 +68,7 @@ class MotionLayoutSavedState @JvmOverloads constructor(
 
         val scrollView = target.getChildAt(0)
 
-        if (scrollView !is NestedScrollView) {
+        if (scrollView !is RecyclerView) {
             return super.onNestedPreScroll(target, dx, dy, consumed, type)
         }
 
