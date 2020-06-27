@@ -17,15 +17,18 @@
                 app:destination="@id/vehicleListFragment" />
         <action
                 android:id="@+id/show_vehicle_details"
-                app:destination="@id/vehicleDetailsFragment" />
+                app:destination="@id/vehicleDetailsFragment"
+                app:enterAnim="@anim/fragment_fade_enter"
+                app:exitAnim="@anim/fragment_fade_exit"
+                app:popEnterAnim="@anim/fragment_fade_enter"
+                app:popExitAnim="@anim/fragment_fade_exit" />
         <action
                 android:id="@+id/show_vehicle_location"
                 app:destination="@id/vehicleMapFragment"
                 app:enterAnim="@anim/move_in_from_right"
                 app:exitAnim="@anim/move_out_to_left_slightly"
                 app:popEnterAnim="@anim/move_in_from_left_slightly"
-                app:popExitAnim="@anim/move_out_to_right"
-                />
+                app:popExitAnim="@anim/move_out_to_right" />
     </fragment>
 
     <dialog
@@ -42,16 +45,19 @@
             android:id="@+id/vehicleDetailsFragment"
             android:name="at.sunilson.vehicle.presentation.vehicleDetails.VehicleDetailsFragment"
             android:label="VehicleDetailsFragment"
-            tools:layout="@layout/fragment_vehicle_details" >
+            tools:layout="@layout/fragment_vehicle_details">
         <argument
                 android:name="vehicleVin"
                 app:argType="string" />
+        <argument
+                android:name="smallTransition"
+                app:argType="boolean" />
     </fragment>
     <fragment
             android:id="@+id/vehicleMapFragment"
-            tools:layout="@layout/fragment_vehicle_map"
             android:name="at.sunilson.vehicle.presentation.vehicleMap.VehicleMapFragment"
-            android:label="VehicleMapFragment" >
+            android:label="VehicleMapFragment"
+            tools:layout="@layout/fragment_vehicle_map">
         <argument
                 android:name="vin"
                 app:argType="string" />

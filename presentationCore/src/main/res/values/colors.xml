@@ -4,4 +4,7 @@
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="white">#ffffff</color>
+
+    <color name="circular_progress_background">#232323</color>
+    <color name="textPrimary">#000</color>
 </resources>

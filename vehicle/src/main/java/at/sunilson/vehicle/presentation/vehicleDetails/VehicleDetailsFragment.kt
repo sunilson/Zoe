@@ -12,7 +12,9 @@ import at.sunilson.vehicle.R
 import at.sunilson.vehicle.databinding.FragmentVehicleDetailsBinding
 import coil.api.load
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_details) {
@@ -23,14 +25,20 @@ class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_details) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        postponeEnterTransition()
-        viewModel.loadVehicle(args.vehicleVin)
         sharedElementEnterTransition =
             TransitionInflater.from(context).inflateTransition(android.R.transition.move)
+        postponeEnterTransition()
+
+        viewModel.loadVehicle(args.vehicleVin)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.vehicleImage.transitionName = if (args.smallTransition) {
+            "vehicleImageSmall"
+        } else {
+            "vehicleImage"
+        }
         observeState()
     }
 
@@ -38,8 +46,14 @@ class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_details) {
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             viewModel.state.collect {
                 if (it.vehicle != null) {
-                    binding.vehicleImage.load(it.vehicle?.imageUrl)
-                    startPostponedEnterTransition()
+                    launch {
+                        binding
+                            .vehicleImage
+                            .load(it.vehicle.imageUrl)
+                            .await()
+                        delay(100)
+                        startPostponedEnterTransition()
+                    }
                 }
             }
         }

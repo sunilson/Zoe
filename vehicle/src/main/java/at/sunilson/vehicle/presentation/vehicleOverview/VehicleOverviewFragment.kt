@@ -18,10 +18,12 @@ import at.sunilson.ktx.fragment.setStatusBarColor
 import at.sunilson.ktx.fragment.useLightNavigationBarIcons
 import at.sunilson.ktx.fragment.useLightStatusBarIcons
 import at.sunilson.presentationcore.base.viewBinding
+import at.sunilson.presentationcore.extensions.setupHeaderAnimation
 import at.sunilson.vehicle.R
 import at.sunilson.vehicle.databinding.FragmentVehicleOverviewBinding
 import at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models.batteryStatusWidget
 import at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models.buttonWidget
+import at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models.climateControlWidget
 import coil.api.load
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.doOnApplyWindowInsets
@@ -33,14 +35,24 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     private val binding by viewBinding(FragmentVehicleOverviewBinding::bind)
     private val viewModel by viewModels<VehicleOverviewViewModel>()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.refreshVehicles()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupClickListeners()
         setupSwipeRefreshLayout()
         observeState()
         observeEvents()
-        view.doOnApplyWindowInsets { v, insets, initialState ->
-            v.updatePadding(top = initialState.paddings.top + insets.systemWindowInsetTop)
+        setupInsets()
+        setupHeaderAnimation(binding.cutView, binding.recyclerView, true)
+    }
+
+    private fun setupInsets() {
+        requireView().doOnApplyWindowInsets { v, insets, initialState ->
+            binding.motionLayout.updatePadding(top = insets.systemWindowInsetTop + initialState.paddings.top)
         }
     }
 
@@ -65,10 +77,21 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
                         VehicleOverviewFragmentDirections.showVehicleLocation(event.vin)
                     )
                     is ShowVehicleStatistics -> findNavController().navigate("https://zoe.app/statistics/${event.vin}".toUri())
-                    is ShowVehicleDetails -> findNavController().navigate(
-                        VehicleOverviewFragmentDirections.showVehicleDetails(event.vin),
-                        FragmentNavigatorExtras(binding.vehicleImage to "vehicleImage")
-                    )
+                    is ShowVehicleDetails -> {
+                        findNavController().navigate(
+                            VehicleOverviewFragmentDirections.showVehicleDetails(
+                                event.vin,
+                                binding.motionLayout.progress != 0f
+                            ),
+                            FragmentNavigatorExtras(
+                                if (binding.motionLayout.progress == 0f) {
+                                    binding.vehicleImage to "vehicleImage"
+                                } else {
+                                    binding.vehicleImageSmall to "vehicleImageSmall"
+                                }
+                            )
+                        )
+                    }
                 }
             }
         }
@@ -86,24 +109,19 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     }
 
     private fun renderVehicle(vehicle: Vehicle) {
-        /*
-
-        binding.vehicleMileage.text = getString(R.string.mileage, vehicle.mileageKm.toString())
-        binding.vehicleVin.text = vehicle.vin
-         */
         binding.vehicleName.text = "${vehicle.modelName} (${vehicle.batteryStatus.batteryLevel}%)"
-        binding.batterStatusBar.progress = vehicle.batteryStatus.batteryLevel
+        binding.progressBar.progress = vehicle.batteryStatus.batteryLevel.toFloat()
         binding.vehicleImage.load(vehicle.imageUrl)
+        binding.vehicleImageSmall.load(vehicle.imageUrl)
         binding.recyclerView.withModels {
             batteryStatusWidget {
                 id("batteryStatusWidget")
                 batteryStatus(vehicle.batteryStatus)
             }
 
-            buttonWidget {
-                id("hvacButton")
-                buttonText("Klimatisierung starten")
-                onClick { viewModel.startClimateControl() }
+            climateControlWidget {
+                id("climateControlWidget")
+                startClimateControlClicked { viewModel.startClimateControl() }
             }
 
             buttonWidget {
@@ -123,15 +141,50 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
                 buttonText("Fahrzeug-Statistiken")
                 onClick { viewModel.showVehicleStatistics() }
             }
+
+            buttonWidget {
+                id("statisticsButton2")
+                buttonText("Fahrzeug-Statistiken")
+                onClick { viewModel.showVehicleStatistics() }
+            }
+
+            buttonWidget {
+                id("statisticsButton3")
+                buttonText("Fahrzeug-Statistiken")
+                onClick { viewModel.showVehicleStatistics() }
+            }
+
+            buttonWidget {
+                id("statisticsButton4")
+                buttonText("Fahrzeug-Statistiken")
+                onClick { viewModel.showVehicleStatistics() }
+            }
+
+            buttonWidget {
+                id("statisticsButton5")
+                buttonText("Fahrzeug-Statistiken")
+                onClick { viewModel.showVehicleStatistics() }
+            }
+
+            buttonWidget {
+                id("statisticsButton6")
+                buttonText("Fahrzeug-Statistiken")
+                onClick { viewModel.showVehicleStatistics() }
+            }
+
+            buttonWidget {
+                id("statisticsButton7")
+                buttonText("Fahrzeug-Statistiken")
+                onClick { viewModel.showVehicleStatistics() }
+            }
         }
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.refreshVehicles()
         setStatusBarColor(android.R.color.transparent)
         setNavigationBarColor(android.R.color.white)
-        useLightStatusBarIcons(false)
+        useLightStatusBarIcons(true)
         useLightNavigationBarIcons(false)
         drawBelowStatusBar()
     }

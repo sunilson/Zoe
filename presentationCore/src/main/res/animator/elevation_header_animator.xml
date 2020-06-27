@@ -5,7 +5,7 @@
         <objectAnimator
                 android:duration="@integer/white_transparent_header_animation_duration"
                 android:propertyName="elevation"
-                android:valueTo="10dp"
+                android:valueTo="20dp"
                 android:valueType="floatType" />
     </item>
 
