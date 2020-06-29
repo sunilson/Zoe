@@ -9,18 +9,24 @@ import com.airbnb.epoxy.EpoxyModelWithHolder
 
 
 @EpoxyModelClass
-abstract class ClimateControlWidgetModel : EpoxyModelWithHolder<ClimateControlWidgetModel.Holder>() {
+abstract class ClimateControlWidgetModel :
+    EpoxyModelWithHolder<ClimateControlWidgetModel.Holder>() {
 
     override fun getDefaultLayout() = R.layout.climate_control_widget
 
     @EpoxyAttribute
     lateinit var startClimateControlClicked: () -> Unit
 
+    @EpoxyAttribute
+    lateinit var planClimateControlClicked: () -> Unit
+
     override fun bind(holder: Holder) {
         holder.startHVACButton.setOnClickListener { startClimateControlClicked() }
+        holder.planHVACButton.setOnClickListener { planClimateControlClicked() }
     }
 
     class Holder : KotlinEpoxyHolder() {
         val startHVACButton by bind<TextView>(R.id.start_climate_control_button)
+        val planHVACButton by bind<TextView>(R.id.plan_climate_control_button)
     }
 }

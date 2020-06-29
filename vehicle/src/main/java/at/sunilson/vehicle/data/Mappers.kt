@@ -13,7 +13,7 @@ fun AllVehiclesResponse.toVehicleList() = vehicleLinks.map { vehicleLink ->
         vehicleLink.vehicleDetails.model.label,
         vehicleLink.vehicleDetails.assets.first().renditions.first().url,
         0,
-        Vehicle.BatteryStatus(0, 0, false, Vehicle.BatteryStatus.ChargeState.NOT_CHARGING)
+        Vehicle.BatteryStatus(0, 0, 0, false, Vehicle.BatteryStatus.ChargeState.NOT_CHARGING, 0f, 0)
     )
 }
 
@@ -21,10 +21,13 @@ fun BatteryStatusResponse.toEntity() =
     Vehicle.BatteryStatus(
         data.attributes.batteryLevel,
         data.attributes.batteryTemperature,
+        data.attributes.batteryAutonomy,
         data.attributes.plugStatus == 1,
         Vehicle.BatteryStatus.ChargeState.values()
             .firstOrNull { it.stateCode == data.attributes.chargingStatus }
-            ?: Vehicle.BatteryStatus.ChargeState.NOT_CHARGING
+            ?: Vehicle.BatteryStatus.ChargeState.NOT_CHARGING,
+        data.attributes.chargingInstantaneousPower,
+        data.attributes.chargingRemainingTime
     )
 
 fun CockpitResponse.toEntity() = data.attributes.totalMileage

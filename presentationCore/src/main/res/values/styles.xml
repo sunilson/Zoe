@@ -6,6 +6,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="bottomSheetDialogTheme">@style/BottomSheetTheme</item>
+        <item name="materialButtonStyle">@style/ButtonStyle</item>
     </style>
 
     <style name="BottomSheetTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
@@ -14,6 +15,10 @@
 
     <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/bottom_sheet_background</item>
+    </style>
+
+    <style name="ButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="cornerRadius">@dimen/default_corner_radius</item>
     </style>
 
 </resources>

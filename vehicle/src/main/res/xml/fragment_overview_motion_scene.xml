@@ -63,23 +63,33 @@
             <Layout
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    app:layout_constraintBottom_toBottomOf="@id/vehicle_name"
+                    app:layout_constraintBottom_toBottomOf="@id/vehicle_subtitle"
                     app:layout_constraintHorizontal_chainStyle="packed"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toLeftOf="@id/vehicle_name"
-                    app:layout_constraintTop_toTopOf="@id/vehicle_name" />
+                    app:layout_constraintRight_toLeftOf="@id/vehicle_title"
+                    app:layout_constraintTop_toTopOf="@id/vehicle_title" />
         </Constraint>
 
 
-        <Constraint android:id="@+id/vehicle_name">
+        <Constraint android:id="@+id/vehicle_title">
             <Layout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="@id/cut_view"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="10dp"
+                    app:layout_constraintBottom_toTopOf="@id/vehicle_subtitle"
                     app:layout_constraintHorizontal_chainStyle="packed"
                     app:layout_constraintLeft_toRightOf="@id/vehicle_image_small"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="@id/cut_view" />
+        </Constraint>
+
+        <Constraint android:id="@+id/vehicle_subtitle">
+            <Layout
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="@id/cut_view"
+                    app:layout_constraintLeft_toLeftOf="@id/vehicle_title"
+                    app:layout_constraintTop_toBottomOf="@id/vehicle_title" />
         </Constraint>
 
 

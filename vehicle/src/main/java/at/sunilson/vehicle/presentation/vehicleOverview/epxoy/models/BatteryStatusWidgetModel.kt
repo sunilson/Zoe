@@ -17,13 +17,21 @@ abstract class BatteryStatusWidgetModel : EpoxyModelWithHolder<BatteryStatusWidg
     lateinit var batteryStatus: Vehicle.BatteryStatus
 
     override fun bind(holder: Holder) {
-        holder.chargeStateView.text = "Ladestatus: ${batteryStatus.chargeState}"
-        holder.pluggedStateView.text = "Ladekabel angesteckt: ${batteryStatus.pluggedIn}"
+        holder.chargeStateView.text =
+            "${batteryStatus.chargeState} mit ${batteryStatus.chargeSpeed} kW"
+        holder.pluggedStateView.text =
+            if (batteryStatus.pluggedIn) "Ladekabel angesteckt" else "Ladekabel nicht angesteckt"
+        holder.batteryTemperature.text =
+            "Batterie Temperatur ist ${batteryStatus.batteryTemperature} Grad"
+        holder.estimatedRange.text =
+            "Reichweite sind ca. ${batteryStatus.remainingRange} Km"
     }
 
     class Holder : KotlinEpoxyHolder() {
         val pluggedStateView by bind<TextView>(R.id.vehicle_battery_plugged)
         val chargeStateView by bind<TextView>(R.id.vehicle_charge_state)
+        val batteryTemperature by bind<TextView>(R.id.vehicle_battery_temperature)
+        val estimatedRange by bind<TextView>(R.id.vehicle_estimated_range)
     }
 }
 

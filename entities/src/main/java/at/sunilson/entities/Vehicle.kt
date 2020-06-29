@@ -14,8 +14,11 @@ data class Vehicle(
     data class BatteryStatus(
         val batteryLevel: Int,
         val batteryTemperature: Int,
+        val remainingRange: Int,
         val pluggedIn: Boolean,
-        val chargeState: ChargeState
+        val chargeState: ChargeState,
+        val chargeSpeed: Float,
+        val remainingChargeTime: Int
     ) {
         enum class ChargeState(val stateCode: Double) {
             NOT_CHARGING(0.0),

@@ -23,6 +23,7 @@ import com.google.android.libraries.maps.model.CameraPosition
 import com.google.android.libraries.maps.model.LatLng
 import com.google.android.libraries.maps.model.Marker
 import com.google.android.libraries.maps.model.MarkerOptions
+import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
@@ -38,6 +39,14 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
     private var map: GoogleMap? = null
     private var previousMarker: Marker? = null
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        postponeEnterTransition()
+        sharedElementEnterTransition = MaterialContainerTransform().apply {
+            duration = 500
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.refreshLayout.isEnabled = false
@@ -47,6 +56,7 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
 
     private fun setupMap() {
         mapFragment.getMapAsync {
+            startPostponedEnterTransition()
             map = it
             viewModel.refreshPosition(args.vin)
         }
@@ -80,10 +90,12 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
         )
         map?.animateCamera(
             CameraUpdateFactory.newCameraPosition(
-                CameraPosition.fromLatLngZoom(LatLng(
-                    location.lat,
-                    location.lng
-                ), 10f)
+                CameraPosition.fromLatLngZoom(
+                    LatLng(
+                        location.lat,
+                        location.lng
+                    ), 10f
+                )
             )
         )
     }

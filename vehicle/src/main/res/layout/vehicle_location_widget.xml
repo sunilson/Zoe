@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/location_widget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/card_margin_bottom"
+        android:transitionName="location"
+        app:cardCornerRadius="@dimen/default_corner_radius"
+        app:cardElevation="@dimen/card_elevation">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <TextView
+                android:id="@+id/headline"
+                style="@style/TextAppearance.MaterialComponents.Headline5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/card_padding"
+                android:layout_marginTop="@dimen/card_padding"
+                android:layout_marginRight="@dimen/card_padding"
+                android:text="Location"
+                android:textColor="@color/textPrimary"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        <com.google.android.libraries.maps.MapView
+                android:id="@+id/map"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginTop="20dp"
+                app:cameraTargetLat="40.730610"
+                app:cameraTargetLng="-73.935242"
+                app:cameraZoom="13"
+                app:layout_constraintTop_toBottomOf="@id/headline"
+                app:liteMode="true"
+                app:mapType="normal"
+                app:uiCompass="false"
+                app:uiZoomControls="false" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</com.google.android.material.card.MaterialCardView>

@@ -28,6 +28,14 @@
                 android:layout_marginTop="20dp"
                 android:text="Klimatisierung starten"
                 app:layout_constraintTop_toBottomOf="@id/headline" />
+
+        <com.google.android.material.button.MaterialButton
+                android:id="@+id/plan_climate_control_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Klimatisierung planen"
+                app:layout_constraintTop_toBottomOf="@id/start_climate_control_button" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
