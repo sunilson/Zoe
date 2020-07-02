@@ -1,10 +1,14 @@
 package at.sunilson.vehicle.presentation.vehicleMap
 
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.os.Bundle
 import android.view.View
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import at.sunilson.entities.Location
 import at.sunilson.ktx.fragment.drawBelowStatusBar
@@ -42,8 +46,12 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         postponeEnterTransition()
-        sharedElementEnterTransition = MaterialContainerTransform().apply {
-            duration = 500
+        sharedElementEnterTransition = MaterialContainerTransform().apply { duration = 500 }
+        requireActivity().onBackPressedDispatcher.addCallback {
+            map?.snapshot {
+                binding.snapshot.setImageBitmap(it)
+                findNavController().navigateUp()
+            }
         }
     }
 
@@ -79,6 +87,15 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
                 setMarkerToLocation(it.location ?: return@collect)
             }
         }
+    }
+
+    private fun makeSnapshot(): Bitmap {
+        val view = requireView()
+        val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        view.layout(view.left, view.top, view.right, view.bottom)
+        view.draw(canvas)
+        return bitmap
     }
 
     private fun setMarkerToLocation(location: Location) {

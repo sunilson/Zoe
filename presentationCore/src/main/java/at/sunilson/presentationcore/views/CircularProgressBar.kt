@@ -9,6 +9,7 @@ import android.graphics.RectF
 import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.annotation.ColorInt
 import at.sunilson.presentationcore.R
 import timber.log.Timber
@@ -45,18 +46,21 @@ class CircularProgressBar @JvmOverloads constructor(
      */
     var progress: Float = 0f
         set(value) {
+            if (value == field) return
+
             field = value
             val newAngle = 3.6f * value
-            angle = newAngle
-
 
             if (currentAnimator != null && currentAnimator?.isRunning == true) currentAnimator?.cancel()
-            currentAnimator = ValueAnimator.ofFloat(angle, newAngle).setDuration(2000)
-            currentAnimator?.addUpdateListener {
-                angle = it.animatedValue as Float
-                invalidate()
+            currentAnimator = ValueAnimator.ofFloat(angle, newAngle).apply {
+                interpolator = AccelerateDecelerateInterpolator()
+                duration = 1000
+                addUpdateListener {
+                    angle = it.animatedValue as Float
+                    invalidate()
+                }
+                start()
             }
-            currentAnimator?.start()
         }
 
     /**
@@ -117,7 +121,7 @@ class CircularProgressBar @JvmOverloads constructor(
         val maxWidth = max(strokeWidth, backgroundStrokeWidth)
 
         rect.set(
-            0f +  maxWidth/ 2 + offsetX,
+            0f + maxWidth / 2 + offsetX,
             0f + maxWidth / 2 + offsetY,
             width.toFloat() - maxWidth / 2 + offsetX,
             width.toFloat() - maxWidth / 2 + offsetY
@@ -147,7 +151,8 @@ class CircularProgressBar @JvmOverloads constructor(
         ).apply {
             try {
                 strokeWidth = getFloat(R.styleable.CircularProgressBar_foregroundStrokeWidth, 50f)
-                backgroundStrokeWidth = getFloat(R.styleable.CircularProgressBar_backgroundStrokeWidth, 50f)
+                backgroundStrokeWidth =
+                    getFloat(R.styleable.CircularProgressBar_backgroundStrokeWidth, 50f)
                 progress = getFloat(R.styleable.CircularProgressBar_progress, 0f)
                 strokeColor = getColor(R.styleable.CircularProgressBar_strokeColor, Color.WHITE)
                 backgroundStrokeColor =

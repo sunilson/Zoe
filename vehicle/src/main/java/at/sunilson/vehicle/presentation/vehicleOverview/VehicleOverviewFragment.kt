@@ -1,7 +1,9 @@
 package at.sunilson.vehicle.presentation.vehicleOverview
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.net.toUri
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
@@ -45,6 +47,15 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
         viewModel.refreshVehicles()
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        postponeEnterTransition()
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupClickListeners()
@@ -53,9 +64,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
         observeEvents()
         setupInsets()
         setupHeaderAnimation(binding.cutView, binding.recyclerView, true)
-        binding.recyclerView.post {
-            binding.recyclerView.scrollToPosition(0)
-        }
+        binding.recyclerView.post { startPostponedEnterTransition() }
     }
 
     private fun setupInsets() {
