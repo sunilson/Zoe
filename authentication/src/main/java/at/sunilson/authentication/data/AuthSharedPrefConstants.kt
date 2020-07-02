@@ -5,6 +5,5 @@ object AuthSharedPrefConstants {
     const val GIGYA_PERSON_ID = "gigyaPersonId"
     const val GIGYA_JWT = "gigyaJWT"
     const val KAMEREON_ACCOUNT_ID = "kamereonAccountId"
-    const val KAMEREON_ACCESS_TOKEN = "kamereonAccessToken"
     const val LAST_SUCCESSFUL_LOGIN = "lastSuccessfulLogin"
 }

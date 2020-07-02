@@ -15,16 +15,4 @@ interface KamereonService {
         @Path("person_id") personId: String,
         @HeaderMap headers: KamereonHeader
     ): KamereonAccounts
-
-    @GET("accounts/{account_id}/kamereon/token?country=AT")
-    suspend fun kamereonTokens(
-        @Path("account_id") accountId: String,
-        @HeaderMap headers: KamereonHeader
-    ): KamereonTokensResponse
-
-    @GET("accounts/{account_id}/vehicles?country=AT")
-    suspend fun removeThis(
-        @Path("account_id") accountId: String,
-        @HeaderMap headers: KamereonHeader
-    ): Response<ResponseBody>
 }

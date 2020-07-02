@@ -17,7 +17,6 @@ class LogoutUseCase @Inject constructor(
             remove(AuthSharedPrefConstants.GIGYA_JWT)
             remove(AuthSharedPrefConstants.GIGYA_TOKEN)
             remove(AuthSharedPrefConstants.GIGYA_PERSON_ID)
-            remove(AuthSharedPrefConstants.KAMEREON_ACCESS_TOKEN)
             remove(AuthSharedPrefConstants.KAMEREON_ACCOUNT_ID)
         }
         logoutHandler.emitLogout()

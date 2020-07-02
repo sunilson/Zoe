@@ -7,17 +7,14 @@ import at.sunilson.authentication.data.KamereonService
 import at.sunilson.authentication.data.AuthSharedPrefConstants.GIGYA_JWT
 import at.sunilson.authentication.data.AuthSharedPrefConstants.GIGYA_PERSON_ID
 import at.sunilson.authentication.data.AuthSharedPrefConstants.GIGYA_TOKEN
-import at.sunilson.authentication.data.AuthSharedPrefConstants.KAMEREON_ACCESS_TOKEN
 import at.sunilson.authentication.data.AuthSharedPrefConstants.KAMEREON_ACCOUNT_ID
 import at.sunilson.authentication.data.AuthSharedPrefConstants.LAST_SUCCESSFUL_LOGIN
 import at.sunilson.authentication.data.networkEntities.KamereonHeader
 import at.sunilson.authentication.domain.entities.LoginParams
-import at.sunilson.authentication.domain.exceptions.LoginException
 import at.sunilson.core.usecases.AsyncUseCase
 import at.sunilson.networkingcore.constants.ApiKeys.GIGYA_API_KEY
 import at.sunilson.networkingcore.constants.ApiKeys.KAMEREON_API_KEY
 import com.github.kittinunf.result.coroutines.SuspendableResult
-import com.github.kittinunf.result.coroutines.mapError
 import javax.inject.Inject
 
 class LoginUseCase @Inject constructor(
@@ -73,12 +70,6 @@ class LoginUseCase @Inject constructor(
         }
         sp.edit { putString(KAMEREON_ACCOUNT_ID, kamereonAccountId) }
         //TODO Save ID + any other account info that could be of value for app
-
-        val kamereonAccessToken = kamereonService.kamereonTokens(
-            kamereonAccountId,
-            KamereonHeader(gigyaJWT, KAMEREON_API_KEY)
-        ).accessToken
-        sp.edit { putString(KAMEREON_ACCESS_TOKEN, kamereonAccessToken) }
 
         if (params != null) {
             sp.edit { putString(LAST_SUCCESSFUL_LOGIN, params.username) }

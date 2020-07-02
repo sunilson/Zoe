@@ -17,15 +17,11 @@ class AuthenticationInterceptor @Inject constructor(
     private val logoutHandler: LogoutHandler
 ) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
-        if (kamereonToken == null || kamereonToken?.isValidJWT() != true) {
-            refreshTokens()
-        }
-
         if (gigyaJWT == null || gigyaJWT?.isValidJWT() != true) {
             refreshTokens()
         }
 
-        if (gigyaJWT == null || kamereonToken == null) {
+        if (gigyaJWT == null) {
             TODO("Error")
         }
 
@@ -54,11 +50,7 @@ class AuthenticationInterceptor @Inject constructor(
             addHeader("Content-Type", "application/vnd.api+json")
             addHeader("apikey", ApiKeys.KAMEREON_API_KEY)
             addHeader("x-gigya-id_token", requireNotNull(gigyaJWT))
-            addHeader("x-kamereon-authorization", "Bearer $kamereonToken")
         }.build()
-
-    private val kamereonToken: String?
-        get() = sharedPreferences.getString(AuthSharedPrefConstants.KAMEREON_ACCESS_TOKEN, null)
 
     private val gigyaJWT: String?
         get() = sharedPreferences.getString(AuthSharedPrefConstants.GIGYA_JWT, null)

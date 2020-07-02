@@ -13,9 +13,6 @@ class IsLoggedInUseCase @Inject constructor(private val sharedPreferences: Share
             AuthSharedPrefConstants.GIGYA_JWT,
             null
         ) != null && sharedPreferences.getString(
-            AuthSharedPrefConstants.KAMEREON_ACCESS_TOKEN,
-            null
-        ) != null && sharedPreferences.getString(
             AuthSharedPrefConstants.GIGYA_TOKEN,
             null
         ) != null
