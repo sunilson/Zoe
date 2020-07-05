@@ -25,6 +25,7 @@ dependencies {
     implementation(project(":database"))
     implementation(project(":entities"))
     implementation(project(":core"))
+    implementation(Dependencies.lottie)
     implementation(Dependencies.hilt)
     implementation(Dependencies.maps)
     kapt(Dependencies.moshiKapt)

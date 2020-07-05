@@ -12,7 +12,6 @@ import at.sunilson.vehicle.R
 import at.sunilson.vehicle.databinding.FragmentVehicleDetailsBinding
 import coil.api.load
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -51,7 +50,6 @@ class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_details) {
                             .vehicleImage
                             .load(it.vehicle.imageUrl)
                             .await()
-                        delay(100)
                         startPostponedEnterTransition()
                     }
                 }

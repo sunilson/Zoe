@@ -22,6 +22,11 @@ class StatisticsOverviewFragment : Fragment(R.layout.fragment_statistics_overvie
         super.onViewCreated(view, savedInstanceState)
 
         lifecycleScope.launchWhenCreated {
+            repository.getChargeStatistics(args.vin).fold(
+                {},
+                {}
+            )
+
             repository.getHVACHistory(args.vin).fold(
                 {},
                 {}

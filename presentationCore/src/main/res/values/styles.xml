@@ -17,8 +17,11 @@
         <item name="android:background">@drawable/bottom_sheet_background</item>
     </style>
 
-    <style name="ButtonStyle" parent="Widget.MaterialComponents.Button">
-        <item name="cornerRadius">@dimen/default_corner_radius</item>
+    <style name="ButtonStyle" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="cornerRadius">@dimen/button_corner_radius</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="strokeWidth">2dp</item>
+        <item name="strokeColor">@color/colorPrimary</item>
     </style>
 
 </resources>

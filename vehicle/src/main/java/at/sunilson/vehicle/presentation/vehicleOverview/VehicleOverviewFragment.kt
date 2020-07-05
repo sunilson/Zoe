@@ -1,10 +1,19 @@
 package at.sunilson.vehicle.presentation.vehicleOverview
 
+import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import androidx.core.animation.doOnEnd
+import androidx.core.animation.doOnStart
 import androidx.core.net.toUri
+import androidx.core.view.doOnLayout
+import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -36,11 +45,15 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.doOnApplyWindowInsets
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.lang.Long.min
 
 @AndroidEntryPoint
 class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     private val binding by viewBinding(FragmentVehicleOverviewBinding::bind)
     private val viewModel by viewModels<VehicleOverviewViewModel>()
+
+    private var splashShownTimestamp: Long = SPLASH_NOT_SHOWN_YET
+    private var splashShown: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,11 +78,89 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
         setupInsets()
         setupHeaderAnimation(binding.cutView, binding.recyclerView, true)
         binding.recyclerView.post { startPostponedEnterTransition() }
+
+        if (!splashShown) {
+            startSplashAnimation()
+        } else {
+            binding.splashContainer.isVisible = false
+        }
+    }
+
+    private fun startSplashAnimation() {
+        requireView().doOnLayout {
+            val halfScreenWidth = it.width / 2f
+            val halfVehicleWidth = binding.splashVehicle.width / 2f
+
+            ValueAnimator.ofFloat(halfScreenWidth + halfVehicleWidth, 0f).apply {
+                duration = 1000L
+                interpolator = AccelerateDecelerateInterpolator()
+
+                addUpdateListener {
+                    val animatedValue = it.animatedValue as Float
+                    binding.splashVehicle.translationX = animatedValue
+                }
+
+                doOnStart { binding.splashVehicle.visibility = View.VISIBLE }
+                doOnEnd { splashShownTimestamp = System.currentTimeMillis() }
+                start()
+            }
+
+            val bounceAnimation =
+                AnimationUtils.loadAnimation(requireContext(), R.anim.vehicle_bounce).apply {
+                    repeatCount = Animation.INFINITE
+                }
+            binding.splashVehicle.startAnimation(bounceAnimation)
+        }
+    }
+
+    private fun finishSplashAnimation() {
+        if (splashShown) return
+        splashShown = true
+
+        val halfScreenWidth = requireView().width / 2f
+        val halfVehicleWidth = binding.splashVehicle.width / 2f
+
+        val delay = when (splashShownTimestamp) {
+            SPLASH_NOT_SHOWN_YET -> 500L
+            else -> min(500L, System.currentTimeMillis() - splashShownTimestamp)
+        }
+
+        ValueAnimator.ofFloat(0f, halfScreenWidth + halfVehicleWidth).apply {
+            startDelay = delay
+            duration = 500L
+            interpolator = AccelerateInterpolator()
+
+            addUpdateListener {
+                val animatedValue = it.animatedValue as Float
+                binding.splashVehicle.translationX = -animatedValue
+            }
+
+            start()
+            doOnEnd { binding.splashVehicle.visibility = View.GONE }
+        }
+
+        ValueAnimator.ofFloat(1f, 0f).apply {
+            startDelay = 500L + delay
+            duration = 300L
+            interpolator = AccelerateInterpolator()
+
+            addUpdateListener {
+                val animatedValue = it.animatedValue as Float
+                binding.splashContainer.alpha = animatedValue
+            }
+
+            start()
+            doOnEnd {
+                binding.splashContainer.visibility = View.GONE
+                useLightStatusBarIcons(true)
+            }
+        }
     }
 
     private fun setupInsets() {
         requireView().doOnApplyWindowInsets { v, insets, initialState ->
             binding.motionLayout.updatePadding(top = insets.systemWindowInsetTop + initialState.paddings.top)
+            binding.splashContainer.updatePadding(top = insets.systemWindowInsetTop)
         }
     }
 
@@ -106,6 +197,9 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
             viewModel.state.collect { state ->
                 binding.contentContainer.isRefreshing = state.loading
                 if (state.selectedVehicle != null) {
+                    if (!state.loading) {
+                        finishSplashAnimation()
+                    }
                     renderVehicle(state.selectedVehicle, state.vehicleLocation)
                 }
             }
@@ -137,10 +231,16 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
         )
     }
 
+    private fun formatMinutes(minutes: Int): String {
+        val hours = minutes / 60
+        val m = minutes - hours * 60
+        return "${String.format("%02d", hours)}h:${String.format("%02d", m)}m"
+    }
+
     private fun renderVehicle(vehicle: Vehicle, location: Location?) {
         binding.vehicleSubtitle.text =
             if (vehicle.batteryStatus.chargeState == Vehicle.BatteryStatus.ChargeState.CHARGING) {
-                "Am laden mit ${vehicle.batteryStatus.remainingChargeTime} Minuten verbleibend"
+                "Laden: ${formatMinutes(vehicle.batteryStatus.remainingChargeTime)} verbleibend"
             } else {
                 "Derzeit nicht am laden"
             }
@@ -187,8 +287,12 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
         super.onResume()
         setStatusBarColor(android.R.color.transparent)
         setNavigationBarColor(android.R.color.white)
-        useLightStatusBarIcons(true)
+        useLightStatusBarIcons(splashShown)
         useLightNavigationBarIcons(false)
         drawBelowStatusBar()
+    }
+
+    companion object {
+        const val SPLASH_NOT_SHOWN_YET = -1L
     }
 }

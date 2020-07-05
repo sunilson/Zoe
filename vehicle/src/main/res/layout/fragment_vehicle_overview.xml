@@ -19,29 +19,36 @@
                 android:layout_height="0dp"
                 android:background="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cut_view">
+                app:layout_constraintTop_toTopOf="@id/content_spacer">
 
             <com.airbnb.epoxy.EpoxyRecyclerView
                     android:id="@+id/recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:clipToPadding="false"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="20dp"
-                    android:paddingRight="20dp"
+                    android:paddingLeft="12dp"
+                    android:paddingTop="30dp"
+                    android:paddingRight="12dp"
                     android:paddingBottom="20dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/battery_status_widget" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-        <LinearLayout
+        <at.sunilson.presentationcore.views.CurtainView
                 android:id="@+id/cut_view"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:background="@color/colorPrimary"
+                app:color="@color/colorPrimary"
+                app:curtainRadius="16dp"
                 app:layout_constraintBottom_toBottomOf="@id/progress_spacer"
                 app:layout_constraintTop_toTopOf="parent" />
+
+        <Space
+                android:id="@+id/content_spacer"
+                android:layout_width="wrap_content"
+                android:layout_height="16dp"
+                app:layout_constraintBottom_toBottomOf="@id/cut_view" />
 
         <Space
                 android:id="@+id/progress_spacer"
@@ -132,6 +139,44 @@
 
 
     </at.sunilson.presentationcore.views.MotionLayoutSavedState>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/splash_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white">
+
+        <ImageView
+                android:id="@+id/splash_vehicle"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/zoe_large"
+                android:translationY="-50dp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+        <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/splash_progress_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:translationY="50dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/progress_bar" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

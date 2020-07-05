@@ -20,4 +20,9 @@
         <attr name="progress" format="float"/>
         <attr name="hasBackgroundRing" format="boolean"/>
     </declare-styleable>
+
+    <declare-styleable name="CurtainView">
+        <attr name="color" />
+        <attr name="curtainRadius" format="dimension" />
+    </declare-styleable>
 </resources>
