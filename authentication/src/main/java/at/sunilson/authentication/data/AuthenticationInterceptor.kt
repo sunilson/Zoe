@@ -22,7 +22,7 @@ class AuthenticationInterceptor @Inject constructor(
         }
 
         if (gigyaJWT == null) {
-            TODO("Error")
+            logoutHandler.emitLogout()
         }
 
         var result = chain.proceed(createRequest(chain))

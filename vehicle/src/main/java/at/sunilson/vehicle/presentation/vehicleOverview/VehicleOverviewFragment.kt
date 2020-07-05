@@ -42,6 +42,7 @@ import coil.api.load
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.transition.Hold
 import dagger.hilt.android.AndroidEntryPoint
+import dev.chrisbanes.insetter.applySystemWindowInsetsToPadding
 import dev.chrisbanes.insetter.doOnApplyWindowInsets
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -75,6 +76,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
         setupSwipeRefreshLayout()
         observeState()
         observeEvents()
+        setupUIFlags()
         setupInsets()
         setupHeaderAnimation(binding.cutView, binding.recyclerView, true)
         binding.recyclerView.post { startPostponedEnterTransition() }
@@ -158,10 +160,8 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     }
 
     private fun setupInsets() {
-        requireView().doOnApplyWindowInsets { v, insets, initialState ->
-            binding.motionLayout.updatePadding(top = insets.systemWindowInsetTop + initialState.paddings.top)
-            binding.splashContainer.updatePadding(top = insets.systemWindowInsetTop)
-        }
+        binding.splashContainer.applySystemWindowInsetsToPadding(top = true)
+        binding.motionLayout.applySystemWindowInsetsToPadding(top = true)
     }
 
     private fun setupSwipeRefreshLayout() {
@@ -248,6 +248,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
             "${vehicle.batteryStatus.batteryLevel}% (${vehicle.batteryStatus.remainingRange} Km)"
         binding.progressBar.progress = vehicle.batteryStatus.batteryLevel.toFloat()
         binding.vehicleImage.load(vehicle.imageUrl)
+        binding.splashVehicle.load(vehicle.imageUrl)
         binding.vehicleImageSmall.load(vehicle.imageUrl)
         binding.recyclerView.withModels {
 
@@ -283,13 +284,17 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
+    private fun setupUIFlags() {
         setStatusBarColor(android.R.color.transparent)
         setNavigationBarColor(android.R.color.white)
         useLightStatusBarIcons(splashShown)
         useLightNavigationBarIcons(false)
         drawBelowStatusBar()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setupUIFlags()
     }
 
     companion object {

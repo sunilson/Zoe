@@ -1,10 +1,14 @@
 package at.sunilson.vehicle.presentation.vehicleOverview
 
+import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import at.sunilson.entities.Location
 import at.sunilson.entities.Vehicle
-import at.sunilson.unidirectionalviewmodel.core.UniDirectionalViewModel
+import at.sunilson.unidirectionalviewmodel.savedstate.Persist
+import at.sunilson.unidirectionalviewmodel.savedstate.PersistableState
+import at.sunilson.unidirectionalviewmodel.savedstate.UniDirectionalSavedStateViewModelReflection
 import at.sunilson.vehicle.domain.GetSelectedVehicle
 import at.sunilson.vehicle.domain.LocateVehicle
 import at.sunilson.vehicle.domain.RefreshAllVehicles
@@ -14,9 +18,12 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
+@PersistableState
 data class VehicleOverviewState(
     val loading: Boolean = false,
+    @Persist
     val selectedVehicle: Vehicle? = null,
+    @Persist
     val vehicleLocation: Location? = null
 )
 
@@ -29,8 +36,10 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
     private val getSelectedVehicle: GetSelectedVehicle,
     private val refreshAllVehicles: RefreshAllVehicles,
     private val startClimateControl: StartClimateControl,
-    private val locateVehicle: LocateVehicle
-) : UniDirectionalViewModel<VehicleOverviewState, VehicleOverviewEvents>(VehicleOverviewState()) {
+    private val locateVehicle: LocateVehicle,
+    @Assisted savedStateHandle: SavedStateHandle
+) : UniDirectionalSavedStateViewModelReflection<VehicleOverviewState, VehicleOverviewEvents>(
+    VehicleOverviewState(), savedStateHandle) {
 
     private var selectedVehicleJob: Job? = null
     private var locationJob: Job? = null

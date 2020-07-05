@@ -4,11 +4,11 @@ import android.content.Context
 import androidx.room.Room
 import at.sunilson.database.Database
 import at.sunilson.database.VehicleDao
+import at.sunilson.database.ZoeDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
-import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Singleton
 
@@ -21,6 +21,10 @@ object DatabaseModule {
         .databaseBuilder(context, Database::class.java, "vehicleDatabase")
         .fallbackToDestructiveMigration()
         .build()
+
+    @Provides
+    @Singleton
+    internal fun provideZoeDatabase(database: Database): ZoeDatabase = database
 
     @Provides
     @Singleton

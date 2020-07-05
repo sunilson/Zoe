@@ -1,6 +1,7 @@
 package at.sunilson.entities
 
 import com.squareup.moshi.JsonClass
+import java.io.Serializable
 
 @JsonClass(generateAdapter = true)
 data class Vehicle(
@@ -9,7 +10,7 @@ data class Vehicle(
     val imageUrl: String,
     val mileageKm: Int,
     val batteryStatus: BatteryStatus
-) {
+) : Serializable {
     @JsonClass(generateAdapter = true)
     data class BatteryStatus(
         val batteryLevel: Int,
@@ -19,8 +20,8 @@ data class Vehicle(
         val chargeState: ChargeState,
         val chargeSpeed: Float,
         val remainingChargeTime: Int
-    ) {
-        enum class ChargeState(val stateCode: Double) {
+    ) : Serializable {
+        enum class ChargeState(val stateCode: Double) : Serializable {
             NOT_CHARGING(0.0),
             WATING_FOR_PLANNED_CHARGE(0.1),
             CHARGE_ENDED(0.2),
@@ -31,17 +32,3 @@ data class Vehicle(
         }
     }
 }
-
-/**
-{
-"batteryLevel": 30,
-"batteryTemperature": 20,
-"batteryAutonomy": 100,
-"batteryCapacity": 0,
-"batteryAvailableEnergy": 16,
-"plugStatus": 1,
-"chargingStatus": 1.0,
-"chargingRemainingTime": 310,
-"chargingInstantaneousPower": 72.3
-}
-**/

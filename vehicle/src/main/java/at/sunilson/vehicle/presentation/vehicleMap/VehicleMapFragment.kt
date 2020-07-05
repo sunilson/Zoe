@@ -36,6 +36,7 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
 
     private val viewModel by viewModels<VehicleMapViewModel>()
     private val args by navArgs<VehicleMapFragmentArgs>()
+    private var leaving = false
     private val binding by viewBinding(FragmentVehicleMapBinding::bind)
     private val mapFragment: SupportMapFragment
         get() = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
@@ -47,12 +48,6 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
         super.onCreate(savedInstanceState)
         postponeEnterTransition()
         sharedElementEnterTransition = MaterialContainerTransform().apply { duration = 500 }
-        requireActivity().onBackPressedDispatcher.addCallback {
-            map?.snapshot {
-                binding.snapshot.setImageBitmap(it)
-                findNavController().navigateUp()
-            }
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -60,6 +55,15 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
         binding.refreshLayout.isEnabled = false
         setupMap()
         observeState()
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            if(leaving) return@addCallback
+
+            leaving = true
+            map?.snapshot {
+                binding.snapshot.setImageBitmap(it)
+                findNavController().navigateUp()
+            }
+        }
     }
 
     private fun setupMap() {

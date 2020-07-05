@@ -152,7 +152,7 @@
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                android:src="@drawable/zoe_large"
+                android:src="@drawable/zoe"
                 android:translationY="-50dp"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
