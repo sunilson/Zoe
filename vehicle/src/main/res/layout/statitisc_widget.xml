@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         style="@style/WidgetCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
@@ -18,29 +17,23 @@
                 style="@style/TextAppearance.MaterialComponents.Headline5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Klimatisierung"
-                android:textColor="@color/textPrimary"
-                app:layout_constraintTop_toTopOf="parent" />
-
+                android:text="Statistiken"
+                android:textColor="@color/textPrimary" />
 
         <com.google.android.material.button.MaterialButton
-                android:id="@+id/start_climate_control_button"
+                android:id="@+id/hvac_statistics_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Klimatisierung starten"
-                app:icon="@drawable/ic_baseline_ac_unit_24"
-                app:layout_constraintTop_toBottomOf="@id/headline" />
+                android:text="Klimatisierungs Statistiken" />
 
         <com.google.android.material.button.MaterialButton
-                android:id="@+id/plan_climate_control_button"
+                android:id="@+id/charging_statistics_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Klimatisierung planen"
-                app:icon="@drawable/ic_baseline_calendar_today_24"
-                app:layout_constraintTop_toBottomOf="@id/start_climate_control_button" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                android:text="Lade Statistiken" />
 
+    </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

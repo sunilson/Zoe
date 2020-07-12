@@ -14,7 +14,6 @@ import androidx.core.animation.doOnStart
 import androidx.core.net.toUri
 import androidx.core.view.doOnLayout
 import androidx.core.view.isVisible
-import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -33,9 +32,11 @@ import at.sunilson.presentationcore.base.viewBinding
 import at.sunilson.presentationcore.extensions.setupHeaderAnimation
 import at.sunilson.vehicle.R
 import at.sunilson.vehicle.databinding.FragmentVehicleOverviewBinding
+import at.sunilson.vehicle.presentation.extensions.displayName
+import at.sunilson.vehicle.presentation.utils.TimeUtils
 import at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models.batteryStatusWidget
-import at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models.buttonWidget
 import at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models.climateControlWidget
+import at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models.statisticsWidget
 import at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models.vehicleDetailsWidget
 import at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models.vehicleLocationWidget
 import coil.api.load
@@ -43,7 +44,6 @@ import com.google.android.material.card.MaterialCardView
 import com.google.android.material.transition.Hold
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.applySystemWindowInsetsToPadding
-import dev.chrisbanes.insetter.doOnApplyWindowInsets
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.lang.Long.min
@@ -231,18 +231,13 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
         )
     }
 
-    private fun formatMinutes(minutes: Int): String {
-        val hours = minutes / 60
-        val m = minutes - hours * 60
-        return "${String.format("%02d", hours)}h:${String.format("%02d", m)}m"
-    }
 
     private fun renderVehicle(vehicle: Vehicle, location: Location?) {
         binding.vehicleSubtitle.text =
             if (vehicle.batteryStatus.chargeState == Vehicle.BatteryStatus.ChargeState.CHARGING) {
-                "Laden: ${formatMinutes(vehicle.batteryStatus.remainingChargeTime)} verbleibend"
+                "Laden: ${TimeUtils.formatMinuteDuration(vehicle.batteryStatus.remainingChargeTime)} verbleibend"
             } else {
-                "Derzeit nicht am laden"
+                getString(vehicle.batteryStatus.chargeState.displayName)
             }
         binding.vehicleTitle.text =
             "${vehicle.batteryStatus.batteryLevel}% (${vehicle.batteryStatus.remainingRange} Km)"
@@ -276,10 +271,10 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
                 onMapClick { showVehicleLocation(it) }
             }
 
-            buttonWidget {
-                id("statisticsButton")
-                buttonText("Fahrzeug-Statistiken")
-                onClick { viewModel.showVehicleStatistics() }
+            statisticsWidget {
+                id("statisticsWidget")
+                onHvacClick { viewModel.showVehicleStatistics() }
+                onChargeClick { viewModel.showVehicleStatistics() }
             }
         }
     }
@@ -295,6 +290,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     override fun onResume() {
         super.onResume()
         setupUIFlags()
+        if (splashShown) viewModel.refreshVehicles(true)
     }
 
     companion object {

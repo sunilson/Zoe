@@ -4,6 +4,8 @@ import android.widget.TextView
 import at.sunilson.entities.Vehicle
 import at.sunilson.presentationcore.epoxy.KotlinEpoxyHolder
 import at.sunilson.vehicle.R
+import at.sunilson.vehicle.presentation.extensions.displayName
+import at.sunilson.vehicle.presentation.utils.TimeUtils
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
@@ -17,14 +19,23 @@ abstract class BatteryStatusWidgetModel : EpoxyModelWithHolder<BatteryStatusWidg
     lateinit var batteryStatus: Vehicle.BatteryStatus
 
     override fun bind(holder: Holder) {
-        holder.chargeStateView.text =
-            "${batteryStatus.chargeState} mit ${batteryStatus.chargeSpeed} kW"
+        val context = holder.batteryTemperature.context
+
+        val chargeStateText =
+            if (batteryStatus.chargeState == Vehicle.BatteryStatus.ChargeState.CHARGING) {
+                "${context.getString(batteryStatus.chargeState.displayName)}: ${TimeUtils.formatMinuteDuration(
+                    batteryStatus.remainingChargeTime
+                )} verbleibend"
+            } else {
+                holder.chargeStateView.context.getString(batteryStatus.chargeState.displayName) + "${batteryStatus.batteryCapacity}"
+            }
+        holder.chargeStateView.text = chargeStateText
         holder.pluggedStateView.text =
-            if (batteryStatus.pluggedIn) "Ladekabel angesteckt" else "Ladekabel nicht angesteckt"
+            if (batteryStatus.pluggedIn) "Ladekabel angesteckt. (${batteryStatus.chargeSpeed} kWh)" else "Ladekabel nicht angesteckt"
         holder.batteryTemperature.text =
             "Batterie Temperatur ist ${batteryStatus.batteryTemperature} Grad"
         holder.estimatedRange.text =
-            "Reichweite sind ca. ${batteryStatus.remainingRange} Km"
+            "Reichweite ${batteryStatus.remainingRange} km (${batteryStatus.availableEnery} kWh)"
     }
 
     class Holder : KotlinEpoxyHolder() {

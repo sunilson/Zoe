@@ -25,6 +25,7 @@ abstract class VehicleDetailsWidgetModel :
         vinText.text = "Vin: ${vehicle.vin}"
         mileageText.text = "Kilometerstand: ${vehicle.mileageKm} Km"
         vehicleName.text = vehicle.modelName
+        batteryCapacity.text = "Batteriekapazität: ${vehicle.batteryStatus.batteryCapacity} kWh"
         detailsButton.setOnClickListener { onButtonClick(vehicle.vin) }
     }
 
@@ -32,6 +33,7 @@ abstract class VehicleDetailsWidgetModel :
         val vehicleName by bind<TextView>(R.id.headline)
         val mileageText by bind<TextView>(R.id.vehicle_mileage)
         val vinText by bind<TextView>(R.id.vehicle_vin)
+        val batteryCapacity by bind<TextView>(R.id.vehicle_battery_capacity)
         val detailsButton by bind<Button>(R.id.vehicle_details_button)
     }
 }

@@ -39,22 +39,27 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
     private val locateVehicle: LocateVehicle,
     @Assisted savedStateHandle: SavedStateHandle
 ) : UniDirectionalSavedStateViewModelReflection<VehicleOverviewState, VehicleOverviewEvents>(
-    VehicleOverviewState(), savedStateHandle) {
+    VehicleOverviewState(), savedStateHandle
+) {
 
     private var selectedVehicleJob: Job? = null
     private var locationJob: Job? = null
+    private var refreshingJob: Job? = null
 
     init {
         loadSelectedVehicle()
     }
 
-    fun refreshVehicles() {
-        viewModelScope.launch {
-            setState { copy(loading = true) }
+    fun refreshVehicles(invisible: Boolean = false) {
+        refreshingJob?.cancel()
+        refreshingJob = viewModelScope.launch {
+            if (!invisible) setState { copy(loading = true) }
+
             refreshAllVehicles(Unit).fold(
                 { updateSelectedVehicle() },
                 { Timber.e(it) }
             )
+
             setState { copy(loading = false) }
         }
     }

@@ -45,13 +45,25 @@
                 app:layout_constraintTop_toBottomOf="@id/vehicle_vin"
                 tools:text="Kilometerstand 200 Km" />
 
+        <TextView
+                android:id="@+id/vehicle_battery_capacity"
+                style="@style/TextAppearance.MaterialComponents.Body1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/vehicle_mileage"
+                tools:text="Batteriekapazität: 52 kWh" />
+
         <com.google.android.material.button.MaterialButton
                 android:id="@+id/vehicle_details_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="Fahrzeugdetails ansehen"
-                app:layout_constraintTop_toBottomOf="@id/vehicle_mileage" />
+                app:icon="@drawable/ic_baseline_directions_car_24"
+                app:layout_constraintTop_toBottomOf="@id/vehicle_battery_capacity" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

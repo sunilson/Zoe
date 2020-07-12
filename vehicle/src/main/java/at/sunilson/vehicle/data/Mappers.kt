@@ -13,7 +13,16 @@ fun AllVehiclesResponse.toVehicleList() = vehicleLinks.map { vehicleLink ->
         vehicleLink.vehicleDetails.model.label,
         vehicleLink.vehicleDetails.assets.first().renditions.first().url,
         0,
-        Vehicle.BatteryStatus(0, 0, 0, false, Vehicle.BatteryStatus.ChargeState.NOT_CHARGING, 0f, 0)
+        Vehicle.BatteryStatus(
+            0,
+            0,
+            0,
+            0,
+            false,
+            Vehicle.BatteryStatus.ChargeState.NOT_CHARGING,
+            0f,
+            0
+        )
     )
 }
 
@@ -22,6 +31,7 @@ fun BatteryStatusResponse.toEntity() =
         data.attributes.batteryLevel,
         data.attributes.batteryTemperature,
         data.attributes.batteryAutonomy,
+        data.attributes.batteryAvailableEnergy,
         data.attributes.plugStatus == 1,
         Vehicle.BatteryStatus.ChargeState.values()
             .firstOrNull { it.stateCode == data.attributes.chargingStatus }

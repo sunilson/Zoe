@@ -16,11 +16,16 @@ data class Vehicle(
         val batteryLevel: Int,
         val batteryTemperature: Int,
         val remainingRange: Int,
+        val availableEnery: Int,
         val pluggedIn: Boolean,
         val chargeState: ChargeState,
         val chargeSpeed: Float,
         val remainingChargeTime: Int
     ) : Serializable {
+
+        val batteryCapacity: Int
+            get() = ((availableEnery.toFloat() / batteryLevel) * 100).toInt()
+
         enum class ChargeState(val stateCode: Double) : Serializable {
             NOT_CHARGING(0.0),
             WATING_FOR_PLANNED_CHARGE(0.1),
