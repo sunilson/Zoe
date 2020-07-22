@@ -2,7 +2,7 @@ package at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models
 
 import android.widget.Button
 import android.widget.TextView
-import at.sunilson.entities.Vehicle
+import at.sunilson.vehiclecore.domain.entities.Vehicle
 import at.sunilson.presentationcore.epoxy.KotlinEpoxyHolder
 import at.sunilson.vehicle.R
 import com.airbnb.epoxy.EpoxyAttribute

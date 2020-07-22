@@ -2,7 +2,7 @@ package at.sunilson.vehicle.presentation.vehicleDetails
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
-import at.sunilson.entities.Vehicle
+import at.sunilson.vehiclecore.domain.entities.Vehicle
 import at.sunilson.unidirectionalviewmodel.core.UniDirectionalViewModel
 import at.sunilson.vehicle.domain.GetVehicle
 import kotlinx.coroutines.flow.collect

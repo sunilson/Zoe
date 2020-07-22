@@ -18,6 +18,7 @@ object Dependencies {
     val hiltKapt = "com.google.dagger:hilt-android-compiler:2.28-alpha"
     val hiltKaptJetpack = "androidx.hilt:hilt-compiler:1.0.0-alpha01"
     val hiltViewModel = "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha01"
+    val hiltWorkManager = "androidx.hilt:hilt-work:1.0.0-alpha01"
     val lifecycleViewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$LIFECYCLE_VERSION"
     val lifecycleLiveData = "androidx.lifecycle:lifecycle-livedata-ktx:$LIFECYCLE_VERSION"
     val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime-ktx:$LIFECYCLE_VERSION"
@@ -42,4 +43,5 @@ object Dependencies {
     val epoxyKapt = "com.airbnb.android:epoxy-processor:3.11.0"
     val lottie = "com.airbnb.android:lottie:3.4.1"
     val jwt = "com.auth0.android:jwtdecode:2.0.0"
+    val workManager = "androidx.work:work-runtime-ktx:2.4.0"
 }

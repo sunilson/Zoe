@@ -22,8 +22,7 @@ dependencies {
     implementation(project(":authentication"))
     implementation(project(":presentationCore"))
     implementation(project(":networkingCore"))
-    implementation(project(":database"))
-    implementation(project(":entities"))
+
     implementation(project(":core"))
     implementation(Dependencies.hilt)
     kapt(Dependencies.moshiKapt)

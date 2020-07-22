@@ -9,6 +9,8 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
 import androidx.core.net.toUri
@@ -20,8 +22,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import at.sunilson.core.Do
-import at.sunilson.entities.Location
-import at.sunilson.entities.Vehicle
+import at.sunilson.vehiclecore.domain.entities.Location
+import at.sunilson.vehiclecore.domain.entities.Vehicle
 import at.sunilson.ktx.context.showToast
 import at.sunilson.ktx.fragment.drawBelowStatusBar
 import at.sunilson.ktx.fragment.setNavigationBarColor
@@ -55,10 +57,22 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
 
     private var splashShownTimestamp: Long = SPLASH_NOT_SHOWN_YET
     private var splashShown: Boolean = false
+    private var lastBackPress: Long = -1L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.refreshVehicles()
+        requireActivity().onBackPressedDispatcher.addCallback { tryExit() }
+    }
+
+    private fun tryExit() {
+        val currentTime = System.currentTimeMillis()
+        if (currentTime - lastBackPress < 2000) {
+            requireActivity().finish()
+        } else {
+            requireContext().showToast("Erneut drücken um zu beenden", Toast.LENGTH_SHORT)
+            lastBackPress = currentTime
+        }
     }
 
     override fun onCreateView(

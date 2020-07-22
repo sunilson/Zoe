@@ -4,8 +4,8 @@ import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import at.sunilson.entities.Location
-import at.sunilson.entities.Vehicle
+import at.sunilson.vehiclecore.domain.entities.Location
+import at.sunilson.vehiclecore.domain.entities.Vehicle
 import at.sunilson.unidirectionalviewmodel.savedstate.Persist
 import at.sunilson.unidirectionalviewmodel.savedstate.PersistableState
 import at.sunilson.unidirectionalviewmodel.savedstate.UniDirectionalSavedStateViewModelReflection
@@ -57,7 +57,10 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
 
             refreshAllVehicles(Unit).fold(
                 { updateSelectedVehicle() },
-                { Timber.e(it) }
+                {
+                    sendEvent(ShowToast("Beim Aktualisieren ist ein Fehler aufgetreten!"))
+                    Timber.e(it)
+                }
             )
 
             setState { copy(loading = false) }

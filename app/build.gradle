@@ -23,15 +23,19 @@ dependencies {
     implementation(project(":networkingCore"))
     implementation(project(":vehicle"))
     implementation(project(":presentationCore"))
-    implementation(project(":database"))
+
     implementation(project(":core"))
     implementation(project(":navigation"))
     implementation(project(":settings"))
     implementation(project(":statistics"))
+    implementation(project(":chargeTracking"))
+    implementation(project(":vehicleCore"))
     implementation Dependencies.coreKtx
     implementation(Dependencies.appcompat)
     implementation(Dependencies.room)
+    implementation(Dependencies.workManager)
     implementation(Dependencies.hilt)
+    implementation(Dependencies.hiltWorkManager)
     implementation(Dependencies.hiltViewModel)
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'
     kapt(Dependencies.hiltKapt)

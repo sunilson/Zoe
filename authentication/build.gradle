@@ -20,7 +20,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation(project(":presentationCore"))
     implementation(project(":networkingCore"))
-    implementation(project(":database"))
+
     implementation(project(":core"))
     implementation(project(":navigation"))
     implementation(Dependencies.chucker)

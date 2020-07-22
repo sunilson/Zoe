@@ -18,4 +18,13 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/placeholder" />
 
+    <com.airbnb.epoxy.EpoxyRecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/vehicle_image"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

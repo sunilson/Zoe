@@ -1,9 +1,9 @@
 package at.sunilson.vehicle.domain
 
 import at.sunilson.core.usecases.FlowUseCase
-import at.sunilson.database.VehicleDao
-import at.sunilson.database.mappers.toEntity
-import at.sunilson.entities.Vehicle
+import at.sunilson.vehiclecore.data.VehicleDao
+import at.sunilson.vehiclecore.data.toEntity
+import at.sunilson.vehiclecore.domain.entities.Vehicle
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 

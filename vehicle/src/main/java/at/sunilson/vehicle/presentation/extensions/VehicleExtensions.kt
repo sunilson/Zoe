@@ -1,7 +1,7 @@
 package at.sunilson.vehicle.presentation.extensions
 
 import androidx.annotation.StringRes
-import at.sunilson.entities.Vehicle
+import at.sunilson.vehiclecore.domain.entities.Vehicle
 import at.sunilson.vehicle.R
 
 val Vehicle.BatteryStatus.ChargeState.displayName: Int

@@ -4,6 +4,7 @@ import at.sunilson.authentication.di.AuthenticationModule.AUTHENTICATED_HTTP_CLI
 import at.sunilson.vehicle.data.VehicleRepositoryImpl
 import at.sunilson.vehicle.data.VehicleService
 import at.sunilson.vehicle.domain.VehicleRepository
+import at.sunilson.vehiclecore.data.Constants.KAMEREON_BASE_URL
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -34,7 +35,7 @@ object VehicleModule {
             .Builder()
             .client(okHttpClient)
             .addConverterFactory(MoshiConverterFactory.create())
-            .baseUrl("https://api-wired-prod-1-euw1.wrd-aws.com/commerce/v1/")
+            .baseUrl(KAMEREON_BASE_URL)
             .build()
             .create(VehicleService::class.java)
 

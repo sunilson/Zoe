@@ -2,7 +2,7 @@ package at.sunilson.vehicle.presentation.vehicleMap
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
-import at.sunilson.entities.Location
+import at.sunilson.vehiclecore.domain.entities.Location
 import at.sunilson.unidirectionalviewmodel.core.UniDirectionalViewModel
 import at.sunilson.vehicle.domain.LocateVehicle
 import kotlinx.coroutines.launch
