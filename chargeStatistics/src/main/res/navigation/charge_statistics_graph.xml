@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/charge_statistics_graph"
+        app:startDestination="@id/chargeStatisticsOverviewFragment">
+
+
+    <fragment
+            android:id="@+id/chargeStatisticsOverviewFragment"
+            android:name="at.sunilson.chargestatistics.presentation.overview.ChargeStatisticsOverviewFragment"
+            android:label="ChargeStatisticsOverviewFragment"
+            tools:layout="@layout/charge_statistics_overview_fragment" >
+        <argument
+                android:name="vin"
+                app:argType="string" />
+    </fragment>
+</navigation>

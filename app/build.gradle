@@ -22,8 +22,8 @@ dependencies {
     implementation(project(":authentication"))
     implementation(project(":networkingCore"))
     implementation(project(":vehicle"))
+    implementation(project(":chargeStatistics"))
     implementation(project(":presentationCore"))
-
     implementation(project(":core"))
     implementation(project(":navigation"))
     implementation(project(":settings"))

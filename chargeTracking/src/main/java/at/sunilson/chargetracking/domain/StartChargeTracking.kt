@@ -1,5 +1,6 @@
 package at.sunilson.chargetracking.domain
 
+import androidx.work.BackoffPolicy
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
@@ -23,8 +24,9 @@ class StartChargeTracking @Inject constructor(private val workManager: WorkManag
     override fun run(params: String) = Result.of<Unit, Exception> {
         workManager.enqueueUniquePeriodicWork(
             params,
-            ExistingPeriodicWorkPolicy.KEEP,
-            PeriodicWorkRequestBuilder<ChargeTrackingWorker>(5L, TimeUnit.MINUTES)
+            ExistingPeriodicWorkPolicy.REPLACE,
+            PeriodicWorkRequestBuilder<ChargeTrackingWorker>(15L, TimeUnit.MINUTES)
+                .setBackoffCriteria(BackoffPolicy.LINEAR, 15L, TimeUnit.SECONDS)
                 .setInputData(workDataOf("vehicleId" to params))
                 .addTag(CHARGE_TRACKER_TAG)
                 .build()

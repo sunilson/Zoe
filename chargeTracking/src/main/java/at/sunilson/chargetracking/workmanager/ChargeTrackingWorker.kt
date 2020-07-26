@@ -5,21 +5,33 @@ import androidx.hilt.Assisted
 import androidx.hilt.work.WorkerInject
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import at.sunilson.chargetracking.domain.StartChargeTracking
 import at.sunilson.chargetracking.domain.TrackVehicleChargeState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
-internal class ChargeTrackingWorker @WorkerInject constructor(
+
+class ChargeTrackingWorker @WorkerInject constructor(
     @Assisted context: Context,
-    @Assisted params: WorkerParameters,
-    private val useCase: TrackVehicleChargeState
+    @Assisted private val params: WorkerParameters,
+    private val trackVehicleChargeState: TrackVehicleChargeState,
+    private val startChargeTracking: StartChargeTracking
 ) : CoroutineWorker(context, params) {
     override suspend fun doWork() = withContext(Dispatchers.IO) {
-        useCase("Unit").fold(
-            {},
-            {}
-        )
+        val vehicleId = params.inputData.getString("vehicleId")!!
 
-        Result.retry()
+        Timber.d("Starting charge tracking")
+
+        return@withContext trackVehicleChargeState(vehicleId).fold(
+            {
+                Timber.d("Charge tracking done")
+                Result.success()
+            },
+            {
+                Timber.e(it, "Charge tracking failed")
+                Result.retry()
+            }
+        )
     }
 }

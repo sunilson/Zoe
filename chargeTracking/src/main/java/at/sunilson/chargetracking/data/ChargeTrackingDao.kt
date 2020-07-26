@@ -3,10 +3,15 @@ package at.sunilson.chargetracking.data
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import at.sunilson.chargetracking.data.models.ChargeTrackingPoint
+import kotlinx.coroutines.flow.Flow
 
 @Dao
-internal abstract class ChargeTrackingDao {
+abstract class ChargeTrackingDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    internal abstract suspend fun insertChargeTrackingPoint(chargeTrackingPoint: ChargeTrackingPoint)
+    abstract suspend fun insertChargeTrackingPoint(chargeTrackingPoint: ChargeTrackingPoint)
+
+    @Query("SELECT * FROM CHARGETRACKINGPOINT WHERE vehicleId = :vin")
+    abstract fun getAllChargeTrackingPoints(vin: String): Flow<List<ChargeTrackingPoint>>
 }

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/entries" android:icon="@drawable/ic_baseline_calendar_today_24" android:title="Einträge" />
+    <item android:id="@+id/statistics" android:icon="@drawable/ic_baseline_calendar_today_24" android:title="Statistiken" />
+    <item android:id="@+id/manage" android:icon="@drawable/ic_baseline_calendar_today_24" android:title="Verwalten" />
+</menu>

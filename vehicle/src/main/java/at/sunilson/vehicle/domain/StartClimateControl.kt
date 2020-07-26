@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 internal class StartClimateControl @Inject constructor(
     private val vehicleService: VehicleService,
-    private val repository: VehicleRepository,
+    private val repository: VehicleCoreRepository,
     private val vehicleCoreRepository: VehicleCoreRepository
 ) : AsyncUseCase<Unit, Unit>() {
     override suspend fun run(params: Unit) = SuspendableResult.of<Unit, Exception> {

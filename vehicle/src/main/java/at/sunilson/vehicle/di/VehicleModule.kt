@@ -1,9 +1,7 @@
 package at.sunilson.vehicle.di
 
 import at.sunilson.authentication.di.AuthenticationModule.AUTHENTICATED_HTTP_CLIENT
-import at.sunilson.vehicle.data.VehicleRepositoryImpl
 import at.sunilson.vehicle.data.VehicleService
-import at.sunilson.vehicle.domain.VehicleRepository
 import at.sunilson.vehiclecore.data.Constants.KAMEREON_BASE_URL
 import dagger.Binds
 import dagger.Module
@@ -15,14 +13,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Named
 import javax.inject.Singleton
-
-@InstallIn(ApplicationComponent::class)
-@Module
-abstract class VehicleBindingModule {
-    @Binds
-    @Singleton
-    internal abstract fun bindVehicleRepository(vehicleRepositoryImpl: VehicleRepositoryImpl): VehicleRepository
-}
 
 @InstallIn(ApplicationComponent::class)
 @Module

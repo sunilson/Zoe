@@ -24,8 +24,15 @@
                 app:popExitAnim="@anim/fragment_fade_exit" />
         <action
                 android:id="@+id/show_vehicle_location"
-                app:destination="@id/vehicleMapFragment"
-                />
+                app:destination="@id/vehicleMapFragment" />
+        <action
+                android:id="@+id/show_charge_statistics"
+                app:destination="@id/charge_statistics_graph">
+            <argument
+                    android:name="vin"
+                    app:argType="string"
+                    app:nullable="false" />
+        </action>
         <!--
              app:popEnterAnim="@anim/move_in_from_left_slightly"
              app:popExitAnim="@anim/move_out_to_right"
@@ -48,7 +55,7 @@
             android:label="VehicleDetailsFragment"
             tools:layout="@layout/fragment_vehicle_details">
         <argument
-                android:name="vehicleVin"
+                android:name="vin"
                 app:argType="string" />
         <argument
                 android:name="smallTransition"
@@ -63,4 +70,7 @@
                 android:name="vin"
                 app:argType="string" />
     </fragment>
+
+    <include app:graph="@navigation/charge_statistics_graph" />
+
 </navigation>

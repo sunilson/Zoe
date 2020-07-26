@@ -10,7 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import at.sunilson.vehiclecore.domain.entities.Location
 import at.sunilson.ktx.fragment.drawBelowStatusBar
 import at.sunilson.ktx.fragment.setNavigationBarColor
 import at.sunilson.ktx.fragment.setStatusBarColor
@@ -19,6 +18,7 @@ import at.sunilson.ktx.fragment.useLightStatusBarIcons
 import at.sunilson.presentationcore.base.viewBinding
 import at.sunilson.vehicle.R
 import at.sunilson.vehicle.databinding.FragmentVehicleMapBinding
+import at.sunilson.vehiclecore.domain.entities.Location
 import com.google.android.libraries.maps.CameraUpdateFactory
 import com.google.android.libraries.maps.GoogleMap
 import com.google.android.libraries.maps.SupportMapFragment
@@ -56,7 +56,7 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
         setupMap()
         observeState()
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            if(leaving) return@addCallback
+            if (leaving) return@addCallback
 
             leaving = true
             map?.snapshot {
@@ -70,13 +70,13 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
         mapFragment.getMapAsync {
             startPostponedEnterTransition()
             map = it
-            viewModel.refreshPosition(args.vin)
+            viewModel.refreshPosition()
         }
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.refreshPosition(args.vin)
+        viewModel.refreshPosition()
         setStatusBarColor(android.R.color.transparent)
         setNavigationBarColor(android.R.color.white)
         useLightStatusBarIcons(false)

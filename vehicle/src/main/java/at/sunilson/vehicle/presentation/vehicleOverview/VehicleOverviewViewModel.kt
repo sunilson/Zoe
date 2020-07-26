@@ -4,15 +4,15 @@ import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import at.sunilson.vehiclecore.domain.entities.Location
-import at.sunilson.vehiclecore.domain.entities.Vehicle
 import at.sunilson.unidirectionalviewmodel.savedstate.Persist
 import at.sunilson.unidirectionalviewmodel.savedstate.PersistableState
 import at.sunilson.unidirectionalviewmodel.savedstate.UniDirectionalSavedStateViewModelReflection
 import at.sunilson.vehicle.domain.GetSelectedVehicle
-import at.sunilson.vehicle.domain.LocateVehicle
+import at.sunilson.vehicle.domain.LocateSelectedVehicle
 import at.sunilson.vehicle.domain.RefreshAllVehicles
 import at.sunilson.vehicle.domain.StartClimateControl
+import at.sunilson.vehiclecore.domain.entities.Location
+import at.sunilson.vehiclecore.domain.entities.Vehicle
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -31,12 +31,13 @@ sealed class VehicleOverviewEvents
 data class ShowToast(val message: String) : VehicleOverviewEvents()
 data class ShowVehicleDetails(val vin: String) : VehicleOverviewEvents()
 data class ShowVehicleStatistics(val vin: String) : VehicleOverviewEvents()
+data class ShowChargeStatistics(val vin: String) : VehicleOverviewEvents()
 
 internal class VehicleOverviewViewModel @ViewModelInject constructor(
     private val getSelectedVehicle: GetSelectedVehicle,
     private val refreshAllVehicles: RefreshAllVehicles,
     private val startClimateControl: StartClimateControl,
-    private val locateVehicle: LocateVehicle,
+    private val locateSelectedVehicle: LocateSelectedVehicle,
     @Assisted savedStateHandle: SavedStateHandle
 ) : UniDirectionalSavedStateViewModelReflection<VehicleOverviewState, VehicleOverviewEvents>(
     VehicleOverviewState(), savedStateHandle
@@ -48,6 +49,7 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
 
     init {
         loadSelectedVehicle()
+        updateVehicleLocation()
     }
 
     fun refreshVehicles(invisible: Boolean = false) {
@@ -76,6 +78,14 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
         }
     }
 
+    fun showChargeStatistics() {
+        getState {
+            it.selectedVehicle?.let { vehicle ->
+                sendEvent(ShowChargeStatistics(vehicle.vin))
+            }
+        }
+    }
+
     fun showVehicleStatistics() {
         getState {
             it.selectedVehicle?.let { vehicle ->
@@ -100,7 +110,6 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
                     Timber.e("Selected Vehicle was null")
                     //TODO("Move to vehicle list")
                 } else {
-                    updateVehicleLocation()
                     setState { copy(selectedVehicle = it) }
                 }
             }
@@ -108,16 +117,12 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
     }
 
     private fun updateVehicleLocation() {
-        getState { state ->
-            if (state.selectedVehicle == null) return@getState
-
-            locationJob?.cancel()
-            locationJob = viewModelScope.launch {
-                locateVehicle(state.selectedVehicle.vin).fold(
-                    { setState { copy(vehicleLocation = it) } },
-                    {}
-                )
-            }
+        locationJob?.cancel()
+        locationJob = viewModelScope.launch {
+            locateSelectedVehicle(Unit).fold(
+                { setState { copy(vehicleLocation = it) } },
+                { Timber.e(it) }
+            )
         }
     }
 

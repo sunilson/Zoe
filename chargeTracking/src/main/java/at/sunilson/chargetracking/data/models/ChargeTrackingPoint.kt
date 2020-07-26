@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import at.sunilson.vehiclecore.domain.entities.Vehicle
 
 @Entity
-internal data class ChargeTrackingPoint(
+data class ChargeTrackingPoint(
     val vehicleId: String,
     val timestamp: Long,
     val batteryStatus: Vehicle.BatteryStatus,

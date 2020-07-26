@@ -10,7 +10,7 @@ import at.sunilson.vehiclecore.domain.VehicleCoreRepository
 import com.github.kittinunf.result.coroutines.SuspendableResult
 import javax.inject.Inject
 
-internal class TrackVehicleChargeState @Inject constructor(
+class TrackVehicleChargeState @Inject constructor(
     private val vehicleCoreService: VehicleCoreService,
     private val vehicleCoreRepository: VehicleCoreRepository,
     private val chargeTrackingDao: ChargeTrackingDao

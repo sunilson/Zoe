@@ -1,0 +1,32 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
+android {
+
+    buildFeatures.viewBinding = true
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation(project(":authentication"))
+    implementation(project(":presentationCore"))
+    implementation(project(":core"))
+    implementation(project(":vehicleCore"))
+    implementation(project(":chargeTracking"))
+    implementation(Dependencies.hilt)
+    kapt(Dependencies.moshiKapt)
+    kapt(Dependencies.hiltKapt)
+    kapt(Dependencies.hiltKaptJetpack)
+    kapt(Dependencies.epoxyKapt)
+}

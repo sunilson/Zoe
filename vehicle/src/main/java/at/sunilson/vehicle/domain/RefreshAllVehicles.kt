@@ -14,7 +14,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 internal class RefreshAllVehicles @Inject constructor(
-    private val repository: VehicleRepository,
+    private val repository: VehicleCoreRepository,
     private val vehicleService: VehicleService,
     private val vehicleCoreService: VehicleCoreService,
     private val vehicleCoreRepository: VehicleCoreRepository,

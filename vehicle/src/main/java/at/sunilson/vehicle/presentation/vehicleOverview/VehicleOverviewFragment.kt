@@ -22,8 +22,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import at.sunilson.core.Do
-import at.sunilson.vehiclecore.domain.entities.Location
-import at.sunilson.vehiclecore.domain.entities.Vehicle
 import at.sunilson.ktx.context.showToast
 import at.sunilson.ktx.fragment.drawBelowStatusBar
 import at.sunilson.ktx.fragment.setNavigationBarColor
@@ -41,9 +39,12 @@ import at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models.climateCont
 import at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models.statisticsWidget
 import at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models.vehicleDetailsWidget
 import at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models.vehicleLocationWidget
+import at.sunilson.vehiclecore.domain.entities.Location
+import at.sunilson.vehiclecore.domain.entities.Vehicle
 import coil.api.load
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.transition.Hold
+import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.applySystemWindowInsetsToPadding
 import kotlinx.coroutines.flow.collect
@@ -201,6 +202,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
                     is ShowToast -> requireContext().showToast(event.message)
                     is ShowVehicleDetails -> showVehicleDetails(event.vin)
                     is ShowVehicleStatistics -> findNavController().navigate("https://zoe.app/statistics/${event.vin}".toUri())
+                    is ShowChargeStatistics -> showChargeStatistics(event.vin)
                 }
             }
         }
@@ -230,6 +232,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
 
     private fun showVehicleDetails(vin: String) {
         exitTransition = null
+        reenterTransition = null
         findNavController().navigate(
             VehicleOverviewFragmentDirections.showVehicleDetails(
                 vin,
@@ -243,6 +246,16 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
                 }
             )
         )
+    }
+
+    private fun showChargeStatistics(vin: String) {
+        val backward = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+        reenterTransition = backward
+
+        val forward = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        exitTransition = forward
+
+        findNavController().navigate(VehicleOverviewFragmentDirections.showChargeStatistics(vin))
     }
 
 
@@ -288,7 +301,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
             statisticsWidget {
                 id("statisticsWidget")
                 onHvacClick { viewModel.showVehicleStatistics() }
-                onChargeClick { viewModel.showVehicleStatistics() }
+                onChargeClick { viewModel.showChargeStatistics() }
             }
         }
     }

@@ -31,7 +31,7 @@ class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_details) {
             TransitionInflater.from(context).inflateTransition(android.R.transition.move)
         postponeEnterTransition()
 
-        viewModel.loadVehicle(args.vehicleVin)
+        viewModel.loadVehicle(args.vin)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

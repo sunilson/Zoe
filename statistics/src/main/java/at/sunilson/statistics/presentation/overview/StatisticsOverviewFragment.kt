@@ -8,6 +8,7 @@ import androidx.navigation.fragment.navArgs
 import at.sunilson.statistics.R
 import at.sunilson.statistics.domain.StatisticsRepository
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -21,7 +22,7 @@ class StatisticsOverviewFragment : Fragment(R.layout.fragment_statistics_overvie
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        lifecycleScope.launchWhenCreated {
+        viewLifecycleOwner.lifecycleScope.launch {
             repository.getChargeStatistics(args.vin).fold(
                 {},
                 {}
