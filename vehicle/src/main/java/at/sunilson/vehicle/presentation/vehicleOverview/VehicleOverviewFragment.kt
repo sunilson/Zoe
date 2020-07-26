@@ -249,12 +249,8 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     }
 
     private fun showChargeStatistics(vin: String) {
-        val backward = MaterialSharedAxis(MaterialSharedAxis.Z, false)
-        reenterTransition = backward
-
-        val forward = MaterialSharedAxis(MaterialSharedAxis.Z, true)
-        exitTransition = forward
-
+        reenterTransition = null
+        exitTransition = null
         findNavController().navigate(VehicleOverviewFragmentDirections.showChargeStatistics(vin))
     }
 

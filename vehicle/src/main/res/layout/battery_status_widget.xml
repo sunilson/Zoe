@@ -16,7 +16,7 @@
 
         <TextView
                 android:id="@+id/headline"
-                style="@style/TextAppearance.MaterialComponents.Headline5"
+                style="@style/TextAppearance.App.Headline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Batterie"
@@ -63,7 +63,7 @@
 
         <TextView
                 android:id="@+id/vehicle_battery_plugged"
-                style="@style/TextAppearance.MaterialComponents.Body1"
+                style="@style/TextAppearance.App.Body"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -75,7 +75,7 @@
 
         <TextView
                 android:id="@+id/vehicle_charge_state"
-                style="@style/TextAppearance.MaterialComponents.Body1"
+                style="@style/TextAppearance.App.Body"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -87,7 +87,7 @@
 
         <TextView
                 android:id="@+id/vehicle_battery_temperature"
-                style="@style/TextAppearance.MaterialComponents.Body1"
+                style="@style/TextAppearance.App.Body"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -99,7 +99,7 @@
 
         <TextView
                 android:id="@+id/vehicle_estimated_range"
-                style="@style/TextAppearance.MaterialComponents.Body1"
+                style="@style/TextAppearance.App.Body"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"

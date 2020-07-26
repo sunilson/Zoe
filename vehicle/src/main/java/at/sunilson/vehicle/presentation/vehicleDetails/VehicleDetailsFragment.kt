@@ -7,11 +7,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.transition.TransitionInflater
-import at.sunilson.vehiclecore.domain.entities.Vehicle
 import at.sunilson.presentationcore.base.viewBinding
+import at.sunilson.presentationcore.extensions.setupHeaderAnimation
 import at.sunilson.vehicle.R
 import at.sunilson.vehicle.databinding.FragmentVehicleDetailsBinding
 import at.sunilson.vehicle.presentation.vehicleDetails.epoxy.models.detailListItem
+import at.sunilson.vehiclecore.domain.entities.Vehicle
 import coil.api.load
 import com.airbnb.epoxy.EpoxyController
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,6 +43,8 @@ class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_details) {
             "vehicleImage"
         }
         observeState()
+
+        setupHeaderAnimation(binding.topContainer, binding.recyclerView, true)
     }
 
     private fun observeState() {

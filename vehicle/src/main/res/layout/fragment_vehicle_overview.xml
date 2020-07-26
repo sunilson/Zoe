@@ -102,7 +102,7 @@
 
         <TextView
                 android:id="@+id/vehicle_title"
-                style="@style/TextAppearance.MaterialComponents.Headline6"
+                style="@style/TextAppearance.App.Headline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"

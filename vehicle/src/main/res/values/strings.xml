@@ -10,4 +10,7 @@
     <string name="energy_flap_opened">Ladeklappe offen</string>
     <string name="charging">Laden</string>
     <string name="charge_error">Ladefehler</string>
+    <string name="settings">Einstellungen</string>
+    <string name="impressum">Impressum und Rechtliches</string>
+    <string name="choose_your_vehicle">Wähle dein Fahrzeug</string>
 </resources>

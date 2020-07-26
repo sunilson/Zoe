@@ -55,13 +55,14 @@ class SettingsDialogFragment : BottomSheetDialogFragment() {
         if (vehicles.isEmpty()) return
 
         binding.recyclerView.withModels {
-            for (i in 0..20) {
-                vehicleListItem {
-                    id(i)
-                    vehicle(vehicles.first())
-                }
-            }
             vehicles.forEach { vehicle ->
+
+                settingsDialogButtons {
+                    id("buttons")
+                    settingsClicked { }
+                    impressumClicked { }
+                }
+
                 vehicleListItem {
                     id(vehicle.vin)
                     vehicle(vehicle)

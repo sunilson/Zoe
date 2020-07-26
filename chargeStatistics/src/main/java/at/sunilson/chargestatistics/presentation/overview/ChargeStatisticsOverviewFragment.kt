@@ -8,6 +8,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import at.sunilson.chargestatistics.R
 import at.sunilson.chargestatistics.databinding.ChargeStatisticsOverviewFragmentBinding
+import at.sunilson.ktx.fragment.useLightStatusBarIcons
 import at.sunilson.presentationcore.base.viewBinding
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,14 +20,9 @@ class ChargeStatisticsOverviewFragment : Fragment(R.layout.charge_statistics_ove
     private val binding by viewBinding(ChargeStatisticsOverviewFragmentBinding::bind)
     private val args by navArgs<ChargeStatisticsOverviewFragmentArgs>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val forward = MaterialSharedAxis(MaterialSharedAxis.Z, true)
-        enterTransition = forward
-
-        val backward = MaterialSharedAxis(MaterialSharedAxis.Z, false)
-        returnTransition = backward
+    override fun onResume() {
+        super.onResume()
+        useLightStatusBarIcons(false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,7 +50,9 @@ class ChargeStatisticsOverviewFragment : Fragment(R.layout.charge_statistics_ove
         }
     }
 
-    private fun renderList() {
+    fun switchToPosition(position: Int) {
+        check(position < 3)
 
+        binding.viewpager.setCurrentItem(position, true)
     }
 }

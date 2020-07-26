@@ -1,5 +1,5 @@
 const val LIFECYCLE_VERSION = "2.2.0"
-const val NAVIGATION_VERSION = "2.3.0-rc01"
+const val NAVIGATION_VERSION = "2.3.0"
 const val RESULT_VERSION = "3.0.0"
 const val ROOM_VERSION = "2.2.5"
 

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="manage_trackers">Tracker verwalten</string>
+    <string name="no_charge_procedures">Noch keine Ladevorgänge aufgezeichnet</string>
+    <string name="comming_soon">Comming soon...</string>
+</resources>

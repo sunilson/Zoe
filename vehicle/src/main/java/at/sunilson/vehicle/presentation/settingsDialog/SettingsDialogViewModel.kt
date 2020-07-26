@@ -19,5 +19,4 @@ internal class SettingsDialogViewModel @ViewModelInject constructor(private val 
             getAllVehicles(Unit).collect { setState { copy(vehicles = it) } }
         }
     }
-
 }

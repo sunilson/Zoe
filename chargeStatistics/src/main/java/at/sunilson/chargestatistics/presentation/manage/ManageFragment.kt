@@ -2,6 +2,7 @@ package at.sunilson.chargestatistics.presentation.manage
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -9,6 +10,9 @@ import at.sunilson.chargestatistics.R
 import at.sunilson.chargestatistics.databinding.ManageFragmentBinding
 import at.sunilson.presentationcore.base.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
+import dev.chrisbanes.insetter.Insetter
+import dev.chrisbanes.insetter.Side
+import dev.chrisbanes.insetter.doOnApplyWindowInsets
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -20,6 +24,7 @@ internal class ManageFragment : Fragment(R.layout.manage_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeState()
+        Insetter.builder().applySystemWindowInsetsToPadding(Side.TOP).applyToView(binding.recyclerView)
     }
 
     private fun observeState() {

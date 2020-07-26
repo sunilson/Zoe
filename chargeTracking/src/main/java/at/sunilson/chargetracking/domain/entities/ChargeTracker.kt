@@ -5,3 +5,6 @@ data class ChargeTracker(val vin: String, val state: State) {
         WAITING, WORKING, COMPLETED
     }
 }
+
+val ChargeTracker?.isTracking: Boolean
+    get() = this != null && this.state != ChargeTracker.State.COMPLETED

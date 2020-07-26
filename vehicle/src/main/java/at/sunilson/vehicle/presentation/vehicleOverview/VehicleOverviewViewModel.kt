@@ -49,10 +49,11 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
 
     init {
         loadSelectedVehicle()
-        updateVehicleLocation()
     }
 
     fun refreshVehicles(invisible: Boolean = false) {
+        updateVehicleLocation()
+
         refreshingJob?.cancel()
         refreshingJob = viewModelScope.launch {
             if (!invisible) setState { copy(loading = true) }

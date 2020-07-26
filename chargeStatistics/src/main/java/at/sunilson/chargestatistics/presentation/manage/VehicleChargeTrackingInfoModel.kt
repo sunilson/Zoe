@@ -4,7 +4,7 @@ import android.widget.Switch
 import android.widget.TextView
 import at.sunilson.chargestatistics.R
 import at.sunilson.chargestatistics.domain.entities.VehicleChargeTrackingInfo
-import at.sunilson.chargetracking.domain.entities.ChargeTracker
+import at.sunilson.chargetracking.domain.entities.isTracking
 import at.sunilson.presentationcore.epoxy.KotlinEpoxyHolder
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
@@ -22,21 +22,19 @@ abstract class VehicleChargeTrackingInfoModel :
     @EpoxyAttribute
     lateinit var toggleTracking: (Boolean) -> Unit
 
-
     override fun bind(holder: Holder) = holder.run {
-        val isTracking =
-            vehicleChargeTrackingInfo.chargeTracker != null && vehicleChargeTrackingInfo.chargeTracker?.state != ChargeTracker.State.COMPLETED
-        vehicleName.text =
-            "${vehicleChargeTrackingInfo.vehicle.modelName} (${vehicleChargeTrackingInfo.chargeTracker?.state})"
-        toggle.isChecked = isTracking
+        vehicleName.text = vehicleChargeTrackingInfo.vehicle.modelName
+        trackingState.text = "Tracker Status: ${vehicleChargeTrackingInfo.chargeTracker?.state}"
+        toggle.isChecked = vehicleChargeTrackingInfo.chargeTracker.isTracking
         toggle.setOnClickListener {
-            toggle.isChecked = isTracking
-            toggleTracking(!isTracking)
+            toggle.isChecked = vehicleChargeTrackingInfo.chargeTracker.isTracking
+            toggleTracking(!vehicleChargeTrackingInfo.chargeTracker.isTracking)
         }
     }
 
     class Holder : KotlinEpoxyHolder() {
         val toggle by bind<Switch>(R.id.charge_tacking_toggle)
         val vehicleName by bind<TextView>(R.id.vehicle_name)
+        val trackingState by bind<TextView>(R.id.tracking_state)
     }
 }

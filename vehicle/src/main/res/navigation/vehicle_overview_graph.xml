@@ -27,7 +27,12 @@
                 app:destination="@id/vehicleMapFragment" />
         <action
                 android:id="@+id/show_charge_statistics"
-                app:destination="@id/charge_statistics_graph">
+                app:destination="@id/charge_statistics_graph"
+                app:enterAnim="@anim/move_in_from_right"
+                app:exitAnim="@anim/move_out_to_left_slightly"
+                app:popEnterAnim="@anim/move_in_from_left_slightly"
+                app:popExitAnim="@anim/move_out_to_right"
+                >
             <argument
                     android:name="vin"
                     app:argType="string"
