@@ -20,12 +20,21 @@ internal class GetChargingProcedures @Inject constructor(private val getCharging
         var currentStartTrackingPoint: ChargeTrackingPoint? = null
         var currentEndTrackingPoint: ChargeTrackingPoint? = null
 
-        trackingPoints.forEach { chargeTrackingPoint ->
-            val prev = previousTrackingPoint ?: return@forEach
+        trackingPoints.sortedBy { it.timestamp }.forEachIndexed { index, chargeTrackingPoint ->
+            val prev = if (previousTrackingPoint == null) {
+                previousTrackingPoint = chargeTrackingPoint
+                return@forEachIndexed
+            } else {
+                previousTrackingPoint!!
+            }
 
-            if (prev.batteryStatus.batteryLevel >= chargeTrackingPoint.batteryStatus.batteryLevel) {
+            if (prev.batteryStatus.batteryLevel >= chargeTrackingPoint.batteryStatus.batteryLevel || index == trackingPoints.size - 1) {
                 // Finish current charging procedure if available
-                if (currentStartTrackingPoint != null && currentEndTrackingPoint != null) {
+                if (currentStartTrackingPoint != null) {
+                    if (index == trackingPoints.size - 1) {
+                        currentEndTrackingPoint = chargeTrackingPoint
+                    }
+
                     result.add(
                         ChargingProcedure(
                             currentEndTrackingPoint!!.batteryStatus.batteryLevel - currentStartTrackingPoint!!.batteryStatus.batteryLevel,

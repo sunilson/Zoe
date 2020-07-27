@@ -3,6 +3,7 @@ package at.sunilson.zoe
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.work.WorkManager
 import at.sunilson.authentication.domain.IsLoggedInUseCase
 import at.sunilson.authentication.domain.LogoutHandler
 import at.sunilson.navigation.ActivityNavigator
@@ -24,6 +25,9 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var logoutHandler: LogoutHandler
 
+    @Inject
+    lateinit var workManager: WorkManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -32,6 +36,13 @@ class MainActivity : AppCompatActivity() {
         observeLogout()
 
         setContentView(R.layout.activity_main)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        //Workmanager seems to continue work when you ask for work info, so we just ask for anything
+        workManager.getWorkInfosForUniqueWorkLiveData("egal")
     }
 
     private fun observeLogout() {

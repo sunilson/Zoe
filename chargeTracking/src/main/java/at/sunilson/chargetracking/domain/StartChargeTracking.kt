@@ -26,7 +26,7 @@ class StartChargeTracking @Inject constructor(private val workManager: WorkManag
             params,
             ExistingPeriodicWorkPolicy.REPLACE,
             PeriodicWorkRequestBuilder<ChargeTrackingWorker>(15L, TimeUnit.MINUTES)
-                .setBackoffCriteria(BackoffPolicy.LINEAR, 15L, TimeUnit.SECONDS)
+                .setBackoffCriteria(BackoffPolicy.EXPONENTIAL, 15L, TimeUnit.SECONDS)
                 .setInputData(workDataOf("vehicleId" to params))
                 .addTag(CHARGE_TRACKER_TAG)
                 .build()

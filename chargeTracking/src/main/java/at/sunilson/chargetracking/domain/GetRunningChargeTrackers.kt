@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class GetRunningTrackers @Inject constructor(private val workManager: WorkManager) :
+class GetRunningChargeTrackers @Inject constructor(private val workManager: WorkManager) :
     FlowUseCase<List<ChargeTracker>, List<String>>() {
 
     override fun run(params: List<String>): Flow<List<ChargeTracker>> {

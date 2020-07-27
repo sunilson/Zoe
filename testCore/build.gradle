@@ -1,0 +1,25 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+android {
+
+    buildFeatures.viewBinding = true
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation(Dependencies.junit)
+    implementation(Dependencies.mockk)
+    implementation(Dependencies.coroutineTesting)
+    implementation(Dependencies.junit4Runner)
+    implementation(Dependencies.fragmentTesting)
+    implementation(Dependencies.androidTestRules)
+    implementation(Dependencies.androidArchTestingCore)
+}

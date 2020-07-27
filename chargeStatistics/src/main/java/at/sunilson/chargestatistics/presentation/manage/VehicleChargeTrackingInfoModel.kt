@@ -9,6 +9,7 @@ import at.sunilson.presentationcore.epoxy.KotlinEpoxyHolder
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
+import com.google.android.material.switchmaterial.SwitchMaterial
 
 @EpoxyModelClass
 abstract class VehicleChargeTrackingInfoModel :
@@ -33,7 +34,7 @@ abstract class VehicleChargeTrackingInfoModel :
     }
 
     class Holder : KotlinEpoxyHolder() {
-        val toggle by bind<Switch>(R.id.charge_tacking_toggle)
+        val toggle by bind<SwitchMaterial>(R.id.charge_tacking_toggle)
         val vehicleName by bind<TextView>(R.id.vehicle_name)
         val trackingState by bind<TextView>(R.id.tracking_state)
     }

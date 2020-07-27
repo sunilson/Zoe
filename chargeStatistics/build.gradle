@@ -25,6 +25,13 @@ dependencies {
     implementation(project(":vehicleCore"))
     implementation(project(":chargeTracking"))
     implementation(Dependencies.hilt)
+
+    testImplementation(project(":testCore"))
+    testImplementation(Dependencies.coroutineTesting)
+    testImplementation(Dependencies.junit)
+    testImplementation(Dependencies.junitParams)
+    testImplementation(Dependencies.mockk)
+
     kapt(Dependencies.moshiKapt)
     kapt(Dependencies.hiltKapt)
     kapt(Dependencies.hiltKaptJetpack)
