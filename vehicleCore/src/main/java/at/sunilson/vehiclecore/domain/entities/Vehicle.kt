@@ -1,9 +1,11 @@
 package at.sunilson.vehiclecore.domain.entities
 
+import androidx.annotation.Keep
 import com.squareup.moshi.JsonClass
 import java.io.Serializable
 
 @JsonClass(generateAdapter = true)
+@Keep
 data class Vehicle(
     val vin: String,
     val modelName: String,
@@ -12,6 +14,7 @@ data class Vehicle(
     val batteryStatus: BatteryStatus
 ) : Serializable {
     @JsonClass(generateAdapter = true)
+    @Keep
     data class BatteryStatus(
         val batteryLevel: Int,
         val batteryTemperature: Int,
