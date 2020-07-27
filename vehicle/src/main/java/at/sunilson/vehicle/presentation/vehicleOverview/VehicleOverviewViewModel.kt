@@ -52,8 +52,6 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
     }
 
     fun refreshVehicles(invisible: Boolean = false) {
-        updateVehicleLocation()
-
         refreshingJob?.cancel()
         refreshingJob = viewModelScope.launch {
             if (!invisible) setState { copy(loading = true) }
@@ -111,6 +109,7 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
                     Timber.e("Selected Vehicle was null")
                     //TODO("Move to vehicle list")
                 } else {
+                    updateVehicleLocation()
                     setState { copy(selectedVehicle = it) }
                 }
             }

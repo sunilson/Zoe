@@ -13,4 +13,5 @@
     <string name="settings">Einstellungen</string>
     <string name="impressum">Impressum und Rechtliches</string>
     <string name="choose_your_vehicle">Wähle dein Fahrzeug</string>
+    <string name="back_button_content_description">Zurück Button</string>
 </resources>

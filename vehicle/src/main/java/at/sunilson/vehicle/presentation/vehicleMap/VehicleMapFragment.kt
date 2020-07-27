@@ -29,6 +29,8 @@ import com.google.android.libraries.maps.model.Marker
 import com.google.android.libraries.maps.model.MarkerOptions
 import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
+import dev.chrisbanes.insetter.Insetter
+import dev.chrisbanes.insetter.Side
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
@@ -55,14 +57,20 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
         binding.refreshLayout.isEnabled = false
         setupMap()
         observeState()
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            if (leaving) return@addCallback
 
-            leaving = true
-            map?.snapshot {
-                binding.snapshot.setImageBitmap(it)
-                findNavController().navigateUp()
-            }
+        binding.backButton.setOnClickListener { back() }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { back() }
+
+        Insetter.builder().applySystemWindowInsetsToMargin(Side.TOP).applyToView(binding.backButton)
+    }
+
+    private fun back() {
+        if (leaving) return
+
+        leaving = true
+        map?.snapshot {
+            binding.snapshot.setImageBitmap(it)
+            findNavController().navigateUp()
         }
     }
 

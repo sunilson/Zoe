@@ -36,4 +36,15 @@
         <item name="strokeColor">@color/colorPrimary</item>
     </style>
 
+    <style name="SelectableImageButton" parent="Widget.AppCompat.ImageButton">
+        <item name="android:background">?actionBarItemBackground</item>
+        <item name="android:padding">12dp</item>
+    </style>
+
+    <style name="BackButton" parent="SelectableImageButton">
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:src">@drawable/ic_baseline_arrow_back_24</item>/>
+    </style>
+
 </resources>

@@ -37,7 +37,7 @@ dependencies {
     implementation(Dependencies.hilt)
     implementation(Dependencies.hiltWorkManager)
     implementation(Dependencies.hiltViewModel)
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'
+    //debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'
     kapt(Dependencies.hiltKapt)
     kapt(Dependencies.hiltKaptJetpack)
 

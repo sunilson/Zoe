@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.transition.TransitionInflater
+import at.sunilson.ktx.fragment.useLightStatusBarIcons
 import at.sunilson.presentationcore.base.viewBinding
 import at.sunilson.presentationcore.extensions.setupHeaderAnimation
 import at.sunilson.vehicle.R
@@ -119,5 +120,11 @@ class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_details) {
             title("Batterie Temperatur")
             body("${vehicle.batteryStatus.batteryTemperature} Grad")
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        useLightStatusBarIcons(false)
     }
 }

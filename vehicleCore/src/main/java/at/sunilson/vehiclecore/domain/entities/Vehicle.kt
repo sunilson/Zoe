@@ -29,6 +29,7 @@ data class Vehicle(
         val batteryCapacity: Int
             get() = ((availableEnery.toFloat() / batteryLevel) * 100).toInt()
 
+        @Keep
         enum class ChargeState(val stateCode: Double) : Serializable {
             NOT_CHARGING(0.0),
             WATING_FOR_PLANNED_CHARGE(0.1),
