@@ -27,7 +27,7 @@ abstract class BatteryStatusWidgetModel : EpoxyModelWithHolder<BatteryStatusWidg
                     batteryStatus.remainingChargeTime
                 )} verbleibend"
             } else {
-                holder.chargeStateView.context.getString(batteryStatus.chargeState.displayName) + "${batteryStatus.batteryCapacity}"
+                holder.chargeStateView.context.getString(batteryStatus.chargeState.displayName)
             }
         holder.chargeStateView.text = chargeStateText
         holder.pluggedStateView.text =
