@@ -11,6 +11,14 @@ class GetAllChargeTrackingPoints @Inject constructor(private val chargeTrackingD
     FlowUseCase<List<ChargeTrackingPoint>, String>() {
     override fun run(params: String) =
         chargeTrackingDao.getAllChargeTrackingPoints(params).distinctUntilChanged()
-            .map { it.map { ChargeTrackingPoint(it.vehicleId, it.timestamp, it.batteryStatus) } }
-
+            .map {
+                it.map {
+                    ChargeTrackingPoint(
+                        it.vehicleId,
+                        it.timestamp,
+                        it.batteryStatus,
+                        it.mileageKm
+                    )
+                }
+            }
 }

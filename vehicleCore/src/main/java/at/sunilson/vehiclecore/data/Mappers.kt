@@ -3,6 +3,7 @@ package at.sunilson.vehiclecore.data
 import at.sunilson.vehiclecore.data.models.DatabaseVehicle
 import at.sunilson.vehiclecore.domain.entities.Vehicle
 import at.sunilson.vehiclecore.data.models.batterystatus.BatteryStatusResponse
+import at.sunilson.vehiclecore.data.models.cockpit.CockpitResponse
 
 fun BatteryStatusResponse.toEntity() =
     Vehicle.BatteryStatus(
@@ -19,5 +20,7 @@ fun BatteryStatusResponse.toEntity() =
     )
 
 fun Vehicle.toDatabaseEntity() = DatabaseVehicle(vin, this)
+
+fun CockpitResponse.toEntity() = data.attributes.totalMileage
 
 fun DatabaseVehicle.toEntity() = vehicle

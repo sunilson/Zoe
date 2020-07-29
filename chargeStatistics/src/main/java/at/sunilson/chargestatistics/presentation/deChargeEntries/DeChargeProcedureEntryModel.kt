@@ -1,8 +1,8 @@
-package at.sunilson.chargestatistics.presentation.chargeEntries
+package at.sunilson.chargestatistics.presentation.deChargeEntries
 
 import android.widget.TextView
 import at.sunilson.chargestatistics.R
-import at.sunilson.chargestatistics.domain.entities.ChargingProcedure
+import at.sunilson.chargestatistics.domain.entities.DeChargingProcedure
 import at.sunilson.presentationcore.epoxy.KotlinEpoxyHolder
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
@@ -10,20 +10,20 @@ import com.airbnb.epoxy.EpoxyModelWithHolder
 import java.time.format.DateTimeFormatter
 
 @EpoxyModelClass
-abstract class ChargeProcedureEntryModel :
-    EpoxyModelWithHolder<ChargeProcedureEntryModel.Holder>() {
+abstract class DeChargeProcedureEntryModel :
+    EpoxyModelWithHolder<DeChargeProcedureEntryModel.Holder>() {
 
     override fun getDefaultLayout() = R.layout.charge_tracking_point_entry_item
 
     @EpoxyAttribute
-    lateinit var chargingProcedure: ChargingProcedure
+    lateinit var chargingProcedure: DeChargingProcedure
 
 
     override fun bind(holder: Holder) = holder.run {
         val formatter = DateTimeFormatter.ofPattern("dd.MM.YY hh:mm")
 
         title.text =
-            "${chargingProcedure.batteryLevelDifference} % geladen (${chargingProcedure.energyLevelDifference} kWh)"
+            "${chargingProcedure.batteryLevelDifference} % entladen auf ${chargingProcedure.kmDifference} km (${chargingProcedure.energyLevelDifference} kWh)"
 
         subTitle.text =
             "Von ${chargingProcedure.startTime.format(formatter)} bis ${chargingProcedure.endTime.format(

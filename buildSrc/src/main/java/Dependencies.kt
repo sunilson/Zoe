@@ -53,4 +53,5 @@ object Dependencies {
     const val junitParams = "org.junit.jupiter:junit-jupiter-params:5.6.0"
     const val coroutineTesting = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.7"
     const val androidTestRules = "androidx.test:rules:1.2.0"
+    const val recyclerviewAnimations = "jp.wasabeef:recyclerview-animators:3.0.0"
 }

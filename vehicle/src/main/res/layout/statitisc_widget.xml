@@ -17,7 +17,7 @@
                 style="@style/TextAppearance.App.Headline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Statistiken"
+                android:text="@string/statistics"
                 android:textColor="@color/textPrimary" />
 
         <com.google.android.material.button.MaterialButton
@@ -25,14 +25,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Klimatisierungs Statistiken" />
+                android:text="@string/climate_statistics" />
 
         <com.google.android.material.button.MaterialButton
                 android:id="@+id/charging_statistics_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Lade Statistiken" />
+                android:text="@string/drive_charge_statistics" />
 
     </LinearLayout>
 

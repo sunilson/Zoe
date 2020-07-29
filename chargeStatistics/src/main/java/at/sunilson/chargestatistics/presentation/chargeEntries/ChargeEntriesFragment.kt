@@ -2,6 +2,7 @@ package at.sunilson.chargestatistics.presentation.chargeEntries
 
 import android.os.Bundle
 import android.view.View
+import android.view.animation.OvershootInterpolator
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -15,6 +16,7 @@ import at.sunilson.presentationcore.base.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.Insetter
 import dev.chrisbanes.insetter.Side
+import jp.wasabeef.recyclerview.animators.ScaleInAnimator
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.time.ZoneOffset
@@ -36,6 +38,11 @@ internal class ChargeEntriesFragment private constructor() : Fragment(R.layout.c
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeState()
+
+        binding.recyclerView.itemAnimator = ScaleInAnimator(OvershootInterpolator(1f)).apply {
+            addDuration = 300L
+            removeDuration = 300L
+        }
 
         binding.manageButton.setOnClickListener {
             (parentFragment as? ChargeStatisticsOverviewFragment)?.switchToPosition(2)

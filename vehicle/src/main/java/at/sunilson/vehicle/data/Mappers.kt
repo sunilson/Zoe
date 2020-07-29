@@ -3,7 +3,7 @@ package at.sunilson.vehicle.data
 import at.sunilson.vehiclecore.domain.entities.Location
 import at.sunilson.vehiclecore.domain.entities.Vehicle
 import at.sunilson.vehicle.data.entities.AllVehiclesResponse
-import at.sunilson.vehicle.data.entities.cockpit.CockpitResponse
+import at.sunilson.vehiclecore.data.models.cockpit.CockpitResponse
 import at.sunilson.vehicle.data.entities.location.LocationResponse
 
 fun AllVehiclesResponse.toVehicleList() = vehicleLinks.map { vehicleLink ->
@@ -24,8 +24,6 @@ fun AllVehiclesResponse.toVehicleList() = vehicleLinks.map { vehicleLink ->
         )
     )
 }
-
-fun CockpitResponse.toEntity() = data.attributes.totalMileage
 
 fun LocationResponse.toEntity() =
     Location(

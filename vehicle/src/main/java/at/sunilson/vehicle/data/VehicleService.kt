@@ -2,7 +2,6 @@ package at.sunilson.vehicle.data
 
 import at.sunilson.vehicle.data.entities.AllVehiclesResponse
 import at.sunilson.vehicle.data.entities.KamereonPostBody
-import at.sunilson.vehicle.data.entities.cockpit.CockpitResponse
 import at.sunilson.vehicle.data.entities.location.LocationResponse
 import okhttp3.ResponseBody
 import retrofit2.http.Body
@@ -21,12 +20,6 @@ interface VehicleService {
 
     @GET("accounts/{accountId}/vehicles?country=AT")
     suspend fun getAllVehicles(@Path("accountId") accountId: String): AllVehiclesResponse
-
-    @GET("accounts/{accountId}/kamereon/kca/car-adapter/v1/cars/{vin}/cockpit?country=AT")
-    suspend fun getKilometerReading(
-        @Path("accountId") accountId: String,
-        @Path("vin") vin: String
-    ): CockpitResponse
 
     @GET("accounts/{accountId}/kamereon/kca/car-adapter/v1/cars/{vin}/hvac-status?country=AT")
     suspend fun getHVACStatus(

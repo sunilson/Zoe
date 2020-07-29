@@ -35,7 +35,7 @@ internal class RefreshAllVehicles @Inject constructor(
                 .getBatteryStatus(kamereonId, vehicle.vin)
                 .toEntity()
 
-            val kilometerReading = vehicleService
+            val kilometerReading = vehicleCoreService
                 .getKilometerReading(kamereonId, vehicle.vin)
                 .toEntity()
 

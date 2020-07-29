@@ -21,11 +21,17 @@ class TrackVehicleChargeState @Inject constructor(
             params
         ).toEntity()
 
+        val mileage = vehicleCoreService.getKilometerReading(
+            vehicleCoreRepository.kamereonAccountID,
+            params
+        ).toEntity()
+
         chargeTrackingDao.insertChargeTrackingPoint(
             ChargeTrackingPoint(
                 params,
                 System.currentTimeMillis(),
-                batteryStatus
+                batteryStatus,
+                mileage
             ).toDatabaseEntity()
         )
     }

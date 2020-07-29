@@ -5,5 +5,6 @@ import at.sunilson.vehiclecore.domain.entities.Vehicle
 data class ChargeTrackingPoint(
     val vehicleId: String,
     val timestamp: Long,
-    val batteryStatus: Vehicle.BatteryStatus
+    val batteryStatus: Vehicle.BatteryStatus,
+    val mileageKm: Int
 )

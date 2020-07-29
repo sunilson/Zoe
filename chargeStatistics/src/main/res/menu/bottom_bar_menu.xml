@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/charge_entries" android:icon="@drawable/ic_baseline_calendar_today_24" android:title="Ladungen" />
-    <item android:id="@+id/de_charge_entries" android:icon="@drawable/ic_baseline_calendar_today_24" android:title="Entladungen" />
-    <item android:id="@+id/statistics" android:icon="@drawable/ic_baseline_calendar_today_24" android:title="Statistiken" />
-    <item android:id="@+id/manage" android:icon="@drawable/ic_baseline_calendar_today_24" android:title="Verwalten" />
+    <item
+            android:id="@+id/charge_entries"
+            android:icon="@drawable/ic_baseline_trending_up_24"
+            android:title="@string/charges" />
+    <item
+            android:id="@+id/de_charge_entries"
+            android:icon="@drawable/ic_baseline_trending_down_24"
+            android:title="@string/de_charges" />
+    <item
+            android:id="@+id/statistics"
+            android:icon="@drawable/ic_baseline_bar_chart_24"
+            android:title="@string/statistics" />
+    <item
+            android:id="@+id/manage"
+            android:icon="@drawable/ic_baseline_settings_24"
+            android:title="@string/manage" />
 </menu>

@@ -1,6 +1,6 @@
 package at.sunilson.chargestatistics.domain
 
-import at.sunilson.chargestatistics.domain.entities.ChargingProcedure
+import at.sunilson.chargestatistics.domain.entities.DeChargingProcedure
 import at.sunilson.chargetracking.domain.GetAllChargeTrackingPoints
 import at.sunilson.chargetracking.domain.entities.ChargeTrackingPoint
 import at.sunilson.core.usecases.FlowUseCase
@@ -11,7 +11,7 @@ import java.time.ZoneId
 import javax.inject.Inject
 
 internal class GetDeChargingProcedures @Inject constructor(private val getChargingPoints: GetAllChargeTrackingPoints) :
-    FlowUseCase<List<ChargingProcedure>, String>() {
+    FlowUseCase<List<DeChargingProcedure>, String>() {
 
     private val ChargeTrackingPoint.dateTime: LocalDateTime
         get() = Instant
@@ -20,7 +20,7 @@ internal class GetDeChargingProcedures @Inject constructor(private val getChargi
             .toLocalDateTime()
 
     override fun run(params: String) = getChargingPoints(params).map { trackingPoints ->
-        val result = mutableListOf<ChargingProcedure>()
+        val result = mutableListOf<DeChargingProcedure>()
         var previousTrackingPoint: ChargeTrackingPoint? = null
         var currentStartTrackingPoint: ChargeTrackingPoint? = null
 
@@ -40,11 +40,12 @@ internal class GetDeChargingProcedures @Inject constructor(private val getChargi
                 if (!batteryLevelDecreased) {
                     //Stop and save procedure
                     result.add(
-                        ChargingProcedure(
+                        DeChargingProcedure(
                             currentStartTrackingPoint!!.batteryStatus.batteryLevel - chargeTrackingPoint.batteryStatus.batteryLevel,
                             currentStartTrackingPoint!!.batteryStatus.availableEnery - chargeTrackingPoint.batteryStatus.availableEnery,
                             currentStartTrackingPoint!!.dateTime,
-                            chargeTrackingPoint.dateTime
+                            chargeTrackingPoint.dateTime,
+                            chargeTrackingPoint.mileageKm - currentStartTrackingPoint!!.mileageKm
                         )
                     )
 

@@ -14,4 +14,7 @@
     <string name="impressum">Impressum und Rechtliches</string>
     <string name="choose_your_vehicle">Wähle dein Fahrzeug</string>
     <string name="back_button_content_description">Zurück Button</string>
+    <string name="drive_charge_statistics"><![CDATA[Lade- & Fahr-Statistiken]]></string>
+    <string name="climate_statistics">Klimatisierungs Statistiken</string>
+    <string name="statistics">Statistiken</string>
 </resources>

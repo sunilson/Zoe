@@ -9,6 +9,7 @@ data class ChargeTrackingPoint(
     val vehicleId: String,
     val timestamp: Long,
     val batteryStatus: Vehicle.BatteryStatus,
+    val mileageKm: Int,
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0L
 )

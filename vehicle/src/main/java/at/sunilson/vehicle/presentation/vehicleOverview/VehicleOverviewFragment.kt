@@ -9,6 +9,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.view.animation.OvershootInterpolator
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.core.animation.doOnEnd
@@ -48,6 +49,7 @@ import com.google.android.material.card.MaterialCardView
 import com.google.android.material.transition.Hold
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.applySystemWindowInsetsToPadding
+import jp.wasabeef.recyclerview.animators.ScaleInAnimator
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.lang.Long.min
@@ -90,6 +92,24 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { tryExit() }
 
+        setupClickListeners()
+        setupSwipeRefreshLayout()
+        observeState()
+        observeEvents()
+        setupUIFlags()
+        setupInsets()
+        setupList()
+
+        setupHeaderAnimation(binding.cutView, binding.recyclerView, true)
+
+        if (!splashShown) {
+            startSplashAnimation()
+        } else {
+            binding.splashContainer.isVisible = false
+        }
+    }
+
+    private fun setupList() {
         //Use extra space to prefetch more items for smoother scrolling
         binding.recyclerView.layoutManager = object : LinearLayoutManager(requireContext()) {
             override fun calculateExtraLayoutSpace(
@@ -100,21 +120,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
             }
         }
 
-        setupClickListeners()
-        setupSwipeRefreshLayout()
-        observeState()
-        observeEvents()
-        setupUIFlags()
-        setupInsets()
-
-        setupHeaderAnimation(binding.cutView, binding.recyclerView, true)
         binding.recyclerView.post { startPostponedEnterTransition() }
-
-        if (!splashShown) {
-            startSplashAnimation()
-        } else {
-            binding.splashContainer.isVisible = false
-        }
     }
 
     private fun startSplashAnimation() {

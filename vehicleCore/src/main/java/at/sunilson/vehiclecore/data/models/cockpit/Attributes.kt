@@ -1,4 +1,4 @@
-package at.sunilson.vehicle.data.entities.cockpit
+package at.sunilson.vehiclecore.data.models.cockpit
 
 import com.squareup.moshi.JsonClass
 
