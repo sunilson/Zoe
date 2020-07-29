@@ -1,5 +1,6 @@
 package at.sunilson.vehicle.presentation.settingsDialog
 
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import at.sunilson.presentationcore.epoxy.KotlinEpoxyHolder
@@ -18,16 +19,20 @@ abstract class VehicleListItemModel : EpoxyModelWithHolder<VehicleListItemModel.
     @EpoxyAttribute
     lateinit var vehicle: Vehicle
 
+    @EpoxyAttribute
+    lateinit var onVehicleClick: (String) -> Unit
+
     override fun bind(holder: Holder) = holder.run {
         image.load(vehicle.imageUrl)
-        vehicleInfo.text = "Blabliblub"
+        vehicleInfo.text = vehicle.vin
         vehicleName.text = vehicle.modelName
+        container.setOnClickListener { onVehicleClick(vehicle.vin) }
     }
 
     class Holder : KotlinEpoxyHolder() {
+        val container by bind<ViewGroup>(R.id.container)
         val image by bind<ImageView>(R.id.vehicle_image)
         val vehicleName by bind<TextView>(R.id.vehicle_name)
         val vehicleInfo by bind<TextView>(R.id.vehicle_info)
     }
 }
-

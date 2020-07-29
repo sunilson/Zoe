@@ -2,4 +2,7 @@
 <resources>
     <dimen name="default_corner_radius">8dp</dimen>
     <dimen name="button_corner_radius">20dp</dimen>
+    <dimen name="card_margin_bottom">30dp</dimen>
+    <dimen name="card_padding">20dp</dimen>
+    <dimen name="card_elevation">6dp</dimen>
 </resources>

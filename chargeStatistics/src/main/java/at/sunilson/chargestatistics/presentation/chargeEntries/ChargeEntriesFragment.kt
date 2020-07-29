@@ -1,4 +1,4 @@
-package at.sunilson.chargestatistics.presentation.entries
+package at.sunilson.chargestatistics.presentation.chargeEntries
 
 import android.os.Bundle
 import android.view.View
@@ -8,19 +8,22 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import at.sunilson.chargestatistics.R
-import at.sunilson.chargestatistics.databinding.EntriesFragmentBinding
+import at.sunilson.chargestatistics.databinding.ChargeEntriesFragmentBinding
+import at.sunilson.chargestatistics.presentation.deChargeEntries.DeChargeEntriesViewModel
 import at.sunilson.chargestatistics.presentation.overview.ChargeStatisticsOverviewFragment
 import at.sunilson.presentationcore.base.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
+import dev.chrisbanes.insetter.Insetter
+import dev.chrisbanes.insetter.Side
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.time.ZoneOffset
 
 @AndroidEntryPoint
-internal class EntriesFragment private constructor() : Fragment(R.layout.entries_fragment) {
+internal class ChargeEntriesFragment private constructor() : Fragment(R.layout.charge_entries_fragment) {
 
-    private val binding by viewBinding(EntriesFragmentBinding::bind)
-    private val viewModel by viewModels<EntriesViewModel>()
+    private val binding by viewBinding(ChargeEntriesFragmentBinding::bind)
+    private val viewModel by viewModels<ChargeEntriesViewModel>()
 
     private val vin: String
         get() = requireNotNull(requireArguments().getString("vin"))
@@ -37,6 +40,8 @@ internal class EntriesFragment private constructor() : Fragment(R.layout.entries
         binding.manageButton.setOnClickListener {
             (parentFragment as? ChargeStatisticsOverviewFragment)?.switchToPosition(2)
         }
+
+        Insetter.builder().applySystemWindowInsetsToPadding(Side.TOP).applyToView(binding.root)
     }
 
     private fun observeState() {
@@ -58,7 +63,7 @@ internal class EntriesFragment private constructor() : Fragment(R.layout.entries
     }
 
     companion object {
-        fun newInstance(vin: String) = EntriesFragment().apply {
+        fun newInstance(vin: String) = ChargeEntriesFragment().apply {
             arguments = bundleOf("vin" to vin)
         }
     }

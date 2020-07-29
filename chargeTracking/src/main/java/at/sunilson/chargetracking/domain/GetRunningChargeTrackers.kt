@@ -32,7 +32,7 @@ class GetRunningChargeTrackers @Inject constructor(private val workManager: Work
                                 WorkInfo.State.RUNNING -> ChargeTracker.State.WORKING
                                 WorkInfo.State.SUCCEEDED -> ChargeTracker.State.COMPLETED
                                 WorkInfo.State.FAILED -> ChargeTracker.State.COMPLETED
-                                WorkInfo.State.BLOCKED -> ChargeTracker.State.WAITING
+                                WorkInfo.State.BLOCKED -> ChargeTracker.State.BLOCKED
                                 WorkInfo.State.CANCELLED -> ChargeTracker.State.COMPLETED
                             }
                         )

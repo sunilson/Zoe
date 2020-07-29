@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import at.sunilson.core.Do
 import at.sunilson.presentationcore.base.viewBinding
 import at.sunilson.presentationcore.extensions.setupHeaderAnimation
 import at.sunilson.vehicle.R
@@ -35,18 +37,23 @@ class SettingsDialogFragment : BottomSheetDialogFragment() {
 
         observeState()
         setupHeaderAnimation(binding.handleContainer, binding.recyclerView, true)
-
-        /*
-        binding.openSettings.setOnClickListener {
-            findNavController().navigate("https://zoe.app/settings".toUri())
-        }
-         */
+        observeEvents()
     }
 
     private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.state.collect {
                 renderList(it.vehicles)
+            }
+        }
+    }
+
+    private fun observeEvents() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.events.collect {
+                Do exhaustive when(it) {
+                    SettingsDialogEvent.VehicleSelected -> findNavController().navigate(SettingsDialogFragmentDirections.reload())
+                }
             }
         }
     }
@@ -66,6 +73,7 @@ class SettingsDialogFragment : BottomSheetDialogFragment() {
                 vehicleListItem {
                     id(vehicle.vin)
                     vehicle(vehicle)
+                    onVehicleClick { viewModel.selectVehicle(it) }
                 }
             }
         }

@@ -9,14 +9,14 @@ internal class TypeConverters {
     private val moshi = Moshi.Builder().build()
 
     @TypeConverter
-    fun toString(vehicle: at.sunilson.vehiclecore.domain.entities.Vehicle): String {
-        val adapter = moshi.adapter(at.sunilson.vehiclecore.domain.entities.Vehicle::class.java)
+    fun toString(vehicle: Vehicle): String {
+        val adapter = moshi.adapter(Vehicle::class.java)
         return adapter.toJson(vehicle)
     }
 
     @TypeConverter
-    fun vehicleFromString(string: String): at.sunilson.vehiclecore.domain.entities.Vehicle {
-        val adapter = moshi.adapter(at.sunilson.vehiclecore.domain.entities.Vehicle::class.java)
+    fun vehicleFromString(string: String): Vehicle {
+        val adapter = moshi.adapter(Vehicle::class.java)
         return adapter.fromJson(string)!!
     }
 }

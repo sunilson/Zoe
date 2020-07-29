@@ -32,13 +32,13 @@ subprojects {
     afterEvaluate { project ->
         if (project.hasProperty("android")) {
             android {
-                compileSdkVersion 29
-                buildToolsVersion = "29.0.2"
+                compileSdkVersion 30
+                buildToolsVersion = "29.0.3"
 
                 defaultConfig {
                     minSdkVersion(26)
-                    targetSdkVersion(29)
-                    versionCode = 1
+                    targetSdkVersion(30)
+                    versionCode = 3
                     versionName = "1.0"
                     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
                 }

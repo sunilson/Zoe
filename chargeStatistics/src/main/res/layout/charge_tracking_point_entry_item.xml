@@ -1,11 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<com.google.android.material.card.MaterialCardView
         xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/container"
+        style="@style/WidgetCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <TextView
-            android:id="@+id/timestamp"
+    <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            android:padding="@dimen/card_padding">
+
+        <TextView
+                android:id="@+id/charge_procedure_title"
+                style="@style/TextAppearance.App.Headline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Zoe" />
+
+        <TextView
+                android:id="@+id/charge_procedure_info"
+                style="@style/TextAppearance.App.Subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                tools:text="R135 ZE50 - 13000 km" />
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

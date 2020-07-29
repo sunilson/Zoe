@@ -45,18 +45,17 @@ class GetChargingProceduresTests : BaseUnitTest() {
 
 
     companion object {
-
-        private fun batteryStatus(level: Int, energy: Int) = Vehicle.BatteryStatus(
-            level,
-            0,
-            0,
-            energy,
-            true,
-            Vehicle.BatteryStatus.ChargeState.CHARGING,
-            0f,
-            0
-        )
-
+        private fun batteryStatus(level: Int, energy: Int, charging: Boolean) =
+            Vehicle.BatteryStatus(
+                level,
+                0,
+                0,
+                energy,
+                true,
+                if (charging) Vehicle.BatteryStatus.ChargeState.CHARGING else Vehicle.BatteryStatus.ChargeState.NOT_CHARGING,
+                0f,
+                0
+            )
 
         @JvmStatic
         fun data() = listOf(
@@ -66,41 +65,29 @@ class GetChargingProceduresTests : BaseUnitTest() {
             ),
             Arguments.of(
                 listOf(
-                    ChargeTrackingPoint("123", 0L, batteryStatus(10, 10)),
-                    ChargeTrackingPoint("123", 1L, batteryStatus(10, 10)),
-                    ChargeTrackingPoint("123", 2L, batteryStatus(10, 10)),
-                    ChargeTrackingPoint("123", 3L, batteryStatus(20, 15)),
-                    ChargeTrackingPoint("123", 4L, batteryStatus(40, 20)),
-                    ChargeTrackingPoint("123", 5L, batteryStatus(80, 43)),
-                    ChargeTrackingPoint("123", 6L, batteryStatus(70, 35)),
-                    ChargeTrackingPoint("123", 60L, batteryStatus(50, 20)),
-                    ChargeTrackingPoint("123", 61L, batteryStatus(30, 10)),
-                    ChargeTrackingPoint("123", 62L, batteryStatus(99, 50)),
-                    ChargeTrackingPoint("123", 63L, batteryStatus(10, 10)),
-                    ChargeTrackingPoint("123", 64L, batteryStatus(10, 10)),
-                    ChargeTrackingPoint("123", 65L, batteryStatus(12, 12)),
-                    ChargeTrackingPoint("123", 1256L, batteryStatus(13, 14))
+                    ChargeTrackingPoint("1", 0L, batteryStatus(10, 10, false)),
+                    ChargeTrackingPoint("1", 1L, batteryStatus(10, 10, false)),
+                    ChargeTrackingPoint("1", 2L, batteryStatus(10, 10, true)),
+                    ChargeTrackingPoint("1", 3L, batteryStatus(12, 20, true)),
+                    ChargeTrackingPoint("1", 4L, batteryStatus(12, 20, false)),
+                    ChargeTrackingPoint("1", 5L, batteryStatus(10, 10, false))
                 ),
                 listOf(
                     ChargingProcedure(
-                        70,
-                        33,
-                        Instant.ofEpochMilli(2L).atZone(ZoneId.systemDefault()).toLocalDateTime(),
-                        Instant.ofEpochMilli(5L).atZone(ZoneId.systemDefault()).toLocalDateTime()
-                    ),
-                    ChargingProcedure(
-                        69,
-                        40,
-                        Instant.ofEpochMilli(61L).atZone(ZoneId.systemDefault()).toLocalDateTime(),
-                        Instant.ofEpochMilli(62L).atZone(ZoneId.systemDefault()).toLocalDateTime()
-                    ),
-                    ChargingProcedure(
-                        3,
-                        4,
-                        Instant.ofEpochMilli(64L).atZone(ZoneId.systemDefault()).toLocalDateTime(),
-                        Instant.ofEpochMilli(1256L).atZone(ZoneId.systemDefault()).toLocalDateTime()
+                        2,
+                        10,
+                        Instant.ofEpochMilli(1L).atZone(ZoneId.systemDefault()).toLocalDateTime(),
+                        Instant.ofEpochMilli(4L).atZone(ZoneId.systemDefault()).toLocalDateTime()
                     )
                 )
+            ),
+            Arguments.of(
+                listOf(
+                    ChargeTrackingPoint("1", 0L, batteryStatus(10, 10, false)),
+                    ChargeTrackingPoint("1", 1L, batteryStatus(11, 10, false)),
+                    ChargeTrackingPoint("1", 2L, batteryStatus(10, 10, false))
+                ),
+                listOf<ChargingProcedure>()
             )
         )
     }

@@ -1,4 +1,4 @@
-package at.sunilson.chargestatistics.presentation.entries
+package at.sunilson.chargestatistics.presentation.chargeEntries
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 internal data class EntriesState(val chargingProcedures: List<ChargingProcedure> = listOf())
 internal sealed class EntriesEvent
 
-internal class EntriesViewModel @ViewModelInject constructor(private val getChargingProcedures: GetChargingProcedures) :
+internal class ChargeEntriesViewModel @ViewModelInject constructor(private val getChargingProcedures: GetChargingProcedures) :
     UniDirectionalViewModel<EntriesState, EntriesEvent>(EntriesState()) {
 
     fun loadChargeProcedures(vin: String) {

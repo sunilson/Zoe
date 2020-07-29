@@ -47,4 +47,27 @@
         <item name="android:src">@drawable/ic_baseline_arrow_back_24</item>/>
     </style>
 
+    <style name="WidgetCard" parent="Widget.MaterialComponents.CardView">
+        <item name="android:layout_marginBottom">@dimen/card_margin_bottom</item>
+        <item name="cardCornerRadius">@dimen/default_corner_radius</item>
+        <item name="cardElevation">@dimen/card_elevation</item>
+        <item name="android:clipToPadding">false</item>
+    </style>
+
+    <style name="AlertDialogTheme" parent="Theme.MaterialComponents.Light.Dialog.Alert">
+        <item name="buttonBarPositiveButtonStyle">@style/Alert.Button.Positive</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Alert.Button.Neutral</item>
+        <item name="buttonBarNeutralButtonStyle">@style/Alert.Button.Neutral</item>
+    </style>
+
+    <style name="Alert.Button.Positive" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="backgroundTint">@android:color/transparent</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="Alert.Button.Neutral" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="backgroundTint">@android:color/transparent</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
 </resources>

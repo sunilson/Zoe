@@ -4,14 +4,13 @@ import at.sunilson.chargestatistics.domain.entities.ChargingProcedure
 import at.sunilson.chargetracking.domain.GetAllChargeTrackingPoints
 import at.sunilson.chargetracking.domain.entities.ChargeTrackingPoint
 import at.sunilson.core.usecases.FlowUseCase
-import at.sunilson.vehiclecore.domain.entities.Vehicle
 import kotlinx.coroutines.flow.map
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import javax.inject.Inject
 
-internal class GetChargingProcedures @Inject constructor(private val getChargingPoints: GetAllChargeTrackingPoints) :
+internal class GetDeChargingProcedures @Inject constructor(private val getChargingPoints: GetAllChargeTrackingPoints) :
     FlowUseCase<List<ChargingProcedure>, String>() {
 
     private val ChargeTrackingPoint.dateTime: LocalDateTime
@@ -33,19 +32,17 @@ internal class GetChargingProcedures @Inject constructor(private val getCharging
                 previousTrackingPoint!!
             }
 
-            val isCharging =
-                chargeTrackingPoint.batteryStatus.chargeState == Vehicle.BatteryStatus.ChargeState.CHARGING
-            val chargingProcedureOnGoing = currentStartTrackingPoint != null
-            val batteryLevelIncreased =
-                prev.batteryStatus.batteryLevel + CHARGING_THRESHOLD < chargeTrackingPoint.batteryStatus.batteryLevel
+            val deChargingProcedureOnGoing = currentStartTrackingPoint != null
+            val batteryLevelDecreased =
+                prev.batteryStatus.batteryLevel > chargeTrackingPoint.batteryStatus.batteryLevel
 
-            if (chargingProcedureOnGoing) {
-                if (!batteryLevelIncreased && !isCharging) {
+            if (deChargingProcedureOnGoing) {
+                if (!batteryLevelDecreased) {
                     //Stop and save procedure
                     result.add(
                         ChargingProcedure(
-                            chargeTrackingPoint.batteryStatus.batteryLevel - currentStartTrackingPoint!!.batteryStatus.batteryLevel,
-                            chargeTrackingPoint.batteryStatus.availableEnery - currentStartTrackingPoint!!.batteryStatus.availableEnery,
+                            currentStartTrackingPoint!!.batteryStatus.batteryLevel - chargeTrackingPoint.batteryStatus.batteryLevel,
+                            currentStartTrackingPoint!!.batteryStatus.availableEnery - chargeTrackingPoint.batteryStatus.availableEnery,
                             currentStartTrackingPoint!!.dateTime,
                             chargeTrackingPoint.dateTime
                         )
@@ -54,7 +51,7 @@ internal class GetChargingProcedures @Inject constructor(private val getCharging
                     //Reset current start and end value
                     currentStartTrackingPoint = null
                 }
-            } else if (batteryLevelIncreased || isCharging) {
+            } else if (batteryLevelDecreased) {
                 // Start charging procedure
                 currentStartTrackingPoint = prev
             }
@@ -63,9 +60,5 @@ internal class GetChargingProcedures @Inject constructor(private val getCharging
         }
 
         result.sortedByDescending { it.startTime }
-    }
-
-    companion object {
-        const val CHARGING_THRESHOLD = 1
     }
 }

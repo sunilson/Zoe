@@ -1,10 +1,3 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <style name="WidgetCard" parent="Widget.MaterialComponents.CardView">
-        <item name="android:layout_marginBottom">@dimen/card_margin_bottom</item>
-        <item name="cardCornerRadius">@dimen/default_corner_radius</item>
-        <item name="cardElevation">@dimen/card_elevation</item>
-        <item name="android:clipToPadding">false</item>
-    </style>
 </resources>

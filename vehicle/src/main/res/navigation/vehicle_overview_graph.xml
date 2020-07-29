@@ -9,6 +9,7 @@
             android:name="at.sunilson.vehicle.presentation.vehicleOverview.VehicleOverviewFragment"
             android:label="VehicleOverviewFragment"
             tools:layout="@layout/fragment_vehicle_overview">
+
         <action
                 android:id="@+id/show_settings_dialog"
                 app:destination="@id/settingsDialogFragment" />
@@ -31,8 +32,7 @@
                 app:enterAnim="@anim/move_in_from_right"
                 app:exitAnim="@anim/move_out_to_left_slightly"
                 app:popEnterAnim="@anim/move_in_from_left_slightly"
-                app:popExitAnim="@anim/move_out_to_right"
-                >
+                app:popExitAnim="@anim/move_out_to_right">
             <argument
                     android:name="vin"
                     app:argType="string"
@@ -48,7 +48,13 @@
             android:id="@+id/settingsDialogFragment"
             android:name="at.sunilson.vehicle.presentation.settingsDialog.SettingsDialogFragment"
             android:label="SettingsDialogFragment"
-            tools:layout="@layout/dialog_fragment_settings" />
+            tools:layout="@layout/dialog_fragment_settings">
+        <action
+                android:id="@+id/reload"
+                app:destination="@id/vehicleOverviewFragment"
+                app:popUpTo="@id/vehicleOverviewFragment"
+                app:popUpToInclusive="true" />
+    </dialog>
     <fragment
             android:id="@+id/vehicleListFragment"
             android:name="at.sunilson.vehicle.presentation.vehicleList.VehicleListFragment"

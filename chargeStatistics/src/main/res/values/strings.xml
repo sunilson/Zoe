@@ -2,5 +2,6 @@
 <resources>
     <string name="manage_trackers">Tracker verwalten</string>
     <string name="no_charge_procedures">Noch keine Ladevorgänge aufgezeichnet</string>
+    <string name="no_de_charge_procedures">Noch keine Entladevorgänge aufgezeichnet</string>
     <string name="comming_soon">Comming soon...</string>
 </resources>

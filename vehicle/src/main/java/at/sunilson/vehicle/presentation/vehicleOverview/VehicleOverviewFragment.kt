@@ -21,6 +21,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import at.sunilson.core.Do
 import at.sunilson.ktx.context.showToast
 import at.sunilson.ktx.fragment.drawBelowStatusBar
@@ -44,7 +46,6 @@ import at.sunilson.vehiclecore.domain.entities.Vehicle
 import coil.api.load
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.transition.Hold
-import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.applySystemWindowInsetsToPadding
 import kotlinx.coroutines.flow.collect
@@ -63,7 +64,6 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.refreshVehicles()
-        requireActivity().onBackPressedDispatcher.addCallback { tryExit() }
     }
 
     private fun tryExit() {
@@ -87,12 +87,26 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { tryExit() }
+
+        //Use extra space to prefetch more items for smoother scrolling
+        binding.recyclerView.layoutManager = object : LinearLayoutManager(requireContext()) {
+            override fun calculateExtraLayoutSpace(
+                state: RecyclerView.State,
+                extraLayoutSpace: IntArray
+            ) {
+                extraLayoutSpace[1] = 2000
+            }
+        }
+
         setupClickListeners()
         setupSwipeRefreshLayout()
         observeState()
         observeEvents()
         setupUIFlags()
         setupInsets()
+
         setupHeaderAnimation(binding.cutView, binding.recyclerView, true)
         binding.recyclerView.post { startPostponedEnterTransition() }
 
