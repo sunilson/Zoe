@@ -5,15 +5,19 @@ import at.sunilson.chargetracking.data.toDatabaseEntity
 import at.sunilson.chargetracking.domain.entities.ChargeTrackingPoint
 import at.sunilson.core.usecases.AsyncUseCase
 import at.sunilson.vehiclecore.data.VehicleCoreService
+import at.sunilson.vehiclecore.data.VehicleDao
+import at.sunilson.vehiclecore.data.toDatabaseEntity
 import at.sunilson.vehiclecore.data.toEntity
 import at.sunilson.vehiclecore.domain.VehicleCoreRepository
 import com.github.kittinunf.result.coroutines.SuspendableResult
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class TrackVehicleChargeState @Inject constructor(
     private val vehicleCoreService: VehicleCoreService,
     private val vehicleCoreRepository: VehicleCoreRepository,
-    private val chargeTrackingDao: ChargeTrackingDao
+    private val chargeTrackingDao: ChargeTrackingDao,
+    private val vehicleDao: VehicleDao
 ) : AsyncUseCase<Unit, String>() {
     override suspend fun run(params: String) = SuspendableResult.of<Unit, Exception> {
         val batteryStatus = vehicleCoreService.getBatteryStatus(
@@ -25,6 +29,12 @@ class TrackVehicleChargeState @Inject constructor(
             vehicleCoreRepository.kamereonAccountID,
             params
         ).toEntity()
+
+        //Update existing vehicle
+        val previousVehicle = vehicleDao.getVehicle(params).first()?.toEntity()
+        previousVehicle?.copy(batteryStatus = batteryStatus, mileageKm = mileage)?.let {
+            vehicleDao.upsertVehicles(listOf(it.toDatabaseEntity()))
+        }
 
         chargeTrackingDao.insertChargeTrackingPoint(
             ChargeTrackingPoint(

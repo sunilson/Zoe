@@ -7,6 +7,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import at.sunilson.chargetracking.domain.StartChargeTracking
 import at.sunilson.chargetracking.domain.TrackVehicleChargeState
+import at.sunilson.vehiclecore.data.VehicleDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -15,8 +16,7 @@ import timber.log.Timber
 class ChargeTrackingWorker @WorkerInject constructor(
     @Assisted context: Context,
     @Assisted private val params: WorkerParameters,
-    private val trackVehicleChargeState: TrackVehicleChargeState,
-    private val startChargeTracking: StartChargeTracking
+    private val trackVehicleChargeState: TrackVehicleChargeState
 ) : CoroutineWorker(context, params) {
     override suspend fun doWork() = withContext(Dispatchers.IO) {
         val vehicleId = params.inputData.getString("vehicleId")!!
