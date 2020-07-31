@@ -23,7 +23,10 @@ class ChargeTrackingWorker @WorkerInject constructor(
 
         Timber.d("Starting charge tracking")
 
-        if(runAttemptCount > 5) return@withContext Result.failure()
+        if (runAttemptCount > 3){
+            Timber.d("Reached run attempt count. Stopping for now")
+            return@withContext Result.success()
+        }
 
         return@withContext trackVehicleChargeState(vehicleId).fold(
             {

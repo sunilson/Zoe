@@ -10,7 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import at.sunilson.chargestatistics.R
 import at.sunilson.chargestatistics.databinding.DeChargeEntriesFragmentBinding
-import at.sunilson.chargestatistics.presentation.chargeEntries.chargeProcedureEntry
 import at.sunilson.chargestatistics.presentation.overview.ChargeStatisticsOverviewFragment
 import at.sunilson.presentationcore.base.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,7 +21,8 @@ import kotlinx.coroutines.launch
 import java.time.ZoneOffset
 
 @AndroidEntryPoint
-internal class DeChargeEntriesFragment private constructor() : Fragment(R.layout.de_charge_entries_fragment) {
+internal class DeChargeEntriesFragment private constructor() :
+    Fragment(R.layout.de_charge_entries_fragment) {
 
     private val binding by viewBinding(DeChargeEntriesFragmentBinding::bind)
     private val viewModel by viewModels<DeChargeEntriesViewModel>()
@@ -45,7 +45,7 @@ internal class DeChargeEntriesFragment private constructor() : Fragment(R.layout
         }
 
         binding.manageButton.setOnClickListener {
-            (parentFragment as? ChargeStatisticsOverviewFragment)?.switchToPosition(2)
+            (parentFragment as? ChargeStatisticsOverviewFragment)?.switchToPosition(3)
         }
 
         Insetter.builder().applySystemWindowInsetsToPadding(Side.TOP).applyToView(binding.root)

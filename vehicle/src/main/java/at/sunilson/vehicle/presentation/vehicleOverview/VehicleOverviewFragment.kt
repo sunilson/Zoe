@@ -9,7 +9,6 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.view.animation.OvershootInterpolator
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.core.animation.doOnEnd
@@ -49,7 +48,6 @@ import com.google.android.material.card.MaterialCardView
 import com.google.android.material.transition.Hold
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.applySystemWindowInsetsToPadding
-import jp.wasabeef.recyclerview.animators.ScaleInAnimator
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.lang.Long.min
@@ -190,6 +188,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
             doOnEnd {
                 binding.splashContainer.visibility = View.GONE
                 useLightStatusBarIcons(true)
+                handleDeeplinks()
             }
         }
     }
@@ -223,6 +222,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
                     is ShowVehicleDetails -> showVehicleDetails(event.vin)
                     is ShowVehicleStatistics -> findNavController().navigate("https://zoe.app/statistics/${event.vin}".toUri())
                     is ShowChargeStatistics -> showChargeStatistics(event.vin)
+                    is ShowVehicleLocation -> showVehicleLocation(event.vin)
                 }
             }
         }
@@ -328,6 +328,15 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
         useLightStatusBarIcons(splashShown)
         useLightNavigationBarIcons(false)
         drawBelowStatusBar()
+    }
+
+    private fun handleDeeplinks() {
+        val data = requireActivity().intent.data.toString()
+        when {
+            data.contains("vehicle_overview/start_hvac") -> viewModel.startClimateControl()
+            data.contains("vehicle_overview/charge_statistics") -> viewModel.showChargeStatistics()
+            data.contains("vehicle_overview/vehicle_location") -> viewModel.showVehicleLocation()
+        }
     }
 
     override fun onResume() {

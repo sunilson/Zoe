@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="start_hvac_shortcut">Vorklimatisierung</string>
+    <string name="start_hvac_shortcut_long">Vorklimatisierung starten</string>
+    <string name="show_climate_statistics_shortcut">Lade Statistiken</string>
+    <string name="show_climate_statistics_shortcut_long">Lade- und Entlade-Statistiken</string>
+    <string name="map_shortcut">Fahrzeugposition</string>
+    <string name="map_shortcut_long">Fahrzeugposition finden</string>
+</resources>

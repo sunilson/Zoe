@@ -45,7 +45,7 @@ internal class ChargeEntriesFragment private constructor() : Fragment(R.layout.c
         }
 
         binding.manageButton.setOnClickListener {
-            (parentFragment as? ChargeStatisticsOverviewFragment)?.switchToPosition(2)
+            (parentFragment as? ChargeStatisticsOverviewFragment)?.switchToPosition(3)
         }
 
         Insetter.builder().applySystemWindowInsetsToPadding(Side.TOP).applyToView(binding.root)

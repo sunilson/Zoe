@@ -11,6 +11,7 @@
             android:name="at.sunilson.chargestatistics.presentation.overview.ChargeStatisticsOverviewFragment"
             android:label="ChargeStatisticsOverviewFragment"
             tools:layout="@layout/charge_statistics_overview_fragment" >
+
         <argument
                 android:name="vin"
                 app:argType="string" />
