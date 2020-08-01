@@ -55,7 +55,7 @@ object AuthenticationModule {
                     )
                 )
             }
-            callTimeout(10, TimeUnit.SECONDS)
+            callTimeout(20, TimeUnit.SECONDS)
             addInterceptor(authenticationInterceptor)
         }
         .build()

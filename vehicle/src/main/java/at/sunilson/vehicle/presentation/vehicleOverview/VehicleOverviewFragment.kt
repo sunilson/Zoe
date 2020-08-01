@@ -1,6 +1,9 @@
 package at.sunilson.vehicle.presentation.vehicleOverview
 
 import android.animation.ValueAnimator
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,6 +26,7 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import at.arkulpa.widget.VehicleWidgetProvider
 import at.sunilson.core.Do
 import at.sunilson.ktx.context.showToast
 import at.sunilson.ktx.fragment.drawBelowStatusBar
@@ -51,6 +55,7 @@ import dev.chrisbanes.insetter.applySystemWindowInsetsToPadding
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.lang.Long.min
+
 
 @AndroidEntryPoint
 class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
@@ -237,6 +242,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
                         finishSplashAnimation()
                     }
                     renderVehicle(state.selectedVehicle, state.vehicleLocation)
+                    updateVehicleWidget()
                 }
             }
         }
@@ -337,6 +343,18 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
             data.contains("vehicle_overview/charge_statistics") -> viewModel.showChargeStatistics()
             data.contains("vehicle_overview/vehicle_location") -> viewModel.showVehicleLocation()
         }
+    }
+
+    private fun updateVehicleWidget() {
+        val context = requireContext()
+        val intent = Intent(context, VehicleWidgetProvider::class.java).apply {
+            action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+            val ids = AppWidgetManager
+                .getInstance(context)
+                .getAppWidgetIds(ComponentName(context, VehicleWidgetProvider::class.java))
+            putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
+        }
+        context.sendBroadcast(intent)
     }
 
     override fun onResume() {

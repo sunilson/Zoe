@@ -10,6 +10,8 @@
             android:label="VehicleOverviewFragment"
             tools:layout="@layout/fragment_vehicle_overview">
 
+        <deepLink app:uri="zoe://vehicle_overview" />
+
         <deepLink app:uri="zoe://vehicle_overview/start_hvac" />
 
         <deepLink app:uri="zoe://vehicle_overview/charge_statistics" />

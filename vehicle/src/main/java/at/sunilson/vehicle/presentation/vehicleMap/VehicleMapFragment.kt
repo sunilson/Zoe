@@ -19,14 +19,14 @@ import at.sunilson.presentationcore.base.viewBinding
 import at.sunilson.vehicle.R
 import at.sunilson.vehicle.databinding.FragmentVehicleMapBinding
 import at.sunilson.vehiclecore.domain.entities.Location
-import com.google.android.libraries.maps.CameraUpdateFactory
-import com.google.android.libraries.maps.GoogleMap
-import com.google.android.libraries.maps.SupportMapFragment
-import com.google.android.libraries.maps.model.BitmapDescriptorFactory
-import com.google.android.libraries.maps.model.CameraPosition
-import com.google.android.libraries.maps.model.LatLng
-import com.google.android.libraries.maps.model.Marker
-import com.google.android.libraries.maps.model.MarkerOptions
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.Insetter
@@ -40,8 +40,8 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
     private val args by navArgs<VehicleMapFragmentArgs>()
     private var leaving = false
     private val binding by viewBinding(FragmentVehicleMapBinding::bind)
-    private val mapFragment: SupportMapFragment
-        get() = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+    private val mapFragment: SupportMapFragment?
+        get() = childFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
 
     private var map: GoogleMap? = null
     private var previousMarker: Marker? = null
@@ -75,7 +75,7 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
     }
 
     private fun setupMap() {
-        mapFragment.getMapAsync {
+        mapFragment?.getMapAsync {
             startPostponedEnterTransition()
             map = it
             viewModel.refreshPosition()

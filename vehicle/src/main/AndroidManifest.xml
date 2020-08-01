@@ -5,7 +5,11 @@
     <application>
         <meta-data
                 android:name="com.google.android.geo.API_KEY"
-                android:value="AIzaSyD3B_rTKn2CUPI0eHNIzMC414cSv5usZ5M" />
+                android:value="AIzaSyDVSAipIr9ULq7xuVA1mE_sGQDiGe3vLis" />
+
+        <meta-data
+                android:name="com.google.android.gms.version"
+                android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

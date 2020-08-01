@@ -38,7 +38,7 @@ object Dependencies {
     const val insetterKtx = "dev.chrisbanes:insetter-ktx:0.3.1"
     const val sunilsonExtensions = "com.github.sunilson:android-kotlin-extensions:0.35"
     const val sunilsonViewModel = "com.github.sunilson:Unidirectional-ViewModel:0.5"
-    const val maps = "com.google.android.libraries.maps:maps:3.1.0-beta"
+    const val maps = "com.google.android.gms:play-services-maps:17.0.0"
     const val epoxy = "com.airbnb.android:epoxy:3.11.0"
     const val epoxyKapt = "com.airbnb.android:epoxy-processor:3.11.0"
     const val lottie = "com.airbnb.android:lottie:3.4.1"
