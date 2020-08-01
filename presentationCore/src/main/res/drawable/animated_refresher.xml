@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:drawable="@drawable/ic_baseline_refresh_24">
+    <target
+            android:name="refresher"
+            android:animation="@animator/rotation_animator" />
+</animated-vector>

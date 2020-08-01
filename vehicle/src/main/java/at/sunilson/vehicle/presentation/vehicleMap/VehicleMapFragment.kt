@@ -1,7 +1,8 @@
 package at.sunilson.vehicle.presentation.vehicleMap
 
-import android.graphics.Bitmap
-import android.graphics.Canvas
+import android.graphics.drawable.Animatable2
+import android.graphics.drawable.AnimatedVectorDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import androidx.activity.addCallback
@@ -16,6 +17,7 @@ import at.sunilson.ktx.fragment.setStatusBarColor
 import at.sunilson.ktx.fragment.useLightNavigationBarIcons
 import at.sunilson.ktx.fragment.useLightStatusBarIcons
 import at.sunilson.presentationcore.base.viewBinding
+import at.sunilson.presentationcore.extensions.formatFull
 import at.sunilson.vehicle.R
 import at.sunilson.vehicle.databinding.FragmentVehicleMapBinding
 import at.sunilson.vehiclecore.domain.entities.Location
@@ -54,12 +56,13 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.refreshLayout.isEnabled = false
         setupMap()
         observeState()
 
         binding.backButton.setOnClickListener { back() }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { back() }
+
+        binding.refreshFab.setOnClickListener { viewModel.refreshPosition() }
 
         Insetter.builder().applySystemWindowInsetsToMargin(Side.TOP).applyToView(binding.backButton)
     }
@@ -95,19 +98,31 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
     private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             viewModel.state.collect {
-                binding.refreshLayout.isRefreshing = it.loading
+                updateFab(it.loading)
+                binding.refreshFab.text = it.location?.timestamp?.formatFull()
+                    ?: requireContext().getString(R.string.nothing)
                 setMarkerToLocation(it.location ?: return@collect)
             }
         }
     }
 
-    private fun makeSnapshot(): Bitmap {
-        val view = requireView()
-        val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(bitmap)
-        view.layout(view.left, view.top, view.right, view.bottom)
-        view.draw(canvas)
-        return bitmap
+    private fun updateFab(loading: Boolean) {
+        if (loading) {
+            binding.refreshFab.shrink()
+            binding.refreshFab.setIconResource(R.drawable.animated_refresher)
+            (binding.refreshFab.icon as AnimatedVectorDrawable).run {
+                registerAnimationCallback(object : Animatable2.AnimationCallback() {
+                    override fun onAnimationEnd(drawable: Drawable?) {
+                        this@run.start()
+                    }
+                })
+                start()
+            }
+        } else {
+            binding.refreshFab.extend()
+            binding.refreshFab.setIconResource(R.drawable.ic_baseline_refresh_24)
+        }
+        binding.refreshFab.isEnabled = !loading
     }
 
     private fun setMarkerToLocation(location: Location) {

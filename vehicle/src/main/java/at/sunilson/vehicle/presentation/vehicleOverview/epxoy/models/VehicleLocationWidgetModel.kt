@@ -1,9 +1,11 @@
 package at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models
 
+import android.widget.TextView
+import at.sunilson.presentationcore.epoxy.KotlinEpoxyHolder
+import at.sunilson.presentationcore.extensions.formatFull
+import at.sunilson.vehicle.R
 import at.sunilson.vehiclecore.domain.entities.Location
 import at.sunilson.vehiclecore.domain.entities.Vehicle
-import at.sunilson.presentationcore.epoxy.KotlinEpoxyHolder
-import at.sunilson.vehicle.R
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
@@ -35,6 +37,9 @@ abstract class VehicleLocationWidgetModel :
 
     override fun bind(holder: Holder) {
         holder.run {
+            timestamp.text =
+                location?.timestamp?.formatFull() ?: timestamp.context.getString(R.string.nothing)
+
             map.onCreate(null)
             map.getMapAsync { googleMap ->
                 googleMap.uiSettings.isMapToolbarEnabled = false
@@ -62,5 +67,6 @@ abstract class VehicleLocationWidgetModel :
 
     class Holder : KotlinEpoxyHolder() {
         val map by bind<MapView>(R.id.map)
+        val timestamp by bind<TextView>(R.id.timestamp)
     }
 }

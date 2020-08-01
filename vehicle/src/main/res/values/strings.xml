@@ -17,4 +17,5 @@
     <string name="drive_charge_statistics"><![CDATA[Lade- & Fahr-Statistiken]]></string>
     <string name="climate_statistics">Klimatisierungs Statistiken</string>
     <string name="statistics">Statistiken</string>
+    <string name="nothing">n.A.</string>
 </resources>
