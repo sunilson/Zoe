@@ -3,6 +3,7 @@ package at.arkulpa.widget
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
@@ -105,7 +106,13 @@ class VehicleWidgetProvider : AppWidgetProvider() {
     }
 
     private fun RemoteViews.setupClickIntents(context: Context) {
-        val homeIntent = Intent(Intent.ACTION_VIEW, Uri.parse("zoe://vehicle_overview"))
+        val selectedVehicle = vehicleCoreRepository.selectedVehicle
+
+        val homeIntent = Intent().apply {
+            action = Intent.ACTION_VIEW
+            component = ComponentName("at.sunilson.zoe", "at.sunilson.zoe.MainActivity")
+            data = Uri.parse("zoe://vehicle_overview")
+        }
         val pendingHomeIntent =
             PendingIntent.getActivity(context, 1, homeIntent, PendingIntent.FLAG_UPDATE_CURRENT)
         setOnClickPendingIntent(R.id.vehicle_image, pendingHomeIntent)
@@ -115,14 +122,33 @@ class VehicleWidgetProvider : AppWidgetProvider() {
             PendingIntent.getActivity(context, 1, hvacIntent, PendingIntent.FLAG_UPDATE_CURRENT)
         setOnClickPendingIntent(R.id.start_hvac, pendingHvacIntent)
 
-        val mapIntent =
-            Intent(Intent.ACTION_VIEW, Uri.parse("zoe://vehicle_overview/vehicle_location"))
+        val mapIntent = Intent().apply {
+            action = Intent.ACTION_VIEW
+            component = ComponentName("at.sunilson.zoe", "at.sunilson.zoe.MainActivity")
+            data = Uri.parse(
+                if (selectedVehicle == null) {
+                    "zoe://vehicle_overview/vehicle_location"
+                } else {
+                    "zoe://vehicle_location/$selectedVehicle"
+                }
+            )
+        }
         val pendingMapIntent =
             PendingIntent.getActivity(context, 1, mapIntent, PendingIntent.FLAG_UPDATE_CURRENT)
         setOnClickPendingIntent(R.id.show_vehicle_location, pendingMapIntent)
 
-        val chargeIntent =
-            Intent(Intent.ACTION_VIEW, Uri.parse("zoe://vehicle_overview/charge_statistics"))
+
+        val chargeIntent = Intent().apply {
+            action = Intent.ACTION_VIEW
+            component = ComponentName("at.sunilson.zoe", "at.sunilson.zoe.MainActivity")
+            data = Uri.parse(
+                if (selectedVehicle == null) {
+                    "zoe://vehicle_overview/charge_statistics"
+                } else {
+                    "zoe://charge_statistics/$selectedVehicle"
+                }
+            )
+        }
         val pendingChargeIntent =
             PendingIntent.getActivity(context, 1, chargeIntent, PendingIntent.FLAG_UPDATE_CURRENT)
         setOnClickPendingIntent(R.id.show_charge_statistics, pendingChargeIntent)

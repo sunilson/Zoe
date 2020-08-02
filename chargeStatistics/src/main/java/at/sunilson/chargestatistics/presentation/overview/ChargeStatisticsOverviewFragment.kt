@@ -13,6 +13,9 @@ import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import at.sunilson.chargestatistics.R
 import at.sunilson.chargestatistics.databinding.ChargeStatisticsOverviewFragmentBinding
+import at.sunilson.ktx.fragment.setNavigationBarColor
+import at.sunilson.ktx.fragment.setStatusBarColor
+import at.sunilson.ktx.fragment.useLightNavigationBarIcons
 import at.sunilson.ktx.fragment.useLightStatusBarIcons
 import at.sunilson.presentationcore.base.viewBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -28,6 +31,9 @@ class ChargeStatisticsOverviewFragment : Fragment(R.layout.charge_statistics_ove
     override fun onResume() {
         super.onResume()
         useLightStatusBarIcons(false)
+        useLightNavigationBarIcons(false)
+        setStatusBarColor(R.color.white)
+        setNavigationBarColor(R.color.white)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

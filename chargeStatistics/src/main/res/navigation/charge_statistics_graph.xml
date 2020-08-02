@@ -5,12 +5,13 @@
         android:id="@+id/charge_statistics_graph"
         app:startDestination="@id/chargeStatisticsOverviewFragment">
 
-
     <fragment
             android:id="@+id/chargeStatisticsOverviewFragment"
             android:name="at.sunilson.chargestatistics.presentation.overview.ChargeStatisticsOverviewFragment"
             android:label="ChargeStatisticsOverviewFragment"
-            tools:layout="@layout/charge_statistics_overview_fragment" >
+            tools:layout="@layout/charge_statistics_overview_fragment">
+
+        <deepLink app:uri="zoe://charge_statistics/{vin}" />
 
         <argument
                 android:name="vin"

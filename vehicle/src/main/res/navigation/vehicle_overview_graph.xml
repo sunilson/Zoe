@@ -11,19 +11,14 @@
             tools:layout="@layout/fragment_vehicle_overview">
 
         <deepLink app:uri="zoe://vehicle_overview" />
-
         <deepLink app:uri="zoe://vehicle_overview/start_hvac" />
-
         <deepLink app:uri="zoe://vehicle_overview/charge_statistics" />
-
         <deepLink app:uri="zoe://vehicle_overview/vehicle_location" />
 
         <action
                 android:id="@+id/show_settings_dialog"
                 app:destination="@id/settingsDialogFragment" />
-        <action
-                android:id="@+id/show_vehicle_list"
-                app:destination="@id/vehicleListFragment" />
+
         <action
                 android:id="@+id/show_vehicle_details"
                 app:destination="@id/vehicleDetailsFragment"
@@ -63,11 +58,7 @@
                 app:popUpTo="@id/vehicleOverviewFragment"
                 app:popUpToInclusive="true" />
     </dialog>
-    <fragment
-            android:id="@+id/vehicleListFragment"
-            android:name="at.sunilson.vehicle.presentation.vehicleList.VehicleListFragment"
-            android:label="VehicleListFragment"
-            tools:layout="@layout/fragment_vehicle_list" />
+
     <fragment
             android:id="@+id/vehicleDetailsFragment"
             android:name="at.sunilson.vehicle.presentation.vehicleDetails.VehicleDetailsFragment"
@@ -80,11 +71,15 @@
                 android:name="smallTransition"
                 app:argType="boolean" />
     </fragment>
+
     <fragment
             android:id="@+id/vehicleMapFragment"
             android:name="at.sunilson.vehicle.presentation.vehicleMap.VehicleMapFragment"
             android:label="VehicleMapFragment"
             tools:layout="@layout/fragment_vehicle_map">
+
+        <deepLink app:uri="zoe://vehicle_location/{vin}" />
+
         <argument
                 android:name="vin"
                 app:argType="string" />

@@ -3,6 +3,8 @@ package at.sunilson.zoe.di
 import android.content.Context
 import androidx.work.WorkManager
 import at.sunilson.navigation.ActivityNavigator
+import at.sunilson.presentationcore.splash.SplashShownHandler
+import at.sunilson.zoe.MainActivity
 import at.sunilson.zoe.navigation.ActivityNavigatorImpl
 import dagger.Module
 import dagger.Provides

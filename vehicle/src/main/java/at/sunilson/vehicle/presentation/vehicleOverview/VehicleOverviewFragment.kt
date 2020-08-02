@@ -36,6 +36,7 @@ import at.sunilson.ktx.fragment.useLightNavigationBarIcons
 import at.sunilson.ktx.fragment.useLightStatusBarIcons
 import at.sunilson.presentationcore.base.viewBinding
 import at.sunilson.presentationcore.extensions.setupHeaderAnimation
+import at.sunilson.presentationcore.splash.SplashShownHandler
 import at.sunilson.vehicle.R
 import at.sunilson.vehicle.databinding.FragmentVehicleOverviewBinding
 import at.sunilson.vehicle.presentation.extensions.displayName
@@ -59,11 +60,14 @@ import java.lang.Long.min
 
 @AndroidEntryPoint
 class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
+
+    private val splashShownHandler: SplashShownHandler
+        get() = requireActivity() as SplashShownHandler
+
     private val binding by viewBinding(FragmentVehicleOverviewBinding::bind)
     private val viewModel by viewModels<VehicleOverviewViewModel>()
-
     private var splashShownTimestamp: Long = SPLASH_NOT_SHOWN_YET
-    private var splashShown: Boolean = false
+    private val animators = mutableListOf<ValueAnimator>()
     private var lastBackPress: Long = -1L
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -90,6 +94,12 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        animators.forEach { it.cancel() }
+        animators.clear()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -105,7 +115,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
 
         setupHeaderAnimation(binding.cutView, binding.recyclerView, true)
 
-        if (!splashShown) {
+        if (!splashShownHandler.splashShown) {
             startSplashAnimation()
         } else {
             binding.splashContainer.isVisible = false
@@ -142,6 +152,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
 
                 doOnStart { binding.splashVehicle.visibility = View.VISIBLE }
                 doOnEnd { splashShownTimestamp = System.currentTimeMillis() }
+                animators.add(this)
                 start()
             }
 
@@ -149,13 +160,14 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
                 AnimationUtils.loadAnimation(requireContext(), R.anim.vehicle_bounce).apply {
                     repeatCount = Animation.INFINITE
                 }
+
             binding.splashVehicle.startAnimation(bounceAnimation)
         }
     }
 
     private fun finishSplashAnimation() {
-        if (splashShown) return
-        splashShown = true
+        if (splashShownHandler.splashShown) return
+        splashShownHandler.splashShown = true
 
         val halfScreenWidth = requireView().width / 2f
         val halfVehicleWidth = binding.splashVehicle.width / 2f
@@ -175,6 +187,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
                 binding.splashVehicle.translationX = -animatedValue
             }
 
+            animators.add(this)
             start()
             doOnEnd { binding.splashVehicle.visibility = View.GONE }
         }
@@ -189,6 +202,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
                 binding.splashContainer.alpha = animatedValue
             }
 
+            animators.add(this)
             start()
             doOnEnd {
                 binding.splashContainer.visibility = View.GONE
@@ -322,7 +336,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
 
             statisticsWidget {
                 id("statisticsWidget")
-                onHvacClick { viewModel.showVehicleStatistics() }
+                onHvacClick { requireContext().showToast(getString(R.string.not_available_yet)) }
                 onChargeClick { viewModel.showChargeStatistics() }
             }
         }
@@ -331,7 +345,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     private fun setupUIFlags() {
         setStatusBarColor(android.R.color.transparent)
         setNavigationBarColor(android.R.color.white)
-        useLightStatusBarIcons(splashShown)
+        useLightStatusBarIcons(splashShownHandler.splashShown)
         useLightNavigationBarIcons(false)
         drawBelowStatusBar()
     }
@@ -360,7 +374,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     override fun onResume() {
         super.onResume()
         setupUIFlags()
-        if (splashShown) viewModel.refreshVehicles(true)
+        if (splashShownHandler.splashShown) viewModel.refreshVehicles(true)
     }
 
     companion object {
