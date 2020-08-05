@@ -28,6 +28,8 @@ data class VehicleOverviewState(
 )
 
 sealed class VehicleOverviewEvents
+object ShowSplashScreen : VehicleOverviewEvents()
+object NoVehiclesAvailable : VehicleOverviewEvents()
 data class ShowToast(val message: String) : VehicleOverviewEvents()
 data class ShowVehicleDetails(val vin: String) : VehicleOverviewEvents()
 data class ShowVehicleStatistics(val vin: String) : VehicleOverviewEvents()
@@ -58,10 +60,16 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
             if (!invisible) setState { copy(loading = true) }
 
             refreshAllVehicles(Unit).fold(
-                { updateSelectedVehicle() },
+                { if (it.isEmpty()) sendEvent(NoVehiclesAvailable) },
                 {
-                    sendEvent(ShowToast("Beim Aktualisieren ist ein Fehler aufgetreten!"))
                     Timber.e(it)
+                    getState { state ->
+                        if (state.selectedVehicle == null) {
+                            sendEvent(NoVehiclesAvailable)
+                        } else {
+                            sendEvent(ShowToast("Beim Aktualisieren ist ein Fehler aufgetreten!"))
+                        }
+                    }
                 }
             )
 
@@ -79,35 +87,19 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
     }
 
     fun showVehicleLocation() {
-        getState {
-            it.selectedVehicle?.let { vehicle ->
-                sendEvent(ShowVehicleLocation(vehicle.vin))
-            }
-        }
+        getState { it.selectedVehicle?.let { vehicle -> sendEvent(ShowVehicleLocation(vehicle.vin)) } }
     }
 
     fun showChargeStatistics() {
-        getState {
-            it.selectedVehicle?.let { vehicle ->
-                sendEvent(ShowChargeStatistics(vehicle.vin))
-            }
-        }
+        getState { it.selectedVehicle?.let { vehicle -> sendEvent(ShowChargeStatistics(vehicle.vin)) } }
     }
 
     fun showVehicleStatistics() {
-        getState {
-            it.selectedVehicle?.let { vehicle ->
-                sendEvent(ShowVehicleStatistics(vehicle.vin))
-            }
-        }
+        getState { it.selectedVehicle?.let { vehicle -> sendEvent(ShowVehicleStatistics(vehicle.vin)) } }
     }
 
     fun showVehicleDetails() {
-        getState {
-            it.selectedVehicle?.let { vehicle ->
-                sendEvent(ShowVehicleDetails(vehicle.vin))
-            }
-        }
+        getState { it.selectedVehicle?.let { vehicle -> sendEvent(ShowVehicleDetails(vehicle.vin)) } }
     }
 
     private fun loadSelectedVehicle() {
@@ -116,7 +108,7 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
             getSelectedVehicle(Unit).collect {
                 if (it == null) {
                     Timber.e("Selected Vehicle was null")
-                    //TODO("Move to vehicle list")
+                    sendEvent(ShowSplashScreen)
                 } else {
                     updateVehicleLocation()
                     setState { copy(selectedVehicle = it) }
@@ -132,14 +124,6 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
                 { setState { copy(vehicleLocation = it) } },
                 { Timber.e(it) }
             )
-        }
-    }
-
-    private fun updateSelectedVehicle() {
-        getState { state ->
-            if (state.selectedVehicle == null) {
-                loadSelectedVehicle()
-            }
         }
     }
 }

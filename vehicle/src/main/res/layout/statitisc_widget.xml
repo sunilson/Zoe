@@ -17,8 +17,7 @@
                 style="@style/TextAppearance.App.Headline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/statistics"
-                android:textColor="@color/textPrimary" />
+                android:text="@string/statistics" />
 
         <com.google.android.material.button.MaterialButton
                 android:id="@+id/hvac_statistics_button"

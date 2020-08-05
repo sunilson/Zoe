@@ -5,9 +5,10 @@ import androidx.hilt.Assisted
 import androidx.hilt.work.WorkerInject
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import at.sunilson.chargetracking.domain.StartChargeTracking
+import at.arkulpa.notifications.domain.CheckNotifications
+import at.arkulpa.notifications.domain.entities.CheckNotificationsParams
 import at.sunilson.chargetracking.domain.TrackVehicleChargeState
-import at.sunilson.vehiclecore.data.VehicleDao
+import com.github.kittinunf.result.failure
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -16,14 +17,15 @@ import timber.log.Timber
 class ChargeTrackingWorker @WorkerInject constructor(
     @Assisted context: Context,
     @Assisted private val params: WorkerParameters,
-    private val trackVehicleChargeState: TrackVehicleChargeState
+    private val trackVehicleChargeState: TrackVehicleChargeState,
+    private val checkNotifications: CheckNotifications
 ) : CoroutineWorker(context, params) {
     override suspend fun doWork() = withContext(Dispatchers.IO) {
         val vehicleId = params.inputData.getString("vehicleId")!!
 
         Timber.d("Starting charge tracking")
 
-        if (runAttemptCount > 3){
+        if (runAttemptCount > 3) {
             Timber.d("Reached run attempt count. Stopping for now")
             return@withContext Result.success()
         }
@@ -31,6 +33,9 @@ class ChargeTrackingWorker @WorkerInject constructor(
         return@withContext trackVehicleChargeState(vehicleId).fold(
             {
                 Timber.d("Charge tracking done")
+                checkNotifications(CheckNotificationsParams(vehicleId, it.batteryStatus)).failure {
+                    Timber.e(it, "Could not send notifications")
+                }
                 Result.success()
             },
             {

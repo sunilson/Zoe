@@ -147,7 +147,8 @@ class CircularProgressBar @JvmOverloads constructor(
         context.theme.obtainStyledAttributes(
             attributeSet,
             R.styleable.CircularProgressBar,
-            0, 0
+            R.attr.circularProgressBarStyle,
+            R.style.CircularProgressBar
         ).apply {
             try {
                 strokeWidth = getFloat(R.styleable.CircularProgressBar_foregroundStrokeWidth, 50f)

@@ -12,5 +12,5 @@
             tools:layout="@layout/fragment_settings_overview" />
     <deepLink
             android:id="@+id/deepLink"
-            app:uri="https://zoe.app/settings" />
+            app:uri="zoe://settings" />
 </navigation>

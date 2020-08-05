@@ -1,5 +1,6 @@
 package at.sunilson.vehicle.presentation.settingsDialog
 
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import at.sunilson.presentationcore.epoxy.KotlinEpoxyHolder
@@ -11,7 +12,7 @@ import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
 
 @EpoxyModelClass
-abstract class SettingsDialogButtonsModel : EpoxyModelWithHolder<VehicleListItemModel.Holder>() {
+abstract class SettingsDialogButtonsModel : EpoxyModelWithHolder<SettingsDialogButtonsModel.Holder>() {
 
     override fun getDefaultLayout() = R.layout.settings_dialog_buttons
 
@@ -21,8 +22,12 @@ abstract class SettingsDialogButtonsModel : EpoxyModelWithHolder<VehicleListItem
     @EpoxyAttribute
     lateinit var impressumClicked: () -> Unit
 
-    override fun bind(holder: VehicleListItemModel.Holder) = holder.run {  }
+    override fun bind(holder: Holder) = holder.run {
+        settingsButton.setOnClickListener { settingsClicked() }
+    }
 
 
-    class Holder : KotlinEpoxyHolder() {}
+    class Holder : KotlinEpoxyHolder() {
+        val settingsButton by bind<Button>(R.id.open_settings)
+    }
 }

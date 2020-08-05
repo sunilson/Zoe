@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="notifications">Notifications</string>
+    <string name="notifications_explanation">Momentan funktioniert die Renault API für Notifications noch nicht (zumindest für mich). Deshalb ist es über das Lade-Tracking gelöst. Um die Push Notifications zu nutzen aktiviere bitte den Tracker.</string>
+    <string name="default_notification_channel_title">Allgemeine Erinnerungen</string>
+    <string name="default_notification_channel_description">Allgemeine Erinnerungen</string>
+</resources>

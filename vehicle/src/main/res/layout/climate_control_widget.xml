@@ -15,13 +15,11 @@
 
         <TextView
                 android:id="@+id/headline"
-                style="@style/TextAppearance.MaterialComponents.Headline6"
+                style="@style/TextAppearance.App.Headline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Klimatisierung"
-                android:textColor="@color/textPrimary"
                 app:layout_constraintTop_toTopOf="parent" />
-
 
         <com.google.android.material.button.MaterialButton
                 android:id="@+id/start_climate_control_button"

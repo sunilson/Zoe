@@ -1,5 +1,6 @@
 package at.sunilson.vehicle.presentation.settingsDialog
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import at.sunilson.core.Do
+import at.sunilson.ktx.fragment.useLightNavigationBarIcons
 import at.sunilson.presentationcore.base.viewBinding
 import at.sunilson.presentationcore.extensions.setupHeaderAnimation
 import at.sunilson.vehicle.R
@@ -34,7 +36,6 @@ class SettingsDialogFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         observeState()
         setupHeaderAnimation(binding.handleContainer, binding.recyclerView, true)
         observeEvents()
@@ -51,8 +52,10 @@ class SettingsDialogFragment : BottomSheetDialogFragment() {
     private fun observeEvents() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.events.collect {
-                Do exhaustive when(it) {
-                    SettingsDialogEvent.VehicleSelected -> findNavController().navigate(SettingsDialogFragmentDirections.reload())
+                Do exhaustive when (it) {
+                    SettingsDialogEvent.VehicleSelected -> findNavController().navigate(
+                        SettingsDialogFragmentDirections.reload()
+                    )
                 }
             }
         }
@@ -66,7 +69,7 @@ class SettingsDialogFragment : BottomSheetDialogFragment() {
 
                 settingsDialogButtons {
                     id("buttons")
-                    settingsClicked { }
+                    settingsClicked { findNavController().navigate(Uri.parse("zoe://settings")) }
                     impressumClicked { }
                 }
 

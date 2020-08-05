@@ -19,4 +19,5 @@
     <string name="statistics">Statistiken</string>
     <string name="nothing">n.A.</string>
     <string name="not_available_yet">Noch nicht verfügbar!</string>
+    <string name="battery">Batterie</string>
 </resources>

@@ -84,8 +84,7 @@ class ChargeStatisticsOverviewFragment : Fragment(R.layout.charge_statistics_ove
     }
 
     fun switchToPosition(position: Int) {
-        check(position < 3)
-
+        check(position < 4)
         binding.viewpager.setCurrentItem(position, true)
     }
 }

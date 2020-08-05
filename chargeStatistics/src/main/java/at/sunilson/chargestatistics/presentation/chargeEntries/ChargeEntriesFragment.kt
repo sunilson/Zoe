@@ -60,7 +60,7 @@ internal class ChargeEntriesFragment private constructor() : Fragment(R.layout.c
                 binding.recyclerView.withModels {
                     state.chargingProcedures.forEach { chargeProcedure ->
                         chargeProcedureEntry {
-                            id(chargeProcedure.startTime.toInstant(ZoneOffset.UTC).toEpochMilli())
+                            id(chargeProcedure.startTime.toEpochSecond())
                             chargingProcedure(chargeProcedure)
                         }
                     }

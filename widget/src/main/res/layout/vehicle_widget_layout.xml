@@ -6,7 +6,8 @@
         android:layout_height="wrap_content"
         android:background="@drawable/vehicle_widget_background"
         android:orientation="vertical"
-        android:padding="12dp">
+        android:padding="12dp"
+        android:theme="@style/Base.Theme.Zoe.AppTheme">
 
     <LinearLayout
             android:layout_width="match_parent"

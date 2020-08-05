@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CircularProgressBar">
+        <item name="strokeColor">?colorPrimary</item>
+        <item name="backgroundStrokeColor">?colorAccent</item>
+        <item name="hasBackgroundRing">true</item>
+    </style>
+</resources>

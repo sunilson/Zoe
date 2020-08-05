@@ -86,5 +86,4 @@
     </fragment>
 
     <include app:graph="@navigation/charge_statistics_graph" />
-
 </navigation>

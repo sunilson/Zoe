@@ -11,7 +11,7 @@
             <objectAnimator
                     android:duration="@integer/white_transparent_header_animation_duration"
                     android:propertyName="backgroundColor"
-                    android:valueFrom="@color/colorPrimary"
+                    android:valueFrom="?colorPrimary"
                     android:valueTo="@color/white" />
         </set>
     </item>
@@ -27,7 +27,7 @@
                     android:duration="@integer/white_transparent_header_animation_duration"
                     android:propertyName="backgroundColor"
                     android:valueFrom="@color/white"
-                    android:valueTo="@color/colorPrimary" />
+                    android:valueTo="?colorPrimary" />
         </set>
     </item>
 </selector>

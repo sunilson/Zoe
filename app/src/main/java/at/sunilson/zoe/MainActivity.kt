@@ -2,7 +2,6 @@ package at.sunilson.zoe
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -11,14 +10,13 @@ import at.sunilson.authentication.domain.IsLoggedInUseCase
 import at.sunilson.authentication.domain.LogoutHandler
 import at.sunilson.navigation.ActivityNavigator
 import at.sunilson.navigation.ActivityNavigatorParams
-import at.sunilson.presentationcore.splash.SplashShownHandler
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), SplashShownHandler {
+class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var isLoggedInUseCase: IsLoggedInUseCase
@@ -31,8 +29,6 @@ class MainActivity : AppCompatActivity(), SplashShownHandler {
 
     @Inject
     lateinit var workManager: WorkManager
-
-    override var splashShown: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

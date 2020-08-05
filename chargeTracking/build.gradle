@@ -24,6 +24,7 @@ dependencies {
 
     implementation(project(":core"))
     implementation(project(":vehicleCore"))
+    implementation(project(":notifications"))
     implementation(Dependencies.room)
     implementation(Dependencies.roomCoroutines)
     implementation(Dependencies.lifecycleLiveData)

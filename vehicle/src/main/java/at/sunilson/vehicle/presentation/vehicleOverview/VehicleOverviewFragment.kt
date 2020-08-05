@@ -26,6 +26,8 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import at.arkulpa.notifications.domain.NotificationRepository
+import at.arkulpa.notifications.presentation.notificationWidget
 import at.arkulpa.widget.VehicleWidgetProvider
 import at.sunilson.core.Do
 import at.sunilson.ktx.context.showToast
@@ -36,7 +38,6 @@ import at.sunilson.ktx.fragment.useLightNavigationBarIcons
 import at.sunilson.ktx.fragment.useLightStatusBarIcons
 import at.sunilson.presentationcore.base.viewBinding
 import at.sunilson.presentationcore.extensions.setupHeaderAnimation
-import at.sunilson.presentationcore.splash.SplashShownHandler
 import at.sunilson.vehicle.R
 import at.sunilson.vehicle.databinding.FragmentVehicleOverviewBinding
 import at.sunilson.vehicle.presentation.extensions.displayName
@@ -53,22 +54,24 @@ import com.google.android.material.card.MaterialCardView
 import com.google.android.material.transition.Hold
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.applySystemWindowInsetsToPadding
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
-import java.lang.Long.min
+import kotlinx.coroutines.flow.first
+import timber.log.Timber
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
 
-    private val splashShownHandler: SplashShownHandler
-        get() = requireActivity() as SplashShownHandler
-
     private val binding by viewBinding(FragmentVehicleOverviewBinding::bind)
     private val viewModel by viewModels<VehicleOverviewViewModel>()
-    private var splashShownTimestamp: Long = SPLASH_NOT_SHOWN_YET
     private val animators = mutableListOf<ValueAnimator>()
     private var lastBackPress: Long = -1L
+    private var splashAnimationStarted = false
+
+    @Inject
+    lateinit var notificationRepository: NotificationRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,9 +98,9 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         animators.forEach { it.cancel() }
         animators.clear()
+        super.onDestroyView()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -114,12 +117,6 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
         setupList()
 
         setupHeaderAnimation(binding.cutView, binding.recyclerView, true)
-
-        if (!splashShownHandler.splashShown) {
-            startSplashAnimation()
-        } else {
-            binding.splashContainer.isVisible = false
-        }
     }
 
     private fun setupList() {
@@ -137,6 +134,9 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     }
 
     private fun startSplashAnimation() {
+        Timber.d("Starting splash animation")
+        binding.splashContainer.isVisible = true
+
         requireView().doOnLayout {
             val halfScreenWidth = it.width / 2f
             val halfVehicleWidth = binding.splashVehicle.width / 2f
@@ -151,7 +151,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
                 }
 
                 doOnStart { binding.splashVehicle.visibility = View.VISIBLE }
-                doOnEnd { splashShownTimestamp = System.currentTimeMillis() }
+                doOnEnd { finishSplashAnimation() }
                 animators.add(this)
                 start()
             }
@@ -166,48 +166,51 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     }
 
     private fun finishSplashAnimation() {
-        if (splashShownHandler.splashShown) return
-        splashShownHandler.splashShown = true
-
-        val halfScreenWidth = requireView().width / 2f
-        val halfVehicleWidth = binding.splashVehicle.width / 2f
-
-        val delay = when (splashShownTimestamp) {
-            SPLASH_NOT_SHOWN_YET -> 500L
-            else -> min(500L, System.currentTimeMillis() - splashShownTimestamp)
-        }
-
-        ValueAnimator.ofFloat(0f, halfScreenWidth + halfVehicleWidth).apply {
-            startDelay = delay
-            duration = 500L
-            interpolator = AccelerateInterpolator()
-
-            addUpdateListener {
-                val animatedValue = it.animatedValue as Float
-                binding.splashVehicle.translationX = -animatedValue
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            while (true) {
+                if (viewModel.state.first().selectedVehicle != null) {
+                    break
+                }
+                delay(300L)
             }
 
-            animators.add(this)
-            start()
-            doOnEnd { binding.splashVehicle.visibility = View.GONE }
-        }
+            val halfScreenWidth = requireView().width / 2f
+            val halfVehicleWidth = binding.splashVehicle.width / 2f
 
-        ValueAnimator.ofFloat(1f, 0f).apply {
-            startDelay = 500L + delay
-            duration = 300L
-            interpolator = AccelerateInterpolator()
+            val delay = 1500L
 
-            addUpdateListener {
-                val animatedValue = it.animatedValue as Float
-                binding.splashContainer.alpha = animatedValue
+            ValueAnimator.ofFloat(0f, halfScreenWidth + halfVehicleWidth).apply {
+                startDelay = delay
+                duration = 500L
+                interpolator = AccelerateInterpolator()
+
+                addUpdateListener {
+                    val animatedValue = it.animatedValue as Float
+                    binding.splashVehicle.translationX = -animatedValue
+                }
+
+                animators.add(this)
+                start()
+                doOnEnd { binding.splashVehicle.visibility = View.GONE }
             }
 
-            animators.add(this)
-            start()
-            doOnEnd {
-                binding.splashContainer.visibility = View.GONE
-                useLightStatusBarIcons(true)
-                handleDeeplinks()
+            ValueAnimator.ofFloat(1f, 0f).apply {
+                startDelay = 500L + delay
+                duration = 300L
+                interpolator = AccelerateInterpolator()
+
+                addUpdateListener {
+                    val animatedValue = it.animatedValue as Float
+                    binding.splashContainer.alpha = animatedValue
+                }
+
+                animators.add(this)
+                start()
+                doOnEnd {
+                    binding.splashContainer.visibility = View.GONE
+                    useLightStatusBarIcons(true)
+                    handleDeeplinks()
+                }
             }
         }
     }
@@ -234,7 +237,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     }
 
     private fun observeEvents() {
-        viewLifecycleOwner.lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             viewModel.events.collect { event ->
                 Do exhaustive when (event) {
                     is ShowToast -> requireContext().showToast(event.message)
@@ -242,19 +245,22 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
                     is ShowVehicleStatistics -> findNavController().navigate("https://zoe.app/statistics/${event.vin}".toUri())
                     is ShowChargeStatistics -> showChargeStatistics(event.vin)
                     is ShowVehicleLocation -> showVehicleLocation(event.vin)
+                    is NoVehiclesAvailable -> TODO()
+                    is ShowSplashScreen -> if (!splashAnimationStarted) {
+                        splashAnimationStarted = true
+                        startSplashAnimation()
+                    } else {
+                    }
                 }
             }
         }
     }
 
     private fun observeState() {
-        viewLifecycleOwner.lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             viewModel.state.collect { state ->
                 binding.contentContainer.isRefreshing = state.loading
                 if (state.selectedVehicle != null) {
-                    if (!state.loading) {
-                        finishSplashAnimation()
-                    }
                     renderVehicle(state.selectedVehicle, state.vehicleLocation)
                     updateVehicleWidget()
                 }
@@ -306,7 +312,6 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
             "${vehicle.batteryStatus.batteryLevel}% (${vehicle.batteryStatus.remainingRange} Km)"
         binding.progressBar.progress = vehicle.batteryStatus.batteryLevel.toFloat()
         binding.vehicleImage.load(vehicle.imageUrl)
-        binding.splashVehicle.load(vehicle.imageUrl)
         binding.vehicleImageSmall.load(vehicle.imageUrl)
         binding.recyclerView.withModels {
 
@@ -323,15 +328,17 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
 
             climateControlWidget {
                 id("climateControlWidget")
-                planClimateControlClicked { TODO() }
+                planClimateControlClicked { requireContext().showToast(R.string.not_available_yet) }
                 startClimateControlClicked { viewModel.startClimateControl() }
             }
 
-            vehicleLocationWidget {
-                id("vehicleLocationWidget")
-                vehicle(vehicle)
-                location(location)
-                onMapClick { showVehicleLocation(it) }
+            if (location != null) {
+                vehicleLocationWidget {
+                    id("vehicleLocationWidget")
+                    vehicle(vehicle)
+                    location(location)
+                    onMapClick { showVehicleLocation(it) }
+                }
             }
 
             statisticsWidget {
@@ -339,13 +346,20 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
                 onHvacClick { requireContext().showToast(getString(R.string.not_available_yet)) }
                 onChargeClick { viewModel.showChargeStatistics() }
             }
+
+            notificationWidget {
+                id("notificationsWidget")
+                notificationRepository(notificationRepository)
+                vin(vehicle.vin)
+                chargeTrackButtonClicked { viewModel.showChargeStatistics() }
+            }
         }
     }
 
     private fun setupUIFlags() {
         setStatusBarColor(android.R.color.transparent)
         setNavigationBarColor(android.R.color.white)
-        useLightStatusBarIcons(splashShownHandler.splashShown)
+        useLightStatusBarIcons(true)
         useLightNavigationBarIcons(false)
         drawBelowStatusBar()
     }
@@ -374,10 +388,6 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     override fun onResume() {
         super.onResume()
         setupUIFlags()
-        if (splashShownHandler.splashShown) viewModel.refreshVehicles(true)
-    }
-
-    companion object {
-        const val SPLASH_NOT_SHOWN_YET = -1L
+        // TODO Only not on first app start viewModel.refreshVehicles(true)
     }
 }

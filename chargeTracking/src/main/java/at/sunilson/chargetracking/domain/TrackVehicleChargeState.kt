@@ -18,8 +18,8 @@ class TrackVehicleChargeState @Inject constructor(
     private val vehicleCoreRepository: VehicleCoreRepository,
     private val chargeTrackingDao: ChargeTrackingDao,
     private val vehicleDao: VehicleDao
-) : AsyncUseCase<Unit, String>() {
-    override suspend fun run(params: String) = SuspendableResult.of<Unit, Exception> {
+) : AsyncUseCase<ChargeTrackingPoint, String>() {
+    override suspend fun run(params: String) = SuspendableResult.of<ChargeTrackingPoint, Exception> {
         val batteryStatus = vehicleCoreService.getBatteryStatus(
             vehicleCoreRepository.kamereonAccountID,
             params
@@ -36,13 +36,15 @@ class TrackVehicleChargeState @Inject constructor(
             vehicleDao.upsertVehicles(listOf(it.toDatabaseEntity()))
         }
 
-        chargeTrackingDao.insertChargeTrackingPoint(
-            ChargeTrackingPoint(
-                params,
-                System.currentTimeMillis(),
-                batteryStatus,
-                mileage
-            ).toDatabaseEntity()
+        val trackingPoint = ChargeTrackingPoint(
+            params,
+            System.currentTimeMillis(),
+            batteryStatus,
+            mileage
         )
+
+        chargeTrackingDao.insertChargeTrackingPoint(trackingPoint.toDatabaseEntity())
+
+        trackingPoint
     }
 }

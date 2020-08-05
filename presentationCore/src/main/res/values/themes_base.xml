@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Base.Theme.Zoe" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="bottomSheetDialogTheme">@style/BottomSheetTheme</item>
+        <item name="materialButtonStyle">@style/ButtonStyle</item>
+        <item name="circularProgressBarStyle">@style/ZoeCircularProgressBarStyle</item>
+    </style>
+</resources>

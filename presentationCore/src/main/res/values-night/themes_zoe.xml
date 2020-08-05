@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Zoe.AppTheme" >
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/black</item>
+        <item name="colorPrimaryDark">@color/blueDark</item>
+        <item name="colorAccent">@color/gray</item>
+        <item name="textColorPrimary">@color/black</item>
+        <item name="textColorSecondary">@color/gray</item>
+        <item name="textColorPrimaryInverted">@color/white</item>
+        <item name="textColorSecondaryInverted">@color/off_white</item>
+    </style>
+</resources>

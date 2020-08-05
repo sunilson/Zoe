@@ -1,24 +1,19 @@
 <resources>
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="bottomSheetDialogTheme">@style/BottomSheetTheme</item>
-        <item name="materialButtonStyle">@style/ButtonStyle</item>
-    </style>
 
     <style name="TextAppearance.App.Headline" parent="TextAppearance.MaterialComponents.Headline6">
-        <item name="android:textColor">@color/textPrimary</item>
+        <item name="android:textColor">?textColorPrimary</item>
+    </style>
+
+    <style name="TextAppearance.App.Headline.Inverted">
+        <item name="android:textColor">?textColorPrimaryInverted</item>
     </style>
 
     <style name="TextAppearance.App.Subtitle" parent="TextAppearance.MaterialComponents.Subtitle2">
-        <item name="android:textColor">@color/textSecondary</item>
+        <item name="android:textColor">?textColorSecondary</item>
     </style>
 
     <style name="TextAppearance.App.Body" parent="TextAppearance.MaterialComponents.Body1">
-        <item name="android:textColor">@color/textPrimary</item>
+        <item name="android:textColor">?textColorPrimary</item>
     </style>
 
     <style name="BottomSheetTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
@@ -33,7 +28,7 @@
         <item name="cornerRadius">@dimen/button_corner_radius</item>
         <item name="android:layout_height">40dp</item>
         <item name="strokeWidth">2dp</item>
-        <item name="strokeColor">@color/colorPrimary</item>
+        <item name="strokeColor">?colorPrimary</item>
     </style>
 
     <style name="SelectableImageButton" parent="Widget.AppCompat.ImageButton">
@@ -62,12 +57,18 @@
 
     <style name="Alert.Button.Positive" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="backgroundTint">@android:color/transparent</item>
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColor">?colorPrimary</item>
     </style>
 
     <style name="Alert.Button.Neutral" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="backgroundTint">@android:color/transparent</item>
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColor">?colorPrimary</item>
     </style>
 
+    <style name="ZoeCircularProgressBarStyle" parent="CircularProgressBar">
+        <item name="backgroundStrokeColor">@color/dark_gray</item>
+        <item name="strokeColor">?textColorPrimaryInverted</item>
+        <item name="backgroundStrokeWidth">25</item>
+        <item name="foregroundStrokeWidth">25</item>
+    </style>
 </resources>

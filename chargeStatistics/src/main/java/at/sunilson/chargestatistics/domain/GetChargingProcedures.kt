@@ -4,21 +4,13 @@ import at.sunilson.chargestatistics.domain.entities.ChargingProcedure
 import at.sunilson.chargetracking.domain.GetAllChargeTrackingPoints
 import at.sunilson.chargetracking.domain.entities.ChargeTrackingPoint
 import at.sunilson.core.usecases.FlowUseCase
+import at.sunilson.ktx.datetime.toZonedDateTime
 import at.sunilson.vehiclecore.domain.entities.Vehicle
 import kotlinx.coroutines.flow.map
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneId
 import javax.inject.Inject
 
 internal class GetChargingProcedures @Inject constructor(private val getChargingPoints: GetAllChargeTrackingPoints) :
     FlowUseCase<List<ChargingProcedure>, String>() {
-
-    private val ChargeTrackingPoint.dateTime: LocalDateTime
-        get() = Instant
-            .ofEpochMilli(timestamp)
-            .atZone(ZoneId.systemDefault())
-            .toLocalDateTime()
 
     override fun run(params: String) = getChargingPoints(params).map { trackingPoints ->
         val result = mutableListOf<ChargingProcedure>()
@@ -46,8 +38,8 @@ internal class GetChargingProcedures @Inject constructor(private val getCharging
                         ChargingProcedure(
                             chargeTrackingPoint.batteryStatus.batteryLevel - currentStartTrackingPoint!!.batteryStatus.batteryLevel,
                             chargeTrackingPoint.batteryStatus.availableEnery - currentStartTrackingPoint!!.batteryStatus.availableEnery,
-                            currentStartTrackingPoint!!.dateTime,
-                            chargeTrackingPoint.dateTime
+                            currentStartTrackingPoint!!.timestamp.toZonedDateTime(),
+                            chargeTrackingPoint.timestamp.toZonedDateTime()
                         )
                     )
 

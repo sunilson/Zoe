@@ -19,7 +19,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Fahrzeug"
-                android:textColor="@color/textPrimary"
                 app:layout_constraintTop_toTopOf="parent" />
 
         <TextView

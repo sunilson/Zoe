@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:backgroundTint="@color/colorPrimary"
+            android:backgroundTint="?colorPrimary"
             tools:text="20.12.1993 14:23"
             android:textColor="@color/white"
             app:icon="@drawable/ic_baseline_refresh_24"

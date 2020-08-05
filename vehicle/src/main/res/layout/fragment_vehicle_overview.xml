@@ -5,7 +5,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary">
+        android:background="?colorPrimary">
 
     <at.sunilson.presentationcore.views.MotionLayoutSavedState
             android:id="@+id/motion_layout"
@@ -38,7 +38,7 @@
                 android:id="@+id/cut_view"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:color="@color/colorPrimary"
+                app:color="?colorPrimary"
                 app:curtainRadius="16dp"
                 app:layout_constraintBottom_toBottomOf="@id/progress_spacer"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -76,9 +76,6 @@
                 android:layout_height="175dp"
                 android:layout_marginTop="20dp"
                 android:elevation="20dp"
-                app:backgroundStrokeColor="@color/circular_progress_background"
-                app:backgroundStrokeWidth="25"
-                app:foregroundStrokeWidth="25"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -107,7 +104,7 @@
                 android:layout_marginTop="30dp"
                 android:elevation="20dp"
                 android:gravity="bottom"
-                android:textColor="@color/textPrimaryInverted"
+                android:textColor="?textColorPrimaryInverted"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/vehicle_image"
@@ -120,7 +117,7 @@
                 android:layout_marginTop="6dp"
                 android:elevation="20dp"
                 android:gravity="top"
-                android:textColor="@color/textSecondaryInverted"
+                android:textColor="?textColorSecondaryInverted"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/vehicle_title"
@@ -131,7 +128,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:backgroundTint="@color/colorPrimary"
+                android:backgroundTint="?colorPrimary"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:srcCompat="@drawable/ic_baseline_settings_24"
@@ -143,7 +140,8 @@
             android:id="@+id/splash_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white">
+            android:background="@color/white"
+            android:visibility="gone">
 
         <ImageView
                 android:id="@+id/splash_vehicle"
@@ -176,6 +174,4 @@
                 app:lottie_rawRes="@raw/progress_bar" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

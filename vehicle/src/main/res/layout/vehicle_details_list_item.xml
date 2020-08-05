@@ -12,7 +12,6 @@
             style="@style/TextAppearance.App.Headline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/textPrimary"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Title" />
 
@@ -21,7 +20,6 @@
             style="@style/TextAppearance.App.Subtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/textSecondary"
             android:textIsSelectable="true"
             app:layout_constraintTop_toBottomOf="@id/title"
             tools:text="Body" />

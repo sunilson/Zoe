@@ -60,7 +60,7 @@ internal class DeChargeEntriesFragment private constructor() :
                 binding.recyclerView.withModels {
                     state.deChargingProcedures.forEach { chargeProcedure ->
                         deChargeProcedureEntry {
-                            id(chargeProcedure.startTime.toInstant(ZoneOffset.UTC).toEpochMilli())
+                            id(chargeProcedure.startTime.toEpochSecond())
                             chargingProcedure(chargeProcedure)
                         }
                     }

@@ -4,10 +4,10 @@ import android.widget.TextView
 import at.sunilson.chargestatistics.R
 import at.sunilson.chargestatistics.domain.entities.ChargingProcedure
 import at.sunilson.presentationcore.epoxy.KotlinEpoxyHolder
+import at.sunilson.presentationcore.extensions.formatFull
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
-import java.time.format.DateTimeFormatter
 
 @EpoxyModelClass
 abstract class ChargeProcedureEntryModel :
@@ -18,17 +18,12 @@ abstract class ChargeProcedureEntryModel :
     @EpoxyAttribute
     lateinit var chargingProcedure: ChargingProcedure
 
-
     override fun bind(holder: Holder) = holder.run {
-        val formatter = DateTimeFormatter.ofPattern("dd.MM.YY hh:mm")
-
         title.text =
             "${chargingProcedure.batteryLevelDifference} % geladen (${chargingProcedure.energyLevelDifference} kWh)"
 
         subTitle.text =
-            "Von ${chargingProcedure.startTime.format(formatter)} bis ${chargingProcedure.endTime.format(
-                formatter
-            )}"
+            "Von ${chargingProcedure.startTime.formatFull()} bis ${chargingProcedure.endTime.formatFull()}"
     }
 
     class Holder : KotlinEpoxyHolder() {

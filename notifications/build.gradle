@@ -1,0 +1,29 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'dagger.hilt.android.plugin'
+
+android {
+
+    buildFeatures.viewBinding = true
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation(project(":presentationCore"))
+    implementation(project(":vehicleCore"))
+    implementation(project(":core"))
+    implementation(Dependencies.hilt)
+    implementation(Dependencies.moshi)
+    kapt(Dependencies.hiltKapt)
+    kapt(Dependencies.hiltKaptJetpack)
+    kapt(Dependencies.epoxyKapt)
+}

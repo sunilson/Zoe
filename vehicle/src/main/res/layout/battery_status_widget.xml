@@ -19,8 +19,7 @@
                 style="@style/TextAppearance.App.Headline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Batterie"
-                android:textColor="@color/textPrimary"
+                android:text="@string/battery"
                 app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -31,7 +30,8 @@
                 android:layout_marginTop="30dp"
                 android:src="@drawable/ic_electric_plugin"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/headline" />
+                app:layout_constraintTop_toBottomOf="@id/headline"
+                tools:ignore="ContentDescription" />
 
 
         <ImageView
@@ -41,7 +41,8 @@
                 android:layout_marginTop="20dp"
                 android:src="@drawable/ic_baseline_battery_charging_full_24"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/plug_icon" />
+                app:layout_constraintTop_toBottomOf="@id/plug_icon"
+                tools:ignore="ContentDescription" />
 
         <ImageView
                 android:id="@+id/temperature_icon"
@@ -50,7 +51,8 @@
                 android:layout_marginTop="20dp"
                 android:src="@drawable/ic_baseline_whatshot_24"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/battery_icon" />
+                app:layout_constraintTop_toBottomOf="@id/battery_icon"
+                tools:ignore="ContentDescription" />
 
         <ImageView
                 android:id="@+id/loading_station_icon"
@@ -59,7 +61,8 @@
                 android:layout_marginTop="20dp"
                 android:src="@drawable/ic_baseline_ev_station_24"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/temperature_icon" />
+                app:layout_constraintTop_toBottomOf="@id/temperature_icon"
+                tools:ignore="ContentDescription" />
 
         <TextView
                 android:id="@+id/vehicle_battery_plugged"

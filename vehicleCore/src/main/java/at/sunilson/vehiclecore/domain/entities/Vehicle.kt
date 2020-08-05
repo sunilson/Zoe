@@ -26,6 +26,9 @@ data class Vehicle(
         val remainingChargeTime: Int
     ) : Serializable {
 
+        val isCharging: Boolean
+            get() = chargeState == ChargeState.CHARGING
+
         val batteryCapacity: Int
             get() = ((availableEnery.toFloat() / batteryLevel) * 100).toInt()
 
