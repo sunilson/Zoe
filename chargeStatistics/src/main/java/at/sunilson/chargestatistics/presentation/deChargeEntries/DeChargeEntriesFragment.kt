@@ -1,5 +1,6 @@
 package at.sunilson.chargestatistics.presentation.deChargeEntries
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.view.animation.OvershootInterpolator
@@ -8,17 +9,24 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.transition.TransitionManager
 import at.sunilson.chargestatistics.R
 import at.sunilson.chargestatistics.databinding.DeChargeEntriesFragmentBinding
+import at.sunilson.chargestatistics.domain.entities.DeChargingProcedure
 import at.sunilson.chargestatistics.presentation.overview.ChargeStatisticsOverviewFragment
 import at.sunilson.presentationcore.base.viewBinding
+import at.sunilson.presentationcore.extensions.formatFull
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.Marker
+import com.google.android.material.transition.MaterialArcMotion
+import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.Insetter
 import dev.chrisbanes.insetter.Side
 import jp.wasabeef.recyclerview.animators.ScaleInAnimator
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.time.ZoneOffset
 
 @AndroidEntryPoint
 internal class DeChargeEntriesFragment private constructor() :
@@ -48,7 +56,10 @@ internal class DeChargeEntriesFragment private constructor() :
             (parentFragment as? ChargeStatisticsOverviewFragment)?.switchToPosition(3)
         }
 
-        Insetter.builder().applySystemWindowInsetsToPadding(Side.TOP).applyToView(binding.root)
+        Insetter
+            .builder()
+            .applySystemWindowInsetsToPadding(Side.TOP)
+            .applyToView(binding.root)
     }
 
     private fun observeState() {
@@ -62,6 +73,7 @@ internal class DeChargeEntriesFragment private constructor() :
                         deChargeProcedureEntry {
                             id(chargeProcedure.startTime.toEpochSecond())
                             chargingProcedure(chargeProcedure)
+                            onItemClick {  }
                         }
                     }
                 }

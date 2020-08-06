@@ -1,12 +1,12 @@
 package at.sunilson.chargeSchedule.data
 
-import at.sunilson.chargeSchedule.data.models.ChargeSettingsDay
-import at.sunilson.chargeSchedule.data.models.ChargeSettingsSchedule
+import at.sunilson.chargeSchedule.data.models.remote.ChargeSettingsDay
+import at.sunilson.chargeSchedule.data.models.remote.ChargeSettingsSchedule
 import at.sunilson.chargeSchedule.domain.entities.ChargeDay
 import at.sunilson.chargeSchedule.domain.entities.ChargeSchedule
-import java.time.ZonedDateTime
+import java.time.LocalTime
 
-fun ChargeSettingsSchedule.toEntity() = ChargeSchedule(
+internal fun ChargeSettingsSchedule.toEntity() = ChargeSchedule(
     id,
     activated,
     listOfNotNull(
@@ -20,5 +20,9 @@ fun ChargeSettingsSchedule.toEntity() = ChargeSchedule(
     )
 )
 
-fun ChargeSettingsDay.toEntity(day: ChargeDay.WeekDay) =
-    ChargeDay(day, ZonedDateTime.parse(startTime), duration)
+internal fun ChargeSettingsDay.toEntity(day: ChargeDay.WeekDay) =
+    ChargeDay(
+        day,
+        LocalTime.parse(startTime.removePrefix("T").removeSuffix("Z")),
+        duration
+    )

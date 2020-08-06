@@ -8,7 +8,7 @@ import at.sunilson.vehiclecore.domain.VehicleCoreRepository
 import com.github.kittinunf.result.coroutines.SuspendableResult
 import javax.inject.Inject
 
-class RefreshAllChargeSchedules @Inject constructor(
+internal class RefreshAllChargeSchedules @Inject constructor(
     private val chargeScheduleService: ChargeScheduleService,
     private val vehicleCoreRepository: VehicleCoreRepository
 ) : AsyncUseCase<List<ChargeSchedule>, String>() {
@@ -19,6 +19,6 @@ class RefreshAllChargeSchedules @Inject constructor(
                 vehicleCoreRepository.kamereonAccountID,
                 params
             )
-            result.attributes.schedules.map { it.toEntity() }
+            result.data.attributes.schedules.map { it.toEntity() }
         }
 }

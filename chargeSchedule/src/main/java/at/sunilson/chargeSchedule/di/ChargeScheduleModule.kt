@@ -1,12 +1,16 @@
 package at.sunilson.chargeSchedule.di
 
+import android.content.Context
+import androidx.room.Room
 import at.sunilson.authentication.di.AuthenticationModule
+import at.sunilson.chargeSchedule.data.ChargeScheduleDatabase
 import at.sunilson.chargeSchedule.data.ChargeScheduleService
 import at.sunilson.vehiclecore.data.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -16,6 +20,18 @@ import javax.inject.Singleton
 @InstallIn(ApplicationComponent::class)
 @Module
 object ChargeScheduleModule {
+
+    @Provides
+    @Singleton
+    internal fun provideDatabase(@ApplicationContext context: Context) = Room
+        .databaseBuilder(context, ChargeScheduleDatabase::class.java, "chargeScheduleDatabase")
+        .fallbackToDestructiveMigration()
+        .build()
+
+    @Provides
+    @Singleton
+    internal fun provideChargeScheduleDao(database: ChargeScheduleDatabase) =
+        database.chargeScheduleDao()
 
     @Provides
     @Singleton

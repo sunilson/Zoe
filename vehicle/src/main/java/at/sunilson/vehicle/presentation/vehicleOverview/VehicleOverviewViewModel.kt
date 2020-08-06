@@ -60,7 +60,11 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
             if (!invisible) setState { copy(loading = true) }
 
             refreshAllVehicles(Unit).fold(
-                { if (it.isEmpty()) sendEvent(NoVehiclesAvailable) },
+                {
+                    if (it.isEmpty()) {
+                        sendEvent(NoVehiclesAvailable)
+                    }
+                },
                 {
                     Timber.e(it)
                     getState { state ->

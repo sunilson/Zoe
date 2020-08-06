@@ -1,4 +1,4 @@
-package at.sunilson.vehicle.data.entities.location
+package at.sunilson.vehiclecore.data.models.location
 
 import com.squareup.moshi.JsonClass
 

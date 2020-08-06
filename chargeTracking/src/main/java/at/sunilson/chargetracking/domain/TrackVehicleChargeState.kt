@@ -19,32 +19,43 @@ class TrackVehicleChargeState @Inject constructor(
     private val chargeTrackingDao: ChargeTrackingDao,
     private val vehicleDao: VehicleDao
 ) : AsyncUseCase<ChargeTrackingPoint, String>() {
-    override suspend fun run(params: String) = SuspendableResult.of<ChargeTrackingPoint, Exception> {
-        val batteryStatus = vehicleCoreService.getBatteryStatus(
-            vehicleCoreRepository.kamereonAccountID,
-            params
-        ).toEntity()
+    override suspend fun run(params: String) =
+        SuspendableResult.of<ChargeTrackingPoint, Exception> {
+            val batteryStatus = vehicleCoreService.getBatteryStatus(
+                vehicleCoreRepository.kamereonAccountID,
+                params
+            ).toEntity()
 
-        val mileage = vehicleCoreService.getKilometerReading(
-            vehicleCoreRepository.kamereonAccountID,
-            params
-        ).toEntity()
+            val mileage = vehicleCoreService.getKilometerReading(
+                vehicleCoreRepository.kamereonAccountID,
+                params
+            ).toEntity()
 
-        //Update existing vehicle
-        val previousVehicle = vehicleDao.getVehicle(params).first()?.toEntity()
-        previousVehicle?.copy(batteryStatus = batteryStatus, mileageKm = mileage)?.let {
-            vehicleDao.upsertVehicles(listOf(it.toDatabaseEntity()))
+            val location = try {
+                vehicleCoreService.getVehicleLocation(
+                    vehicleCoreRepository.kamereonAccountID,
+                    params
+                ).toEntity()
+            } catch (error: Exception) {
+                null
+            }
+
+            //Update existing vehicle
+            val previousVehicle = vehicleDao.getVehicle(params).first()?.toEntity()
+            previousVehicle?.copy(batteryStatus = batteryStatus, mileageKm = mileage)?.let {
+                vehicleDao.upsertVehicles(listOf(it.toDatabaseEntity()))
+            }
+
+            val trackingPoint = ChargeTrackingPoint(
+                params,
+                System.currentTimeMillis(),
+                batteryStatus,
+                mileage,
+                location
+            )
+
+            chargeTrackingDao.insertChargeTrackingPoint(trackingPoint.toDatabaseEntity())
+
+            trackingPoint
         }
-
-        val trackingPoint = ChargeTrackingPoint(
-            params,
-            System.currentTimeMillis(),
-            batteryStatus,
-            mileage
-        )
-
-        chargeTrackingDao.insertChargeTrackingPoint(trackingPoint.toDatabaseEntity())
-
-        trackingPoint
-    }
 }

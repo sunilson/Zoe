@@ -1,6 +1,7 @@
 package at.sunilson.chargeSchedule.domain
 
+import at.sunilson.chargeSchedule.data.ChargeScheduleDao
 import javax.inject.Inject
 
-class GetAllChargeSchedules @Inject constructor() {
+internal class GetAllChargeSchedules @Inject constructor(private val chargeScheduleDao: ChargeScheduleDao) {
 }

@@ -22,6 +22,7 @@ dependencies {
     implementation(project(":networkingCore"))
     implementation(project(":core"))
     implementation(project(":vehicleCore"))
+    implementation(Dependencies.room)
     implementation(Dependencies.hilt)
     kapt(Dependencies.moshiKapt)
     kapt(Dependencies.hiltKapt)

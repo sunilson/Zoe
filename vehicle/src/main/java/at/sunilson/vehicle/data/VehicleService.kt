@@ -2,7 +2,7 @@ package at.sunilson.vehicle.data
 
 import at.sunilson.vehicle.data.entities.AllVehiclesResponse
 import at.sunilson.vehicle.data.entities.KamereonPostBody
-import at.sunilson.vehicle.data.entities.location.LocationResponse
+import at.sunilson.vehiclecore.data.models.location.LocationResponse
 import okhttp3.ResponseBody
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -12,20 +12,8 @@ import retrofit2.http.Path
 
 interface VehicleService {
 
-    @GET("accounts/{accountId}/kamereon/kca/car-adapter/v1/cars/{vin}/location?country=AT")
-    suspend fun getVehicleLocation(
-        @Path("accountId") accountId: String,
-        @Path("vin") vin: String
-    ): LocationResponse
-
     @GET("accounts/{accountId}/vehicles?country=AT")
     suspend fun getAllVehicles(@Path("accountId") accountId: String): AllVehiclesResponse
-
-    @GET("accounts/{accountId}/kamereon/kca/car-adapter/v1/cars/{vin}/charging-settings?country=AT")
-    suspend fun getChargingSchedule(
-        @Path("accountId") accountId: String,
-        @Path("vin") vin: String
-    ): ResponseBody
 
     @Headers("Content-Type: application/vnd.api+json")
     @POST("accounts/{accountId}/kamereon/kca/car-adapter/v1/cars/{vin}/actions/hvac-start?country=AT")

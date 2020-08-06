@@ -25,6 +25,7 @@ dependencies {
     implementation(project(":vehicleCore"))
     implementation(project(":chargeTracking"))
     implementation(Dependencies.hilt)
+    implementation(Dependencies.maps)
 
     testImplementation(project(":testCore"))
     testImplementation(Dependencies.coroutineTesting)

@@ -31,11 +31,11 @@ class ChargeStatisticsOverviewFragment : Fragment(R.layout.charge_statistics_ove
 
     override fun onResume() {
         super.onResume()
-        drawBelowStatusBar(true)
         useLightStatusBarIcons(false)
         useLightNavigationBarIcons(false)
         setStatusBarColor(android.R.color.transparent)
         setNavigationBarColor(R.color.white)
+        drawBelowStatusBar(true)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

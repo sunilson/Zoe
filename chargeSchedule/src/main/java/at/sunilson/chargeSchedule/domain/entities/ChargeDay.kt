@@ -1,8 +1,7 @@
 package at.sunilson.chargeSchedule.domain.entities
 
-import java.time.ZonedDateTime
-
-data class ChargeDay(val dayOfWeek: WeekDay, val startTime: ZonedDateTime, val duration: Int) {
+import java.time.LocalTime
+internal data class ChargeDay(val dayOfWeek: WeekDay, val startTime: LocalTime, val duration: Int) {
     enum class WeekDay {
         MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY
     }

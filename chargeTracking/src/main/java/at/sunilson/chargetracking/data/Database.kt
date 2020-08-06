@@ -7,7 +7,7 @@ import at.sunilson.chargetracking.data.models.ChargeTrackingPoint
 
 @Database(
     entities = [ChargeTrackingPoint::class],
-    version = 2
+    version = 3
 )
 @TypeConverters(at.sunilson.chargetracking.data.TypeConverters::class)
 abstract class Database : RoomDatabase() {

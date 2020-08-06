@@ -4,4 +4,8 @@
     <string name="notifications_explanation">Momentan funktioniert die Renault API für Notifications noch nicht (zumindest für mich). Deshalb ist es über das Lade-Tracking gelöst. Um die Push Notifications zu nutzen aktiviere bitte den Tracker.</string>
     <string name="default_notification_channel_title">Allgemeine Erinnerungen</string>
     <string name="default_notification_channel_description">Allgemeine Erinnerungen</string>
+    <string name="activate_charge_tracker">Charge-Tracker aktivieren</string>
+    <string name="charging_done">Laden fertig</string>
+    <string name="charging_started">Laden gestartet</string>
+    <string name="low_battery">Batteriestand niedrig</string>
 </resources>

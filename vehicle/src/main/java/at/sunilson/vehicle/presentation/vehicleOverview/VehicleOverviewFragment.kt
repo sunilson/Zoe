@@ -60,6 +60,7 @@ import dev.chrisbanes.insetter.applySystemWindowInsetsToPadding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -72,6 +73,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     private val animators = mutableListOf<ValueAnimator>()
     private var lastBackPress: Long = -1L
     private var splashAnimationStarted = false
+    private var splashAnimationFinished = false
 
     @Inject
     lateinit var notificationRepository: NotificationRepository
@@ -140,8 +142,8 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
         Timber.d("Starting splash animation")
         binding.splashContainer.isVisible = true
 
+        useLightStatusBarIcons(false)
         requireView().doOnLayout {
-            useLightStatusBarIcons(false)
             val halfScreenWidth = it.width / 2f
             val halfVehicleWidth = binding.splashVehicle.width / 2f
 
@@ -170,7 +172,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     }
 
     private fun finishSplashAnimation() {
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+        viewLifecycleOwner.lifecycleScope.launch {
             while (true) {
                 if (viewModel.state.first().selectedVehicle != null) {
                     break
@@ -212,6 +214,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
                 start()
                 doOnEnd {
                     binding.splashContainer.visibility = View.GONE
+                    splashAnimationFinished = true
                     useLightStatusBarIcons(true)
                     handleDeeplinks()
                 }
@@ -254,6 +257,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
                         splashAnimationStarted = true
                         startSplashAnimation()
                     } else {
+                        splashAnimationFinished = true
                     }
                 }
             }
@@ -334,7 +338,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
                 vehicle(vehicle)
                 chargeScheduleClicked {
                     findNavController().navigate(
-                        Uri.parse("zoe://charge_schedule/$it}"),
+                        Uri.parse("zoe://charge_schedule/$it"),
                         NavOptions.Builder().withDefaultAnimations()
                     )
                 }
@@ -373,7 +377,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     private fun setupUIFlags() {
         setStatusBarColor(android.R.color.transparent)
         setNavigationBarColor(android.R.color.white)
-        useLightStatusBarIcons(true)
+        useLightStatusBarIcons(splashAnimationFinished)
         useLightNavigationBarIcons(false)
         drawBelowStatusBar()
     }

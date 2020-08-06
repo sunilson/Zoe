@@ -4,6 +4,10 @@ import at.sunilson.vehiclecore.data.models.DatabaseVehicle
 import at.sunilson.vehiclecore.domain.entities.Vehicle
 import at.sunilson.vehiclecore.data.models.batterystatus.BatteryStatusResponse
 import at.sunilson.vehiclecore.data.models.cockpit.CockpitResponse
+import at.sunilson.vehiclecore.data.models.location.LocationResponse
+import at.sunilson.vehiclecore.domain.entities.Location
+import java.time.ZoneId
+import java.time.ZonedDateTime
 
 fun BatteryStatusResponse.toEntity() =
     Vehicle.BatteryStatus(
@@ -24,3 +28,12 @@ fun Vehicle.toDatabaseEntity() = DatabaseVehicle(vin, this)
 fun CockpitResponse.toEntity() = data.attributes.totalMileage
 
 fun DatabaseVehicle.toEntity() = vehicle
+
+fun LocationResponse.toEntity() =
+    Location(
+        data.attributes.gpsLatitude,
+        data.attributes.gpsLongitude,
+        ZonedDateTime
+            .parse(data.attributes.lastUpdateTime)
+            .withZoneSameInstant(ZoneId.systemDefault())
+    )

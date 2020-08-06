@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import at.sunilson.chargetracking.data.Database
 import at.sunilson.chargetracking.data.MIGRATION_1_2
+import at.sunilson.chargetracking.data.MIGRATION_2_3
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,6 +20,7 @@ object ChargeTrackingModule {
     internal fun provideDatabase(@ApplicationContext context: Context): Database = Room
         .databaseBuilder(context, Database::class.java, "chargeTrackingDatabase")
         .addMigrations(MIGRATION_1_2)
+        .addMigrations(MIGRATION_2_3)
         .build()
 
     @Provides

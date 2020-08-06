@@ -11,7 +11,7 @@ import timber.log.Timber
 class ChargeScheduleOverviewState
 sealed class ChargeScheduleOverviewEvent
 
-class ChargeScheduleOverviewViewModel @ViewModelInject constructor(
+internal class ChargeScheduleOverviewViewModel @ViewModelInject constructor(
     private val getAllChargeSchedules: GetAllChargeSchedules,
     private val refreshAllChargeSchedules: RefreshAllChargeSchedules
 ) : UniDirectionalViewModel<ChargeScheduleOverviewState, ChargeScheduleOverviewEvent>(

@@ -10,7 +10,7 @@ import at.sunilson.ktx.fragment.useLightStatusBarIcons
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ChargeScheduleOverviewFragment : Fragment(R.layout.fragment_charge_schedules_overview) {
+internal class ChargeScheduleOverviewFragment : Fragment(R.layout.fragment_charge_schedules_overview) {
 
     private val args by navArgs<ChargeScheduleOverviewFragmentArgs>()
     private val viewModel by viewModels<ChargeScheduleOverviewViewModel>()

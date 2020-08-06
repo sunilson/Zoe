@@ -1,7 +1,7 @@
 package at.sunilson.vehicle.data
 
 import at.sunilson.vehicle.data.entities.AllVehiclesResponse
-import at.sunilson.vehicle.data.entities.location.LocationResponse
+import at.sunilson.vehiclecore.data.models.location.LocationResponse
 import at.sunilson.vehiclecore.domain.entities.Location
 import at.sunilson.vehiclecore.domain.entities.Vehicle
 import java.time.ZoneId
@@ -27,12 +27,3 @@ fun AllVehiclesResponse.toVehicleList() = vehicleLinks
             )
         )
     }
-
-fun LocationResponse.toEntity() =
-    Location(
-        data.attributes.gpsLatitude,
-        data.attributes.gpsLongitude,
-        ZonedDateTime
-            .parse(data.attributes.lastUpdateTime)
-            .withZoneSameInstant(ZoneId.systemDefault())
-    )
