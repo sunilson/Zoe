@@ -24,13 +24,11 @@ dependencies {
     implementation(project(":networkingCore"))
     implementation(project(":core"))
     implementation(project(":vehicleCore"))
-    implementation(project(":chargeStatistics"))
     implementation(project(":widget"))
     implementation(project(":notifications"))
     implementation(Dependencies.lottie)
     implementation(Dependencies.hilt)
     implementation(Dependencies.maps)
-    implementation "org.jetbrains.kotlin:kotlin-reflect"
     kapt(Dependencies.moshiKapt)
     kapt(Dependencies.hiltKapt)
     kapt(Dependencies.hiltKaptJetpack)

@@ -29,6 +29,9 @@ internal class RefreshAllVehicles @Inject constructor(
         //TODO Parallel
         Timber.d("Refreshing vehicles battery status...")
         val enrichedVehicles = vehicles.map { vehicle ->
+
+            vehicleService.getChargingSchedule(vehicleCoreRepository.kamereonAccountID, vehicle.vin)
+
             val batteryStatus = vehicleCoreService
                 .getBatteryStatus(kamereonId, vehicle.vin)
                 .toEntity()

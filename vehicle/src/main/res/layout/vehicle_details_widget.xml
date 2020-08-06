@@ -60,7 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Fahrzeugdetails ansehen"
+                android:text="@string/view_vehicle_details"
                 app:icon="@drawable/ic_baseline_directions_car_24"
                 app:layout_constraintTop_toBottomOf="@id/vehicle_battery_capacity" />
 

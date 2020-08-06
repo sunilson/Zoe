@@ -13,6 +13,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import at.sunilson.chargestatistics.R
 import at.sunilson.chargestatistics.databinding.ChargeStatisticsOverviewFragmentBinding
+import at.sunilson.ktx.fragment.drawBelowStatusBar
 import at.sunilson.ktx.fragment.setNavigationBarColor
 import at.sunilson.ktx.fragment.setStatusBarColor
 import at.sunilson.ktx.fragment.useLightNavigationBarIcons
@@ -30,9 +31,10 @@ class ChargeStatisticsOverviewFragment : Fragment(R.layout.charge_statistics_ove
 
     override fun onResume() {
         super.onResume()
+        drawBelowStatusBar(true)
         useLightStatusBarIcons(false)
         useLightNavigationBarIcons(false)
-        setStatusBarColor(R.color.white)
+        setStatusBarColor(android.R.color.transparent)
         setNavigationBarColor(R.color.white)
     }
 

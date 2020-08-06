@@ -6,10 +6,6 @@ import at.sunilson.chargetracking.domain.entities.ChargeTrackingPoint
 import at.sunilson.core.usecases.FlowUseCase
 import at.sunilson.ktx.datetime.toZonedDateTime
 import kotlinx.coroutines.flow.map
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.ZonedDateTime
 import javax.inject.Inject
 
 internal class GetDeChargingProcedures @Inject constructor(private val getChargingPoints: GetAllChargeTrackingPoints) :
@@ -37,11 +33,11 @@ internal class GetDeChargingProcedures @Inject constructor(private val getChargi
                     //Stop and save procedure
                     result.add(
                         DeChargingProcedure(
-                            currentStartTrackingPoint!!.batteryStatus.batteryLevel - chargeTrackingPoint.batteryStatus.batteryLevel,
-                            currentStartTrackingPoint!!.batteryStatus.availableEnery - chargeTrackingPoint.batteryStatus.availableEnery,
+                            currentStartTrackingPoint!!.batteryStatus.batteryLevel - prev.batteryStatus.batteryLevel,
+                            currentStartTrackingPoint!!.batteryStatus.availableEnery - prev.batteryStatus.availableEnery,
                             currentStartTrackingPoint!!.timestamp.toZonedDateTime(),
-                            chargeTrackingPoint.timestamp.toZonedDateTime(),
-                            chargeTrackingPoint.mileageKm - currentStartTrackingPoint!!.mileageKm
+                            prev.timestamp.toZonedDateTime(),
+                            prev.mileageKm - currentStartTrackingPoint!!.mileageKm
                         )
                     )
 

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Base application theme. -->
-    <style name="Base.Theme.Zoe.AppTheme" >
+    <style name="Base.Theme.Zoe.AppTheme">
         <!-- Customize your theme here. -->
+        <item name="defaultBackground">@color/white</item>
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryDark">@color/blueDark</item>
         <item name="colorAccent">@color/blue</item>

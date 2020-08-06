@@ -33,6 +33,7 @@ dependencies {
     implementation(project(":networkingCore"))
     implementation(project(":vehicle"))
     implementation(project(":chargeStatistics"))
+    implementation(project(":chargeSchedule"))
     implementation(project(":presentationCore"))
     implementation(project(":core"))
     implementation(project(":navigation"))

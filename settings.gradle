@@ -1,3 +1,4 @@
+include ':chargeSchedule'
 include ':notifications'
 include ':widget'
 include ':testCore'

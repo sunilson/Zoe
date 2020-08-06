@@ -4,6 +4,7 @@ import android.animation.ValueAnimator
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +23,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -38,6 +40,7 @@ import at.sunilson.ktx.fragment.useLightNavigationBarIcons
 import at.sunilson.ktx.fragment.useLightStatusBarIcons
 import at.sunilson.presentationcore.base.viewBinding
 import at.sunilson.presentationcore.extensions.setupHeaderAnimation
+import at.sunilson.presentationcore.extensions.withDefaultAnimations
 import at.sunilson.vehicle.R
 import at.sunilson.vehicle.databinding.FragmentVehicleOverviewBinding
 import at.sunilson.vehicle.presentation.extensions.displayName
@@ -138,6 +141,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
         binding.splashContainer.isVisible = true
 
         requireView().doOnLayout {
+            useLightStatusBarIcons(false)
             val halfScreenWidth = it.width / 2f
             val halfVehicleWidth = binding.splashVehicle.width / 2f
 
@@ -297,7 +301,11 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     private fun showChargeStatistics(vin: String) {
         reenterTransition = null
         exitTransition = null
-        findNavController().navigate(VehicleOverviewFragmentDirections.showChargeStatistics(vin))
+        findNavController()
+            .navigate(
+                Uri.parse("zoe://charge_statistics/$vin"),
+                NavOptions.Builder().withDefaultAnimations()
+            )
     }
 
 
@@ -323,7 +331,13 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
 
             batteryStatusWidget {
                 id("batteryStatusWidget")
-                batteryStatus(vehicle.batteryStatus)
+                vehicle(vehicle)
+                chargeScheduleClicked {
+                    findNavController().navigate(
+                        Uri.parse("zoe://charge_schedule/$it}"),
+                        NavOptions.Builder().withDefaultAnimations()
+                    )
+                }
             }
 
             climateControlWidget {

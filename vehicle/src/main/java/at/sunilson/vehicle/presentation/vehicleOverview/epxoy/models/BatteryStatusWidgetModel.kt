@@ -1,11 +1,12 @@
 package at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models
 
+import android.widget.Button
 import android.widget.TextView
-import at.sunilson.vehiclecore.domain.entities.Vehicle
 import at.sunilson.presentationcore.epoxy.KotlinEpoxyHolder
 import at.sunilson.vehicle.R
 import at.sunilson.vehicle.presentation.extensions.displayName
 import at.sunilson.vehicle.presentation.utils.TimeUtils
+import at.sunilson.vehiclecore.domain.entities.Vehicle
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
@@ -16,10 +17,14 @@ abstract class BatteryStatusWidgetModel : EpoxyModelWithHolder<BatteryStatusWidg
     override fun getDefaultLayout() = R.layout.battery_status_widget
 
     @EpoxyAttribute
-    lateinit var batteryStatus: Vehicle.BatteryStatus
+    lateinit var vehicle: Vehicle
 
-    override fun bind(holder: Holder) {
+    @EpoxyAttribute
+    lateinit var chargeScheduleClicked: (String) -> Unit
+
+    override fun bind(holder: Holder) = holder.run {
         val context = holder.batteryTemperature.context
+        val batteryStatus = vehicle.batteryStatus
 
         val chargeStateText =
             if (batteryStatus.chargeState == Vehicle.BatteryStatus.ChargeState.CHARGING) {
@@ -29,13 +34,13 @@ abstract class BatteryStatusWidgetModel : EpoxyModelWithHolder<BatteryStatusWidg
             } else {
                 holder.chargeStateView.context.getString(batteryStatus.chargeState.displayName)
             }
-        holder.chargeStateView.text = chargeStateText
-        holder.pluggedStateView.text =
+        chargeStateView.text = chargeStateText
+        pluggedStateView.text =
             if (batteryStatus.pluggedIn) "Ladekabel angesteckt. (${batteryStatus.chargeSpeed} kWh)" else "Ladekabel nicht angesteckt"
-        holder.batteryTemperature.text =
-            "Batterie Temperatur ist ${batteryStatus.batteryTemperature} Grad"
-        holder.estimatedRange.text =
+        batteryTemperature.text = "Batterie Temperatur ist ${batteryStatus.batteryTemperature} Grad"
+        estimatedRange.text =
             "Reichweite ${batteryStatus.remainingRange} km (${batteryStatus.availableEnery} kWh)"
+        chargeScheduleButton.setOnClickListener { chargeScheduleClicked(vehicle.vin) }
     }
 
     class Holder : KotlinEpoxyHolder() {
@@ -43,6 +48,7 @@ abstract class BatteryStatusWidgetModel : EpoxyModelWithHolder<BatteryStatusWidg
         val chargeStateView by bind<TextView>(R.id.vehicle_charge_state)
         val batteryTemperature by bind<TextView>(R.id.vehicle_battery_temperature)
         val estimatedRange by bind<TextView>(R.id.vehicle_estimated_range)
+        val chargeScheduleButton by bind<Button>(R.id.charge_schedule_button)
     }
 }
 

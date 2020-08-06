@@ -111,6 +111,15 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@id/loading_station_icon"
                 tools:text="Verbleibende Reichweite ist 300km" />
+
+        <com.google.android.material.button.MaterialButton
+                android:id="@+id/charge_schedule_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/plan_charge"
+                app:icon="@drawable/ic_baseline_timer_24"
+                app:layout_constraintTop_toBottomOf="@id/vehicle_estimated_range" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
