@@ -5,5 +5,15 @@
         <item name="bottomSheetDialogTheme">@style/BottomSheetTheme</item>
         <item name="materialButtonStyle">@style/ButtonStyle</item>
         <item name="circularProgressBarStyle">@style/ZoeCircularProgressBarStyle</item>
+        <item name="textAppearanceHeadline3">
+            @style/TextAppearance.MaterialComponents.Headline3.Zoe
+        </item>
+        <item name="textAppearanceHeadline6">
+            @style/TextAppearance.MaterialComponents.Headline6.Zoe
+        </item>
+        <item name="textAppearanceBody1">@style/TextAppearance.MaterialComponents.Body1.Zoe</item>
+        <item name="textAppearanceSubtitle2">
+            @style/TextAppearance.MaterialComponents.Subtitle2.Zoe
+        </item>
     </style>
 </resources>

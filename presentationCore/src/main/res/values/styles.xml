@@ -1,23 +1,18 @@
 <resources>
 
-    <style name="TextAppearance.App.Title" parent="TextAppearance.MaterialComponents.Headline3">
+    <style name="TextAppearance.MaterialComponents.Headline3.Zoe">
         <item name="android:textColor">?textColorPrimary</item>
     </style>
 
-
-    <style name="TextAppearance.App.Headline" parent="TextAppearance.MaterialComponents.Headline6">
-        <item name="android:textColor">?textColorPrimary</item>
-    </style>
-
-    <style name="TextAppearance.App.Headline.Inverted">
-        <item name="android:textColor">?textColorPrimaryInverted</item>
-    </style>
-
-    <style name="TextAppearance.App.Subtitle" parent="TextAppearance.MaterialComponents.Subtitle2">
+    <style name="TextAppearance.MaterialComponents.Subtitle2.Zoe">
         <item name="android:textColor">?textColorSecondary</item>
     </style>
 
-    <style name="TextAppearance.App.Body" parent="TextAppearance.MaterialComponents.Body1">
+    <style name="TextAppearance.MaterialComponents.Body1.Zoe">
+        <item name="android:textColor">?textColorPrimary</item>
+    </style>
+
+    <style name="TextAppearance.MaterialComponents.Headline6.Zoe">
         <item name="android:textColor">?textColorPrimary</item>
     </style>
 

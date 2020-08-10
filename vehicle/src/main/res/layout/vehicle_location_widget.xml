@@ -30,7 +30,7 @@
                 android:id="@+id/timestamp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/TextAppearance.App.Subtitle"
+                android:textAppearance="?textAppearanceSubtitle2"
                 android:background="@drawable/location_timestamp_background"
                 android:padding="8dp"
                 android:textColor="@android:color/white"

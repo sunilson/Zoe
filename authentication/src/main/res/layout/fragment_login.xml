@@ -9,7 +9,7 @@
         android:padding="20dp">
 
     <TextView
-            style="@style/TextAppearance.App.Title"
+            android:textAppearance="?textAppearanceHeadline3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="60dp"

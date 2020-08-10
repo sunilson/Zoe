@@ -14,13 +14,13 @@
 
         <TextView
                 android:id="@+id/headline"
-                style="@style/TextAppearance.App.Headline"
+                android:textAppearance="?textAppearanceHeadline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/notifications" />
 
         <TextView
-                style="@style/TextAppearance.App.Body"
+                android:textAppearance="?textAppearanceBody1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"

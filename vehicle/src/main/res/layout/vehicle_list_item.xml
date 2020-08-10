@@ -25,7 +25,7 @@
 
         <TextView
                 android:id="@+id/vehicle_name"
-                style="@style/TextAppearance.App.Headline"
+                android:textAppearance="?textAppearanceHeadline6"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
@@ -38,7 +38,7 @@
 
         <TextView
                 android:id="@+id/vehicle_info"
-                style="@style/TextAppearance.App.Subtitle"
+                android:textAppearance="?textAppearanceSubtitle2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"

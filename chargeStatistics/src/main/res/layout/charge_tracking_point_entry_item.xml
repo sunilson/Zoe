@@ -17,14 +17,14 @@
 
         <TextView
                 android:id="@+id/charge_procedure_title"
-                style="@style/TextAppearance.App.Headline"
+                android:textAppearance="?textAppearanceHeadline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:text="Zoe" />
 
         <TextView
                 android:id="@+id/charge_procedure_info"
-                style="@style/TextAppearance.App.Subtitle"
+                android:textAppearance="?textAppearanceSubtitle2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"

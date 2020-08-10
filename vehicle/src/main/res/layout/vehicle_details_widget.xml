@@ -15,7 +15,7 @@
 
         <TextView
                 android:id="@+id/headline"
-                style="@style/TextAppearance.App.Headline"
+                android:textAppearance="?textAppearanceHeadline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Fahrzeug"
@@ -23,7 +23,7 @@
 
         <TextView
                 android:id="@+id/vehicle_vin"
-                style="@style/TextAppearance.App.Body"
+                android:textAppearance="?textAppearanceBody1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -35,7 +35,7 @@
 
         <TextView
                 android:id="@+id/vehicle_mileage"
-                style="@style/TextAppearance.App.Body"
+                android:textAppearance="?textAppearanceBody1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -46,7 +46,7 @@
 
         <TextView
                 android:id="@+id/vehicle_battery_capacity"
-                style="@style/TextAppearance.App.Body"
+                android:textAppearance="?textAppearanceBody1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
