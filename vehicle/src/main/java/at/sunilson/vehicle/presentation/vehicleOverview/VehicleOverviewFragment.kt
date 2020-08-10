@@ -63,6 +63,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.lang.RuntimeException
 import javax.inject.Inject
 
 
@@ -240,6 +241,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     private fun setupClickListeners() {
         binding.vehicleImage.setOnClickListener {
             viewModel.showVehicleDetails()
+            throw RuntimeException("Test")
         }
 
         binding.settingsButton.setOnClickListener {

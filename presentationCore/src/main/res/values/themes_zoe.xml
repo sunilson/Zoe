@@ -5,6 +5,7 @@
         <!-- Customize your theme here. -->
         <item name="defaultBackground">@color/white</item>
         <item name="alternativeBackground">@color/lightGray</item>
+        <item name="buttonSecondaryBackground">@color/lightGray</item>
         <item name="colorPrimary">@color/blue</item>
         <item name="colorSecondary">@color/blue</item>
         <item name="colorPrimaryDark">@color/blueDark</item>

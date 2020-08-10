@@ -1,5 +1,10 @@
 <resources>
 
+    <style name="TextAppearance.App.Title" parent="TextAppearance.MaterialComponents.Headline3">
+        <item name="android:textColor">?textColorPrimary</item>
+    </style>
+
+
     <style name="TextAppearance.App.Headline" parent="TextAppearance.MaterialComponents.Headline6">
         <item name="android:textColor">?textColorPrimary</item>
     </style>

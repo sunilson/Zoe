@@ -1,11 +1,7 @@
 package at.sunilson.vehicle.data
 
 import at.sunilson.vehicle.data.entities.AllVehiclesResponse
-import at.sunilson.vehiclecore.data.models.location.LocationResponse
-import at.sunilson.vehiclecore.domain.entities.Location
 import at.sunilson.vehiclecore.domain.entities.Vehicle
-import java.time.ZoneId
-import java.time.ZonedDateTime
 
 fun AllVehiclesResponse.toVehicleList() = vehicleLinks
     .filter { it.vehicleDetails.electrical }
@@ -13,7 +9,8 @@ fun AllVehiclesResponse.toVehicleList() = vehicleLinks
         Vehicle(
             vehicleLink.vin,
             vehicleLink.vehicleDetails.model.label,
-            vehicleLink.vehicleDetails.assets.first().renditions.first().url,
+            vehicleLink.vehicleDetails.assets?.firstOrNull()?.renditions?.firstOrNull()?.url
+                ?: "https://i.imgur.com/ajoEQXB.png",
             0,
             Vehicle.BatteryStatus(
                 0,
