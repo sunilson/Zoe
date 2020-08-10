@@ -1,6 +1,7 @@
 package at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models
 
 import android.widget.TextView
+import at.sunilson.ktx.datetime.toZonedDateTime
 import at.sunilson.presentationcore.epoxy.KotlinEpoxyHolder
 import at.sunilson.presentationcore.extensions.formatFull
 import at.sunilson.vehicle.R
@@ -38,7 +39,7 @@ abstract class VehicleLocationWidgetModel :
     override fun bind(holder: Holder) {
         holder.run {
             timestamp.text =
-                location?.timestamp?.formatFull() ?: timestamp.context.getString(R.string.nothing)
+                location?.timestamp?.toZonedDateTime()?.formatFull() ?: timestamp.context.getString(R.string.nothing)
 
             map.onCreate(null)
             map.getMapAsync { googleMap ->

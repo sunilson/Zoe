@@ -5,7 +5,8 @@ import timber.log.Timber
 
 internal class CrashlyticsTree : Timber.Tree() {
     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
-        if(t != null) {
+        if (t != null) {
+            FirebaseCrashlytics.getInstance().log(message)
             FirebaseCrashlytics.getInstance().recordException(t)
         }
     }

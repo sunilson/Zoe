@@ -75,7 +75,13 @@ internal class ChargeScheduleOverviewFragment :
                 binding.swipeRefreshLayout.isRefreshing = it.loading
                 renderList(it.schedules)
                 binding.toggle.toggled = it.chargeType != ChargeType.ALWAYS
-                binding.saveButton.isVisible = it.schedulesUpdated
+
+                if (it.schedulesUpdated) {
+                    binding.saveButton.show()
+                } else {
+                    binding.saveButton.hide()
+                }
+
                 binding.disabledOverlay.isVisible =
                     it.chargeType != ChargeType.SCHEDULED || it.settingChargeMode || it.loading
             }

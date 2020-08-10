@@ -72,8 +72,8 @@ internal abstract class ChargeScheduleEntryModel :
         }
 
         toggle.isChecked = chargeSchedule.activated
-        toggle.setOnCheckedChangeListener { compoundButton, b ->
-            chargeScheduleUpdated(chargeSchedule.copy(activated = b))
+        toggle.setOnClickListener {
+            chargeScheduleUpdated(chargeSchedule.copy(activated = toggle.isChecked))
         }
 
         setUpDayList(chargeSchedule)

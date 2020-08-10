@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import at.sunilson.ktx.datetime.toZonedDateTime
 import at.sunilson.ktx.fragment.drawBelowStatusBar
 import at.sunilson.ktx.fragment.setNavigationBarColor
 import at.sunilson.ktx.fragment.setStatusBarColor
@@ -99,7 +100,7 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             viewModel.state.collect {
                 updateFab(it.loading)
-                binding.refreshFab.text = it.location?.timestamp?.formatFull()
+                binding.refreshFab.text = it.location?.timestamp?.toZonedDateTime()?.formatFull()
                     ?: requireContext().getString(R.string.nothing)
                 setMarkerToLocation(it.location ?: return@collect)
             }

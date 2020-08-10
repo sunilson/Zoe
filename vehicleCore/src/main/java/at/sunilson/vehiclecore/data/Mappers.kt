@@ -1,11 +1,11 @@
 package at.sunilson.vehiclecore.data
 
 import at.sunilson.vehiclecore.data.models.DatabaseVehicle
-import at.sunilson.vehiclecore.domain.entities.Vehicle
 import at.sunilson.vehiclecore.data.models.batterystatus.BatteryStatusResponse
 import at.sunilson.vehiclecore.data.models.cockpit.CockpitResponse
 import at.sunilson.vehiclecore.data.models.location.LocationResponse
 import at.sunilson.vehiclecore.domain.entities.Location
+import at.sunilson.vehiclecore.domain.entities.Vehicle
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
@@ -35,5 +35,6 @@ fun LocationResponse.toEntity() =
         data.attributes.gpsLongitude,
         ZonedDateTime
             .parse(data.attributes.lastUpdateTime)
-            .withZoneSameInstant(ZoneId.systemDefault())
+            .toInstant()
+            .toEpochMilli()
     )

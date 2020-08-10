@@ -19,8 +19,7 @@ object ChargeTrackingModule {
     @Singleton
     internal fun provideDatabase(@ApplicationContext context: Context): Database = Room
         .databaseBuilder(context, Database::class.java, "chargeTrackingDatabase")
-        .addMigrations(MIGRATION_1_2)
-        .addMigrations(MIGRATION_2_3)
+        .fallbackToDestructiveMigration()
         .build()
 
     @Provides

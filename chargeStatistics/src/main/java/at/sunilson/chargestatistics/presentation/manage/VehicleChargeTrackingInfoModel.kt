@@ -1,9 +1,9 @@
 package at.sunilson.chargestatistics.presentation.manage
 
-import android.widget.Switch
 import android.widget.TextView
 import at.sunilson.chargestatistics.R
 import at.sunilson.chargestatistics.domain.entities.VehicleChargeTrackingInfo
+import at.sunilson.chargetracking.domain.entities.ChargeTracker
 import at.sunilson.chargetracking.domain.entities.isTracking
 import at.sunilson.presentationcore.epoxy.KotlinEpoxyHolder
 import com.airbnb.epoxy.EpoxyAttribute
@@ -25,12 +25,21 @@ abstract class VehicleChargeTrackingInfoModel :
 
     override fun bind(holder: Holder) = holder.run {
         vehicleName.text = vehicleChargeTrackingInfo.vehicle.modelName
-        trackingState.text = "Tracker Status: ${vehicleChargeTrackingInfo.chargeTracker?.state}"
+        trackingState.text =
+            "Tracker Status: ${getTrackerStatusName(vehicleChargeTrackingInfo.chargeTracker?.state)}"
         toggle.isChecked = vehicleChargeTrackingInfo.chargeTracker.isTracking
         toggle.setOnClickListener {
             toggle.isChecked = vehicleChargeTrackingInfo.chargeTracker.isTracking
             toggleTracking(!vehicleChargeTrackingInfo.chargeTracker.isTracking)
         }
+    }
+
+    private fun getTrackerStatusName(state: ChargeTracker.State?) = when (state) {
+        ChargeTracker.State.BLOCKED -> "Geblockt"
+        ChargeTracker.State.WAITING -> "Auf Ausführung warten"
+        ChargeTracker.State.WORKING -> "Wird ausgeführt"
+        ChargeTracker.State.COMPLETED -> "Fertig"
+        null -> "Nicht gestartet"
     }
 
     class Holder : KotlinEpoxyHolder() {
