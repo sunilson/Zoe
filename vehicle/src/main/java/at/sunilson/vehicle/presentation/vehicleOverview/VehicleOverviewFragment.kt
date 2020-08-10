@@ -31,6 +31,7 @@ import androidx.recyclerview.widget.RecyclerView
 import at.arkulpa.notifications.domain.NotificationRepository
 import at.arkulpa.notifications.presentation.notificationWidget
 import at.arkulpa.widget.VehicleWidgetProvider
+import at.sunilson.authentication.domain.LogoutHandler
 import at.sunilson.core.Do
 import at.sunilson.ktx.context.showToast
 import at.sunilson.ktx.fragment.drawBelowStatusBar
@@ -73,7 +74,10 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     private val animators = mutableListOf<ValueAnimator>()
     private var lastBackPress: Long = -1L
     private var splashAnimationStarted = false
-    private var splashAnimationFinished = false
+
+
+    @Inject
+    lateinit var logoutHandler: LogoutHandler
 
     @Inject
     lateinit var notificationRepository: NotificationRepository
@@ -214,7 +218,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
                 start()
                 doOnEnd {
                     binding.splashContainer.visibility = View.GONE
-                    splashAnimationFinished = true
+                    splashAnimationStarted = false
                     useLightStatusBarIcons(true)
                     handleDeeplinks()
                 }
@@ -252,12 +256,11 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
                     is ShowVehicleStatistics -> findNavController().navigate("https://zoe.app/statistics/${event.vin}".toUri())
                     is ShowChargeStatistics -> showChargeStatistics(event.vin)
                     is ShowVehicleLocation -> showVehicleLocation(event.vin)
-                    is NoVehiclesAvailable -> TODO()
+                    is NoVehiclesAvailable -> logoutHandler.emitLogout()
                     is ShowSplashScreen -> if (!splashAnimationStarted) {
                         splashAnimationStarted = true
                         startSplashAnimation()
                     } else {
-                        splashAnimationFinished = true
                     }
                 }
             }
@@ -302,12 +305,12 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
         )
     }
 
-    private fun showChargeStatistics(vin: String) {
+    private fun showChargeStatistics(vin: String, manage: Boolean = false) {
         reenterTransition = null
         exitTransition = null
         findNavController()
             .navigate(
-                Uri.parse("zoe://charge_statistics/$vin"),
+                Uri.parse("zoe://charge_statistics/$vin?manage=$manage"),
                 NavOptions.Builder().withDefaultAnimations()
             )
     }
@@ -369,7 +372,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
                 id("notificationsWidget")
                 notificationRepository(notificationRepository)
                 vin(vehicle.vin)
-                chargeTrackButtonClicked { viewModel.showChargeStatistics() }
+                chargeTrackButtonClicked { showChargeStatistics(it, manage = true) }
             }
         }
     }
@@ -377,7 +380,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     private fun setupUIFlags() {
         setStatusBarColor(android.R.color.transparent)
         setNavigationBarColor(android.R.color.white)
-        useLightStatusBarIcons(splashAnimationFinished)
+        useLightStatusBarIcons(!splashAnimationStarted)
         useLightNavigationBarIcons(false)
         drawBelowStatusBar()
     }

@@ -11,7 +11,13 @@
             android:label="ChargeStatisticsOverviewFragment"
             tools:layout="@layout/charge_statistics_overview_fragment">
 
-        <deepLink app:uri="zoe://charge_statistics/{vin}" />
+        <deepLink app:uri="zoe://charge_statistics/{vin}?manage={manage}" />
+
+        <argument
+                android:name="manage"
+                app:argType="boolean"
+                android:defaultValue="false"
+                />
 
         <argument
                 android:name="vin"

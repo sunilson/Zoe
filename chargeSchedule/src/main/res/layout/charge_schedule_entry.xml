@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        style="@style/WidgetCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            android:padding="@dimen/card_padding">
+
+        <TextView
+                android:id="@+id/schedule_name"
+                style="@style/TextAppearance.App.Headline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Ladeprogramm 1" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/schedule_activated"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@id/schedule_name"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/schedule_name" />
+
+        <TextView
+                style="@style/TextAppearance.App.Body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Beginn"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@id/schedule_start_time" />
+
+
+        <TextView
+                style="@style/TextAppearance.App.Body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ende"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@id/schedule_end_time" />
+
+        <com.google.android.material.slider.Slider
+                android:id="@+id/duration_slider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:stepSize="15"
+                android:valueFrom="15"
+                android:valueTo="495"
+                app:layout_constraintTop_toBottomOf="@id/schedule_end_time" />
+
+        <TextView
+                android:id="@+id/schedule_start_time"
+                style="@style/TextAppearance.App.Body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/schedule_name"
+                tools:text="19:45" />
+
+
+        <TextView
+                android:id="@+id/schedule_end_time"
+                style="@style/TextAppearance.App.Body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/schedule_start_time"
+                tools:text="20:15" />
+
+        <com.google.android.material.chip.Chip
+                android:id="@+id/chip_monday"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="M"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/chip_tuesday"
+                app:layout_constraintTop_toBottomOf="@id/duration_slider" />
+
+        <com.google.android.material.chip.Chip
+                android:id="@+id/chip_tuesday"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tu"
+                app:layout_constraintLeft_toRightOf="@id/chip_monday"
+                app:layout_constraintRight_toLeftOf="@id/chip_wednesday"
+                app:layout_constraintTop_toTopOf="@id/chip_monday" />
+
+        <com.google.android.material.chip.Chip
+                android:id="@+id/chip_wednesday"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="W"
+                app:layout_constraintLeft_toRightOf="@id/chip_tuesday"
+                app:layout_constraintRight_toLeftOf="@id/chip_thursday"
+                app:layout_constraintTop_toTopOf="@id/chip_monday" />
+
+        <com.google.android.material.chip.Chip
+                android:id="@+id/chip_thursday"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Th"
+                app:layout_constraintLeft_toRightOf="@id/chip_wednesday"
+                app:layout_constraintRight_toLeftOf="@id/chip_friday"
+                app:layout_constraintTop_toTopOf="@id/chip_monday" />
+
+        <com.google.android.material.chip.Chip
+                android:id="@+id/chip_friday"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="F"
+                app:layout_constraintLeft_toRightOf="@id/chip_thursday"
+                app:layout_constraintRight_toLeftOf="@id/chip_saturday"
+                app:layout_constraintTop_toTopOf="@id/chip_monday" />
+
+        <com.google.android.material.chip.Chip
+                android:id="@+id/chip_saturday"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sa"
+                app:layout_constraintLeft_toRightOf="@id/chip_friday"
+                app:layout_constraintRight_toLeftOf="@id/chip_sunday"
+                app:layout_constraintTop_toTopOf="@id/chip_monday" />
+
+        <com.google.android.material.chip.Chip
+                android:id="@+id/chip_sunday"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Su"
+                app:layout_constraintLeft_toRightOf="@id/chip_saturday"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/chip_monday" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

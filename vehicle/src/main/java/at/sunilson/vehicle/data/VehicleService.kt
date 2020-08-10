@@ -1,8 +1,7 @@
 package at.sunilson.vehicle.data
 
 import at.sunilson.vehicle.data.entities.AllVehiclesResponse
-import at.sunilson.vehicle.data.entities.KamereonPostBody
-import at.sunilson.vehiclecore.data.models.location.LocationResponse
+import at.sunilson.networkingcore.KamereonPostBody
 import okhttp3.ResponseBody
 import retrofit2.http.Body
 import retrofit2.http.GET

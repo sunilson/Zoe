@@ -9,6 +9,7 @@ import android.view.View
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import at.sunilson.chargestatistics.R
@@ -65,6 +66,12 @@ class ChargeStatisticsOverviewFragment : Fragment(R.layout.charge_statistics_ove
             }
             true
         }
+
+        binding.viewpager.post {
+            if(args.manage) {
+                switchToPosition(3)
+            }
+        }
     }
 
     private fun checkBatteryOptimization() {
@@ -87,6 +94,6 @@ class ChargeStatisticsOverviewFragment : Fragment(R.layout.charge_statistics_ove
 
     fun switchToPosition(position: Int) {
         check(position < 4)
-        binding.viewpager.setCurrentItem(position, true)
+        binding.viewpager.currentItem = position
     }
 }

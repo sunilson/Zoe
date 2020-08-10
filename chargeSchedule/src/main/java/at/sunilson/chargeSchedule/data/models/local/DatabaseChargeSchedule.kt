@@ -2,12 +2,14 @@ package at.sunilson.chargeSchedule.data.models.local
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import at.sunilson.chargeSchedule.domain.entities.ChargeDay
+import at.sunilson.chargeSchedule.domain.entities.ChargeType
 
 @Entity
 internal data class DatabaseChargeSchedule(
     @PrimaryKey
-    val id: String,
+    val id: Int,
+    val vin: String,
+    val chargeType: ChargeType,
     val activated: Boolean,
-    val days: List<ChargeDay>
+    val days: List<DatabaseChargeDay>
 )

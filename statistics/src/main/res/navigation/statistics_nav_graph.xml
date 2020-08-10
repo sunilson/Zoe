@@ -13,10 +13,7 @@
         <argument
                 android:name="vin"
                 app:argType="string" />
-        <deepLink
-                android:id="@+id/deepLink"
-                app:uri="https://zoe.app/statistics/{vin}" />
+
+        <deepLink app:uri="https://zoe.app/statistics/{vin}" />
     </fragment>
-
-
 </navigation>

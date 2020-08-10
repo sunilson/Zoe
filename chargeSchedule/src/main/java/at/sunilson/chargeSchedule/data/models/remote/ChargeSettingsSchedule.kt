@@ -5,7 +5,7 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 internal data class ChargeSettingsSchedule(
-    val id: String,
+    val id: Int,
     val activated: Boolean,
     val monday: ChargeSettingsDay?,
     val tuesday: ChargeSettingsDay?,

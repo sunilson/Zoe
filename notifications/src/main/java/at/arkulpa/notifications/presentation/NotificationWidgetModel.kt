@@ -18,13 +18,13 @@ abstract class NotificationWidgetModel : EpoxyModelWithHolder<NotificationWidget
     lateinit var notificationRepository: NotificationRepository
 
     @EpoxyAttribute
-    lateinit var chargeTrackButtonClicked: () -> Unit
+    lateinit var chargeTrackButtonClicked: (String) -> Unit
 
     @EpoxyAttribute
     lateinit var vin: String
 
     override fun bind(holder: Holder) = holder.run {
-        chargeTrackButton.setOnClickListener { chargeTrackButtonClicked() }
+        chargeTrackButton.setOnClickListener { chargeTrackButtonClicked(vin) }
 
         chargestartSwitch.isChecked = notificationRepository.chargeStartedNotificationEnabled(vin)
         chargeEndSwitch.isChecked = notificationRepository.chargeFinishedNotificationEnabled(vin)

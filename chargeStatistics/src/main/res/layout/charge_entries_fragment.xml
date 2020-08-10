@@ -5,8 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipChildren="false"
-        android:clipToPadding="false"
-        android:paddingVertical="20dp">
+        android:clipToPadding="false">
 
     <com.airbnb.epoxy.EpoxyRecyclerView
             android:id="@+id/recycler_view"

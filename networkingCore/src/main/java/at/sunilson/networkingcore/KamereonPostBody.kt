@@ -1,4 +1,4 @@
-package at.sunilson.vehicle.data.entities
+package at.sunilson.networkingcore
 
 import com.squareup.moshi.JsonClass
 
