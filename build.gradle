@@ -40,7 +40,7 @@ subprojects {
                 defaultConfig {
                     minSdkVersion(26)
                     targetSdkVersion(30)
-                    versionCode = System.getenv("BITRISE_BUILD_NUMBER") ?: 20
+                    versionCode = System.getenv("BITRISE_BUILD_NUMBER")?.toInteger() ?: 20
                     versionName = "1.14"
                     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
                 }
