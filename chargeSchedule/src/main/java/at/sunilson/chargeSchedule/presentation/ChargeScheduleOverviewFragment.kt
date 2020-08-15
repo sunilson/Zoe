@@ -2,6 +2,7 @@ package at.sunilson.chargeSchedule.presentation
 
 import android.os.Bundle
 import android.view.View
+import android.view.animation.OvershootInterpolator
 import androidx.activity.addCallback
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.view.isVisible
@@ -25,6 +26,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.Insetter
 import dev.chrisbanes.insetter.Side
+import jp.wasabeef.recyclerview.animators.ScaleInAnimator
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
@@ -39,7 +42,6 @@ internal class ChargeScheduleOverviewFragment :
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.refreshSchedules(args.vin)
-        viewModel.loadChargeSchedules(args.vin)
 
         Insetter
             .builder()
@@ -50,6 +52,16 @@ internal class ChargeScheduleOverviewFragment :
         binding.toggle.onToggledListener = { viewModel.toggleChargeMode(args.vin, !it) }
         binding.backButton.setOnClickListener { viewModel.askForSaveApproval(true) }
         binding.saveButton.setOnClickListener { viewModel.askForSaveApproval(false) }
+        binding.recyclerview.itemAnimator = ScaleInAnimator(OvershootInterpolator(1f)).apply {
+            addDuration = 300L
+            removeDuration = 300L
+        }
+
+        //Delay loading so transition is smooth
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            delay(300)
+            viewModel.loadChargeSchedules(args.vin)
+        }
 
         observeState()
         observeEvents()
