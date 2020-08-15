@@ -1,35 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/container"
-        style="@style/WidgetCard"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-    <LinearLayout
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <TextView
+            android:id="@+id/section_header"
+            style="?textAppearanceHeadline6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clipToPadding="false"
-            android:orientation="vertical"
-            android:padding="@dimen/card_padding">
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="12dp"
+            android:visibility="gone"
+            tools:text="Header"
+            tools:visibility="visible" />
 
-        <TextView
-                android:id="@+id/charge_procedure_title"
-                android:textAppearance="?textAppearanceHeadline6"
+    <com.google.android.material.card.MaterialCardView
+            android:id="@+id/container"
+            style="@style/WidgetCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="Zoe" />
+                android:clipToPadding="false"
+                android:orientation="vertical"
+                android:padding="@dimen/card_padding">
 
-        <TextView
-                android:id="@+id/charge_procedure_info"
-                android:textAppearance="?textAppearanceSubtitle2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                tools:text="R135 ZE50 - 13000 km" />
+            <TextView
+                    android:id="@+id/charge_procedure_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?textAppearanceHeadline6"
+                    tools:text="Zoe" />
 
-    </LinearLayout>
+            <TextView
+                    android:id="@+id/charge_procedure_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textAppearance="?textAppearanceSubtitle2"
+                    tools:text="R135 ZE50 - 13000 km" />
 
-</com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

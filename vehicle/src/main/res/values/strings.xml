@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="plugged_in">Zoe ist derzeit am Laden!</string>
-    <string name="not_plugged_in">Zoe ist derzeit nicht am Laden!</string>
     <string name="mileage">Kilometerstand: %s km</string>
     <string name="not_charging">Nicht am Laden</string>
     <string name="waiting_for_planned_charge">Warte auf geplante Ladung</string>
@@ -14,12 +12,15 @@
     <string name="impressum">Impressum und Rechtliches</string>
     <string name="choose_your_vehicle">Wähle dein Fahrzeug</string>
     <string name="back_button_content_description">Zurück Button</string>
-    <string name="drive_charge_statistics"><![CDATA[Lade- & Fahr-Statistiken]]></string>
-    <string name="climate_statistics">Klimatisierungs Statistiken</string>
+    <string name="drive_charge_statistics">Ladungen</string>
+    <string name="climate_statistics">Klima</string>
     <string name="statistics">Statistiken</string>
     <string name="nothing">n.A.</string>
     <string name="not_available_yet">Noch nicht verfügbar!</string>
     <string name="battery">Batterie</string>
     <string name="view_vehicle_details">Fahrzeugdetails ansehen</string>
     <string name="plan_charge">Ladung planen</string>
+    <string name="battery_temperature">Batterie Temperatur %d Grad</string>
+    <string name="plugged_in">Ladekabel angesteckt</string>
+    <string name="not_plugged_in">Ladekabel nicht angesteckt</string>
 </resources>

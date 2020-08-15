@@ -10,41 +10,40 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:orientation="vertical"
             android:padding="@dimen/card_padding">
 
         <TextView
                 android:id="@+id/headline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Klimatisierung"
+                android:text="@string/statistics"
                 android:textAppearance="?textAppearanceHeadline6"
                 app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.button.MaterialButton
-                android:id="@+id/start_climate_control_button"
+                android:id="@+id/hvac_statistics_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="12dp"
-                android:text="Sofort"
+                android:text="@string/climate_statistics"
                 app:icon="@drawable/ic_baseline_ac_unit_24"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/plan_climate_control_button"
+                app:layout_constraintRight_toLeftOf="@id/charging_statistics_button"
                 app:layout_constraintTop_toBottomOf="@id/headline" />
 
         <com.google.android.material.button.MaterialButton
-                android:id="@+id/plan_climate_control_button"
+                android:id="@+id/charging_statistics_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Planen"
-                app:icon="@drawable/ic_baseline_calendar_today_24"
-                app:layout_constraintBottom_toBottomOf="@id/start_climate_control_button"
-                app:layout_constraintLeft_toRightOf="@id/start_climate_control_button"
+                android:text="@string/drive_charge_statistics"
+                app:icon="@drawable/ic_baseline_battery_charging_full_24"
+                app:layout_constraintBottom_toBottomOf="@id/hvac_statistics_button"
+                app:layout_constraintLeft_toRightOf="@id/hvac_statistics_button"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@id/start_climate_control_button" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                app:layout_constraintTop_toTopOf="@id/hvac_statistics_button" />
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>

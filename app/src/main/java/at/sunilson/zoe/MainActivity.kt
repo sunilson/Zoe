@@ -10,6 +10,7 @@ import at.sunilson.authentication.domain.IsLoggedInUseCase
 import at.sunilson.authentication.domain.LogoutHandler
 import at.sunilson.navigation.ActivityNavigator
 import at.sunilson.navigation.ActivityNavigatorParams
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collect

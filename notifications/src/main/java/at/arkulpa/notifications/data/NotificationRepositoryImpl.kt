@@ -8,6 +8,14 @@ import javax.inject.Inject
 class NotificationRepositoryImpl @Inject constructor(private val sharedPreferences: SharedPreferences) :
     NotificationRepository {
 
+    override fun chargedEightyPercentNotificationEnabled(vin: String): Boolean {
+        return sharedPreferences.getBoolean("chargedEightyPercent$vin", false)
+    }
+
+    override fun toggleChargedEightyPercentNotification(vin: String, value: Boolean) {
+        sharedPreferences.edit { putBoolean("chargedEightyPercent$vin", value) }
+    }
+
     override fun chargeStartedNotificationEnabled(vin: String): Boolean {
         return sharedPreferences.getBoolean("chargeStarted$vin", false)
     }

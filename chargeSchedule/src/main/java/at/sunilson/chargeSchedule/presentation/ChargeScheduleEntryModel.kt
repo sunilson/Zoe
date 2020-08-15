@@ -39,6 +39,7 @@ internal abstract class ChargeScheduleEntryModel :
     override fun bind(holder: Holder) = holder.run {
         name.text = "Ladeprogramm ${chargeSchedule.id}"
 
+        //If there is a day set we can setup sliders, time texts, etc., otherwise the schedule is not active
         val firstDay = chargeSchedule.days.firstOrNull()
         if (firstDay != null) {
             val formatter = DateTimeFormatter.ofPattern("HH:mm")
@@ -48,6 +49,7 @@ internal abstract class ChargeScheduleEntryModel :
             endTime.text =
                 firstDay.startTime.plusMinutes(firstDay.duration.toLong()).format(formatter)
 
+            //Only setup slider when a day is already set
             slider.value = firstDay.duration.toFloat()
             slider.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
                 override fun onStartTrackingTouch(slider: Slider) {}
@@ -55,7 +57,7 @@ internal abstract class ChargeScheduleEntryModel :
                     updateEndTime(slider.value.toInt())
                 }
             })
-            slider.addOnChangeListener { slider, value, fromUser ->
+            slider.addOnChangeListener { _, value, _ ->
                 endTime.text = firstDay.startTime.plusMinutes(value.toLong()).format(formatter)
             }
             slider.isVisible = true
@@ -76,9 +78,12 @@ internal abstract class ChargeScheduleEntryModel :
             chargeScheduleUpdated(chargeSchedule.copy(activated = toggle.isChecked))
         }
 
-        setUpDayList(chargeSchedule)
+        setUpDayList(chargeSchedule, slider)
     }
 
+    /**
+     * Opens a [TimePickerDialog] that updates the current schedule on success
+     */
     private fun setTime(context: Context) {
         TimePickerDialog(
             context,
@@ -116,7 +121,10 @@ internal abstract class ChargeScheduleEntryModel :
         }))
     }
 
-    private fun Holder.setUpDayList(chargeSchedule: ChargeSchedule) {
+    /**
+     * Populate list of week days and set click listeners
+     */
+    private fun Holder.setUpDayList(chargeSchedule: ChargeSchedule, durationSlider: Slider) {
         container.children.filterIsInstance<Chip>().forEach { it.isChecked = false }
 
         ChargeDay.WeekDay.values().forEach { dayOfWeek ->
@@ -139,8 +147,13 @@ internal abstract class ChargeScheduleEntryModel :
                 val index = chargeSchedule.days.indexOfFirst { it.dayOfWeek == dayOfWeek }
 
                 val updatedChargeSchedule = if (index == -1) {
-                    val alreadySetTime = chargeSchedule.days.firstOrNull()?.startTime
-                    val newChargeDay = ChargeDay(dayOfWeek, alreadySetTime ?: defaultStartTime, 15)
+                    //If we already have a day we use those values to populate the new day
+                    val alreadyExistingDay = chargeSchedule.days.firstOrNull()
+                    val newChargeDay = ChargeDay(
+                        dayOfWeek,
+                        alreadyExistingDay?.startTime ?: defaultStartTime,
+                        alreadyExistingDay?.duration ?: slider.value.toInt()
+                    )
 
                     chargeSchedule.copy(days = chargeSchedule
                         .days

@@ -7,5 +7,7 @@ import java.time.format.DateTimeFormatter
 import java.time.temporal.TemporalAccessor
 
 fun TemporalAccessor.formatFull() = DateTimeFormatter.ofPattern("dd.MM.YYYY HH:mm").format(this)
+fun TemporalAccessor.formatPattern(pattern: String) =
+    DateTimeFormatter.ofPattern(pattern).format(this)
 
 fun Instant.toZonedDateTime() = ZonedDateTime.from(this).withZoneSameInstant(ZoneId.systemDefault())

@@ -26,34 +26,43 @@
                 android:layout_marginTop="20dp"
                 android:text="@string/notifications_explanation" />
 
-        <com.google.android.material.button.MaterialButton
-                android:id="@+id/charge_tracking_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                app:icon="@drawable/ic_baseline_track_changes_24"
-                android:text="@string/activate_charge_tracker" />
 
         <Switch
                 android:id="@+id/charge_end"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="20dp"
                 android:text="@string/charging_done" />
 
         <Switch
-                android:id="@+id/charge_start"
-                android:layout_width="wrap_content"
+                android:id="@+id/charge_eighty_percent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="20dp"
+                android:text="@string/charge_eigthy_percent_warning" />
+
+
+        <Switch
+                android:id="@+id/charge_start"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:text="@string/charging_started" />
 
         <Switch
                 android:id="@+id/battery_low"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="20dp"
                 android:text="@string/low_battery" />
+
+        <com.google.android.material.button.MaterialButton
+                android:id="@+id/charge_tracking_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:icon="@drawable/ic_baseline_track_changes_24"
+                android:text="@string/activate_charge_tracker" />
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

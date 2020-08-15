@@ -2,6 +2,7 @@ package at.sunilson.vehicle.data
 
 import at.sunilson.vehicle.data.entities.AllVehiclesResponse
 import at.sunilson.vehiclecore.domain.entities.Vehicle
+import java.time.Instant
 
 fun AllVehiclesResponse.toVehicleList() = vehicleLinks
     .filter { it.vehicleDetails.electrical }
@@ -21,6 +22,7 @@ fun AllVehiclesResponse.toVehicleList() = vehicleLinks
                 Vehicle.BatteryStatus.ChargeState.NOT_CHARGING,
                 0f,
                 0
-            )
+            ),
+            System.currentTimeMillis()
         )
     }

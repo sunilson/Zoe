@@ -30,12 +30,28 @@ class CheckNotifications @Inject constructor(
         checkChargeFinished(params.vin, params.batteryStatus, oldStatus)
         checkChargeStarted(params.vin, params.batteryStatus, oldStatus)
         checkLowBattery(params.vin, params.batteryStatus, oldStatus)
+        checkChargedEightyPercent(params.vin, params.batteryStatus, oldStatus)
 
         sharedPreferences.edit {
             putString(
                 "batteryStatus${params.vin}",
                 moshiAdapter.toJson(params.batteryStatus)
             )
+        }
+    }
+
+    private fun checkChargedEightyPercent(
+        vin: String,
+        newStatus: Vehicle.BatteryStatus,
+        oldStatus: Vehicle.BatteryStatus?
+    ) {
+        if (repository.chargedEightyPercentNotificationEnabled(vin) && newStatus.batteryLevel >= 80 && oldStatus?.batteryLevel ?: 100 < 80) {
+            sendNotification(
+                SendNotificationParams(
+                    "80% geladen",
+                    "Die Battere ist nun zu ${newStatus.batteryLevel}% geladen!"
+                )
+            ).failure { Timber.e(it, "Sending notification failed") }
         }
     }
 

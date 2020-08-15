@@ -29,6 +29,12 @@ abstract class NotificationWidgetModel : EpoxyModelWithHolder<NotificationWidget
         chargestartSwitch.isChecked = notificationRepository.chargeStartedNotificationEnabled(vin)
         chargeEndSwitch.isChecked = notificationRepository.chargeFinishedNotificationEnabled(vin)
         batteryLowSwitch.isChecked = notificationRepository.lowBatteryNotificationEnabled(vin)
+        chargeEightyPercentSwitch.isChecked =
+            notificationRepository.chargedEightyPercentNotificationEnabled(vin)
+
+        chargeEightyPercentSwitch.setOnCheckedChangeListener { _, checked ->
+            notificationRepository.toggleChargedEightyPercentNotification(vin, checked)
+        }
 
         chargestartSwitch.setOnCheckedChangeListener { _, checked ->
             notificationRepository.toggleChargedStartedNotification(vin, checked)
@@ -47,6 +53,7 @@ abstract class NotificationWidgetModel : EpoxyModelWithHolder<NotificationWidget
         val chargeTrackButton by bind<Button>(R.id.charge_tracking_button)
         val chargestartSwitch by bind<Switch>(R.id.charge_start)
         val chargeEndSwitch by bind<Switch>(R.id.charge_end)
+        val chargeEightyPercentSwitch by bind<Switch>(R.id.charge_end)
         val batteryLowSwitch by bind<Switch>(R.id.battery_low)
     }
 }

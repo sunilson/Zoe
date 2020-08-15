@@ -10,6 +10,7 @@ import at.sunilson.vehiclecore.data.toEntity
 import at.sunilson.vehiclecore.domain.VehicleCoreRepository
 import at.sunilson.vehiclecore.domain.entities.Vehicle
 import com.github.kittinunf.result.coroutines.SuspendableResult
+import kotlinx.coroutines.flow.first
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -23,12 +24,14 @@ internal class RefreshAllVehicles @Inject constructor(
 
         val kamereonId = vehicleCoreRepository.kamereonAccountID
 
-        val vehicles = vehicleService.getAllVehicles(kamereonId).toVehicleList()
-        Timber.d("Got vehicle list: $vehicles")
+        val previousVehicles = vehicleDao.getAllVehicles().first().map { it.toEntity() }
+        val newVehicles = vehicleService.getAllVehicles(kamereonId).toVehicleList()
+
+        Timber.d("Got vehicle list: $newVehicles")
 
         //TODO Parallel
         Timber.d("Refreshing vehicles battery status...")
-        val enrichedVehicles = vehicles.map { vehicle ->
+        val enrichedVehicles = newVehicles.map { vehicle ->
 
             val batteryStatus = vehicleCoreService
                 .getBatteryStatus(kamereonId, vehicle.vin)
@@ -38,7 +41,18 @@ internal class RefreshAllVehicles @Inject constructor(
                 .getKilometerReading(kamereonId, vehicle.vin)
                 .toEntity()
 
-            vehicle.copy(batteryStatus = batteryStatus, mileageKm = kilometerReading)
+            val prev = previousVehicles.firstOrNull { it.vin == vehicle.vin }
+            val newVehicle = vehicle.copy(
+                batteryStatus = batteryStatus,
+                mileageKm = kilometerReading,
+                lastChangeTimestamp = prev?.lastChangeTimestamp ?: System.currentTimeMillis()
+            )
+
+            when (prev) {
+                null -> newVehicle.copy(lastChangeTimestamp = System.currentTimeMillis())
+                newVehicle -> newVehicle
+                else -> newVehicle.copy(lastChangeTimestamp = System.currentTimeMillis())
+            }
         }
 
         vehicleDao.upsertVehicles(enrichedVehicles.map { it.toDatabaseEntity() })

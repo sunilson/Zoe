@@ -239,11 +239,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     }
 
     private fun setupClickListeners() {
-        binding.vehicleImage.setOnClickListener {
-            viewModel.showVehicleDetails()
-            throw RuntimeException("Test")
-        }
-
+        binding.vehicleImage.setOnClickListener { viewModel.showVehicleDetails() }
         binding.settingsButton.setOnClickListener {
             findNavController().navigate(R.id.show_settings_dialog)
         }

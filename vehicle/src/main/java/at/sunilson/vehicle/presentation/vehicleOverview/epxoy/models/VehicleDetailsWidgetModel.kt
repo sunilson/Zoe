@@ -2,9 +2,11 @@ package at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models
 
 import android.widget.Button
 import android.widget.TextView
-import at.sunilson.vehiclecore.domain.entities.Vehicle
+import at.sunilson.ktx.datetime.toZonedDateTime
 import at.sunilson.presentationcore.epoxy.KotlinEpoxyHolder
+import at.sunilson.presentationcore.extensions.formatFull
 import at.sunilson.vehicle.R
+import at.sunilson.vehiclecore.domain.entities.Vehicle
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
@@ -22,7 +24,8 @@ abstract class VehicleDetailsWidgetModel :
     lateinit var onButtonClick: (String) -> Unit
 
     override fun bind(holder: Holder) = holder.run {
-        vinText.text = "Vin: ${vehicle.vin}"
+        vinText.text =
+            "Letzte Änderung: ${vehicle.lastChangeTimestamp.toZonedDateTime().formatFull()}"
         mileageText.text = "Kilometerstand: ${vehicle.mileageKm} Km"
         vehicleName.text = vehicle.modelName
         batteryCapacity.text = "Batteriekapazität: ${vehicle.batteryStatus.batteryCapacity} kWh"

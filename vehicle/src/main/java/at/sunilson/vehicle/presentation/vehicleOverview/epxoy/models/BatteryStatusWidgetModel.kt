@@ -35,9 +35,9 @@ abstract class BatteryStatusWidgetModel : EpoxyModelWithHolder<BatteryStatusWidg
                 holder.chargeStateView.context.getString(batteryStatus.chargeState.displayName)
             }
         chargeStateView.text = chargeStateText
-        pluggedStateView.text =
-            if (batteryStatus.pluggedIn) "Ladekabel angesteckt. (${batteryStatus.chargeSpeed} kWh)" else "Ladekabel nicht angesteckt"
-        batteryTemperature.text = "Batterie Temperatur ist ${batteryStatus.batteryTemperature} Grad"
+        pluggedStateView.setText(if (batteryStatus.pluggedIn) R.string.plugged_in else R.string.not_plugged_in)
+        batteryTemperature.text =
+            context.getString(R.string.battery_temperature, batteryStatus.batteryTemperature)
         estimatedRange.text =
             "Reichweite ${batteryStatus.remainingRange} km (${batteryStatus.availableEnery} kWh)"
         chargeScheduleButton.setOnClickListener { chargeScheduleClicked(vehicle.vin) }

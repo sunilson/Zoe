@@ -1,6 +1,5 @@
 package at.sunilson.chargestatistics.presentation.deChargeEntries
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.view.animation.OvershootInterpolator
@@ -9,18 +8,13 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.transition.TransitionManager
 import at.sunilson.chargestatistics.R
 import at.sunilson.chargestatistics.databinding.DeChargeEntriesFragmentBinding
 import at.sunilson.chargestatistics.domain.entities.DeChargingProcedure
 import at.sunilson.chargestatistics.presentation.overview.ChargeStatisticsOverviewFragment
+import at.sunilson.core.extensions.isSameMonth
 import at.sunilson.presentationcore.base.viewBinding
-import at.sunilson.presentationcore.extensions.formatFull
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.Marker
-import com.google.android.material.transition.MaterialArcMotion
-import com.google.android.material.transition.MaterialContainerTransform
+import at.sunilson.presentationcore.extensions.formatPattern
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.Insetter
 import dev.chrisbanes.insetter.Side
@@ -69,12 +63,18 @@ internal class DeChargeEntriesFragment private constructor() :
                 binding.noChargesText.isVisible = state.deChargingProcedures.isEmpty()
 
                 binding.recyclerView.withModels {
+                    var lastProcedure: DeChargingProcedure? = null
                     state.deChargingProcedures.forEach { chargeProcedure ->
                         deChargeProcedureEntry {
                             id(chargeProcedure.startTime.toEpochSecond())
                             chargingProcedure(chargeProcedure)
-                            onItemClick {  }
+                            if (lastProcedure?.startTime?.isSameMonth(chargeProcedure.startTime) != true) {
+                                sectionHeader(chargeProcedure.startTime.formatPattern("MM.YYYY"))
+                            }
+                            onItemClick { }
                         }
+
+                        lastProcedure = chargeProcedure
                     }
                 }
             }

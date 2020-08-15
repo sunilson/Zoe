@@ -10,7 +10,7 @@ import com.google.android.material.button.MaterialButton
 @EpoxyModelClass
 abstract class StatisticsWidgetModel : EpoxyModelWithHolder<StatisticsWidgetModel.Holder>() {
 
-    override fun getDefaultLayout() = R.layout.statitisc_widget
+    override fun getDefaultLayout() = R.layout.statistics_widget
 
     @EpoxyAttribute
     lateinit var onChargeClick: () -> Unit

@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 android {
 
@@ -17,9 +18,21 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation(Dependencies.junit)
     implementation(Dependencies.mockk)
+    implementation(Dependencies.mockkAndroid)
     implementation(Dependencies.coroutineTesting)
     implementation(Dependencies.junit4Runner)
     implementation(Dependencies.fragmentTesting)
     implementation(Dependencies.androidTestRules)
+    implementation(Dependencies.androidTestRunner)
     implementation(Dependencies.androidArchTestingCore)
+    implementation(Dependencies.appcompat)
+    implementation(Dependencies.navigation)
+    implementation(Dependencies.espressoIntent)
+    implementation(Dependencies.espresso)
+    implementation(Dependencies.espressoContrib)
+
+    implementation(Dependencies.hiltAndroidTest)
+    kapt(Dependencies.hiltAndroidTestCompiler)
+    kapt(Dependencies.hiltKaptJetpack)
+    kapt(Dependencies.hiltKapt)
 }
