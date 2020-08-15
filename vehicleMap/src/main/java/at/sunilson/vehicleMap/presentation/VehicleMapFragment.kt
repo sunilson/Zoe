@@ -116,13 +116,15 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
 
     private fun drawLocationsLine(locations: List<Location>) {
         previousLine?.remove()
-        map?.addPolyline(PolylineOptions().apply {
-            clickable(false)
-            width(20f)
-            jointType(JointType.ROUND)
-            color(requireContext().getThemeColor(R.attr.colorPrimary))
-            addAll(locations.map { LatLng(it.lat, it.lng) })
-        })
+        map?.addPolyline(
+            PolylineOptions()
+                .clickable(false)
+                .zIndex(1f)
+                .width(20f)
+                .jointType(JointType.ROUND)
+                .color(requireContext().getThemeColor(R.attr.colorPrimary))
+                .addAll(locations.map { LatLng(it.lat, it.lng) })
+        )
     }
 
     private fun updateFab(loading: Boolean) {
@@ -149,6 +151,7 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
         previousMarker = map?.addMarker(
             MarkerOptions()
                 .position(LatLng(location.lat, location.lng))
+                .zIndex(2f)
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.zoe))
         )
         map?.animateCamera(
