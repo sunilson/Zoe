@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Zoe</string>
+    <string name="back_button_content_description">Zurück Button</string>
 </resources>
