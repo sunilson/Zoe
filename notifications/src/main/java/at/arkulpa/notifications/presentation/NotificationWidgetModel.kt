@@ -53,7 +53,7 @@ abstract class NotificationWidgetModel : EpoxyModelWithHolder<NotificationWidget
         val chargeTrackButton by bind<Button>(R.id.charge_tracking_button)
         val chargestartSwitch by bind<Switch>(R.id.charge_start)
         val chargeEndSwitch by bind<Switch>(R.id.charge_end)
-        val chargeEightyPercentSwitch by bind<Switch>(R.id.charge_end)
+        val chargeEightyPercentSwitch by bind<Switch>(R.id.charge_eighty_percent)
         val batteryLowSwitch by bind<Switch>(R.id.battery_low)
     }
 }
