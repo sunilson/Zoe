@@ -3,6 +3,7 @@
     <color name="blue">#6200EE</color>
     <color name="blueDark">#3700B3</color>
     <color name="lightGray">#BDBDBD</color>
+    <color name="lightGrayHalfAlpha">#80BDBDBD</color>
     <color name="gray">#757575</color>
     <color name="white">#ffffff</color>
     <color name="off_white">#B1B1B1</color>

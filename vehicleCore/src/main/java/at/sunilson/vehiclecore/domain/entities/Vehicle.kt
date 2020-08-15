@@ -3,17 +3,24 @@ package at.sunilson.vehiclecore.domain.entities
 import androidx.annotation.Keep
 import com.squareup.moshi.JsonClass
 import java.io.Serializable
-import java.time.Instant
 
 @JsonClass(generateAdapter = true)
 @Keep
 data class Vehicle(
     val vin: String,
     val modelName: String,
+    val modelVersion: String,
     val imageUrl: String,
     val mileageKm: Int,
     val batteryStatus: BatteryStatus,
-    val lastChangeTimestamp: Long
+    val lastChangeTimestamp: Long,
+    val brand: String,
+    val tcu: String,
+    val batteryLabel: String,
+    val radioType: String,
+    val gearBox: String,
+    val yearsOfMaintainance: Int,
+    val connectivityTechnology: String
 ) : Serializable {
     @JsonClass(generateAdapter = true)
     @Keep

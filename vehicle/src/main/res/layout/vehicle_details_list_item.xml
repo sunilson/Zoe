@@ -4,24 +4,33 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="20dp">
+        android:layout_height="wrap_content">
 
     <TextView
             android:id="@+id/title"
-            android:textAppearance="?textAppearanceHeadline6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            android:textAppearance="?textAppearanceHeadline5"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Title" />
 
     <TextView
             android:id="@+id/body"
-            android:textAppearance="?textAppearanceSubtitle2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:textAppearance="?textAppearanceBody2"
             android:textIsSelectable="true"
             app:layout_constraintTop_toBottomOf="@id/title"
             tools:text="Body" />
 
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="20dp"
+            android:background="?dividerColor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/body" />
 </androidx.constraintlayout.widget.ConstraintLayout>

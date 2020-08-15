@@ -8,7 +8,7 @@ import timber.log.Timber
 
 @Database(
     entities = [DatabaseVehicle::class],
-    version = 4
+    version = 5
 )
 @TypeConverters(at.sunilson.vehiclecore.data.TypeConverters::class)
 abstract class VehicleDatabase : RoomDatabase(), ZoeDatabase {

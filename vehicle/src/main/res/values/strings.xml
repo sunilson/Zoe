@@ -17,6 +17,7 @@
     <string name="not_available_yet">Noch nicht verfügbar!</string>
     <string name="battery">Batterie</string>
     <string name="view_vehicle_details">Fahrzeugdetails ansehen</string>
+    <string name="vehicle_details">Fahrzeugdetails</string>
     <string name="plan_charge">Ladung planen</string>
     <string name="battery_temperature">Batterie Temperatur %d Grad</string>
     <string name="plugged_in">Ladekabel angesteckt</string>

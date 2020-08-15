@@ -3,15 +3,14 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.Zoe.AppTheme">
         <!-- Customize your theme here. -->
-        <item name="defaultBackground">@color/white</item>
-        <item name="alternativeBackground">@color/lightGray</item>
+        <item name="colorSurface">@color/white</item>
         <item name="buttonSecondaryBackground">@color/lightGray</item>
         <item name="colorPrimary">@color/blue</item>
         <item name="colorSecondary">@color/blue</item>
         <item name="colorPrimaryDark">@color/blueDark</item>
-        <item name="textColorPrimary">@color/dark_gray</item>
-        <item name="textColorSecondary">@color/gray</item>
-        <item name="textColorPrimaryInverted">@color/white</item>
-        <item name="textColorSecondaryInverted">@color/off_white</item>
+        <item name="colorOnSurface">@color/dark_gray</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnPrimarySecondary">@color/off_white</item>
+        <item name="dividerColor">@color/lightGrayHalfAlpha</item>
     </style>
 </resources>
