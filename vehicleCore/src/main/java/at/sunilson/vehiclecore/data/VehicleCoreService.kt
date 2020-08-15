@@ -7,7 +7,6 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface VehicleCoreService {
-
     @GET("accounts/{accountId}/kamereon/kca/car-adapter/v1/cars/{vin}/location?country=AT")
     suspend fun getVehicleLocation(
         @Path("accountId") accountId: String,
@@ -25,5 +24,4 @@ interface VehicleCoreService {
         @Path("accountId") accountId: String,
         @Path("vin") vin: String
     ): CockpitResponse
-
 }

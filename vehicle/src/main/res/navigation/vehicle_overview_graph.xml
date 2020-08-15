@@ -28,7 +28,11 @@
                 app:popExitAnim="@anim/fragment_fade_exit" />
         <action
                 android:id="@+id/show_vehicle_location"
-                app:destination="@id/vehicleMapFragment" />
+                app:destination="@id/vehicle_map_graph">
+            <argument
+                    android:name="vin"
+                    app:argType="string" />
+        </action>
     </fragment>
 
     <dialog
@@ -56,16 +60,5 @@
                 app:argType="boolean" />
     </fragment>
 
-    <fragment
-            android:id="@+id/vehicleMapFragment"
-            android:name="at.sunilson.vehicle.presentation.vehicleMap.VehicleMapFragment"
-            android:label="VehicleMapFragment"
-            tools:layout="@layout/fragment_vehicle_map">
-
-        <deepLink app:uri="zoe://vehicle_location/{vin}" />
-
-        <argument
-                android:name="vin"
-                app:argType="string" />
-    </fragment>
+    <include app:graph="@navigation/vehicle_map_graph" />
 </navigation>

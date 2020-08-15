@@ -1,4 +1,4 @@
-package at.sunilson.vehicle.presentation.vehicleMap
+package at.sunilson.vehicleMap.presentation
 
 import android.graphics.drawable.Animatable2
 import android.graphics.drawable.AnimatedVectorDrawable
@@ -19,17 +19,21 @@ import at.sunilson.ktx.fragment.useLightNavigationBarIcons
 import at.sunilson.ktx.fragment.useLightStatusBarIcons
 import at.sunilson.presentationcore.base.viewBinding
 import at.sunilson.presentationcore.extensions.formatFull
-import at.sunilson.vehicle.R
-import at.sunilson.vehicle.databinding.FragmentVehicleMapBinding
+import at.sunilson.presentationcore.extensions.getThemeColor
+import at.sunilson.vehicleMap.R
+import at.sunilson.vehicleMap.databinding.FragmentVehicleMapBinding
 import at.sunilson.vehiclecore.domain.entities.Location
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.JointType
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.Polyline
+import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.Insetter
@@ -48,6 +52,7 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
 
     private var map: GoogleMap? = null
     private var previousMarker: Marker? = null
+    private var previousLine: Polyline? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,6 +88,7 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
             startPostponedEnterTransition()
             map = it
             viewModel.refreshPosition()
+            viewModel.loadLocationList(args.vin)
         }
     }
 
@@ -100,11 +106,23 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             viewModel.state.collect {
                 updateFab(it.loading)
+                drawLocationsLine(it.previousLocations)
                 binding.refreshFab.text = it.location?.timestamp?.toZonedDateTime()?.formatFull()
                     ?: requireContext().getString(R.string.nothing)
                 setMarkerToLocation(it.location ?: return@collect)
             }
         }
+    }
+
+    private fun drawLocationsLine(locations: List<Location>) {
+        previousLine?.remove()
+        map?.addPolyline(PolylineOptions().apply {
+            clickable(false)
+            width(20f)
+            jointType(JointType.ROUND)
+            color(requireContext().getThemeColor(R.attr.colorPrimary))
+            addAll(locations.map { LatLng(it.lat, it.lng) })
+        })
     }
 
     private fun updateFab(loading: Boolean) {

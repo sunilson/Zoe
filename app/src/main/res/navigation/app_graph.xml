@@ -4,6 +4,7 @@
         android:id="@+id/app_graph"
         app:startDestination="@id/vehicle_overview_graph">
     <include app:graph="@navigation/vehicle_overview_graph" />
+    <include app:graph="@navigation/vehicle_map_graph" />
     <include app:graph="@navigation/settings_nav_graph" />
     <include app:graph="@navigation/statistics_nav_graph" />
     <include app:graph="@navigation/charge_statistics_graph" />

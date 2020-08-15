@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        app:startDestination="@id/vehicleMapFragment"
+        android:id="@+id/vehicle_map_graph">
+    <fragment
+            android:id="@+id/vehicleMapFragment"
+            android:name="at.sunilson.vehicleMap.presentation.VehicleMapFragment"
+            android:label="VehicleMapFragment"
+            tools:layout="@layout/fragment_vehicle_map">
+
+        <deepLink app:uri="zoe://vehicle_location/{vin}" />
+
+        <argument
+                android:name="vin"
+                app:argType="string" />
+    </fragment>
+</navigation>

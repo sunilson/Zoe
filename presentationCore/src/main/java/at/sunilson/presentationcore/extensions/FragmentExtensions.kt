@@ -1,7 +1,12 @@
 package at.sunilson.presentationcore.extensions
 
 import android.animation.AnimatorInflater
+import android.content.Context
+import android.util.TypedValue
 import android.view.View
+import androidx.annotation.AttrRes
+import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import at.sunilson.presentationcore.R
@@ -39,4 +44,11 @@ fun Fragment.setupHeaderAnimation(
             container?.isActivated = list.canScrollVertically(-1)
         }
     }
+}
+
+@ColorInt
+fun Context.getThemeColor(@AttrRes res: Int) : Int{
+    val typedValue = TypedValue()
+    theme.resolveAttribute(res, typedValue, true)
+    return typedValue.data
 }

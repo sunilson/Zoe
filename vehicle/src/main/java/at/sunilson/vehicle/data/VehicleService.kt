@@ -10,7 +10,6 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface VehicleService {
-
     @GET("accounts/{accountId}/vehicles?country=AT")
     suspend fun getAllVehicles(@Path("accountId") accountId: String): AllVehiclesResponse
 

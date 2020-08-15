@@ -1,3 +1,4 @@
+include ':vehicleMap'
 include ':chargeSchedule'
 include ':notifications'
 include ':widget'

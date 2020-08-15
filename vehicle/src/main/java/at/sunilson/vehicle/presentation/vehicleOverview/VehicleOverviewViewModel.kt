@@ -8,9 +8,9 @@ import at.sunilson.unidirectionalviewmodel.savedstate.Persist
 import at.sunilson.unidirectionalviewmodel.savedstate.PersistableState
 import at.sunilson.unidirectionalviewmodel.savedstate.UniDirectionalSavedStateViewModelReflection
 import at.sunilson.vehicle.domain.GetSelectedVehicle
-import at.sunilson.vehicle.domain.LocateSelectedVehicle
 import at.sunilson.vehicle.domain.RefreshAllVehicles
 import at.sunilson.vehicle.domain.StartClimateControl
+import at.sunilson.vehiclecore.domain.LocateSelectedVehicle
 import at.sunilson.vehiclecore.domain.entities.Location
 import at.sunilson.vehiclecore.domain.entities.Vehicle
 import kotlinx.coroutines.Job
