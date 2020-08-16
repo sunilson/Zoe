@@ -8,5 +8,4 @@
                 android:gravity="center"
                 android:src="@drawable/zoe_large" />
     </item>
-
 </layer-list>
