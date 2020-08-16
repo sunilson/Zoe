@@ -39,6 +39,7 @@ import at.sunilson.ktx.fragment.setNavigationBarColor
 import at.sunilson.ktx.fragment.setStatusBarColor
 import at.sunilson.ktx.fragment.useLightNavigationBarIcons
 import at.sunilson.ktx.fragment.useLightStatusBarIcons
+import at.sunilson.ktx.navigation.navigateSafe
 import at.sunilson.presentationcore.base.viewBinding
 import at.sunilson.presentationcore.extensions.setupHeaderAnimation
 import at.sunilson.presentationcore.extensions.withDefaultAnimations
@@ -241,7 +242,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     private fun setupClickListeners() {
         binding.vehicleImage.setOnClickListener { viewModel.showVehicleDetails() }
         binding.settingsButton.setOnClickListener {
-            findNavController().navigate(R.id.show_settings_dialog)
+            navigateSafe(R.id.show_settings_dialog)
         }
     }
 

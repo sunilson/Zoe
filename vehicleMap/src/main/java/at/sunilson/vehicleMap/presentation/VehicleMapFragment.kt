@@ -116,7 +116,7 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
 
     private fun drawLocationsLine(locations: List<Location>) {
         previousLine?.remove()
-        map?.addPolyline(
+        previousLine = map?.addPolyline(
             PolylineOptions()
                 .clickable(false)
                 .zIndex(1f)

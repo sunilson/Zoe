@@ -17,7 +17,8 @@ class GetAllChargeTrackingPoints @Inject constructor(private val chargeTrackingD
                         it.vehicleId,
                         it.timestamp,
                         it.batteryStatus,
-                        it.mileageKm
+                        it.mileageKm,
+                        it.location
                     )
                 }
             }
