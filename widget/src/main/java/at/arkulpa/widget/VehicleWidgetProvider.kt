@@ -115,11 +115,17 @@ class VehicleWidgetProvider : AppWidgetProvider() {
         }
         val pendingHomeIntent =
             PendingIntent.getActivity(context, 1, homeIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-        setOnClickPendingIntent(R.id.vehicle_image, pendingHomeIntent)
+        setOnClickPendingIntent(R.id.widget_root, pendingHomeIntent)
 
-        val hvacIntent = Intent(Intent.ACTION_VIEW, Uri.parse("zoe://vehicle_overview/start_hvac"))
+        val hvacIntent = Intent().apply {
+            component = ComponentName(
+                "at.sunilson.zoe",
+                "at.sunilson.vehicle.presentation.hvacBroadcastReciever.HvacBroadCastReciever"
+            )
+            action = "StartHVAC"
+        }
         val pendingHvacIntent =
-            PendingIntent.getActivity(context, 1, hvacIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.getBroadcast(context, 1, hvacIntent, PendingIntent.FLAG_UPDATE_CURRENT)
         setOnClickPendingIntent(R.id.start_hvac, pendingHvacIntent)
 
         val mapIntent = Intent().apply {

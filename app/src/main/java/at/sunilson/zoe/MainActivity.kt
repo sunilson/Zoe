@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var workManager: WorkManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.Base_Theme_Zoe_AppTheme)
         super.onCreate(savedInstanceState)
         if (!checkLoggedIn()) return
         observeLogout()
