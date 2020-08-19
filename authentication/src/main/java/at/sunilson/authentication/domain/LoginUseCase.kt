@@ -2,13 +2,13 @@ package at.sunilson.authentication.domain
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import at.sunilson.authentication.data.GigyaService
-import at.sunilson.authentication.data.KamereonService
 import at.sunilson.authentication.data.AuthSharedPrefConstants.GIGYA_JWT
 import at.sunilson.authentication.data.AuthSharedPrefConstants.GIGYA_PERSON_ID
 import at.sunilson.authentication.data.AuthSharedPrefConstants.GIGYA_TOKEN
 import at.sunilson.authentication.data.AuthSharedPrefConstants.KAMEREON_ACCOUNT_ID
 import at.sunilson.authentication.data.AuthSharedPrefConstants.LAST_SUCCESSFUL_LOGIN
+import at.sunilson.authentication.data.GigyaService
+import at.sunilson.authentication.data.KamereonService
 import at.sunilson.authentication.data.networkEntities.KamereonHeader
 import at.sunilson.authentication.domain.entities.LoginParams
 import at.sunilson.core.usecases.AsyncUseCase
@@ -31,7 +31,7 @@ class LoginUseCase @Inject constructor(
         val isSameUser =
             params == null || sp.getString(LAST_SUCCESSFUL_LOGIN, "") == params.username
 
-        if(lastGigyaToken == null && params == null) {
+        if (lastGigyaToken == null && params == null) {
             TODO("Login not possible, throw error")
         }
 
@@ -51,12 +51,16 @@ class LoginUseCase @Inject constructor(
         val gigyaPersonId = if (isSameUser && lastPersonId != null) {
             lastPersonId
         } else {
-            gigyaService.gigyaAccountInfo(gigyaToken).data.personId
+            gigyaService.gigyaAccountInfo(GIGYA_API_KEY, gigyaToken).data.personId
         }
         sp.edit { putString(GIGYA_PERSON_ID, gigyaPersonId) }
 
         val gigyaJWT =
-            gigyaService.gigyaJWT(gigyaToken, "data.personId,data.gigyaDataCenter").idToken
+            gigyaService.gigyaJWT(
+                GIGYA_API_KEY,
+                gigyaToken,
+                "data.personId,data.gigyaDataCenter"
+            ).idToken
         sp.edit { putString(GIGYA_JWT, gigyaJWT) }
 
         val lastKamereonAccountId = sp.getString(KAMEREON_ACCOUNT_ID, null)

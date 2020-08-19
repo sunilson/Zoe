@@ -18,12 +18,16 @@ interface GigyaService {
 
     @FormUrlEncoded
     @POST("accounts.getAccountInfo")
-    suspend fun gigyaAccountInfo(@Field("oauth_token") oauthToken: String): GigyaAccountInfo
+    suspend fun gigyaAccountInfo(
+        @Field("ApiKey") apiKey: String,
+        @Field("login_token") oauthToken: String
+    ): GigyaAccountInfo
 
     @FormUrlEncoded
     @POST("accounts.getJWT")
     suspend fun gigyaJWT(
-        @Field("oauth_token") oauthToken: String,
+        @Field("ApiKey") apiKey: String,
+        @Field("login_token") oauthToken: String,
         @Field("fields") fields: String
     ): GigyaJwtResponse
 }

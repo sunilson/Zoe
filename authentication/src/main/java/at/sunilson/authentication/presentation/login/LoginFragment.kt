@@ -54,7 +54,7 @@ internal class LoginFragment : Fragment(R.layout.fragment_login) {
 
         binding.registerButton.setOnClickListener {
             safeStartActivity(Intent(ACTION_VIEW).apply {
-                data = Uri.parse("market://dev?id=RENAULT+SAS")
+                data = Uri.parse("market://search?q=my renault")
             })
         }
 
