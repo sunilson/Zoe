@@ -1,6 +1,9 @@
 package at.arkulpa.notifications.domain
 
 interface NotificationRepository {
+    fun toggleChargeErrorNotification(vin: String, value: Boolean)
+    fun chargeErrorNotificationEnabled(vin: String): Boolean
+
     fun toggleChargedStartedNotification(vin: String, value: Boolean)
     fun chargeStartedNotificationEnabled(vin: String): Boolean
 

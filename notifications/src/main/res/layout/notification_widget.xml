@@ -50,6 +50,13 @@
                 android:text="@string/charging_started" />
 
         <Switch
+                android:id="@+id/charge_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/charge_error" />
+
+        <Switch
                 android:id="@+id/battery_low"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

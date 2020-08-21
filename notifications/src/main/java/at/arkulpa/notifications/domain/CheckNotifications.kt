@@ -40,15 +40,34 @@ class CheckNotifications @Inject constructor(
         }
     }
 
+    private fun checkChargeError(
+        vin: String,
+        newStatus: Vehicle.BatteryStatus,
+        oldStatus: Vehicle.BatteryStatus?
+    ) {
+        if(oldStatus?.chargeState != Vehicle.BatteryStatus.ChargeState.CHARGE_ERROR && newStatus.chargeState == Vehicle.BatteryStatus.ChargeState.CHARGE_ERROR) {
+            sendNotification(
+                SendNotificationParams(
+                    "Ladefehler",
+                    "Beim Laden ist ein Fehler aufgetreten!"
+                )
+            ).failure { Timber.e(it, "Sending notification failed") }
+        }
+    }
+
     private fun checkChargedEightyPercent(
         vin: String,
         newStatus: Vehicle.BatteryStatus,
         oldStatus: Vehicle.BatteryStatus?
     ) {
-        if (repository.chargedEightyPercentNotificationEnabled(vin) && newStatus.batteryLevel >= 80 && oldStatus?.batteryLevel ?: 100 < 80) {
+        if (repository.chargedEightyPercentNotificationEnabled(vin)
+            && oldStatus?.isCharging == true
+            && newStatus.isCharging == true
+            && newStatus.batteryLevel >= 80
+            && oldStatus.batteryLevel < 80) {
             sendNotification(
                 SendNotificationParams(
-                    "80% geladen",
+                    "Mindestens 80% geladen",
                     "Die Battere ist nun zu ${newStatus.batteryLevel}% geladen!"
                 )
             ).failure { Timber.e(it, "Sending notification failed") }
