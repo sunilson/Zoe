@@ -6,6 +6,6 @@
     <item>
         <bitmap
                 android:gravity="center"
-                android:src="@drawable/zoe_large" />
+                android:src="@drawable/notification_icon" />
     </item>
 </layer-list>
