@@ -22,4 +22,7 @@
     <string name="battery_temperature">Batterie Temperatur %d Grad</string>
     <string name="plugged_in">Ladekabel angesteckt</string>
     <string name="not_plugged_in">Ladekabel nicht angesteckt</string>
+    <string name="now">Sofort</string>
+    <string name="plan">Planen</string>
+    <string name="climate_control">Klimatisierung</string>
 </resources>

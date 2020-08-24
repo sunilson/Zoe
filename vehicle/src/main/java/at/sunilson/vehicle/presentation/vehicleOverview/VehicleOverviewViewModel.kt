@@ -9,6 +9,7 @@ import at.sunilson.unidirectionalviewmodel.savedstate.PersistableState
 import at.sunilson.unidirectionalviewmodel.savedstate.UniDirectionalSavedStateViewModelReflection
 import at.sunilson.vehicle.domain.GetSelectedVehicle
 import at.sunilson.vehicle.domain.RefreshAllVehicles
+import at.sunilson.vehicle.domain.StartCharging
 import at.sunilson.vehicle.domain.StartClimateControl
 import at.sunilson.vehiclecore.domain.LocateSelectedVehicle
 import at.sunilson.vehiclecore.domain.entities.Location
@@ -39,7 +40,8 @@ data class ShowVehicleLocation(val vin: String) : VehicleOverviewEvents()
 internal class VehicleOverviewViewModel @ViewModelInject constructor(
     private val getSelectedVehicle: GetSelectedVehicle,
     private val refreshAllVehicles: RefreshAllVehicles,
-    private val startClimateControl: StartClimateControl,
+    private val startClimateControlUseCase: StartClimateControl,
+    private val startChargingUseCase: StartCharging,
     private val locateSelectedVehicle: LocateSelectedVehicle,
     @Assisted savedStateHandle: SavedStateHandle
 ) : UniDirectionalSavedStateViewModelReflection<VehicleOverviewState, VehicleOverviewEvents>(
@@ -81,14 +83,24 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
         }
     }
 
-    fun startClimateControl(targetTemperature: Int = 21, startTime: Long? = null) {
+    fun startClimateControl(vin: String, targetTemperature: Int = 21, startTime: Long? = null) {
         viewModelScope.launch {
-            startClimateControl(Unit).fold(
+            startClimateControlUseCase(vin).fold(
                 { sendEvent(ShowToast("Klimatisierungs Anfrage gesendet!")) },
                 { Timber.e(it) }
             )
         }
     }
+
+    fun startCharging(vin: String) {
+        viewModelScope.launch {
+            startChargingUseCase(vin).fold(
+                { sendEvent(ShowToast("Lade Anfrage gesendet!")) },
+                { Timber.e(it) }
+            )
+        }
+    }
+
 
     fun showVehicleLocation() {
         getState { it.selectedVehicle?.let { vehicle -> sendEvent(ShowVehicleLocation(vehicle.vin)) } }

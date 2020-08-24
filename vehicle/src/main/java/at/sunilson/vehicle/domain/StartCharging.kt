@@ -7,21 +7,18 @@ import at.sunilson.vehiclecore.domain.VehicleCoreRepository
 import com.github.kittinunf.result.coroutines.SuspendableResult
 import javax.inject.Inject
 
-internal class StartClimateControl @Inject constructor(
+internal class StartCharging @Inject constructor(
     private val vehicleService: VehicleService,
     private val vehicleCoreRepository: VehicleCoreRepository
 ) : AsyncUseCase<Unit, String>() {
     override suspend fun run(vin: String) = SuspendableResult.of<Unit, Exception> {
-        vehicleService.startHVAC(
+        vehicleService.startCharging(
             vehicleCoreRepository.kamereonAccountID,
             vin,
             KamereonPostBody(
                 KamereonPostBody.Data(
-                    "HvacStart",
-                    mapOf(
-                        "action" to "start",
-                        "targetTemperature" to 21
-                    )
+                    "ChargingStart",
+                    mapOf("action" to "start")
                 )
             )
         )

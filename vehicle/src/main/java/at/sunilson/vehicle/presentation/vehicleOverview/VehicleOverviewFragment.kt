@@ -259,8 +259,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
                     is ShowSplashScreen -> if (!splashAnimationStarted) {
                         splashAnimationStarted = true
                         startSplashAnimation()
-                    } else {
-                    }
+                    } else { }
                 }
             }
         }
@@ -271,6 +270,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
             viewModel.state.collect { state ->
                 binding.contentContainer.isRefreshing = state.loading
                 if (state.selectedVehicle != null) {
+                    handleDeeplinks()
                     renderVehicle(state.selectedVehicle, state.vehicleLocation)
                     updateVehicleWidget()
                 }
@@ -280,10 +280,15 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
 
     private fun showVehicleLocation(vin: String) {
         exitTransition = Hold()
-        findNavController().navigate(
-            VehicleOverviewFragmentDirections.showVehicleLocation(vin),
-            FragmentNavigatorExtras(requireView().findViewById<MaterialCardView>(R.id.location_widget) to "location")
-        )
+        val mapView = requireView().findViewById<MaterialCardView>(R.id.location_widget)
+        if(mapView != null) {
+            findNavController().navigate(
+                VehicleOverviewFragmentDirections.showVehicleLocation(vin),
+                FragmentNavigatorExtras(mapView to "location")
+            )
+        } else {
+            findNavController().navigate(VehicleOverviewFragmentDirections.showVehicleLocation(vin))
+        }
     }
 
     private fun showVehicleDetails(vin: String) {
@@ -340,16 +345,17 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
                 vehicle(vehicle)
                 chargeScheduleClicked {
                     findNavController().navigate(
-                        Uri.parse("zoe://charge_schedule/$it"),
+                        Uri.parse("zoe://charge_schedule/${vehicle.vin}"),
                         NavOptions.Builder().withDefaultAnimations()
                     )
                 }
+                chargeNowClicked { viewModel.startCharging(vehicle.vin) }
             }
 
             climateControlWidget {
                 id("climateControlWidget")
                 planClimateControlClicked { requireContext().showToast(R.string.not_available_yet) }
-                startClimateControlClicked { viewModel.startClimateControl() }
+                startClimateControlClicked { viewModel.startClimateControl(vehicle.vin) }
             }
 
             if (location != null) {
@@ -386,8 +392,8 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
 
     private fun handleDeeplinks() {
         val data = requireActivity().intent.data.toString()
+        requireActivity().intent.data = null
         when {
-            data.contains("vehicle_overview/start_hvac") -> viewModel.startClimateControl()
             data.contains("vehicle_overview/charge_statistics") -> viewModel.showChargeStatistics()
             data.contains("vehicle_overview/vehicle_location") -> viewModel.showVehicleLocation()
         }

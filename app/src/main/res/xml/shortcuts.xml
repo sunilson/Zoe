@@ -7,9 +7,8 @@
             android:shortcutLongLabel="@string/start_hvac_shortcut_long"
             android:shortcutShortLabel="@string/start_hvac_shortcut">
         <intent
-                android:action="android.intent.action.VIEW"
-                android:data="zoe://vehicle_overview/start_hvac"
-                android:targetClass="at.sunilson.zoe.MainActivity"
+                android:action="StartHVAC"
+                android:targetClass="at.sunilson.vehicle.presentation.hvacBroadcastReciever.HvacBroadCastReciever"
                 android:targetPackage="at.sunilson.zoe" />
     </shortcut>
 

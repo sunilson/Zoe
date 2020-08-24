@@ -20,7 +20,10 @@ abstract class BatteryStatusWidgetModel : EpoxyModelWithHolder<BatteryStatusWidg
     lateinit var vehicle: Vehicle
 
     @EpoxyAttribute
-    lateinit var chargeScheduleClicked: (String) -> Unit
+    lateinit var chargeScheduleClicked: () -> Unit
+
+    @EpoxyAttribute
+    lateinit var chargeNowClicked: () -> Unit
 
     override fun bind(holder: Holder) = holder.run {
         val context = holder.batteryTemperature.context
@@ -40,7 +43,8 @@ abstract class BatteryStatusWidgetModel : EpoxyModelWithHolder<BatteryStatusWidg
             context.getString(R.string.battery_temperature, batteryStatus.batteryTemperature)
         estimatedRange.text =
             "Reichweite ${batteryStatus.remainingRange} km (${batteryStatus.availableEnery} kWh)"
-        chargeScheduleButton.setOnClickListener { chargeScheduleClicked(vehicle.vin) }
+        chargeScheduleButton.setOnClickListener { chargeScheduleClicked() }
+        chargeNowButton.setOnClickListener { chargeNowClicked() }
     }
 
     class Holder : KotlinEpoxyHolder() {
@@ -49,6 +53,7 @@ abstract class BatteryStatusWidgetModel : EpoxyModelWithHolder<BatteryStatusWidg
         val batteryTemperature by bind<TextView>(R.id.vehicle_battery_temperature)
         val estimatedRange by bind<TextView>(R.id.vehicle_estimated_range)
         val chargeScheduleButton by bind<Button>(R.id.charge_schedule_button)
+        val chargeNowButton by bind<Button>(R.id.charge_now_button)
     }
 }
 

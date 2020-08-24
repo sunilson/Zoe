@@ -12,6 +12,7 @@ import at.sunilson.chargestatistics.R
 import at.sunilson.chargestatistics.databinding.DeChargeEntriesFragmentBinding
 import at.sunilson.chargestatistics.domain.entities.DeChargingProcedure
 import at.sunilson.chargestatistics.presentation.overview.ChargeStatisticsOverviewFragment
+import at.sunilson.core.extensions.isSameDay
 import at.sunilson.core.extensions.isSameMonth
 import at.sunilson.presentationcore.base.viewBinding
 import at.sunilson.presentationcore.extensions.formatPattern
@@ -68,8 +69,8 @@ internal class DeChargeEntriesFragment private constructor() :
                         deChargeProcedureEntry {
                             id(chargeProcedure.startTime.toEpochSecond())
                             chargingProcedure(chargeProcedure)
-                            if (lastProcedure?.startTime?.isSameMonth(chargeProcedure.startTime) != true) {
-                                sectionHeader(chargeProcedure.startTime.formatPattern("MM.YYYY"))
+                            if (lastProcedure?.startTime?.isSameDay(chargeProcedure.startTime) != true) {
+                                sectionHeader(chargeProcedure.startTime.formatPattern("dd.MM.YYYY"))
                             }
                             onItemClick { }
                         }

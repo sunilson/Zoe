@@ -16,10 +16,10 @@
 
         <TextView
                 android:id="@+id/headline"
-                android:textAppearance="?textAppearanceHeadline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/battery"
+                android:textAppearance="?textAppearanceHeadline6"
                 app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -66,10 +66,10 @@
 
         <TextView
                 android:id="@+id/vehicle_battery_plugged"
-                android:textAppearance="?textAppearanceBody1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
+                android:textAppearance="?textAppearanceBody1"
                 app:layout_constraintBottom_toBottomOf="@id/plug_icon"
                 app:layout_constraintLeft_toRightOf="@id/plug_icon"
                 app:layout_constraintRight_toRightOf="parent"
@@ -78,10 +78,10 @@
 
         <TextView
                 android:id="@+id/vehicle_charge_state"
-                android:textAppearance="?textAppearanceBody1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
+                android:textAppearance="?textAppearanceBody1"
                 app:layout_constraintBottom_toBottomOf="@id/battery_icon"
                 app:layout_constraintLeft_toRightOf="@id/battery_icon"
                 app:layout_constraintRight_toRightOf="parent"
@@ -90,10 +90,10 @@
 
         <TextView
                 android:id="@+id/vehicle_battery_temperature"
-                android:textAppearance="?textAppearanceBody1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
+                android:textAppearance="?textAppearanceBody1"
                 app:layout_constraintBottom_toBottomOf="@id/temperature_icon"
                 app:layout_constraintLeft_toRightOf="@id/battery_icon"
                 app:layout_constraintRight_toRightOf="parent"
@@ -102,10 +102,10 @@
 
         <TextView
                 android:id="@+id/vehicle_estimated_range"
-                android:textAppearance="?textAppearanceBody1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
+                android:textAppearance="?textAppearanceBody1"
                 app:layout_constraintBottom_toBottomOf="@id/loading_station_icon"
                 app:layout_constraintLeft_toRightOf="@id/loading_station_icon"
                 app:layout_constraintRight_toRightOf="parent"
@@ -113,12 +113,26 @@
                 tools:text="Verbleibende Reichweite ist 300km" />
 
         <com.google.android.material.button.MaterialButton
+                android:id="@+id/charge_now_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="12dp"
+                android:text="Jetzt laden"
+                app:icon="@drawable/ic_baseline_timer_24"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/charge_schedule_button"
+                app:layout_constraintTop_toBottomOf="@id/vehicle_estimated_range" />
+
+        <com.google.android.material.button.MaterialButton
                 android:id="@+id/charge_schedule_button"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="@string/plan_charge"
                 app:icon="@drawable/ic_baseline_timer_24"
+                app:layout_constraintLeft_toRightOf="@id/charge_now_button"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/vehicle_estimated_range" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -15,7 +15,7 @@ object Dependencies {
     const val appcompat = "androidx.appcompat:appcompat:1.1.0"
     const val coreKtx = "androidx.core:core-ktx:1.3.0"
     const val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:1.3.72"
-    const val constraintlayout = "androidx.constraintlayout:constraintlayout:2.0.0-beta7"
+    const val constraintlayout = "androidx.constraintlayout:constraintlayout:2.0.0"
     const val retrofit = "com.squareup.retrofit2:retrofit:2.9.0"
     const val moshi = "com.squareup.moshi:moshi:1.9.3"
     const val moshiKapt = "com.squareup.moshi:moshi-kotlin-codegen:1.9.3"
