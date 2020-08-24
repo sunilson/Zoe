@@ -120,7 +120,7 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
             PolylineOptions()
                 .clickable(false)
                 .zIndex(1f)
-                .width(20f)
+                .width(5f)
                 .jointType(JointType.ROUND)
                 .color(requireContext().getThemeColor(R.attr.colorPrimary))
                 .addAll(locations.map { LatLng(it.lat, it.lng) })

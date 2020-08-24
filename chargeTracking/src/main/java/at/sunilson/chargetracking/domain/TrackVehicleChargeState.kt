@@ -42,8 +42,17 @@ class TrackVehicleChargeState @Inject constructor(
 
             //Update existing vehicle
             val previousVehicle = vehicleDao.getVehicle(params).first()?.toEntity()
+
             previousVehicle?.copy(batteryStatus = batteryStatus, mileageKm = mileage)?.let {
-                vehicleDao.upsertVehicles(listOf(it.toDatabaseEntity()))
+                vehicleDao.upsertVehicles(
+                    listOf(
+                        if (previousVehicle == it) {
+                            it
+                        } else {
+                            it.copy(lastChangeTimestamp = System.currentTimeMillis())
+                        }.toDatabaseEntity()
+                    )
+                )
             }
 
             val trackingPoint = ChargeTrackingPoint(

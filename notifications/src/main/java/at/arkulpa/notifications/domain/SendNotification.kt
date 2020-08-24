@@ -25,7 +25,8 @@ class SendNotification @Inject constructor(@ApplicationContext private val conte
         val notification = NotificationCompat.Builder(context, DEFAULT_NOTIFICATION_CHANNEL_ID)
             .setContentTitle(params.title)
             .setContentText(params.body)
-            .setSmallIcon(R.drawable.ic_baseline_ac_unit_24)
+            .setSmallIcon(R.mipmap.ic_launcher_foreground)
+            .setColor(context.getColor(R.color.blue))
             .setPriority(
                 if (params.highPriority) {
                     NotificationCompat.PRIORITY_MAX

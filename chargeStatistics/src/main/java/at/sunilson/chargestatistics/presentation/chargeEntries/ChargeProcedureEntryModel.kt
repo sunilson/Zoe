@@ -23,7 +23,7 @@ abstract class ChargeProcedureEntryModel :
     lateinit var chargingProcedure: ChargingProcedure
 
     override fun bind(holder: Holder) = holder.run {
-        this.sectionHeader.isVisible = this@ChargeProcedureEntryModel != null
+        this.sectionHeader.isVisible = this@ChargeProcedureEntryModel.sectionHeader != null
         this.sectionHeader.text = this@ChargeProcedureEntryModel.sectionHeader
 
         title.text =

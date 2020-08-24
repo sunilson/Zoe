@@ -20,6 +20,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation(project(":presentationCore"))
     implementation(project(":vehicleCore"))
+    implementation(project(":presentationCore"))
     implementation(project(":core"))
     implementation(Dependencies.hilt)
     implementation(Dependencies.moshi)
