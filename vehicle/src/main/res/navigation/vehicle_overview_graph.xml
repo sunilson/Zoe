@@ -11,9 +11,6 @@
             tools:layout="@layout/fragment_vehicle_overview">
 
         <deepLink app:uri="zoe://vehicle_overview" />
-        <deepLink app:uri="zoe://vehicle_overview/start_hvac" />
-        <deepLink app:uri="zoe://vehicle_overview/charge_statistics" />
-        <deepLink app:uri="zoe://vehicle_overview/vehicle_location" />
 
         <action
                 android:id="@+id/show_settings_dialog"

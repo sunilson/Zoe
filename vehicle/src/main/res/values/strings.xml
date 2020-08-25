@@ -25,4 +25,10 @@
     <string name="now">Sofort</string>
     <string name="plan">Planen</string>
     <string name="climate_control">Klimatisierung</string>
+    <string name="start_hvac_shortcut">Vorklimatisierung</string>
+    <string name="start_hvac_shortcut_long">Vorklimatisierung starten</string>
+    <string name="show_charge_statistics_shortcut">Lade Statistiken</string>
+    <string name="show_charge_statistics_shortcut_long">Lade- und Entlade-Statistiken</string>
+    <string name="map_shortcut">Fahrzeugposition</string>
+    <string name="map_shortcut_long">Fahrzeugposition finden</string>
 </resources>

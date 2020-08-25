@@ -4,6 +4,9 @@ import android.animation.ValueAnimator
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Intent
+import android.content.pm.ShortcutInfo
+import android.content.pm.ShortcutManager
+import android.graphics.drawable.Icon
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,6 +20,7 @@ import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.net.toUri
 import androidx.core.view.doOnLayout
 import androidx.core.view.isVisible
@@ -46,6 +50,7 @@ import at.sunilson.presentationcore.extensions.withDefaultAnimations
 import at.sunilson.vehicle.R
 import at.sunilson.vehicle.databinding.FragmentVehicleOverviewBinding
 import at.sunilson.vehicle.presentation.extensions.displayName
+import at.sunilson.vehicle.presentation.hvacBroadcastReciever.HvacBroadCastReciever
 import at.sunilson.vehicle.presentation.utils.TimeUtils
 import at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models.batteryStatusWidget
 import at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models.climateControlWidget
@@ -64,7 +69,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.lang.RuntimeException
 import javax.inject.Inject
 
 
@@ -222,7 +226,6 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
                     binding.splashContainer.visibility = View.GONE
                     splashAnimationStarted = false
                     useLightStatusBarIcons(true)
-                    handleDeeplinks()
                 }
             }
         }
@@ -259,7 +262,8 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
                     is ShowSplashScreen -> if (!splashAnimationStarted) {
                         splashAnimationStarted = true
                         startSplashAnimation()
-                    } else { }
+                    } else {
+                    }
                 }
             }
         }
@@ -270,7 +274,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
             viewModel.state.collect { state ->
                 binding.contentContainer.isRefreshing = state.loading
                 if (state.selectedVehicle != null) {
-                    handleDeeplinks()
+                    updateShortcuts(state.selectedVehicle)
                     renderVehicle(state.selectedVehicle, state.vehicleLocation)
                     updateVehicleWidget()
                 }
@@ -281,7 +285,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     private fun showVehicleLocation(vin: String) {
         exitTransition = Hold()
         val mapView = requireView().findViewById<MaterialCardView>(R.id.location_widget)
-        if(mapView != null) {
+        if (mapView != null) {
             findNavController().navigate(
                 VehicleOverviewFragmentDirections.showVehicleLocation(vin),
                 FragmentNavigatorExtras(mapView to "location")
@@ -390,15 +394,6 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
         drawBelowStatusBar()
     }
 
-    private fun handleDeeplinks() {
-        val data = requireActivity().intent.data.toString()
-        requireActivity().intent.data = null
-        when {
-            data.contains("vehicle_overview/charge_statistics") -> viewModel.showChargeStatistics()
-            data.contains("vehicle_overview/vehicle_location") -> viewModel.showVehicleLocation()
-        }
-    }
-
     private fun updateVehicleWidget() {
         val context = requireContext()
         val intent = Intent(context, VehicleWidgetProvider::class.java).apply {
@@ -409,6 +404,50 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
             putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
         }
         context.sendBroadcast(intent)
+    }
+
+    private fun updateShortcuts(vehicle: Vehicle) {
+        val shortcutManager =
+            getSystemService<ShortcutManager>(requireContext(), ShortcutManager::class.java)
+
+        val hvacShortcut = ShortcutInfo.Builder(context, "startClimateControl")
+            .setShortLabel(getString(R.string.start_hvac_shortcut))
+            .setLongLabel(getString(R.string.start_hvac_shortcut_long))
+            .setIcon(Icon.createWithResource(context, R.drawable.ic_baseline_ac_unit_24))
+            .setIntent(
+                Intent().apply {
+                    action = "StartHVAC"
+                    component = ComponentName(requireContext(), HvacBroadCastReciever::class.java)
+                }
+            )
+            .build()
+
+        val locationShortcut = ShortcutInfo.Builder(context, "location")
+            .setShortLabel(getString(R.string.map_shortcut))
+            .setLongLabel(getString(R.string.map_shortcut_long))
+            .setIcon(Icon.createWithResource(context, R.drawable.ic_baseline_map_24))
+            .setIntent(
+                Intent().apply {
+                    data = Uri.parse( "zoe://vehicle_location/${vehicle.vin}")
+                    action = Intent.ACTION_VIEW
+                }
+            )
+            .build()
+
+        val chargeStatisticsShortcut = ShortcutInfo.Builder(context, "chargeStatistics")
+            .setShortLabel(getString(R.string.show_charge_statistics_shortcut))
+            .setLongLabel(getString(R.string.show_charge_statistics_shortcut_long))
+            .setIcon(Icon.createWithResource(context, R.drawable.ic_baseline_ev_station_24))
+            .setIntent(
+                Intent().apply {
+                    data = Uri.parse( "zoe://charge_statistics/${vehicle.vin}")
+                    action = Intent.ACTION_VIEW
+                }
+            )
+            .build()
+
+        shortcutManager?.dynamicShortcuts =
+            listOf(hvacShortcut, locationShortcut, chargeStatisticsShortcut)
     }
 
     override fun onResume() {

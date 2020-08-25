@@ -133,7 +133,7 @@ class VehicleWidgetProvider : AppWidgetProvider() {
             component = ComponentName("at.sunilson.zoe", "at.sunilson.zoe.MainActivity")
             data = Uri.parse(
                 if (selectedVehicle == null) {
-                    "zoe://vehicle_overview/vehicle_location"
+                    "zoe://vehicle_overview"
                 } else {
                     "zoe://vehicle_location/$selectedVehicle"
                 }
@@ -149,7 +149,7 @@ class VehicleWidgetProvider : AppWidgetProvider() {
             component = ComponentName("at.sunilson.zoe", "at.sunilson.zoe.MainActivity")
             data = Uri.parse(
                 if (selectedVehicle == null) {
-                    "zoe://vehicle_overview/charge_statistics"
+                    "zoe://vehicle_overview"
                 } else {
                     "zoe://charge_statistics/$selectedVehicle"
                 }

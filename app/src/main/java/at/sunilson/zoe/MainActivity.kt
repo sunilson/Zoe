@@ -1,8 +1,10 @@
 package at.sunilson.zoe
 
 import android.content.Intent
+import android.content.pm.ShortcutManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.work.WorkManager
@@ -10,7 +12,6 @@ import at.sunilson.authentication.domain.IsLoggedInUseCase
 import at.sunilson.authentication.domain.LogoutHandler
 import at.sunilson.navigation.ActivityNavigator
 import at.sunilson.navigation.ActivityNavigatorParams
-import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collect
@@ -61,6 +62,11 @@ class MainActivity : AppCompatActivity() {
     private fun observeLogout() {
         lifecycleScope.launchWhenCreated {
             logoutHandler.loggedOutEvent.collect {
+                //On logout the shortcuts we created are not valid anymore!
+                ContextCompat.getSystemService<ShortcutManager>(
+                    this@MainActivity,
+                    ShortcutManager::class.java
+                )?.removeAllDynamicShortcuts()
                 moveToLogin()
                 cancel()
             }
