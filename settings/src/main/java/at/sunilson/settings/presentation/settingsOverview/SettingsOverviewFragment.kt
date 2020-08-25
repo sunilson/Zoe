@@ -10,6 +10,8 @@ import at.sunilson.presentationcore.base.viewBinding
 import at.sunilson.settings.R
 import at.sunilson.settings.databinding.FragmentSettingsOverviewBinding
 import dagger.hilt.android.AndroidEntryPoint
+import dev.chrisbanes.insetter.Insetter
+import dev.chrisbanes.insetter.Side
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -23,6 +25,7 @@ class SettingsOverviewFragment : Fragment(R.layout.fragment_settings_overview) {
         super.onViewCreated(view, savedInstanceState)
         binding.logoutButton.setOnClickListener { viewModel.logout() }
         observeEvents()
+        Insetter.builder().applySystemWindowInsetsToPadding(Side.TOP).applyToView(view)
     }
 
     private fun observeEvents() {
