@@ -31,4 +31,6 @@
     <string name="show_charge_statistics_shortcut_long">Lade- und Entlade-Statistiken</string>
     <string name="map_shortcut">Fahrzeugposition</string>
     <string name="map_shortcut_long">Fahrzeugposition finden</string>
+    <string name="charge">Laden</string>
+    <string name="start">Starten</string>
 </resources>

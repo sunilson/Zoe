@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="12dp"
-                android:text="@string/now"
+                android:text="@string/start"
                 app:icon="@drawable/ic_baseline_play_arrow_24"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintLeft_toLeftOf="parent"

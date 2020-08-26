@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?colorSurface">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <ImageButton
+                android:id="@+id/back_button"
+                style="@style/BackButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/back_button_content_description" />
+
+        <TextView
+                style="?textAppearanceHeadline6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                android:text="Impressum" />
+
+        <TextView
+                style="?textAppearanceBody1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="12dp"
+                android:autoLink="email"
+                android:text="Linus Weiss\nweisslinus@gmail.com" />
+
+        <TextView
+                style="?textAppearanceBody1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="12dp"
+                android:text="Diese App wurde lediglich für die private Nutzung entwickelt und steht in keiner Weise im Zusammenhang mit Renault oder anderen Unternehmen. Für die Kommunikation mit dem Fahrzeug wird die Renault API verwendet. Um einen Account zu erstellen und ein Fahrzeug zu verbinden muss die offizielle Renault App genutzt werden!" />
+
+        <TextView
+                style="?textAppearanceHeadline6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                android:text="Privacy" />
+
+        <TextView
+                style="?textAppearanceBody1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="12dp"
+                android:autoLink="web"
+                android:text="Die App verwendet Firebase Crashlytics um Abstürze nachzuverfolgen. Dabei wird kein Analytics Tool eingebunden und somit findet auch keine Aufzeichnung von Nutzer-relevanten Daten statt, abgesehen von Absturz-Daten. Es werden unter anderem Informationen über das Gerät (Modell, Android Version), IP-Adresse und Zeitstempel gesammelt. Mehr Informationen finden Sie hier https://firebase.google.com/support/privacy" />
+
+        <com.google.android.material.button.MaterialButton
+                android:id="@+id/open_source_licence_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                android:text="Open Source Lizenzen" />
+
+    </LinearLayout>
+</ScrollView>

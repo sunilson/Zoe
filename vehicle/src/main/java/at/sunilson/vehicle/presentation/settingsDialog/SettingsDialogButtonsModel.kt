@@ -24,10 +24,12 @@ abstract class SettingsDialogButtonsModel : EpoxyModelWithHolder<SettingsDialogB
 
     override fun bind(holder: Holder) = holder.run {
         settingsButton.setOnClickListener { settingsClicked() }
+        impressumButton.setOnClickListener { impressumClicked() }
     }
 
 
     class Holder : KotlinEpoxyHolder() {
         val settingsButton by bind<Button>(R.id.open_settings)
+        val impressumButton by bind<Button>(R.id.impressum)
     }
 }

@@ -5,6 +5,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'com.google.android.gms.oss-licenses-plugin'
 
 android {
     defaultConfig {
@@ -46,6 +47,7 @@ dependencies {
     implementation(project(":vehicleCore"))
     implementation(project(":notifications"))
     implementation(project(":widget"))
+    implementation(project(":impressum"))
     implementation Dependencies.coreKtx
     implementation(Dependencies.appcompat)
     implementation(Dependencies.room)
@@ -53,12 +55,12 @@ dependencies {
     implementation(Dependencies.hilt)
     implementation(Dependencies.hiltWorkManager)
     implementation(Dependencies.hiltViewModel)
-    implementation("com.google.firebase:firebase-crashlytics:17.1.1")
+    implementation("com.google.firebase:firebase-crashlytics:17.2.1")
     //debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'
     kapt(Dependencies.hiltKapt)
     kapt(Dependencies.hiltKaptJetpack)
 
     testImplementation("junit:junit:4.13")
-    androidTestImplementation("androidx.test.ext:junit:1.1.1")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.2.0")
+    androidTestImplementation("androidx.test.ext:junit:1.1.2")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
 }

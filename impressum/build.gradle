@@ -6,9 +6,7 @@ apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 
 android {
-
     buildFeatures.viewBinding = true
-
     buildTypes {
         release {
             minifyEnabled true
@@ -19,17 +17,11 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation(project(":authentication"))
     implementation(project(":presentationCore"))
     implementation(project(":networkingCore"))
     implementation(project(":core"))
-    implementation(project(":vehicleCore"))
-    implementation(project(":widget"))
-    implementation(project(":notifications"))
-    implementation(Dependencies.lottie)
     implementation(Dependencies.hilt)
-    implementation(Dependencies.maps)
-    kapt(Dependencies.moshiKapt)
+    implementation 'com.google.android.gms:play-services-oss-licenses:17.0.0'
     kapt(Dependencies.hiltKapt)
     kapt(Dependencies.hiltKaptJetpack)
     kapt(Dependencies.epoxyKapt)

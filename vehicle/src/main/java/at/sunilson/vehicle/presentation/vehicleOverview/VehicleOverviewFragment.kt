@@ -120,6 +120,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        exitTransition = null
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { tryExit() }
 
@@ -287,11 +288,12 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
         val mapView = requireView().findViewById<MaterialCardView>(R.id.location_widget)
         if (mapView != null) {
             findNavController().navigate(
-                VehicleOverviewFragmentDirections.showVehicleLocation(vin),
+                Uri.parse("zoe://vehicle_location/$vin}"),
+                null,
                 FragmentNavigatorExtras(mapView to "location")
             )
         } else {
-            findNavController().navigate(VehicleOverviewFragmentDirections.showVehicleLocation(vin))
+            findNavController().navigate(Uri.parse("zoe://vehicle_location/$vin}"))
         }
     }
 
@@ -428,7 +430,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
             .setIcon(Icon.createWithResource(context, R.drawable.ic_baseline_map_24))
             .setIntent(
                 Intent().apply {
-                    data = Uri.parse( "zoe://vehicle_location/${vehicle.vin}")
+                    data = Uri.parse("zoe://vehicle_location/${vehicle.vin}")
                     action = Intent.ACTION_VIEW
                 }
             )
@@ -440,7 +442,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
             .setIcon(Icon.createWithResource(context, R.drawable.ic_baseline_ev_station_24))
             .setIntent(
                 Intent().apply {
-                    data = Uri.parse( "zoe://charge_statistics/${vehicle.vin}")
+                    data = Uri.parse("zoe://charge_statistics/${vehicle.vin}")
                     action = Intent.ACTION_VIEW
                 }
             )

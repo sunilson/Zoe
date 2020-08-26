@@ -1,0 +1,10 @@
+<manifest
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        package="at.sunilson.impressum">
+
+    <application>
+        <activity
+                android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
+                android:theme="@style/OSSTheme" />
+    </application>
+</manifest>

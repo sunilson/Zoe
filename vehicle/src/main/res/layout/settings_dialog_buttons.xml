@@ -7,14 +7,14 @@
 
     <com.google.android.material.button.MaterialButton
             android:id="@+id/open_settings"
-            style="@style/ButtonStyle"
+            style="@style/Widget.App.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/settings" />
 
     <com.google.android.material.button.MaterialButton
             android:id="@+id/impressum"
-            style="@style/ButtonStyle"
+            style="@style/Widget.App.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -22,10 +22,10 @@
             android:text="@string/impressum" />
 
     <TextView
-            android:textAppearance="?textAppearanceHeadline6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:text="@string/choose_your_vehicle" />
+            android:text="@string/choose_your_vehicle"
+            android:textAppearance="?textAppearanceHeadline6" />
 
 </LinearLayout>

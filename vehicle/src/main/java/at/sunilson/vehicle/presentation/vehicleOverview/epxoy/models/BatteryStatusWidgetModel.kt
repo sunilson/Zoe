@@ -31,9 +31,11 @@ abstract class BatteryStatusWidgetModel : EpoxyModelWithHolder<BatteryStatusWidg
 
         val chargeStateText =
             if (batteryStatus.chargeState == Vehicle.BatteryStatus.ChargeState.CHARGING) {
-                "${context.getString(batteryStatus.chargeState.displayName)}: ${TimeUtils.formatMinuteDuration(
-                    batteryStatus.remainingChargeTime
-                )} verbleibend"
+                "${context.getString(batteryStatus.chargeState.displayName)}: ${
+                    TimeUtils.formatMinuteDuration(
+                        batteryStatus.remainingChargeTime
+                    )
+                } verbleibend"
             } else {
                 holder.chargeStateView.context.getString(batteryStatus.chargeState.displayName)
             }
@@ -44,7 +46,13 @@ abstract class BatteryStatusWidgetModel : EpoxyModelWithHolder<BatteryStatusWidg
         estimatedRange.text =
             "Reichweite ${batteryStatus.remainingRange} km (${batteryStatus.availableEnery} kWh)"
         chargeScheduleButton.setOnClickListener { chargeScheduleClicked() }
+
         chargeNowButton.setOnClickListener { chargeNowClicked() }
+        chargeNowButton.isEnabled = !vehicle.batteryStatus.isCharging && vehicle.batteryStatus.pluggedIn
+                && (vehicle.batteryStatus.chargeState == Vehicle.BatteryStatus.ChargeState.NOT_CHARGING
+                || vehicle.batteryStatus.chargeState == Vehicle.BatteryStatus.ChargeState.WAITING_FOR_CURRENT_CHARGE
+                || vehicle.batteryStatus.chargeState == Vehicle.BatteryStatus.ChargeState.WATING_FOR_PLANNED_CHARGE
+                )
     }
 
     class Holder : KotlinEpoxyHolder() {

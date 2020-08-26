@@ -7,11 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import at.sunilson.core.Do
-import at.sunilson.ktx.fragment.useLightNavigationBarIcons
 import at.sunilson.presentationcore.base.viewBinding
 import at.sunilson.presentationcore.extensions.setupHeaderAnimation
+import at.sunilson.presentationcore.extensions.withDefaultAnimations
 import at.sunilson.vehicle.R
 import at.sunilson.vehicle.databinding.DialogFragmentSettingsBinding
 import at.sunilson.vehiclecore.domain.entities.Vehicle
@@ -69,8 +70,19 @@ class SettingsDialogFragment : BottomSheetDialogFragment() {
 
                 settingsDialogButtons {
                     id("buttons")
-                    settingsClicked { findNavController().navigate(Uri.parse("zoe://settings")) }
-                    impressumClicked { }
+                    settingsClicked {
+                        findNavController().navigate(
+                            Uri.parse("zoe://settings"),
+                            NavOptions.Builder().withDefaultAnimations()
+                        )
+                    }
+                    impressumClicked {
+                        findNavController()
+                            .navigate(
+                                Uri.parse("zoe://impressum"),
+                                NavOptions.Builder().withDefaultAnimations()
+                            )
+                    }
                 }
 
                 vehicleListItem {
