@@ -7,6 +7,7 @@ import at.sunilson.vehiclecore.data.VehicleCoreService
 import at.sunilson.vehiclecore.data.VehicleDao
 import at.sunilson.vehiclecore.data.toDatabaseEntity
 import at.sunilson.vehiclecore.data.toEntity
+import at.sunilson.vehiclecore.domain.RefreshVehicleLocation
 import at.sunilson.vehiclecore.domain.VehicleCoreRepository
 import at.sunilson.vehiclecore.domain.entities.Vehicle
 import com.github.kittinunf.result.coroutines.SuspendableResult
@@ -18,7 +19,8 @@ internal class RefreshAllVehicles @Inject constructor(
     private val vehicleService: VehicleService,
     private val vehicleCoreService: VehicleCoreService,
     private val vehicleCoreRepository: VehicleCoreRepository,
-    private val vehicleDao: VehicleDao
+    private val vehicleDao: VehicleDao,
+    private val refreshVehicleLocation: RefreshVehicleLocation
 ) : AsyncUseCase<List<Vehicle>, Unit>() {
     override suspend fun run(params: Unit) = SuspendableResult.of<List<Vehicle>, Exception> {
 
@@ -32,6 +34,8 @@ internal class RefreshAllVehicles @Inject constructor(
         //TODO Parallel
         Timber.d("Refreshing vehicles battery status...")
         val enrichedVehicles = newVehicles.map { vehicle ->
+
+            refreshVehicleLocation(vehicle.vin)
 
             val batteryStatus = vehicleCoreService
                 .getBatteryStatus(kamereonId, vehicle.vin)

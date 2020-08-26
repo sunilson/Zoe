@@ -68,7 +68,7 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
         binding.backButton.setOnClickListener { back() }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { back() }
 
-        binding.refreshFab.setOnClickListener { viewModel.refreshPosition() }
+        binding.refreshFab.setOnClickListener { viewModel.refreshPosition(args.vin) }
 
         Insetter.builder().applySystemWindowInsetsToMargin(Side.TOP).applyToView(binding.backButton)
     }
@@ -87,14 +87,14 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
         mapFragment?.getMapAsync {
             startPostponedEnterTransition()
             map = it
-            viewModel.refreshPosition()
+            viewModel.refreshPosition(args.vin)
             viewModel.loadLocationList(args.vin)
         }
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.refreshPosition()
+        viewModel.refreshPosition(args.vin)
         setStatusBarColor(android.R.color.transparent)
         setNavigationBarColor(android.R.color.white)
         useLightStatusBarIcons(false)

@@ -7,11 +7,11 @@ import androidx.lifecycle.viewModelScope
 import at.sunilson.unidirectionalviewmodel.savedstate.Persist
 import at.sunilson.unidirectionalviewmodel.savedstate.PersistableState
 import at.sunilson.unidirectionalviewmodel.savedstate.UniDirectionalSavedStateViewModelReflection
-import at.sunilson.vehicle.domain.GetSelectedVehicle
 import at.sunilson.vehicle.domain.RefreshAllVehicles
 import at.sunilson.vehicle.domain.StartCharging
 import at.sunilson.vehicle.domain.StartClimateControl
-import at.sunilson.vehiclecore.domain.LocateSelectedVehicle
+import at.sunilson.vehiclecore.domain.GetSelectedVehicle
+import at.sunilson.vehiclecore.domain.GetSelectedVehicleLocation
 import at.sunilson.vehiclecore.domain.entities.Location
 import at.sunilson.vehiclecore.domain.entities.Vehicle
 import kotlinx.coroutines.Job
@@ -42,7 +42,7 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
     private val refreshAllVehicles: RefreshAllVehicles,
     private val startClimateControlUseCase: StartClimateControl,
     private val startChargingUseCase: StartCharging,
-    private val locateSelectedVehicle: LocateSelectedVehicle,
+    private val getSelectedVehicleLocation: GetSelectedVehicleLocation,
     @Assisted savedStateHandle: SavedStateHandle
 ) : UniDirectionalSavedStateViewModelReflection<VehicleOverviewState, VehicleOverviewEvents>(
     VehicleOverviewState(), savedStateHandle
@@ -126,20 +126,16 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
                     Timber.e("Selected Vehicle was null")
                     sendEvent(ShowSplashScreen)
                 } else {
-                    updateVehicleLocation()
                     setState { copy(selectedVehicle = it) }
                 }
             }
         }
-    }
 
-    private fun updateVehicleLocation() {
         locationJob?.cancel()
         locationJob = viewModelScope.launch {
-            locateSelectedVehicle(Unit).fold(
-                { setState { copy(vehicleLocation = it) } },
-                { Timber.e(it) }
-            )
+            getSelectedVehicleLocation(Unit).collect {
+                setState { copy(vehicleLocation = it) }
+            }
         }
     }
 }

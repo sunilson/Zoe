@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="12dp"
-                android:text="Diese App wurde lediglich für die private Nutzung entwickelt und steht in keiner Weise im Zusammenhang mit Renault oder anderen Unternehmen. Für die Kommunikation mit dem Fahrzeug wird die Renault API verwendet. Um einen Account zu erstellen und ein Fahrzeug zu verbinden muss die offizielle Renault App genutzt werden!" />
+                android:text="Die App wurde lediglich für die private Nutzung entwickelt und steht in keiner Weise im Zusammenhang mit Renault oder anderen Unternehmen. Für die Kommunikation mit dem Fahrzeug wird die Renault API verwendet. Um einen Account zu erstellen und ein Fahrzeug zu verbinden muss die offizielle Renault App genutzt werden!" />
 
         <TextView
                 style="?textAppearanceHeadline6"

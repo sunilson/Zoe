@@ -1,12 +1,12 @@
 package at.sunilson.vehiclecore.data
 
+import at.sunilson.vehiclecore.data.models.DatabaseLocation
 import at.sunilson.vehiclecore.data.models.DatabaseVehicle
 import at.sunilson.vehiclecore.data.models.batterystatus.BatteryStatusResponse
 import at.sunilson.vehiclecore.data.models.cockpit.CockpitResponse
 import at.sunilson.vehiclecore.data.models.location.LocationResponse
 import at.sunilson.vehiclecore.domain.entities.Location
 import at.sunilson.vehiclecore.domain.entities.Vehicle
-import java.time.ZoneId
 import java.time.ZonedDateTime
 
 fun BatteryStatusResponse.toEntity() =
@@ -38,3 +38,6 @@ fun LocationResponse.toEntity() =
             .toInstant()
             .toEpochMilli()
     )
+
+fun Location.toDatabaseEntity(vin: String) = DatabaseLocation(vin, lat, lng, timestamp)
+fun DatabaseLocation.toEntity() = Location(lat, lng, timestamp)

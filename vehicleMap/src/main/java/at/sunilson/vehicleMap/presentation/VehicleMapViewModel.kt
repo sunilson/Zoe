@@ -2,9 +2,11 @@ package at.sunilson.vehicleMap.presentation
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
+import at.sunilson.core.extensions.doOnFailure
 import at.sunilson.unidirectionalviewmodel.core.UniDirectionalViewModel
 import at.sunilson.vehicleMap.domain.GetVehicleLocations
-import at.sunilson.vehiclecore.domain.LocateSelectedVehicle
+import at.sunilson.vehiclecore.domain.GetSelectedVehicleLocation
+import at.sunilson.vehiclecore.domain.RefreshVehicleLocation
 import at.sunilson.vehiclecore.domain.entities.Location
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
@@ -20,11 +22,20 @@ data class VehicleMapState(
 class VehicleMapEvents
 
 internal class VehicleMapViewModel @ViewModelInject constructor(
-    private val locateSelectedVehicle: LocateSelectedVehicle,
+    private val refreshVehicleLocation: RefreshVehicleLocation,
+    private val getVehicleLocation: GetSelectedVehicleLocation,
     private val getVehicleLocations: GetVehicleLocations
 ) : UniDirectionalViewModel<VehicleMapState, VehicleMapEvents>(VehicleMapState()) {
 
-    private var locationsJob : Job? = null
+    private var locationsJob: Job? = null
+
+    init {
+        viewModelScope.launch {
+            getVehicleLocation(Unit).collect {
+                setState { copy(location = it) }
+            }
+        }
+    }
 
     fun loadLocationList(vin: String) {
         locationsJob?.cancel()
@@ -35,13 +46,10 @@ internal class VehicleMapViewModel @ViewModelInject constructor(
         }
     }
 
-    fun refreshPosition() {
+    fun refreshPosition(vin: String) {
         viewModelScope.launch {
             setState { copy(loading = true) }
-            locateSelectedVehicle(Unit).fold(
-                { setState { copy(location = it) } },
-                { Timber.e(it) }
-            )
+            refreshVehicleLocation(vin).doOnFailure { Timber.e(it) }
             setState { copy(loading = false) }
         }
     }

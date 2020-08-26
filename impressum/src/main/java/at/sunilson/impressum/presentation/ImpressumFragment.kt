@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import at.sunilson.impressum.R
 import at.sunilson.impressum.databinding.FragmentImpressumBinding
+import at.sunilson.ktx.fragment.useLightNavigationBarIcons
+import at.sunilson.ktx.fragment.useLightStatusBarIcons
 import at.sunilson.presentationcore.base.viewBinding
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import dev.chrisbanes.insetter.Insetter
@@ -27,5 +29,11 @@ class ImpressumFragment : Fragment(R.layout.fragment_impressum) {
         binding.openSourceLicenceButton.setOnClickListener {
             startActivity(Intent(requireContext(), OssLicensesMenuActivity::class.java))
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        useLightStatusBarIcons(false)
+        useLightNavigationBarIcons(false)
     }
 }

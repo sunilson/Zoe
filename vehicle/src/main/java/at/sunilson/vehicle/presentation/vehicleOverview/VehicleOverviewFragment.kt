@@ -288,12 +288,12 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
         val mapView = requireView().findViewById<MaterialCardView>(R.id.location_widget)
         if (mapView != null) {
             findNavController().navigate(
-                Uri.parse("zoe://vehicle_location/$vin}"),
+                Uri.parse("zoe://vehicle_location/$vin"),
                 null,
                 FragmentNavigatorExtras(mapView to "location")
             )
         } else {
-            findNavController().navigate(Uri.parse("zoe://vehicle_location/$vin}"))
+            findNavController().navigate(Uri.parse("zoe://vehicle_location/$vin"))
         }
     }
 
