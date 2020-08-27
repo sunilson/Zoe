@@ -2,6 +2,7 @@ package at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models
 
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.view.isVisible
 import at.sunilson.presentationcore.epoxy.KotlinEpoxyHolder
 import at.sunilson.presentationcore.extensions.format
 import at.sunilson.vehicle.R
@@ -32,6 +33,7 @@ abstract class ChargeWidgetModel : EpoxyModelWithHolder<ChargeWidgetModel.Holder
         val context = holder.batteryTemperature.context
         val batteryStatus = vehicle.batteryStatus
 
+        chargeStateView.isVisible = currentChargeProcedure != null
         currentChargeProcedure?.let { procedure ->
             chargeStateView.text =
                 "Seit ${procedure.duration.format()} ${procedure.energyAmount} kWh geladen"
