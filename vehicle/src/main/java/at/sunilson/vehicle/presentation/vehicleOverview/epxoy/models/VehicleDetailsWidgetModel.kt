@@ -24,19 +24,19 @@ abstract class VehicleDetailsWidgetModel :
     lateinit var onButtonClick: (String) -> Unit
 
     override fun bind(holder: Holder) = holder.run {
-        vinText.text =
-            "Letzte Änderung: ${vehicle.lastChangeTimestamp.toZonedDateTime().formatFull()}"
+        vehicleTimestamp.text = "${vehicle.lastChangeTimestamp.toZonedDateTime().formatFull()}"
         mileageText.text = "Kilometerstand: ${vehicle.mileageKm} Km"
         vehicleName.text = vehicle.modelName
-        batteryCapacity.text = "Batteriekapazität: ${vehicle.batteryStatus.batteryCapacity} kWh"
         detailsButton.setOnClickListener { onButtonClick(vehicle.vin) }
+        estimatedRangeText.text =
+            "Reichweite ${vehicle.batteryStatus.remainingRange} km (${vehicle.batteryStatus.availableEnery} kWh)"
     }
 
     class Holder : KotlinEpoxyHolder() {
         val vehicleName by bind<TextView>(R.id.headline)
         val mileageText by bind<TextView>(R.id.vehicle_mileage)
-        val vinText by bind<TextView>(R.id.vehicle_vin)
-        val batteryCapacity by bind<TextView>(R.id.vehicle_battery_capacity)
+        val vehicleTimestamp by bind<TextView>(R.id.vehicle_timestamp)
+        val estimatedRangeText by bind<TextView>(R.id.vehicle_estimated_range)
         val detailsButton by bind<Button>(R.id.vehicle_details_button)
     }
 }

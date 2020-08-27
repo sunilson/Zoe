@@ -7,9 +7,11 @@ import androidx.lifecycle.viewModelScope
 import at.sunilson.unidirectionalviewmodel.savedstate.Persist
 import at.sunilson.unidirectionalviewmodel.savedstate.PersistableState
 import at.sunilson.unidirectionalviewmodel.savedstate.UniDirectionalSavedStateViewModelReflection
+import at.sunilson.vehicle.domain.GetSelectedVehicleCurrentChargeProcedure
 import at.sunilson.vehicle.domain.RefreshAllVehicles
 import at.sunilson.vehicle.domain.StartCharging
 import at.sunilson.vehicle.domain.StartClimateControl
+import at.sunilson.vehicle.domain.entities.ChargeProcedure
 import at.sunilson.vehiclecore.domain.GetSelectedVehicle
 import at.sunilson.vehiclecore.domain.GetSelectedVehicleLocation
 import at.sunilson.vehiclecore.domain.entities.Location
@@ -25,7 +27,8 @@ data class VehicleOverviewState(
     @Persist
     val selectedVehicle: Vehicle? = null,
     @Persist
-    val vehicleLocation: Location? = null
+    val vehicleLocation: Location? = null,
+    val currentChargeProcedure: ChargeProcedure? = null
 )
 
 sealed class VehicleOverviewEvents
@@ -43,6 +46,7 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
     private val startClimateControlUseCase: StartClimateControl,
     private val startChargingUseCase: StartCharging,
     private val getSelectedVehicleLocation: GetSelectedVehicleLocation,
+    private val getSelectedVehicleCurrentChargeProcedure: GetSelectedVehicleCurrentChargeProcedure,
     @Assisted savedStateHandle: SavedStateHandle
 ) : UniDirectionalSavedStateViewModelReflection<VehicleOverviewState, VehicleOverviewEvents>(
     VehicleOverviewState(), savedStateHandle
@@ -50,6 +54,7 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
 
     private var selectedVehicleJob: Job? = null
     private var locationJob: Job? = null
+    private var chargeProcedureJob: Job? = null
     private var refreshingJob: Job? = null
 
     init {
@@ -135,6 +140,13 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
         locationJob = viewModelScope.launch {
             getSelectedVehicleLocation(Unit).collect {
                 setState { copy(vehicleLocation = it) }
+            }
+        }
+
+        chargeProcedureJob?.cancel()
+        chargeProcedureJob = viewModelScope.launch {
+            getSelectedVehicleCurrentChargeProcedure(Unit).collect {
+                setState { copy(currentChargeProcedure = it) }
             }
         }
     }

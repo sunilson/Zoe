@@ -49,10 +49,11 @@ import at.sunilson.presentationcore.extensions.setupHeaderAnimation
 import at.sunilson.presentationcore.extensions.withDefaultAnimations
 import at.sunilson.vehicle.R
 import at.sunilson.vehicle.databinding.FragmentVehicleOverviewBinding
+import at.sunilson.vehicle.domain.entities.ChargeProcedure
 import at.sunilson.vehicle.presentation.extensions.displayName
 import at.sunilson.vehicle.presentation.hvacBroadcastReciever.HvacBroadCastReciever
 import at.sunilson.vehicle.presentation.utils.TimeUtils
-import at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models.batteryStatusWidget
+import at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models.chargeWidget
 import at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models.climateControlWidget
 import at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models.statisticsWidget
 import at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models.vehicleDetailsWidget
@@ -276,7 +277,11 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
                 binding.contentContainer.isRefreshing = state.loading
                 if (state.selectedVehicle != null) {
                     updateShortcuts(state.selectedVehicle)
-                    renderVehicle(state.selectedVehicle, state.vehicleLocation)
+                    renderVehicle(
+                        state.selectedVehicle,
+                        state.vehicleLocation,
+                        state.currentChargeProcedure
+                    )
                     updateVehicleWidget()
                 }
             }
@@ -326,7 +331,11 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     }
 
 
-    private fun renderVehicle(vehicle: Vehicle, location: Location?) {
+    private fun renderVehicle(
+        vehicle: Vehicle,
+        location: Location?,
+        chargeProcedure: ChargeProcedure?
+    ) {
         binding.vehicleSubtitle.text =
             if (vehicle.batteryStatus.chargeState == Vehicle.BatteryStatus.ChargeState.CHARGING) {
                 "Laden: ${TimeUtils.formatMinuteDuration(vehicle.batteryStatus.remainingChargeTime)} verbleibend"
@@ -346,7 +355,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
                 onButtonClick(this@VehicleOverviewFragment::showVehicleDetails)
             }
 
-            batteryStatusWidget {
+            chargeWidget {
                 id("batteryStatusWidget")
                 vehicle(vehicle)
                 chargeScheduleClicked {
@@ -356,6 +365,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
                     )
                 }
                 chargeNowClicked { viewModel.startCharging(vehicle.vin) }
+                currentChargeProcedure(chargeProcedure)
             }
 
             climateControlWidget {

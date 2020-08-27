@@ -39,6 +39,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/plan"
+                android:enabled="false"
                 app:icon="@drawable/ic_baseline_calendar_today_24"
                 app:layout_constraintBottom_toBottomOf="@id/start_climate_control_button"
                 app:layout_constraintLeft_toRightOf="@id/start_climate_control_button"

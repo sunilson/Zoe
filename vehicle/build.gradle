@@ -26,6 +26,7 @@ dependencies {
     implementation(project(":vehicleCore"))
     implementation(project(":widget"))
     implementation(project(":notifications"))
+    implementation(project(":chargeTracking"))
     implementation(Dependencies.lottie)
     implementation(Dependencies.hilt)
     implementation(Dependencies.maps)

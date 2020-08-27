@@ -30,7 +30,7 @@
                     android:paddingTop="30dp"
                     android:paddingRight="12dp"
                     android:paddingBottom="20dp"
-                    tools:listitem="@layout/battery_status_widget" />
+                    tools:listitem="@layout/charge_widget" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

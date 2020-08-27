@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <base-config cleartextTrafficPermitted="false" />
+    <domain-config>
+        <domain includeSubdomains="true">api-wired-prod-1-euw1.wrd-aws.com</domain>
+        <pin-set>
+            <pin digest="SHA-256">dPm4Xx7DPY34VXYQiEKUH2d4hTi09+idUhEk4v4wlJI=</pin>
+            <pin digest="SHA-256">JSMzqOOrtyOT1kmau6zKhgT676hGgczD5VMdRMyJZFA=</pin>
+            <pin digest="SHA-256">NqvDJlas/GRcYbcWE8S/IceH9cq77kg0jVhZeAPXq81=</pin>
+            <pin digest="SHA-256">++MBgDH5WGvL9Bcn5Be30cRcL0f5O+NyoXuWtQdX1aI=</pin>
+            <pin digest="SHA-256">KwccWaCgrnaw6tsrrSO61FgLacNgG2MMLq8GE6+oP5I=</pin>
+        </pin-set>
+        <trustkit-config
+                disableDefaultReportUri="true"
+                enforcePinning="true" />
+    </domain-config>
+</network-security-config>
