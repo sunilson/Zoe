@@ -33,6 +33,7 @@ abstract class ChargeWidgetModel : EpoxyModelWithHolder<ChargeWidgetModel.Holder
         val context = holder.batteryTemperature.context
         val batteryStatus = vehicle.batteryStatus
 
+        chargeStateIcon.isVisible = currentChargeProcedure != null
         chargeStateView.isVisible = currentChargeProcedure != null
         currentChargeProcedure?.let { procedure ->
             chargeStateView.text =
@@ -57,6 +58,7 @@ abstract class ChargeWidgetModel : EpoxyModelWithHolder<ChargeWidgetModel.Holder
 
     class Holder : KotlinEpoxyHolder() {
         val pluggedStateView by bind<TextView>(R.id.vehicle_battery_plugged)
+        val chargeStateIcon by bind<TextView>(R.id.battery_icon)
         val chargeStateView by bind<TextView>(R.id.vehicle_charge_state)
         val batteryTemperature by bind<TextView>(R.id.vehicle_battery_temperature)
         val chargeScheduleButton by bind<Button>(R.id.charge_schedule_button)
