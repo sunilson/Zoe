@@ -1,6 +1,7 @@
 package at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models
 
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
 import at.sunilson.presentationcore.epoxy.KotlinEpoxyHolder
