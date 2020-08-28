@@ -58,7 +58,7 @@ abstract class ChargeWidgetModel : EpoxyModelWithHolder<ChargeWidgetModel.Holder
 
     class Holder : KotlinEpoxyHolder() {
         val pluggedStateView by bind<TextView>(R.id.vehicle_battery_plugged)
-        val chargeStateIcon by bind<TextView>(R.id.battery_icon)
+        val chargeStateIcon by bind<ImageView>(R.id.battery_icon)
         val chargeStateView by bind<TextView>(R.id.vehicle_charge_state)
         val batteryTemperature by bind<TextView>(R.id.vehicle_battery_temperature)
         val chargeScheduleButton by bind<Button>(R.id.charge_schedule_button)
