@@ -86,7 +86,7 @@
                 android:layout_marginStart="20dp"
                 android:textAppearance="?textAppearanceBody1"
                 app:layout_constraintBottom_toBottomOf="@id/temperature_icon"
-                app:layout_constraintLeft_toRightOf="@id/battery_icon"
+                app:layout_constraintLeft_toRightOf="@id/temperature_icon"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@id/temperature_icon"
                 tools:text="Batterie Temperatur ist 20 Grad" />
