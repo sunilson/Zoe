@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="mileage">Kilometerstand: %s km</string>
-    <string name="not_charging">Nicht am Laden</string>
-    <string name="waiting_for_planned_charge">Warte auf geplante Ladung</string>
-    <string name="charge_ended">Laden abgeschlossen</string>
-    <string name="waiting_for_current_charge">Auf Ladung warten</string>
-    <string name="energy_flap_opened">Ladeklappe offen</string>
-    <string name="charging">Laden</string>
-    <string name="charge_error">Ladefehler</string>
     <string name="settings">Einstellungen</string>
     <string name="impressum">Impressum und Rechtliches</string>
     <string name="choose_your_vehicle">Wähle dein Fahrzeug</string>

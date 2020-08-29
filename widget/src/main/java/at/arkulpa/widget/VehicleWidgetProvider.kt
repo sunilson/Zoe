@@ -15,6 +15,7 @@ import at.sunilson.vehiclecore.data.VehicleDao
 import at.sunilson.vehiclecore.data.toEntity
 import at.sunilson.vehiclecore.domain.VehicleCoreRepository
 import at.sunilson.vehiclecore.domain.entities.Vehicle
+import at.sunilson.vehiclecore.presentation.extensions.displayName
 import coil.Coil
 import coil.request.GetRequest
 import coil.request.SuccessResult
@@ -84,12 +85,12 @@ class VehicleWidgetProvider : AppWidgetProvider() {
 
         setTextViewText(
             R.id.vehicle_battery,
-            "${vehicle.batteryStatus.batteryLevel} % (${vehicle.batteryStatus.availableEnery} kWh)"
+            "${vehicle.batteryStatus.batteryLevel} % (${vehicle.batteryStatus.remainingRange} km"
         )
 
         setTextViewText(
-            R.id.vehicle_range,
-            "Reichweite: ${vehicle.batteryStatus.remainingRange} km"
+            R.id.vehicle_charging_state,
+            context.getString(vehicle.batteryStatus.chargeState.displayName)
         )
 
         setTextViewText(R.id.vehicle_mileage, "Kilometerstand: ${vehicle.mileageKm} km")

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-        android:id="@+id/widget_root"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/widget_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/vehicle_widget_background"
@@ -33,38 +33,38 @@
 
             <TextView
                     android:id="@+id/vehicle_name"
-                    android:textAppearance="?textAppearanceHeadline6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textAppearance="?textAppearanceHeadline6"
                     android:textColor="@color/white"
-                    tools:text="Yo this is a widget man" />
+                    tools:text="Zoe" />
 
             <TextView
                     android:id="@+id/vehicle_battery"
-                    android:textAppearance="?textAppearanceSubtitle2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
+                    android:textAppearance="?textAppearanceSubtitle2"
                     android:textColor="@color/white"
-                    tools:text="Yo this is a widget man" />
+                    tools:text="20% (300km)" />
 
             <TextView
-                    android:id="@+id/vehicle_range"
-                    android:textAppearance="?textAppearanceSubtitle2"
+                    android:id="@+id/vehicle_charging_state"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
+                    android:textAppearance="?textAppearanceSubtitle2"
                     android:textColor="@color/white"
-                    tools:text="Yo this is a widget man" />
+                    tools:text="Nicht am Laden" />
 
             <TextView
                     android:id="@+id/vehicle_mileage"
-                    android:textAppearance="?textAppearanceSubtitle2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
+                    android:textAppearance="?textAppearanceSubtitle2"
                     android:textColor="@color/white"
-                    tools:text="Yo this is a widget man" />
+                    tools:text="Kilometerstand: 25000 km" />
 
         </LinearLayout>
 

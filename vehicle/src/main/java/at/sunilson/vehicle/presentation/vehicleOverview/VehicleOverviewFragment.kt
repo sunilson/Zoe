@@ -50,7 +50,7 @@ import at.sunilson.presentationcore.extensions.withDefaultAnimations
 import at.sunilson.vehicle.R
 import at.sunilson.vehicle.databinding.FragmentVehicleOverviewBinding
 import at.sunilson.vehicle.domain.entities.ChargeProcedure
-import at.sunilson.vehicle.presentation.extensions.displayName
+import at.sunilson.vehiclecore.presentation.extensions.displayName
 import at.sunilson.vehicle.presentation.hvacBroadcastReciever.HvacBroadCastReciever
 import at.sunilson.vehicle.presentation.utils.TimeUtils
 import at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models.chargeWidget
