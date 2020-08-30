@@ -12,7 +12,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import at.sunilson.chargeSchedule.R
-import at.sunilson.chargeSchedule.databinding.FragmentChargeSchedulesOverviewBinding
 import at.sunilson.core.Do
 import at.sunilson.ktx.context.showToast
 import at.sunilson.ktx.fragment.setNavigationBarColor
@@ -20,8 +19,10 @@ import at.sunilson.ktx.fragment.setStatusBarColor
 import at.sunilson.ktx.fragment.useLightStatusBarIcons
 import at.sunilson.presentationcore.base.viewBinding
 import at.sunilson.presentationcore.extensions.setupHeaderAnimation
+import at.sunilson.scheduleCore.databinding.FragmentScheduleOverviewBinding
 import at.sunilson.scheduleCore.domain.entities.Schedule
 import at.sunilson.scheduleCore.domain.entities.ScheduleType
+import at.sunilson.scheduleCore.presentation.scheduleEntry
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.Insetter
@@ -32,11 +33,11 @@ import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 internal class ChargeScheduleOverviewFragment :
-    Fragment(R.layout.fragment_charge_schedules_overview) {
+    Fragment(R.layout.fragment_schedule_overview) {
 
     private val args by navArgs<ChargeScheduleOverviewFragmentArgs>()
     private val viewModel by viewModels<ChargeScheduleOverviewViewModel>()
-    private val binding by viewBinding(FragmentChargeSchedulesOverviewBinding::bind)
+    private val binding by viewBinding(FragmentScheduleOverviewBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -135,11 +136,11 @@ internal class ChargeScheduleOverviewFragment :
     private fun renderList(chargeSchedules: List<Schedule>) {
         binding.recyclerview.withModels {
             chargeSchedules.forEach { chargeSchedule ->
-                chargeScheduleEntry {
+                scheduleEntry {
                     id(chargeSchedule.id)
-                    chargeSchedule(chargeSchedule)
-                    chargeScheduleToggled { }
-                    chargeScheduleUpdated { viewModel.updateSchedules(it) }
+                    schedule(chargeSchedule)
+                    scheduleToggled { }
+                    scheduleUpdated { viewModel.updateSchedules(it) }
                 }
             }
         }

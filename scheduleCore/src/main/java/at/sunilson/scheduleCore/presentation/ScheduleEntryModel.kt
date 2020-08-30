@@ -1,4 +1,4 @@
-package at.sunilson.chargeSchedule.presentation
+package at.sunilson.scheduleCore.presentation
 
 import android.app.TimePickerDialog
 import android.content.Context
@@ -6,9 +6,9 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.children
 import androidx.core.view.isVisible
-import at.sunilson.chargeSchedule.R
 import at.sunilson.presentationcore.epoxy.KotlinEpoxyHolder
 import at.sunilson.presentationcore.extensions.padZero
+import at.sunilson.scheduleCore.R
 import at.sunilson.scheduleCore.domain.entities.Schedule
 import at.sunilson.scheduleCore.domain.entities.ScheduleDay
 import com.airbnb.epoxy.EpoxyAttribute
@@ -22,25 +22,25 @@ import java.time.format.DateTimeFormatter
 
 
 @EpoxyModelClass
-internal abstract class ChargeScheduleEntryModel :
-    EpoxyModelWithHolder<ChargeScheduleEntryModel.Holder>() {
+abstract class ScheduleEntryModel :
+    EpoxyModelWithHolder<ScheduleEntryModel.Holder>() {
 
-    override fun getDefaultLayout() = R.layout.charge_schedule_entry
-
-    @EpoxyAttribute
-    lateinit var chargeSchedule: Schedule
+    override fun getDefaultLayout() = R.layout.schedule_entry
 
     @EpoxyAttribute
-    lateinit var chargeScheduleUpdated: (Schedule) -> Unit
+    lateinit var schedule: Schedule
 
     @EpoxyAttribute
-    lateinit var chargeScheduleToggled: (Boolean) -> Unit
+    lateinit var scheduleUpdated: (Schedule) -> Unit
+
+    @EpoxyAttribute
+    lateinit var scheduleToggled: (Boolean) -> Unit
 
     override fun bind(holder: Holder) = holder.run {
-        name.text = "Ladeprogramm ${chargeSchedule.id}"
+        name.text = "Ladeprogramm ${schedule.id}"
 
         //If there is a day set we can setup sliders, time texts, etc., otherwise the schedule is not active
-        val firstDay = chargeSchedule.days.firstOrNull()
+        val firstDay = schedule.days.firstOrNull()
         if (firstDay != null) {
             val formatter = DateTimeFormatter.ofPattern("HH:mm")
             startTime.text = firstDay.startTime.format(formatter)
@@ -73,12 +73,12 @@ internal abstract class ChargeScheduleEntryModel :
             "${hours.padZero()}:${minutes.padZero()}"
         }
 
-        toggle.isChecked = chargeSchedule.activated
+        toggle.isChecked = schedule.activated
         toggle.setOnClickListener {
-            chargeScheduleUpdated(chargeSchedule.copy(activated = toggle.isChecked))
+            scheduleUpdated(schedule.copy(activated = toggle.isChecked))
         }
 
-        setUpDayList(chargeSchedule, slider)
+        setUpDayList(schedule, slider)
     }
 
     /**
@@ -104,9 +104,9 @@ internal abstract class ChargeScheduleEntryModel :
                     }
                 }
                 val adjustedTime = LocalTime.now().withHour(adjustedHour).withMinute(adjustedMinute)
-                chargeScheduleUpdated(
-                    chargeSchedule.copy
-                        (days = chargeSchedule.days.map { it.copy(startTime = adjustedTime) })
+                scheduleUpdated(
+                    schedule.copy
+                        (days = schedule.days.map { it.copy(startTime = adjustedTime) })
                 )
             },
             12,
@@ -116,7 +116,7 @@ internal abstract class ChargeScheduleEntryModel :
     }
 
     private fun updateEndTime(duration: Int) {
-        chargeScheduleUpdated(chargeSchedule.copy(days = chargeSchedule.days.map {
+        scheduleUpdated(schedule.copy(days = schedule.days.map {
             it.copy(duration = duration)
         }))
     }
@@ -168,7 +168,7 @@ internal abstract class ChargeScheduleEntryModel :
                     )
                 }
 
-                chargeScheduleUpdated(updatedChargeSchedule)
+                scheduleUpdated(updatedChargeSchedule)
             }
         }
     }

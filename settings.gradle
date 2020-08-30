@@ -1,3 +1,4 @@
+include ':hvacSchedule'
 include ':scheduleCore'
 include ':appointments'
 include ':impressum'
