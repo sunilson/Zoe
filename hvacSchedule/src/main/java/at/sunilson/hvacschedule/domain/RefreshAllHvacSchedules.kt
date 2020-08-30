@@ -1,9 +1,8 @@
-package at.sunilson.chargeSchedule.domain
+package at.sunilson.hvacschedule.domain
 
-import at.sunilson.chargeSchedule.data.ChargeScheduleDatabase
-import at.sunilson.scheduleCore.data.ScheduleDao
-import at.sunilson.chargeSchedule.data.ChargeScheduleService
 import at.sunilson.core.usecases.AsyncUseCase
+import at.sunilson.hvacschedule.data.HvacScheduleDatabase
+import at.sunilson.hvacschedule.data.HvacScheduleService
 import at.sunilson.scheduleCore.data.toDatabaseEntity
 import at.sunilson.scheduleCore.data.toEntity
 import at.sunilson.scheduleCore.domain.entities.Schedule
@@ -12,10 +11,10 @@ import at.sunilson.vehiclecore.domain.VehicleCoreRepository
 import com.github.kittinunf.result.coroutines.SuspendableResult
 import javax.inject.Inject
 
-internal class RefreshAllChargeSchedules @Inject constructor(
-    private val chargeScheduleService: ChargeScheduleService,
+internal class RefreshAllHvacSchedules @Inject constructor(
+    private val chargeScheduleService: HvacScheduleService,
     private val vehicleCoreRepository: VehicleCoreRepository,
-    private val scheduleDatabase: ChargeScheduleDatabase
+    private val scheduleDatabase: HvacScheduleDatabase
 ) : AsyncUseCase<List<Schedule>, String>() {
 
     override suspend fun run(params: String) =
@@ -32,7 +31,7 @@ internal class RefreshAllChargeSchedules @Inject constructor(
 
             result.data.attributes.schedules.map { it.toEntity(chargeType) }
                 .also { chargeSchedules ->
-                    scheduleDatabase.chargeScheduleDao().insertSchedules(chargeSchedules.map {
+                    scheduleDatabase.hvacScheduleDao().insertSchedules(chargeSchedules.map {
                         it.toDatabaseEntity(params)
                     })
                 }

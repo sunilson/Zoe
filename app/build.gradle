@@ -38,6 +38,8 @@ dependencies {
     implementation(project(":vehicleMap"))
     implementation(project(":chargeStatistics"))
     implementation(project(":chargeSchedule"))
+    implementation(project(":hvacSchedule"))
+    implementation(project(":scheduleCore"))
     implementation(project(":presentationCore"))
     implementation(project(":core"))
     implementation(project(":navigation"))

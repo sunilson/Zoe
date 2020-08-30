@@ -1,10 +1,10 @@
-package at.sunilson.chargeSchedule.di
+package at.sunilson.hvacschedule.di
 
 import android.content.Context
 import androidx.room.Room
 import at.sunilson.authentication.di.AuthenticationModule
-import at.sunilson.chargeSchedule.data.ChargeScheduleDatabase
-import at.sunilson.chargeSchedule.data.ChargeScheduleService
+import at.sunilson.hvacschedule.data.HvacScheduleDatabase
+import at.sunilson.hvacschedule.data.HvacScheduleService
 import at.sunilson.vehiclecore.data.Constants
 import dagger.Module
 import dagger.Provides
@@ -24,7 +24,7 @@ object ChargeScheduleModule {
     @Provides
     @Singleton
     internal fun provideDatabase(@ApplicationContext context: Context) = Room
-        .databaseBuilder(context, ChargeScheduleDatabase::class.java, "chargeScheduleDatabase")
+        .databaseBuilder(context, HvacScheduleDatabase::class.java, "hvacScheduleDatabase")
         .fallbackToDestructiveMigration()
         .build()
 
@@ -37,6 +37,6 @@ object ChargeScheduleModule {
             .addConverterFactory(MoshiConverterFactory.create())
             .baseUrl(Constants.KAMEREON_BASE_URL)
             .build()
-            .create(ChargeScheduleService::class.java)
+            .create(HvacScheduleService::class.java)
 
 }

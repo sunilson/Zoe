@@ -1,16 +1,16 @@
-package at.sunilson.chargeSchedule.data
+package at.sunilson.hvacschedule.data
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import at.sunilson.scheduleCore.data.ScheduleDao
 import at.sunilson.scheduleCore.data.DatabaseSchedule
+import at.sunilson.scheduleCore.data.ScheduleDao
 
 @Database(
     entities = [DatabaseSchedule::class],
-    version = 4
+    version = 1
 )
 @TypeConverters(at.sunilson.scheduleCore.data.TypeConverters::class)
-internal abstract class ChargeScheduleDatabase : RoomDatabase() {
-    abstract fun chargeScheduleDao(): ScheduleDao
+internal abstract class HvacScheduleDatabase : RoomDatabase() {
+    abstract fun hvacScheduleDao(): ScheduleDao
 }

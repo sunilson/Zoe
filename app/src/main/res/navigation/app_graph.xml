@@ -9,6 +9,7 @@
     <include app:graph="@navigation/statistics_nav_graph" />
     <include app:graph="@navigation/charge_statistics_graph" />
     <include app:graph="@navigation/charge_schedule_graph" />
+    <include app:graph="@navigation/hvac_schedule_graph" />
     <include app:graph="@navigation/impressum_graph" />
     <include app:graph="@navigation/appointments_graph" />
 </navigation>

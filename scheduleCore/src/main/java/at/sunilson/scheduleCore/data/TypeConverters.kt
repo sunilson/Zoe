@@ -1,14 +1,11 @@
-package at.sunilson.chargeSchedule.data
+package at.sunilson.scheduleCore.data
 
 import androidx.room.TypeConverter
-import at.sunilson.scheduleCore.data.DatabaseScheduleDay
-import at.sunilson.scheduleCore.domain.entities.ScheduleDay
 import at.sunilson.scheduleCore.domain.entities.ScheduleType
-import at.sunilson.vehiclecore.domain.entities.Vehicle
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 
-internal class TypeConverters {
+class TypeConverters {
     private val moshi = Moshi.Builder().build()
 
     @TypeConverter

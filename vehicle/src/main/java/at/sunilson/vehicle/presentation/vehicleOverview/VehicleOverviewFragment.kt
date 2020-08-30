@@ -353,7 +353,12 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
 
             climateControlWidget {
                 id("climateControlWidget")
-                planClimateControlClicked { requireContext().showToast(R.string.not_available_yet) }
+                planClimateControlClicked {
+                    findNavController().navigate(
+                        Uri.parse("zoe://hvac_schedule/${vehicle.vin}"),
+                        NavOptions.Builder().withDefaultAnimations()
+                    )
+                }
                 startClimateControlClicked { viewModel.startClimateControl(vehicle.vin) }
             }
 

@@ -26,6 +26,7 @@ dependencies {
     implementation(Dependencies.room)
     implementation(Dependencies.roomCoroutines)
     implementation(Dependencies.hilt)
+
     kapt(Dependencies.moshiKapt)
     kapt(Dependencies.hiltKapt)
     kapt(Dependencies.hiltKaptJetpack)

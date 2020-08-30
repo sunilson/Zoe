@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/charge_schedule_graph"
-        app:startDestination="@id/chargeScheduleOverviewFragment">
+        android:id="@+id/hvac_schedule_graph"
+        app:startDestination="@id/hvacScheduleFragment">
 
     <fragment xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/chargeScheduleOverviewFragment"
-            android:name="at.sunilson.chargeSchedule.presentation.ChargeScheduleOverviewFragment"
-            android:label="ChargeScheduleOverviewFragment"
+            android:id="@+id/hvacScheduleFragment"
+            android:name="at.sunilson.hvacschedule.presentation.HvacScheduleOverviewFragment"
+            android:label="HvacScheduleFragment"
             tools:layout="@layout/fragment_schedule_overview">
 
-        <deepLink app:uri="zoe://charge_schedule/{vin}" />
+        <deepLink app:uri="zoe://hvac_schedule/{vin}" />
 
         <argument
                 android:name="vin"
