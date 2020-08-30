@@ -153,6 +153,12 @@ class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_details) {
             title("Konnektivität")
             body(vehicle.connectivityTechnology)
         }
+
+        detailListItem {
+            id("AnnualMileage")
+            title("Jährliche Kilometer")
+            body("${vehicle.annualMileage} km")
+        }
     }
 
     override fun onResume() {

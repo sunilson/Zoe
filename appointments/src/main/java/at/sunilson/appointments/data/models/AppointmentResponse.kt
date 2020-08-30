@@ -4,6 +4,6 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 internal data class AppointmentResponse(
-    val deliveryDate: String,
-    val maintenance: List<NetworkAppointment>
+    val previousMaintenances: List<MaintenanceYear>,
+    val upcomingMaintenances: List<MaintenanceYear>
 )

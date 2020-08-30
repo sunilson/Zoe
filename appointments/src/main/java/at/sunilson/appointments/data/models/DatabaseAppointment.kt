@@ -5,10 +5,9 @@ import androidx.room.PrimaryKey
 
 @Entity
 internal data class DatabaseAppointment(
-    val startDate: String,
     @PrimaryKey
+    val id: String,
     val label: String,
-    val mileage: String,
-    val years: List<Int>,
+    val date: String,
     val vin: String
 )

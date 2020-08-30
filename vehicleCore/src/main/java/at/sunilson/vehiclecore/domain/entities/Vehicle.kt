@@ -20,7 +20,8 @@ data class Vehicle(
     val radioType: String,
     val gearBox: String,
     val yearsOfMaintainance: Int,
-    val connectivityTechnology: String
+    val connectivityTechnology: String,
+    val annualMileage: Int
 ) : Serializable {
     @JsonClass(generateAdapter = true)
     @Keep

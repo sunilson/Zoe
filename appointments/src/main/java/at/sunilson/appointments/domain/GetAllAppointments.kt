@@ -11,22 +11,15 @@ internal class GetAllAppointments @Inject constructor(private val appointmentsDa
     FlowUseCase<List<Appointment>, String>() {
     override fun run(params: String) =
         appointmentsDao.getAllAppointments(params).map { databaseAppointments ->
-            val realAppointments = mutableListOf<Appointment>()
-            databaseAppointments.forEach { dbAppointment ->
-                dbAppointment.years.forEach { year ->
-                    realAppointments.add(
-                        Appointment(
-                            try {
-                                LocalDate.parse(dbAppointment.startDate).plusYears(year.toLong())
-                            } catch (exception: Exception) {
-                                null
-                            },
-                            dbAppointment.label
-                        )
-                    )
-                }
-            }
-
-            realAppointments.filter { it.date != null }.sortedBy { it.date }
+            databaseAppointments.map { dbAppointment ->
+                Appointment(
+                    try {
+                        LocalDate.parse(dbAppointment.date)
+                    } catch (exception: Exception) {
+                        null
+                    },
+                    dbAppointment.label
+                )
+            }.filter { it.date != null }.sortedBy { it.date }
         }
 }

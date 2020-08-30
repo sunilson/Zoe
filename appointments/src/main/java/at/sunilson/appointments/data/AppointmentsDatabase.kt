@@ -7,7 +7,7 @@ import at.sunilson.appointments.data.models.DatabaseAppointment
 
 @Database(
     entities = [DatabaseAppointment::class],
-    version = 3
+    version = 4
 )
 @TypeConverters(at.sunilson.appointments.data.TypeConverters::class)
 internal abstract class AppointmentsDatabase : RoomDatabase() {

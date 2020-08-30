@@ -30,6 +30,7 @@ fun AllVehiclesResponse.toVehicleList() = vehicleLinks
             "",
             "",
             vehicleLink.vehicleDetails.yearsOfMaintenance,
-            vehicleLink.vehicleDetails.connectivityTechnology
+            vehicleLink.vehicleDetails.connectivityTechnology,
+            vehicleLink.annualMileage
         )
     }
