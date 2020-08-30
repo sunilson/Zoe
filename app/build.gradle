@@ -47,6 +47,7 @@ dependencies {
     implementation(project(":vehicleCore"))
     implementation(project(":notifications"))
     implementation(project(":widget"))
+    implementation(project(":appointments"))
     implementation(project(":impressum"))
     implementation Dependencies.coreKtx
     implementation(Dependencies.appcompat)

@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:background="@drawable/vehicle_widget_background"
-            android:backgroundTint="@color/white"
+            android:backgroundTint="?colorSurface"
             android:orientation="horizontal">
 
         <ImageButton

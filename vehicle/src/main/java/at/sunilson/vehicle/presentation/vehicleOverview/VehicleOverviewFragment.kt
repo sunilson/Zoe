@@ -50,16 +50,17 @@ import at.sunilson.presentationcore.extensions.withDefaultAnimations
 import at.sunilson.vehicle.R
 import at.sunilson.vehicle.databinding.FragmentVehicleOverviewBinding
 import at.sunilson.vehicle.domain.entities.ChargeProcedure
-import at.sunilson.vehiclecore.presentation.extensions.displayName
 import at.sunilson.vehicle.presentation.hvacBroadcastReciever.HvacBroadCastReciever
 import at.sunilson.vehicle.presentation.utils.TimeUtils
 import at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models.chargeWidget
 import at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models.climateControlWidget
+import at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models.servicesWidget
 import at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models.statisticsWidget
 import at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models.vehicleDetailsWidget
 import at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models.vehicleLocationWidget
 import at.sunilson.vehiclecore.domain.entities.Location
 import at.sunilson.vehiclecore.domain.entities.Vehicle
+import at.sunilson.vehiclecore.presentation.extensions.displayName
 import coil.api.load
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.transition.Hold
@@ -256,6 +257,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
             viewModel.events.collect { event ->
                 Do exhaustive when (event) {
                     is ShowToast -> requireContext().showToast(event.message)
+                    is RequestFailed -> requireContext().showToast(R.string.request_failed, Toast.LENGTH_LONG)
                     is ShowVehicleDetails -> showVehicleDetails(event.vin)
                     is ShowVehicleStatistics -> findNavController().navigate("https://zoe.app/statistics/${event.vin}".toUri())
                     is ShowChargeStatistics -> showChargeStatistics(event.vin)
@@ -277,11 +279,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
                 binding.contentContainer.isRefreshing = state.loading
                 if (state.selectedVehicle != null) {
                     updateShortcuts(state.selectedVehicle)
-                    renderVehicle(
-                        state.selectedVehicle,
-                        state.vehicleLocation,
-                        state.currentChargeProcedure
-                    )
+                    renderVehicle(state)
                     updateVehicleWidget()
                 }
             }
@@ -331,11 +329,9 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     }
 
 
-    private fun renderVehicle(
-        vehicle: Vehicle,
-        location: Location?,
-        chargeProcedure: ChargeProcedure?
-    ) {
+    private fun renderVehicle(state: VehicleOverviewState) {
+        val vehicle = state.selectedVehicle ?: return
+
         binding.vehicleSubtitle.text =
             if (vehicle.batteryStatus.chargeState == Vehicle.BatteryStatus.ChargeState.CHARGING) {
                 "Laden: ${TimeUtils.formatMinuteDuration(vehicle.batteryStatus.remainingChargeTime)} verbleibend"
@@ -355,6 +351,12 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
                 onButtonClick(this@VehicleOverviewFragment::showVehicleDetails)
             }
 
+            climateControlWidget {
+                id("climateControlWidget")
+                planClimateControlClicked { requireContext().showToast(R.string.not_available_yet) }
+                startClimateControlClicked { viewModel.startClimateControl(vehicle.vin) }
+            }
+
             chargeWidget {
                 id("batteryStatusWidget")
                 vehicle(vehicle)
@@ -365,20 +367,14 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
                     )
                 }
                 chargeNowClicked { viewModel.startCharging(vehicle.vin) }
-                currentChargeProcedure(chargeProcedure)
+                currentChargeProcedure(state.currentChargeProcedure)
             }
 
-            climateControlWidget {
-                id("climateControlWidget")
-                planClimateControlClicked { requireContext().showToast(R.string.not_available_yet) }
-                startClimateControlClicked { viewModel.startClimateControl(vehicle.vin) }
-            }
-
-            if (location != null) {
+            if (state.vehicleLocation != null) {
                 vehicleLocationWidget {
                     id("vehicleLocationWidget")
                     vehicle(vehicle)
-                    location(location)
+                    location(state.vehicleLocation)
                     onMapClick { showVehicleLocation(it) }
                 }
             }
@@ -394,6 +390,17 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
                 notificationRepository(notificationRepository)
                 vin(vehicle.vin)
                 chargeTrackButtonClicked { showChargeStatistics(it, manage = true) }
+            }
+
+            servicesWidget {
+                id("servicesWidget")
+                appointment(state.nextAppointment)
+                allAppointmentsClicked {
+                    findNavController().navigate(
+                        Uri.parse("zoe://appointments/${vehicle.vin}"),
+                        NavOptions.Builder().withDefaultAnimations()
+                    )
+                }
             }
         }
     }

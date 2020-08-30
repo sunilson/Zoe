@@ -37,7 +37,7 @@
             tools:text="20.12.1993 14:23"
             android:textColor="@color/white"
             app:icon="@drawable/ic_baseline_refresh_24"
-            app:iconTint="@color/white"
+            app:iconTint="?colorSurface"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 

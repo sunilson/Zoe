@@ -27,6 +27,7 @@ dependencies {
     implementation(project(":widget"))
     implementation(project(":notifications"))
     implementation(project(":chargeTracking"))
+    implementation(project(":appointments"))
     implementation(Dependencies.lottie)
     implementation(Dependencies.hilt)
     implementation(Dependencies.maps)

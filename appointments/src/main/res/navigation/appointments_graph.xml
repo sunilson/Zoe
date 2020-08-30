@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/appointments_graph"
+        app:startDestination="@id/appointmentsFragment">
+
+    <fragment xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/appointmentsFragment"
+            android:name="at.sunilson.appointments.presentation.AppointmentsFragment"
+            android:label="AppointmentsFragment"
+            tools:layout="@layout/fragment_appointments">
+
+        <argument
+                android:name="vin"
+                app:argType="string" />
+
+        <deepLink app:uri="zoe://appointments/{vin}" />
+    </fragment>
+</navigation>

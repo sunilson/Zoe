@@ -4,6 +4,8 @@ import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import at.sunilson.appointments.domain.GetNearestAppointment
+import at.sunilson.appointments.domain.entities.Appointment
 import at.sunilson.unidirectionalviewmodel.savedstate.Persist
 import at.sunilson.unidirectionalviewmodel.savedstate.PersistableState
 import at.sunilson.unidirectionalviewmodel.savedstate.UniDirectionalSavedStateViewModelReflection
@@ -28,12 +30,14 @@ data class VehicleOverviewState(
     val selectedVehicle: Vehicle? = null,
     @Persist
     val vehicleLocation: Location? = null,
-    val currentChargeProcedure: ChargeProcedure? = null
+    val currentChargeProcedure: ChargeProcedure? = null,
+    val nextAppointment: Appointment? = null
 )
 
 sealed class VehicleOverviewEvents
 object ShowSplashScreen : VehicleOverviewEvents()
 object NoVehiclesAvailable : VehicleOverviewEvents()
+object RequestFailed: VehicleOverviewEvents()
 data class ShowToast(val message: String) : VehicleOverviewEvents()
 data class ShowVehicleDetails(val vin: String) : VehicleOverviewEvents()
 data class ShowVehicleStatistics(val vin: String) : VehicleOverviewEvents()
@@ -47,6 +51,7 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
     private val startChargingUseCase: StartCharging,
     private val getSelectedVehicleLocation: GetSelectedVehicleLocation,
     private val getSelectedVehicleCurrentChargeProcedure: GetSelectedVehicleCurrentChargeProcedure,
+    private val getNearestAppointment: GetNearestAppointment,
     @Assisted savedStateHandle: SavedStateHandle
 ) : UniDirectionalSavedStateViewModelReflection<VehicleOverviewState, VehicleOverviewEvents>(
     VehicleOverviewState(), savedStateHandle
@@ -55,6 +60,7 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
     private var selectedVehicleJob: Job? = null
     private var locationJob: Job? = null
     private var chargeProcedureJob: Job? = null
+    private var nearestAppointmentJob: Job? = null
     private var refreshingJob: Job? = null
 
     init {
@@ -78,7 +84,7 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
                         if (state.selectedVehicle == null) {
                             sendEvent(NoVehiclesAvailable)
                         } else {
-                            sendEvent(ShowToast("Beim Aktualisieren ist ein Fehler aufgetreten!"))
+                            sendEvent(RequestFailed)
                         }
                     }
                 }
@@ -147,6 +153,13 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
         chargeProcedureJob = viewModelScope.launch {
             getSelectedVehicleCurrentChargeProcedure(Unit).collect {
                 setState { copy(currentChargeProcedure = it) }
+            }
+        }
+
+        nearestAppointmentJob?.cancel()
+        nearestAppointmentJob = viewModelScope.launch {
+            getNearestAppointment(Unit).collect {
+                setState { copy(nextAppointment = it) }
             }
         }
     }
