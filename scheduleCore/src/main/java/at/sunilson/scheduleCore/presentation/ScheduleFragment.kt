@@ -32,6 +32,7 @@ abstract class ScheduleFragment : Fragment(R.layout.fragment_schedule_overview) 
     private val binding by viewBinding(FragmentScheduleOverviewBinding::bind)
     protected abstract val vin: String
     protected abstract val viewModel: SchedulesViewModel
+    protected open val isHvac: Boolean = false
 
     override fun onResume() {
         super.onResume()
@@ -70,7 +71,11 @@ abstract class ScheduleFragment : Fragment(R.layout.fragment_schedule_overview) 
 
         setupHeaderAnimation(binding.headerContainer, binding.recyclerview, true)
 
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { viewModel.askForSaveApproval(true) }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            viewModel.askForSaveApproval(
+                true
+            )
+        }
     }
 
     private fun askForSaveApproval(exit: Boolean = false) {
@@ -95,7 +100,20 @@ abstract class ScheduleFragment : Fragment(R.layout.fragment_schedule_overview) 
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             viewModel.events.collect {
                 Do exhaustive when (it) {
-                    SettingModeFailed -> requireContext().showToast("Konnte nicht geändert werden!")
+                    SettingModeFailed -> if (!isHvac) {
+                        requireContext().showToast("Konnte nicht geändert werden!")
+                    } else {
+                        MaterialAlertDialogBuilder(
+                            ContextThemeWrapper(
+                                requireContext(),
+                                R.style.AlertDialogTheme
+                            )
+                        )
+                            .setTitle(R.string.cant_change_in_app)
+                            .setMessage(R.string.must_change_in_zoe_climate_controle)
+                            .setPositiveButton("Ok") { _, _ -> }
+                            .show()
+                    }
                     UpdatingSchedulesFailed -> requireContext().showToast("Ladeprogramme konnten nicht angepasst werden! Bitte versuche es später noch einmal")
                     ModeNowAlways -> requireContext().showToast("Ladeplanung ist jetzt inaktiv!")
                     is AskForSaveApproval -> askForSaveApproval(it.exit)
@@ -130,6 +148,7 @@ abstract class ScheduleFragment : Fragment(R.layout.fragment_schedule_overview) 
             chargeSchedules.forEach { chargeSchedule ->
                 scheduleEntry {
                     id(chargeSchedule.id)
+                    isHvac(isHvac)
                     schedule(chargeSchedule)
                     scheduleToggled { }
                     scheduleUpdated { viewModel.updateSchedules(it) }

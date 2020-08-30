@@ -23,6 +23,7 @@ dependencies {
     implementation(Dependencies.chucker)
     implementation(Dependencies.hilt)
     api(Dependencies.moshi)
+    api(Dependencies.moshiAdapters)
     api(Dependencies.retrofit)
     api(Dependencies.retrofitMoshiAdapter)
     kapt(Dependencies.moshiKapt)

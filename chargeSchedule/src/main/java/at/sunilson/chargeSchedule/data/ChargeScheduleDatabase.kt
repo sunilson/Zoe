@@ -12,7 +12,7 @@ internal interface ChargeScheduleDao: ScheduleDao
 
 @Database(
     entities = [DatabaseSchedule::class],
-    version = 4
+    version = 5
 )
 @TypeConverters(at.sunilson.scheduleCore.data.TypeConverters::class)
 internal abstract class ChargeScheduleDatabase : RoomDatabase() {

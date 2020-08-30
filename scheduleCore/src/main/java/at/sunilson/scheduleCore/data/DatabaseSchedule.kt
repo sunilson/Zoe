@@ -12,5 +12,5 @@ data class DatabaseSchedule(
     val vin: String,
     val chargeType: ScheduleType,
     val activated: Boolean,
-    val days: List<DatabaseScheduleDay>
+    val days: List<ScheduleDay>
 )

@@ -3,11 +3,12 @@ package at.sunilson.scheduleCore.data
 import at.sunilson.presentationcore.extensions.padZero
 import at.sunilson.scheduleCore.data.remote.NetworkSchedule
 import at.sunilson.scheduleCore.data.remote.NetworkScheduleDay
+import at.sunilson.scheduleCore.domain.entities.ChargeScheduleDay
+import at.sunilson.scheduleCore.domain.entities.HvacScheduleDay
 import at.sunilson.scheduleCore.domain.entities.Schedule
 import at.sunilson.scheduleCore.domain.entities.ScheduleDay
 import at.sunilson.scheduleCore.domain.entities.ScheduleType
 import java.time.LocalTime
-import java.time.temporal.ChronoField
 
 fun NetworkSchedule.toEntity(type: ScheduleType) = Schedule(
     id,
@@ -24,28 +25,29 @@ fun NetworkSchedule.toEntity(type: ScheduleType) = Schedule(
     )
 )
 
-fun NetworkScheduleDay.toEntity(day: ScheduleDay.WeekDay) =
-    ScheduleDay(
-        day,
-        LocalTime.parse(startTime.removePrefix("T").removeSuffix("Z")),
-        duration
-    )
+fun NetworkScheduleDay.toEntity(day: ScheduleDay.WeekDay): ScheduleDay {
+    val dateString = startTime ?: readyAtTime ?: error("No time defined!")
+
+    return if (startTime != null && duration != null) {
+        ChargeScheduleDay(
+            day,
+            LocalTime.parse(startTime.removePrefix("T").removeSuffix("Z")),
+            duration
+        )
+    } else if (readyAtTime != null) {
+        HvacScheduleDay(
+            day,
+            LocalTime.parse(readyAtTime.removePrefix("T").removeSuffix("Z"))
+        )
+    } else {
+        error("")
+    }
+}
 
 fun Schedule.toDatabaseEntity(vin: String) =
-    DatabaseSchedule(id, vin, scheduleType, activated, days.map { it.toDatabaseEntity() })
+    DatabaseSchedule(id, vin, scheduleType, activated, days)
 
-fun ScheduleDay.toDatabaseEntity() =
-    DatabaseScheduleDay(dayOfWeek, startTime.toSecondOfDay(), duration)
-
-fun DatabaseScheduleDay.toEntity() =
-    ScheduleDay(
-        dayOfWeek,
-        LocalTime.now().with(ChronoField.SECOND_OF_DAY, startTime.toLong()),
-        duration
-    )
-
-fun DatabaseSchedule.toEntity() =
-    Schedule(id, chargeType, activated, days.map { it.toEntity() })
+fun DatabaseSchedule.toEntity() = Schedule(id, chargeType, activated, days)
 
 fun createNetworkChargeSchedule(schedules: List<Schedule>) = schedules.map {
     NetworkSchedule(
@@ -61,5 +63,10 @@ fun createNetworkChargeSchedule(schedules: List<Schedule>) = schedules.map {
     )
 }
 
-fun ScheduleDay.toNetworkEntity() =
-    NetworkScheduleDay("T${startTime.hour.padZero()}:${startTime.minute.padZero()}Z", duration)
+fun ScheduleDay.toNetworkEntity() = when (this) {
+    is ChargeScheduleDay -> NetworkScheduleDay(
+        "T${time.hour.padZero()}:${time.minute.padZero()}Z",
+        duration = duration
+    )
+    is HvacScheduleDay -> NetworkScheduleDay(readyAtTime = "T${time.hour.padZero()}:${time.minute.padZero()}Z")
+}

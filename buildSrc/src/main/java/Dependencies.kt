@@ -18,6 +18,7 @@ object Dependencies {
     const val constraintlayout = "androidx.constraintlayout:constraintlayout:2.0.0"
     const val retrofit = "com.squareup.retrofit2:retrofit:2.9.0"
     const val moshi = "com.squareup.moshi:moshi:1.9.3"
+    const val moshiAdapters = "com.squareup.moshi:moshi-adapters:1.9.3"
     const val moshiKapt = "com.squareup.moshi:moshi-kotlin-codegen:1.9.3"
     const val retrofitMoshiAdapter = "com.squareup.retrofit2:converter-moshi:2.9.0"
     const val okhttp = "com.squareup.okhttp3:okhttp:4.7.2"

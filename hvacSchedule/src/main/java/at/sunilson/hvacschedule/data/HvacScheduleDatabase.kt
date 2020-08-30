@@ -12,7 +12,7 @@ internal interface HvacScheduleDao: ScheduleDao
 
 @Database(
     entities = [DatabaseSchedule::class],
-    version = 1
+    version = 2
 )
 @TypeConverters(at.sunilson.scheduleCore.data.TypeConverters::class)
 internal abstract class HvacScheduleDatabase : RoomDatabase() {

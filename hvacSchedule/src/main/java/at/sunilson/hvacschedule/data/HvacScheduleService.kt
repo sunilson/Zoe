@@ -16,6 +16,12 @@ interface HvacScheduleService {
         @Path("vin") vin: String
     ): ScheduleResponse
 
+    @GET("accounts/{accountId}/kamereon/kca/car-adapter/v1/cars/{vin}/hvac-settings?country=AT")
+    suspend fun getChargingSchedule2(
+        @Path("accountId") accountId: String,
+        @Path("vin") vin: String
+    ): ResponseBody
+
     @Headers("Content-Type: application/vnd.api+json")
     @POST("accounts/{accountId}/kamereon/kca/car-adapter/v2/cars/{vin}/actions/hvac-schedule?country=AT")
     suspend fun setChargingSchedule(

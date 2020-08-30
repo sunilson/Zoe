@@ -32,19 +32,21 @@
                 app:layout_constraintTop_toTopOf="@id/schedule_name" />
 
         <TextView
+                android:id="@+id/schedule_start_time_title"
                 android:textAppearance="?textAppearanceBody1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Beginn"
+                android:text="@string/start"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="@id/schedule_start_time" />
 
 
         <TextView
+                android:id="@+id/schedule_end_time_title"
                 android:textAppearance="?textAppearanceBody1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ende"
+                android:text="@string/end"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="@id/schedule_end_time" />
 
@@ -54,8 +56,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:stepSize="15"
-                android:valueFrom="15"
-                android:valueTo="495"
+                android:valueFrom="0"
+                android:valueTo="1440"
                 app:layout_constraintTop_toBottomOf="@id/schedule_end_time" />
 
         <TextView

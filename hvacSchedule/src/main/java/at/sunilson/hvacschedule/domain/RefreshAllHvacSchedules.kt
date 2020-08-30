@@ -19,6 +19,11 @@ internal class RefreshAllHvacSchedules @Inject constructor(
 
     override suspend fun run(params: String) =
         SuspendableResult.of<List<Schedule>, Exception> {
+            chargeScheduleService.getChargingSchedule2(
+                vehicleCoreRepository.kamereonAccountID,
+                params
+            )
+
             val result = chargeScheduleService.getChargingSchedule(
                 vehicleCoreRepository.kamereonAccountID,
                 params
