@@ -10,7 +10,7 @@ If you also want to use the Renault API or you want to contribute to this projec
 
 - Root your device
 - Install/Flash Magisk
-- Install this Magisk module: https://github.com/NVISO-BE/MagiskTrustUserCerts#:~:text=Magisk%20Trust%20User%20Certs,property%20to%20an%20application's%20manifest.
+- Install this Magisk module: https://github.com/NVISO-BE/MagiskTrustUserCerts
 - Install Burp-Suite on your PC and setup a proxy
 - Install Burp-Suite Certificate on your phone
 - Follow this guide to disable ssl pinning with Frida: https://www.kuketz-blog.de/android-tls-verifikation-und-certificate-pinning-umgehen/
