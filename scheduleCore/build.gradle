@@ -17,18 +17,12 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation(project(":authentication"))
-    implementation(project(":presentationCore"))
-    implementation(project(":networkingCore"))
     implementation(project(":core"))
-    implementation(project(":vehicleCore"))
-    implementation(project(":scheduleCore"))
-    implementation(Dependencies.room)
-    implementation(Dependencies.roomCoroutines)
+    implementation(project(":networkingCore"))
     implementation(Dependencies.hilt)
+    implementation(Dependencies.room)
+
     kapt(Dependencies.moshiKapt)
     kapt(Dependencies.hiltKapt)
     kapt(Dependencies.hiltKaptJetpack)
-    kapt(Dependencies.epoxyKapt)
-    kapt(Dependencies.roomKapt)
 }

@@ -7,10 +7,10 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import at.sunilson.chargeSchedule.R
-import at.sunilson.chargeSchedule.domain.entities.ChargeDay
-import at.sunilson.chargeSchedule.domain.entities.ChargeSchedule
 import at.sunilson.presentationcore.epoxy.KotlinEpoxyHolder
 import at.sunilson.presentationcore.extensions.padZero
+import at.sunilson.scheduleCore.domain.entities.Schedule
+import at.sunilson.scheduleCore.domain.entities.ScheduleDay
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
@@ -28,10 +28,10 @@ internal abstract class ChargeScheduleEntryModel :
     override fun getDefaultLayout() = R.layout.charge_schedule_entry
 
     @EpoxyAttribute
-    lateinit var chargeSchedule: ChargeSchedule
+    lateinit var chargeSchedule: Schedule
 
     @EpoxyAttribute
-    lateinit var chargeScheduleUpdated: (ChargeSchedule) -> Unit
+    lateinit var chargeScheduleUpdated: (Schedule) -> Unit
 
     @EpoxyAttribute
     lateinit var chargeScheduleToggled: (Boolean) -> Unit
@@ -124,20 +124,19 @@ internal abstract class ChargeScheduleEntryModel :
     /**
      * Populate list of week days and set click listeners
      */
-    private fun Holder.setUpDayList(chargeSchedule: ChargeSchedule, durationSlider: Slider) {
+    private fun Holder.setUpDayList(chargeSchedule:  Schedule, durationSlider: Slider) {
         container.children.filterIsInstance<Chip>().forEach { it.isChecked = false }
 
-        ChargeDay.WeekDay.values().forEach { dayOfWeek ->
-
+        ScheduleDay.WeekDay.values().forEach { dayOfWeek ->
             val view = container.findViewById<Chip>(
                 when (dayOfWeek) {
-                    ChargeDay.WeekDay.MONDAY -> R.id.chip_monday
-                    ChargeDay.WeekDay.TUESDAY -> R.id.chip_tuesday
-                    ChargeDay.WeekDay.WEDNESDAY -> R.id.chip_wednesday
-                    ChargeDay.WeekDay.THURSDAY -> R.id.chip_thursday
-                    ChargeDay.WeekDay.FRIDAY -> R.id.chip_friday
-                    ChargeDay.WeekDay.SATURDAY -> R.id.chip_saturday
-                    ChargeDay.WeekDay.SUNDAY -> R.id.chip_sunday
+                    ScheduleDay.WeekDay.MONDAY -> R.id.chip_monday
+                    ScheduleDay.WeekDay.TUESDAY -> R.id.chip_tuesday
+                    ScheduleDay.WeekDay.WEDNESDAY -> R.id.chip_wednesday
+                    ScheduleDay.WeekDay.THURSDAY -> R.id.chip_thursday
+                    ScheduleDay.WeekDay.FRIDAY -> R.id.chip_friday
+                    ScheduleDay.WeekDay.SATURDAY -> R.id.chip_saturday
+                    ScheduleDay.WeekDay.SUNDAY -> R.id.chip_sunday
                 }
             )
 
@@ -149,7 +148,7 @@ internal abstract class ChargeScheduleEntryModel :
                 val updatedChargeSchedule = if (index == -1) {
                     //If we already have a day we use those values to populate the new day
                     val alreadyExistingDay = chargeSchedule.days.firstOrNull()
-                    val newChargeDay = ChargeDay(
+                    val newChargeDay = ScheduleDay(
                         dayOfWeek,
                         alreadyExistingDay?.startTime ?: defaultStartTime,
                         alreadyExistingDay?.duration ?: slider.value.toInt()

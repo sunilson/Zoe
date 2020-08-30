@@ -4,16 +4,16 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import at.sunilson.chargeSchedule.data.models.local.DatabaseChargeSchedule
+import at.sunilson.scheduleCore.data.DatabaseSchedule
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 internal interface ChargeScheduleDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertChargeSchedules(schedules: List<DatabaseChargeSchedule>)
+    suspend fun insertChargeSchedules(schedules: List<DatabaseSchedule>)
 
-    @Query("SELECT * FROM DatabaseChargeSchedule WHERE vin = :vin")
-    fun getAllChargeSchedulesForVehicle(vin: String): Flow<List<DatabaseChargeSchedule>>
+    @Query("SELECT * FROM DatabaseSchedule WHERE vin = :vin")
+    fun getAllChargeSchedulesForVehicle(vin: String): Flow<List<DatabaseSchedule>>
 
 }

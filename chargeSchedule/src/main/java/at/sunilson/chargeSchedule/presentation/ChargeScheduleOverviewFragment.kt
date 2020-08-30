@@ -13,8 +13,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import at.sunilson.chargeSchedule.R
 import at.sunilson.chargeSchedule.databinding.FragmentChargeSchedulesOverviewBinding
-import at.sunilson.chargeSchedule.domain.entities.ChargeSchedule
-import at.sunilson.chargeSchedule.domain.entities.ChargeType
 import at.sunilson.core.Do
 import at.sunilson.ktx.context.showToast
 import at.sunilson.ktx.fragment.setNavigationBarColor
@@ -22,6 +20,8 @@ import at.sunilson.ktx.fragment.setStatusBarColor
 import at.sunilson.ktx.fragment.useLightStatusBarIcons
 import at.sunilson.presentationcore.base.viewBinding
 import at.sunilson.presentationcore.extensions.setupHeaderAnimation
+import at.sunilson.scheduleCore.domain.entities.Schedule
+import at.sunilson.scheduleCore.domain.entities.ScheduleType
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.Insetter
@@ -86,7 +86,7 @@ internal class ChargeScheduleOverviewFragment :
                 binding.toggle.isEnabled = !it.settingChargeMode && !it.schedulesUpdated
                 binding.swipeRefreshLayout.isRefreshing = it.loading
                 renderList(it.schedules)
-                binding.toggle.toggled = it.chargeType != ChargeType.ALWAYS
+                binding.toggle.toggled = it.chargeType != ScheduleType.ALWAYS
 
                 if (it.schedulesUpdated) {
                     binding.saveButton.show()
@@ -95,7 +95,7 @@ internal class ChargeScheduleOverviewFragment :
                 }
 
                 binding.disabledOverlay.isVisible =
-                    it.chargeType != ChargeType.SCHEDULED || it.settingChargeMode || it.loading
+                    it.chargeType != ScheduleType.SCHEDULED || it.settingChargeMode || it.loading
             }
         }
     }
@@ -132,7 +132,7 @@ internal class ChargeScheduleOverviewFragment :
             .show()
     }
 
-    private fun renderList(chargeSchedules: List<ChargeSchedule>) {
+    private fun renderList(chargeSchedules: List<Schedule>) {
         binding.recyclerview.withModels {
             chargeSchedules.forEach { chargeSchedule ->
                 chargeScheduleEntry {

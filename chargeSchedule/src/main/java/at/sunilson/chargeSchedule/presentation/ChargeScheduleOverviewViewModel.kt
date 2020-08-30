@@ -8,8 +8,8 @@ import at.sunilson.chargeSchedule.domain.SetChargeMode
 import at.sunilson.chargeSchedule.domain.SetChargeModeParams
 import at.sunilson.chargeSchedule.domain.UpdateChargeSchedule
 import at.sunilson.chargeSchedule.domain.UpdateChargeScheduleParams
-import at.sunilson.chargeSchedule.domain.entities.ChargeSchedule
-import at.sunilson.chargeSchedule.domain.entities.ChargeType
+import at.sunilson.scheduleCore.domain.entities.Schedule
+import at.sunilson.scheduleCore.domain.entities.ScheduleType
 import at.sunilson.unidirectionalviewmodel.core.UniDirectionalViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
@@ -19,8 +19,8 @@ import timber.log.Timber
 internal data class ChargeScheduleOverviewState(
     val loading: Boolean = false,
     val settingChargeMode: Boolean = false,
-    val chargeType: ChargeType = ChargeType.ALWAYS,
-    val schedules: List<ChargeSchedule> = listOf(),
+    val chargeType: ScheduleType = ScheduleType.ALWAYS,
+    val schedules: List<Schedule> = listOf(),
     val schedulesUpdated: Boolean = false
 )
 
@@ -48,7 +48,7 @@ internal class ChargeScheduleOverviewViewModel @ViewModelInject constructor(
             getAllChargeSchedules(vin).collect {
                 setState {
                     copy(
-                        chargeType = it.firstOrNull()?.chargeType ?: ChargeType.ALWAYS,
+                        chargeType = it.firstOrNull()?.scheduleType ?: ScheduleType.ALWAYS,
                         schedules = it
                     )
                 }
@@ -85,7 +85,7 @@ internal class ChargeScheduleOverviewViewModel @ViewModelInject constructor(
             setState {
                 copy(
                     settingChargeMode = true,
-                    chargeType = if (always) ChargeType.ALWAYS else ChargeType.SCHEDULED
+                    chargeType = if (always) ScheduleType.ALWAYS else ScheduleType.SCHEDULED
                 )
             }
 
@@ -93,7 +93,7 @@ internal class ChargeScheduleOverviewViewModel @ViewModelInject constructor(
                 setChargeMode(
                     SetChargeModeParams(
                         vin,
-                        if (always) ChargeType.ALWAYS else ChargeType.SCHEDULED
+                        if (always) ScheduleType.ALWAYS else ScheduleType.SCHEDULED
                     )
                 ).fold(
                     { if (always) sendEvent(ChargeModeNowAlways) },
@@ -108,7 +108,7 @@ internal class ChargeScheduleOverviewViewModel @ViewModelInject constructor(
         }
     }
 
-    fun updateSchedules(chargeSchedule: ChargeSchedule) {
+    fun updateSchedules(chargeSchedule: Schedule) {
         getState { state ->
             if (state.loading) return@getState
 

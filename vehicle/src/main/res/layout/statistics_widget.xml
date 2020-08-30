@@ -27,6 +27,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="12dp"
                 android:text="@string/climate_statistics"
+                android:enabled="false"
                 app:icon="@drawable/ic_baseline_ac_unit_24"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintLeft_toLeftOf="parent"

@@ -1,3 +1,4 @@
+include ':scheduleCore'
 include ':appointments'
 include ':impressum'
 include ':vehicleMap'
