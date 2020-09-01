@@ -4,6 +4,20 @@ Personal project using the "My Renault" API to create a small, simple app to vie
 
 Current version is available as an internal test release on the play store. Contact me at weisslinus@gmail.com to get access
 
+## Features
+
+- Home Screen Widget
+- Home Screen Shortcuts
+- Charge Tracking
+- De-Charge Tracking
+- Start HVAC
+- Charge Status
+- Vehicle Details
+- Location
+- Charge planning
+- HVAC planning
+- Service list
+
 ## Extracting of API Data
 
 If you also want to use the Renault API or you want to contribute to this project you can do the following:
