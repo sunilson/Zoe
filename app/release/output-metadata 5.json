@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "at.sunilson.zoe",
+  "variantName": "release",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "properties": [],
+      "versionCode": 20,
+      "versionName": "1.15",
+      "enabled": true,
+      "outputFile": "app-release.apk"
+    }
+  ]
+}

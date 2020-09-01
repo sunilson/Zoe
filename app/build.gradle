@@ -10,6 +10,7 @@ apply plugin: 'com.google.android.gms.oss-licenses-plugin'
 android {
     defaultConfig {
         applicationId = "at.sunilson.zoe"
+        testInstrumentationRunner "at.sunilson.zoe.AndroidJUnitRunner"
     }
 
     signingConfigs {
@@ -63,7 +64,11 @@ dependencies {
     kapt(Dependencies.hiltKapt)
     kapt(Dependencies.hiltKaptJetpack)
 
-    testImplementation("junit:junit:4.13")
+    testImplementation(Dependencies.junit4)
+    androidTestImplementation(Dependencies.junit4)
+    androidTestImplementation(Dependencies.espresso)
+    androidTestImplementation(Dependencies.workManagerTesting)
     androidTestImplementation("androidx.test.ext:junit:1.1.2")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
+    androidTestImplementation 'com.google.dagger:hilt-android-testing:2.28-alpha'
+    kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.28-alpha'
 }

@@ -43,7 +43,6 @@ subprojects {
                     targetSdkVersion(30)
                     versionCode = System.getenv("BITRISE_BUILD_NUMBER")?.toInteger() ?: 20
                     versionName = "1.15"
-                    testInstrumentationRunner = "at.sunilson.testcore.HiltTestRunner"
                 }
 
                 compileOptions {

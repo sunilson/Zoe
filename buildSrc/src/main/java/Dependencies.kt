@@ -7,6 +7,7 @@ const val JUNIT_4_VERSION = "4.13"
 const val JUNIT_4_RUNNER_VERSION = "1.1.1"
 const val JUNIT_VERSION = "5.6.0"
 const val HILT_VERSION = "2.28-alpha"
+const val WORKMANAGER_VERSION = "2.4.0"
 
 object Dependencies {
     const val espresso = "androidx.test.espresso:espresso-core:$ESPRESSO_VERSION"
@@ -52,7 +53,8 @@ object Dependencies {
     const val epoxyKapt = "com.airbnb.android:epoxy-processor:3.11.0"
     const val lottie = "com.airbnb.android:lottie:3.4.1"
     const val jwt = "com.auth0.android:jwtdecode:2.0.0"
-    const val workManager = "androidx.work:work-runtime-ktx:2.4.0"
+    const val workManager = "androidx.work:work-runtime-ktx:$WORKMANAGER_VERSION"
+    const val workManagerTesting = "androidx.work:work-testing:$WORKMANAGER_VERSION"
     const val mockk = "io.mockk:mockk:1.9.3"
     const val mockkAndroid = "io.mockk:mockk-android:1.9.3"
     const val fragmentTesting = "androidx.fragment:fragment-testing:1.3.0-alpha08"

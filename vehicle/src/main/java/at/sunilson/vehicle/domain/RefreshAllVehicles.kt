@@ -1,5 +1,9 @@
 package at.sunilson.vehicle.domain
 
+import at.sunilson.chargetracking.domain.CreateChargePointParams
+import at.sunilson.chargetracking.domain.CreateVehicleChargePoint
+import at.sunilson.chargetracking.domain.GetRunningChargeTrackers
+import at.sunilson.chargetracking.domain.entities.isTracking
 import at.sunilson.core.usecases.AsyncUseCase
 import at.sunilson.vehicle.data.VehicleService
 import at.sunilson.vehicle.data.toVehicleList
@@ -20,7 +24,9 @@ internal class RefreshAllVehicles @Inject constructor(
     private val vehicleCoreService: VehicleCoreService,
     private val vehicleCoreRepository: VehicleCoreRepository,
     private val vehicleDao: VehicleDao,
-    private val refreshVehicleLocation: RefreshVehicleLocation
+    private val refreshVehicleLocation: RefreshVehicleLocation,
+    private val createVehicleChargePoint: CreateVehicleChargePoint,
+    private val getRunningChargeTrackers: GetRunningChargeTrackers
 ) : AsyncUseCase<List<Vehicle>, Unit>() {
     override suspend fun run(params: Unit) = SuspendableResult.of<List<Vehicle>, Exception> {
 
@@ -31,11 +37,13 @@ internal class RefreshAllVehicles @Inject constructor(
 
         Timber.d("Got vehicle list: $newVehicles")
 
+        val runningTrackers = getRunningChargeTrackers(newVehicles.map { it.vin }).first()
+
         //TODO Parallel
         Timber.d("Refreshing vehicles battery status...")
         val enrichedVehicles = newVehicles.map { vehicle ->
 
-            refreshVehicleLocation(vehicle.vin)
+            val (location, _) = refreshVehicleLocation(vehicle.vin)
 
             val batteryStatus = vehicleCoreService
                 .getBatteryStatus(kamereonId, vehicle.vin)
@@ -51,6 +59,18 @@ internal class RefreshAllVehicles @Inject constructor(
                 mileageKm = kilometerReading,
                 lastChangeTimestamp = prev?.lastChangeTimestamp ?: System.currentTimeMillis()
             )
+
+            //Track vehicle state on refresh also (but only if tracker is running)
+            if (runningTrackers.firstOrNull { it.vin == vehicle.vin }.isTracking) {
+                createVehicleChargePoint(
+                    CreateChargePointParams(
+                        vehicle.vin,
+                        batteryStatus,
+                        kilometerReading,
+                        location
+                    )
+                )
+            }
 
             when (prev) {
                 null -> newVehicle.copy(lastChangeTimestamp = System.currentTimeMillis())
