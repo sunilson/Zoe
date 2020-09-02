@@ -1,7 +1,6 @@
 package at.sunilson.zoe
 
 import android.util.Log
-import androidx.test.InstrumentationRegistry.getTargetContext
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
