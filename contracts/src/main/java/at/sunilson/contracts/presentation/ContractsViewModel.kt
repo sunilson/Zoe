@@ -17,6 +17,7 @@ internal data class ContractsState(
 )
 
 internal sealed class ContractsEvents
+internal object RequestFailed : ContractsEvents()
 
 internal class ContractsViewModel @ViewModelInject constructor(
     private val getAllContrats: GetAllContrats,
@@ -31,6 +32,7 @@ internal class ContractsViewModel @ViewModelInject constructor(
             refreshContracts(vin).fold(
                 {},
                 {
+                    sendEvent(RequestFailed)
                     Timber.e(it)
                 }
             )

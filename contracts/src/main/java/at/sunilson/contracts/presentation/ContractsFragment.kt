@@ -3,6 +3,7 @@ package at.sunilson.contracts.presentation
 import android.os.Bundle
 import android.view.View
 import android.view.animation.OvershootInterpolator
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -11,6 +12,8 @@ import androidx.navigation.fragment.navArgs
 import at.sunilson.contracts.R
 import at.sunilson.contracts.databinding.FragmentContractsBinding
 import at.sunilson.contracts.domain.entities.Contract
+import at.sunilson.core.Do
+import at.sunilson.ktx.context.showToast
 import at.sunilson.ktx.fragment.useLightStatusBarIcons
 import at.sunilson.presentationcore.base.viewBinding
 import at.sunilson.presentationcore.extensions.setupHeaderAnimation
@@ -36,6 +39,7 @@ internal class ContractsFragment : Fragment(R.layout.fragment_contracts) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeState()
+        observeEvents()
 
         Insetter
             .builder()
@@ -61,6 +65,19 @@ internal class ContractsFragment : Fragment(R.layout.fragment_contracts) {
     override fun onResume() {
         super.onResume()
         useLightStatusBarIcons(false)
+    }
+
+    private fun observeEvents() {
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            viewModel.events.collect {
+                Do exhaustive when (it) {
+                    is RequestFailed -> requireContext().showToast(
+                        R.string.request_failed,
+                        Toast.LENGTH_LONG
+                    )
+                }
+            }
+        }
     }
 
     private fun observeState() {
