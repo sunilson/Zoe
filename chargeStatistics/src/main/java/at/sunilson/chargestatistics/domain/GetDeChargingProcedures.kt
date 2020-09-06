@@ -37,7 +37,7 @@ internal class GetDeChargingProcedures @Inject constructor(private val getChargi
                             currentStartTrackingPoint!!.batteryStatus.availableEnery - prev.batteryStatus.availableEnery,
                             currentStartTrackingPoint!!.timestamp.toZonedDateTime(),
                             prev.timestamp.toZonedDateTime(),
-                            prev.mileageKm - currentStartTrackingPoint!!.mileageKm
+                            chargeTrackingPoint.mileageKm - currentStartTrackingPoint!!.mileageKm
                         )
                     )
 
