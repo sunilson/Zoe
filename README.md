@@ -16,7 +16,8 @@ Current version is available as an internal test release on the play store. Cont
 - Location
 - Charge planning
 - HVAC planning
-- Service list
+- Appointments list
+- Contracts list
 
 ## Extracting of API Data
 
