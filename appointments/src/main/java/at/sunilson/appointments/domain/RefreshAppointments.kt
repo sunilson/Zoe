@@ -12,12 +12,17 @@ import com.github.kittinunf.result.coroutines.SuspendableResult
 import java.time.LocalDate
 import javax.inject.Inject
 
-internal class RefreshAllAppointments @Inject constructor(
-    private val appointmentsService: AppointmentsService,
+class RefreshAppointments @Inject constructor(
     private val vehicleCoreRepository: VehicleCoreRepository,
-    private val getVehicle: GetVehicle,
-    private val appointmentsDao: AppointmentsDao
+    private val getVehicle: GetVehicle
 ) : AsyncUseCase<Unit, String>() {
+
+    @Inject
+    internal lateinit var appointmentsService: AppointmentsService
+
+    @Inject
+    internal lateinit var appointmentsDao: AppointmentsDao
+
     override suspend fun run(params: String) = SuspendableResult.of<Unit, Exception> {
 
         val currentVehicle = getVehicle(params).get() ?: error("No vehicle existent!")

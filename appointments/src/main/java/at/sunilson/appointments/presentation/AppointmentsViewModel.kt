@@ -3,7 +3,7 @@ package at.sunilson.appointments.presentation
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import at.sunilson.appointments.domain.GetAllAppointments
-import at.sunilson.appointments.domain.RefreshAllAppointments
+import at.sunilson.appointments.domain.RefreshAppointments
 import at.sunilson.appointments.domain.entities.Appointment
 import at.sunilson.unidirectionalviewmodel.core.UniDirectionalViewModel
 import kotlinx.coroutines.Job
@@ -20,7 +20,7 @@ internal sealed class AppointmentsEvents
 internal object RequestFailed : AppointmentsEvents()
 
 internal class AppointmentsViewModel @ViewModelInject constructor(
-    private val refreshAllAppointments: RefreshAllAppointments,
+    private val refreshAppointmentsUseCase: RefreshAppointments,
     private val getAllAppointments: GetAllAppointments
 ) : UniDirectionalViewModel<AppointmentsState, AppointmentsEvents>(AppointmentsState()) {
 
@@ -38,7 +38,7 @@ internal class AppointmentsViewModel @ViewModelInject constructor(
     fun refreshAppointments(vin: String) {
         viewModelScope.launch {
             setState { copy(loading = true) }
-            refreshAllAppointments(vin).fold(
+            refreshAppointmentsUseCase(vin).fold(
                 {},
                 {
                     sendEvent(RequestFailed)

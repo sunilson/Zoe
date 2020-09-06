@@ -52,6 +52,7 @@ dependencies {
     implementation(project(":widget"))
     implementation(project(":appointments"))
     implementation(project(":impressum"))
+    implementation(project(":contracts"))
     implementation Dependencies.coreKtx
     implementation(Dependencies.appcompat)
     implementation(Dependencies.room)

@@ -79,7 +79,7 @@ class CheckNotifications @Inject constructor(
         newStatus: Vehicle.BatteryStatus,
         oldStatus: Vehicle.BatteryStatus?
     ) {
-        if (repository.lowBatteryNotificationEnabled(vin) && newStatus.batteryLevel < 20 && oldStatus?.batteryLevel ?: 100 >= 20) {
+        if (repository.lowBatteryNotificationEnabled(vin) && newStatus.batteryLevel <= 20 && oldStatus?.batteryLevel ?: 100 > 20) {
             sendNotification(
                 SendNotificationParams(
                     "Batterie niedrig",

@@ -26,5 +26,7 @@
     <string name="map_shortcut_long">Fahrzeugposition finden</string>
     <string name="charge">Laden</string>
     <string name="start">Starten</string>
-    <string name="show_all_services">Alle Services anzeigen</string>
+    <string name="show_all_services">Termine</string>
+    <string name="services_contracts"><![CDATA[Termine & Verträge]]></string>
+    <string name="show_all_contracts">Verträge</string>
 </resources>

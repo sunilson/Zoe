@@ -1,9 +1,11 @@
 package at.sunilson.vehicle.domain
 
+import at.sunilson.appointments.domain.RefreshAppointments
 import at.sunilson.chargetracking.domain.CreateChargePointParams
 import at.sunilson.chargetracking.domain.CreateVehicleChargePoint
 import at.sunilson.chargetracking.domain.GetRunningChargeTrackers
 import at.sunilson.chargetracking.domain.entities.isTracking
+import at.sunilson.contracts.domain.RefreshContracts
 import at.sunilson.core.usecases.AsyncUseCase
 import at.sunilson.vehicle.data.VehicleService
 import at.sunilson.vehicle.data.toVehicleList
@@ -26,7 +28,9 @@ internal class RefreshAllVehicles @Inject constructor(
     private val vehicleDao: VehicleDao,
     private val refreshVehicleLocation: RefreshVehicleLocation,
     private val createVehicleChargePoint: CreateVehicleChargePoint,
-    private val getRunningChargeTrackers: GetRunningChargeTrackers
+    private val getRunningChargeTrackers: GetRunningChargeTrackers,
+    private val refreshAppointments: RefreshAppointments,
+    private val refreshContracts: RefreshContracts
 ) : AsyncUseCase<List<Vehicle>, Unit>() {
     override suspend fun run(params: Unit) = SuspendableResult.of<List<Vehicle>, Exception> {
 
@@ -52,6 +56,9 @@ internal class RefreshAllVehicles @Inject constructor(
             val kilometerReading = vehicleCoreService
                 .getKilometerReading(kamereonId, vehicle.vin)
                 .toEntity()
+
+            refreshAppointments(vehicle.vin)
+            refreshContracts(vehicle.vin)
 
             val prev = previousVehicles.firstOrNull { it.vin == vehicle.vin }
             val newVehicle = vehicle.copy(

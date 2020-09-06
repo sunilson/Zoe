@@ -399,7 +399,14 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
 
             servicesWidget {
                 id("servicesWidget")
+                contract(state.nextContract)
                 appointment(state.nextAppointment)
+                allContractsClicked {
+                    findNavController().navigate(
+                        Uri.parse("zoe://contracts/${vehicle.vin}"),
+                        NavOptions.Builder().withDefaultAnimations()
+                    )
+                }
                 allAppointmentsClicked {
                     findNavController().navigate(
                         Uri.parse("zoe://appointments/${vehicle.vin}"),

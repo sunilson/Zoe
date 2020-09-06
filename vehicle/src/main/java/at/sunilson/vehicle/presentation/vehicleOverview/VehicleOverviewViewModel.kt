@@ -6,6 +6,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import at.sunilson.appointments.domain.GetNearestAppointment
 import at.sunilson.appointments.domain.entities.Appointment
+import at.sunilson.contracts.domain.GetNearestExpiringContract
+import at.sunilson.contracts.domain.entities.Contract
 import at.sunilson.unidirectionalviewmodel.savedstate.Persist
 import at.sunilson.unidirectionalviewmodel.savedstate.PersistableState
 import at.sunilson.unidirectionalviewmodel.savedstate.UniDirectionalSavedStateViewModelReflection
@@ -31,7 +33,8 @@ data class VehicleOverviewState(
     @Persist
     val vehicleLocation: Location? = null,
     val currentChargeProcedure: ChargeProcedure? = null,
-    val nextAppointment: Appointment? = null
+    val nextAppointment: Appointment? = null,
+    val nextContract: Contract? = null
 )
 
 sealed class VehicleOverviewEvents
@@ -52,6 +55,7 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
     private val getSelectedVehicleLocation: GetSelectedVehicleLocation,
     private val getSelectedVehicleCurrentChargeProcedure: GetSelectedVehicleCurrentChargeProcedure,
     private val getNearestAppointment: GetNearestAppointment,
+    private val getNearestExpiringContract: GetNearestExpiringContract,
     @Assisted savedStateHandle: SavedStateHandle
 ) : UniDirectionalSavedStateViewModelReflection<VehicleOverviewState, VehicleOverviewEvents>(
     VehicleOverviewState(), savedStateHandle
@@ -61,6 +65,7 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
     private var locationJob: Job? = null
     private var chargeProcedureJob: Job? = null
     private var nearestAppointmentJob: Job? = null
+    private var nearestExpiringContractJob: Job? = null
     private var refreshingJob: Job? = null
 
     init {
@@ -160,6 +165,13 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
         nearestAppointmentJob = viewModelScope.launch {
             getNearestAppointment(Unit).collect {
                 setState { copy(nextAppointment = it) }
+            }
+        }
+
+        nearestExpiringContractJob?.cancel()
+        nearestExpiringContractJob = viewModelScope.launch {
+            getNearestExpiringContract(Unit).collect {
+                setState { copy(nextContract = it) }
             }
         }
     }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/contracts_graph"
+        app:startDestination="@id/contractsFragment">
+
+    <fragment xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/contractsFragment"
+            android:name="at.sunilson.contracts.presentation.ContractsFragment"
+            android:label="ContractsFragment"
+            tools:layout="@layout/fragment_contracts">
+        <argument
+                android:name="vin"
+                app:argType="string" />
+    </fragment>
+
+    <deepLink app:uri="zoe://contracts/{vin}" />
+</navigation>

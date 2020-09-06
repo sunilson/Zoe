@@ -12,4 +12,5 @@
     <include app:graph="@navigation/hvac_schedule_graph" />
     <include app:graph="@navigation/impressum_graph" />
     <include app:graph="@navigation/appointments_graph" />
+    <include app:graph="@navigation/contracts_graph" />
 </navigation>
