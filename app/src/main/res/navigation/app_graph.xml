@@ -13,4 +13,5 @@
     <include app:graph="@navigation/impressum_graph" />
     <include app:graph="@navigation/appointments_graph" />
     <include app:graph="@navigation/contracts_graph" />
+    <include app:graph="@navigation/vehicle_details_graph" />
 </navigation>

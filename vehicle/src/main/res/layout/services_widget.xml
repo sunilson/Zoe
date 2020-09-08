@@ -21,11 +21,18 @@
                 android:textAppearance="?textAppearanceHeadline6" />
 
         <TextView
-                android:id="@+id/next_appointment_title"
                 style="?textAppearanceSubtitle1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:text="Nächster Termin" />
+
+        <TextView
+                android:id="@+id/next_appointment_title"
+                style="?textAppearanceBody2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
                 android:ellipsize="end"
                 android:maxLines="1" />
 
@@ -36,11 +43,18 @@
                 android:layout_height="wrap_content" />
 
         <TextView
-                android:id="@+id/next_contract_title"
                 style="?textAppearanceSubtitle1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:text="Nächster Vertrag" />
+
+        <TextView
+                android:id="@+id/next_contract_title"
+                style="?textAppearanceBody2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
                 android:ellipsize="end"
                 android:maxLines="1" />
 

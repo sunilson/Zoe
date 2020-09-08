@@ -15,14 +15,6 @@
         <action
                 android:id="@+id/show_settings_dialog"
                 app:destination="@id/settingsDialogFragment" />
-
-        <action
-                android:id="@+id/show_vehicle_details"
-                app:destination="@id/vehicleDetailsFragment"
-                app:enterAnim="@anim/fragment_fade_enter"
-                app:exitAnim="@anim/fragment_fade_exit"
-                app:popEnterAnim="@anim/fragment_fade_enter"
-                app:popExitAnim="@anim/fragment_fade_exit" />
     </fragment>
 
     <dialog
@@ -37,17 +29,5 @@
                 app:popUpToInclusive="true" />
     </dialog>
 
-    <fragment
-            android:id="@+id/vehicleDetailsFragment"
-            android:name="at.sunilson.vehicle.presentation.vehicleDetails.VehicleDetailsFragment"
-            android:label="VehicleDetailsFragment"
-            tools:layout="@layout/fragment_vehicle_details">
-        <argument
-                android:name="vin"
-                app:argType="string" />
-        <argument
-                android:name="smallTransition"
-                app:argType="boolean" />
-    </fragment>
 
 </navigation>

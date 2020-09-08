@@ -1,6 +1,6 @@
 package at.sunilson.vehicle.data
 
-import at.sunilson.vehicle.data.entities.AllVehiclesResponse
+import at.sunilson.vehicle.data.models.AllVehiclesResponse
 import at.sunilson.vehiclecore.domain.entities.Vehicle
 
 fun AllVehiclesResponse.toVehicleList() = vehicleLinks

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/vehicle_details_graph">
+    <fragment
+            android:id="@+id/vehicleDetailsFragment"
+            android:name="at.sunilson.vehicleDetails.presentation.VehicleDetailsFragment"
+            android:label="VehicleDetailsFragment"
+            tools:layout="@layout/fragment_vehicle_details">
+        <argument
+                android:name="vin"
+                app:argType="string" />
+        <argument
+                android:name="smallTransition"
+                android:defaultValue="false"
+                app:argType="boolean" />
+
+        <deepLink app:uri="zoe://vehicle/{vin}?smallTransition={smallTransition}" />
+    </fragment>
+</navigation>

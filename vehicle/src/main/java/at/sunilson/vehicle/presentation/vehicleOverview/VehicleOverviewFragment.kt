@@ -49,7 +49,6 @@ import at.sunilson.presentationcore.extensions.setupHeaderAnimation
 import at.sunilson.presentationcore.extensions.withDefaultAnimations
 import at.sunilson.vehicle.R
 import at.sunilson.vehicle.databinding.FragmentVehicleOverviewBinding
-import at.sunilson.vehicle.domain.entities.ChargeProcedure
 import at.sunilson.vehicle.presentation.hvacBroadcastReciever.HvacBroadCastReciever
 import at.sunilson.vehicle.presentation.utils.TimeUtils
 import at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models.chargeWidget
@@ -58,7 +57,6 @@ import at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models.servicesWid
 import at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models.statisticsWidget
 import at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models.vehicleDetailsWidget
 import at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models.vehicleLocationWidget
-import at.sunilson.vehiclecore.domain.entities.Location
 import at.sunilson.vehiclecore.domain.entities.Vehicle
 import at.sunilson.vehiclecore.presentation.extensions.displayName
 import coil.api.load
@@ -257,7 +255,10 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
             viewModel.events.collect { event ->
                 Do exhaustive when (event) {
                     is ShowToast -> requireContext().showToast(event.message)
-                    is RequestFailed -> requireContext().showToast(R.string.request_failed, Toast.LENGTH_LONG)
+                    is RequestFailed -> requireContext().showToast(
+                        R.string.request_failed,
+                        Toast.LENGTH_LONG
+                    )
                     is ShowVehicleDetails -> showVehicleDetails(event.vin)
                     is ShowVehicleStatistics -> findNavController().navigate("https://zoe.app/statistics/${event.vin}".toUri())
                     is ShowChargeStatistics -> showChargeStatistics(event.vin)
@@ -303,19 +304,18 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     private fun showVehicleDetails(vin: String) {
         exitTransition = null
         reenterTransition = null
-        findNavController().navigate(
-            VehicleOverviewFragmentDirections.showVehicleDetails(
-                vin,
-                binding.motionLayout.progress != 0f
-            ),
-            FragmentNavigatorExtras(
-                if (binding.motionLayout.progress == 0f) {
-                    binding.vehicleImage to "vehicleImage"
-                } else {
-                    binding.vehicleImageSmall to "vehicleImageSmall"
-                }
+        findNavController()
+            .navigate(
+                Uri.parse("zoe://vehicle/$vin?smallTransition=${binding.motionLayout.progress != 0f}"),
+                NavOptions.Builder().withDefaultAnimations(),
+                FragmentNavigatorExtras(
+                    if (binding.motionLayout.progress == 0f) {
+                        binding.vehicleImage to "vehicleImage"
+                    } else {
+                        binding.vehicleImageSmall to "vehicleImageSmall"
+                    }
+                )
             )
-        )
     }
 
     private fun showChargeStatistics(vin: String, manage: Boolean = false) {

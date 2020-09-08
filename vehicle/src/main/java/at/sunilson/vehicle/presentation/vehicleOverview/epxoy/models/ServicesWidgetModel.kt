@@ -38,13 +38,13 @@ abstract class ServicesWidgetModel :
         contractSubtitle.text = contract?.endDate?.formatPattern("dd.MM.YYYY")
 
         appointmentTitle.text = if (appointment != null) {
-            "Nächster Service: ${appointment?.label}"
+            appointment?.label
         } else {
             "Kein anstehender Termin"
         }
 
         contractTitle.text = if (contract != null) {
-            "Nächster Vertrag: ${contract?.description}"
+            contract?.description
         } else {
             "Kein Vertrag vorhanden"
         }
