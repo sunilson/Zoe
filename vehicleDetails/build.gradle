@@ -28,9 +28,11 @@ dependencies {
     implementation(Dependencies.hilt)
     implementation(Dependencies.room)
     implementation(Dependencies.roomCoroutines)
+    implementation(Dependencies.sealedAnnotations)
     kapt(Dependencies.roomKapt)
     kapt(Dependencies.moshiKapt)
     kapt(Dependencies.hiltKapt)
     kapt(Dependencies.hiltKaptJetpack)
     kapt(Dependencies.epoxyKapt)
+    kapt(Dependencies.sealedAnnotationsKapt)
 }

@@ -8,22 +8,33 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.transition.TransitionInflater
+import at.sunilson.core.Do
 import at.sunilson.ktx.fragment.useLightStatusBarIcons
 import at.sunilson.presentationcore.base.viewBinding
 import at.sunilson.presentationcore.extensions.setupHeaderAnimation
 import at.sunilson.vehicleDetails.R
+import at.sunilson.vehicleDetails.data.VehicleDetailsService
 import at.sunilson.vehicleDetails.databinding.FragmentVehicleDetailsBinding
+import at.sunilson.vehicleDetails.domain.entities.VehicleDetailsEntry
+import at.sunilson.vehicleDetails.presentation.epoxy.models.detailInformation
+import at.sunilson.vehicleDetails.presentation.epoxy.models.detailListEquipment
 import at.sunilson.vehicleDetails.presentation.epoxy.models.detailListImage
-import at.sunilson.vehicleDetails.presentation.epoxy.models.detailListItem
-import at.sunilson.vehiclecore.domain.entities.Vehicle
+import at.sunilson.vehiclecore.domain.VehicleCoreRepository
 import com.airbnb.epoxy.EpoxyController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.Insetter
 import dev.chrisbanes.insetter.Side
 import kotlinx.coroutines.flow.collect
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_details) {
+
+    @Inject
+    internal lateinit var vehicleDetailsService: VehicleDetailsService
+
+    @Inject
+    internal lateinit var vehicleCoreRepository: VehicleCoreRepository
 
     private val args: VehicleDetailsFragmentArgs by navArgs()
     private val viewModel: VehicleDetailsViewModel by viewModels()
@@ -34,7 +45,7 @@ class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_details) {
         sharedElementEnterTransition =
             TransitionInflater.from(context).inflateTransition(android.R.transition.move)
         postponeEnterTransition()
-
+        viewModel.refreshDetails(args.vin)
         viewModel.loadVehicle(args.vin)
     }
 
@@ -49,121 +60,42 @@ class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_details) {
     private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             viewModel.state.collect {
-                if (it.vehicle != null) {
-                    binding.recyclerView.withModels { renderDetailItems(it.vehicle) }
+                binding.recyclerView.withModels {
+                    renderDetailItems(it.details)
                 }
             }
         }
     }
 
-    private fun EpoxyController.renderDetailItems(vehicle: Vehicle) {
-        detailListImage {
-            id("vehicleImage")
-            imageUrl(vehicle.imageUrl)
-            imageLoaded { startPostponedEnterTransition() }
-            transitionName(
-                if (args.smallTransition) {
-                    "vehicleImageSmall"
-                } else {
-                    "vehicleImage"
+    private fun EpoxyController.renderDetailItems(details: List<VehicleDetailsEntry>) {
+        details.forEach { detail ->
+            Do exhaustive when (detail) {
+                is VehicleDetailsEntry.Equipment -> detailListEquipment {
+                    id(detail.code)
+                    item(detail)
                 }
-            )
-        }
-
-        detailListItem {
-            id(0)
-            title("VIN")
-            body(vehicle.vin)
-        }
-
-        detailListItem {
-            id("Kilometerstand")
-            title("Kilometerstand")
-            body("${vehicle.mileageKm} km")
-        }
-
-        detailListItem {
-            id("Marke")
-            title("Marke")
-            body(vehicle.brand)
-        }
-
-        detailListItem {
-            id("Model")
-            title("Model")
-            body(vehicle.modelName)
-        }
-
-        detailListItem {
-            id("Version")
-            title("Version")
-            body(vehicle.modelVersion)
-        }
-
-        detailListItem {
-            id("Batterie")
-            title("Batterie")
-            body(vehicle.batteryLabel)
-        }
-
-        detailListItem {
-            id("Batteriekapazität")
-            title("Batteriekapazität")
-            body("${vehicle.batteryStatus.batteryCapacity} kWh")
-        }
-
-        detailListItem {
-            id("Ladestand")
-            title("Ladestand")
-            body("${vehicle.batteryStatus.batteryLevel} % - ${vehicle.batteryStatus.availableEnery} kWh")
-        }
-
-        detailListItem {
-            id("Restreichweite")
-            title("Restreichweite")
-            body("${vehicle.batteryStatus.remainingRange} km")
-        }
-
-        detailListItem {
-            id("Ladezustand")
-            title("Ladezustand")
-            body(vehicle.batteryStatus.chargeState.name)
-        }
-
-        detailListItem {
-            id("Verbleibende Ladedauer")
-            title("Verbleibende Ladedauer")
-            body("${vehicle.batteryStatus.remainingChargeTime}")
-        }
-
-        detailListItem {
-            id("Batterie Temperatur")
-            title("Batterie Temperatur")
-            body("${vehicle.batteryStatus.batteryTemperature} Grad")
-        }
-
-        detailListItem {
-            id("Years of Maintenance")
-            title("Years of Maintenance")
-            body(vehicle.yearsOfMaintainance.toString())
-        }
-
-        detailListItem {
-            id("Konnektivität")
-            title("Konnektivität")
-            body(vehicle.connectivityTechnology)
-        }
-
-        detailListItem {
-            id("AnnualMileage")
-            title("Jährliche Kilometer")
-            body("${vehicle.annualMileage} km")
+                is VehicleDetailsEntry.Information -> detailInformation {
+                    id(detail.code)
+                    item(detail)
+                }
+                is VehicleDetailsEntry.Image -> detailListImage {
+                    id("vehicleImage")
+                    imageUrl(detail.url)
+                    imageLoaded { startPostponedEnterTransition() }
+                    transitionName(
+                        if (args.smallTransition) {
+                            "vehicleImageSmall"
+                        } else {
+                            "vehicleImage"
+                        }
+                    )
+                }
+            }
         }
     }
 
     override fun onResume() {
         super.onResume()
-
         useLightStatusBarIcons(false)
     }
 }

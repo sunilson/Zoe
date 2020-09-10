@@ -28,6 +28,6 @@ dependencies {
     kapt(Dependencies.hiltKapt)
     kapt(Dependencies.hiltKaptJetpack)
 
-    implementation "dev.zacsweers.moshisealed:moshi-sealed-annotations:0.2.0"
-    kapt "dev.zacsweers.moshisealed:moshi-sealed-codegen:0.2.0"
+    implementation(Dependencies.sealedAnnotations)
+    kapt(Dependencies.sealedAnnotationsKapt)
 }

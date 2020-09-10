@@ -348,7 +348,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
             vehicleDetailsWidget {
                 id("vehicleDetailsWidget")
                 vehicle(vehicle)
-                onButtonClick(this@VehicleOverviewFragment::showVehicleDetails)
+                onButtonClick { showVehicleDetails(it.vin) }
             }
 
             climateControlWidget {

@@ -21,13 +21,13 @@ abstract class VehicleDetailsWidgetModel :
     lateinit var vehicle: Vehicle
 
     @EpoxyAttribute
-    lateinit var onButtonClick: (String) -> Unit
+    lateinit var onButtonClick: (Vehicle) -> Unit
 
     override fun bind(holder: Holder) = holder.run {
         vehicleTimestamp.text = "${vehicle.lastChangeTimestamp.toZonedDateTime().formatFull()}"
         mileageText.text = "Kilometerstand: ${vehicle.mileageKm} Km"
         vehicleName.text = vehicle.modelName
-        detailsButton.setOnClickListener { onButtonClick(vehicle.vin) }
+        detailsButton.setOnClickListener { onButtonClick(vehicle) }
         estimatedRangeText.text =
             "Reichweite ${vehicle.batteryStatus.remainingRange} km (${vehicle.batteryStatus.availableEnery} kWh)"
     }

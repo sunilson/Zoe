@@ -40,9 +40,9 @@ data class VehicleOverviewState(
 sealed class VehicleOverviewEvents
 object ShowSplashScreen : VehicleOverviewEvents()
 object NoVehiclesAvailable : VehicleOverviewEvents()
-object RequestFailed: VehicleOverviewEvents()
+object RequestFailed : VehicleOverviewEvents()
 data class ShowToast(val message: String) : VehicleOverviewEvents()
-data class ShowVehicleDetails(val vin: String) : VehicleOverviewEvents()
+data class ShowVehicleDetails(val vin: String, val imageUri: String) : VehicleOverviewEvents()
 data class ShowVehicleStatistics(val vin: String) : VehicleOverviewEvents()
 data class ShowChargeStatistics(val vin: String) : VehicleOverviewEvents()
 data class ShowVehicleLocation(val vin: String) : VehicleOverviewEvents()
@@ -131,7 +131,16 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
     }
 
     fun showVehicleDetails() {
-        getState { it.selectedVehicle?.let { vehicle -> sendEvent(ShowVehicleDetails(vehicle.vin)) } }
+        getState {
+            it.selectedVehicle?.let { vehicle ->
+                sendEvent(
+                    ShowVehicleDetails(
+                        vehicle.vin,
+                        vehicle.imageUrl
+                    )
+                )
+            }
+        }
     }
 
     private fun loadSelectedVehicle() {

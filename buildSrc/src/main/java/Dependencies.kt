@@ -70,4 +70,6 @@ object Dependencies {
     const val recyclerviewAnimations = "jp.wasabeef:recyclerview-animators:3.0.0"
     const val hiltAndroidTest = "com.google.dagger:hilt-android-testing:$HILT_VERSION"
     const val hiltAndroidTestCompiler = "com.google.dagger:hilt-android-compiler:$HILT_VERSION"
+    const val sealedAnnotations = "dev.zacsweers.moshisealed:moshi-sealed-annotations:0.2.0"
+    const val sealedAnnotationsKapt = "dev.zacsweers.moshisealed:moshi-sealed-codegen:0.2.0"
 }

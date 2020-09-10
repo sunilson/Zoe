@@ -33,6 +33,7 @@ abstract class DetailListImageModel : EpoxyModelWithHolder<DetailListImageModel.
     lateinit var imageLoaded: () -> Unit
 
     override fun bind(holder: Holder) {
+        if (imageJob?.isActive == true) return
         holder.image.transitionName = transitionName
         imageJob = launch {
             holder.image.load(imageUrl).await()
