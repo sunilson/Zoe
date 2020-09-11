@@ -34,7 +34,7 @@ internal class GetVehicleDetails @Inject constructor(
                     addAll(
                         equipmentEntries
                             .groupBy { it.group }
-                            .flatMap { it.value }
+                            .flatMap { it.value.sortedBy { it.label } }
                     )
                 }
             }
