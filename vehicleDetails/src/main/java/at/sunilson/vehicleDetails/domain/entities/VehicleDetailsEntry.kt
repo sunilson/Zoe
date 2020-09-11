@@ -14,7 +14,6 @@ sealed class VehicleDetailsEntry {
     data class Equipment(val code: String, val group: String, val label: String) :
         VehicleDetailsEntry()
 
-
     @TypeLabel("information")
     @JsonClass(generateAdapter = true)
     data class Information(val code: String, val title: String, val description: String) :

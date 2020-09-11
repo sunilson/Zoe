@@ -4,17 +4,33 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <TextView
+            android:id="@+id/title"
+            style="?textAppearanceHeadline6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="12dp"
+            android:visibility="gone"
+            tools:text="Dies ist ein Titel" />
 
     <TextView
             android:id="@+id/body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginVertical="20dp"
+            android:layout_marginVertical="12dp"
             android:textAppearance="?textAppearanceBody2"
             android:textIsSelectable="true"
             app:layout_constraintTop_toBottomOf="@id/title"
             tools:text="Body" />
 
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?dividerColor" />
 </LinearLayout>

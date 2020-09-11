@@ -68,10 +68,15 @@ class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_details) {
     }
 
     private fun EpoxyController.renderDetailItems(details: List<VehicleDetailsEntry>) {
+        var previousItem: VehicleDetailsEntry? = null
         details.forEach { detail ->
             Do exhaustive when (detail) {
                 is VehicleDetailsEntry.Equipment -> detailListEquipment {
                     id(detail.code)
+                    val castPreviousItem = previousItem as? VehicleDetailsEntry.Equipment
+                    if(castPreviousItem == null || castPreviousItem.group != detail.group) {
+                        title(detail.group)
+                    }
                     item(detail)
                 }
                 is VehicleDetailsEntry.Information -> detailInformation {
@@ -91,6 +96,8 @@ class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_details) {
                     )
                 }
             }
+
+            previousItem = detail
         }
     }
 
