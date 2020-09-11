@@ -20,10 +20,14 @@ abstract class DetailListEquipmentModel : EpoxyModelWithHolder<DetailListEquipme
     @EpoxyAttribute
     lateinit var item: VehicleDetailsEntry.Equipment
 
+    @EpoxyAttribute
+    var marked: Boolean = false
+
     override fun bind(holder: Holder) = holder.run {
         titleView.isVisible = title != null
         titleView.text = title
         bodyView.text = item.label
+        bodyView.isActivated = marked
     }
 
     class Holder : KotlinEpoxyHolder() {

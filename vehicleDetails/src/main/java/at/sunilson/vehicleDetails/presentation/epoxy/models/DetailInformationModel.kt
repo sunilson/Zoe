@@ -16,9 +16,13 @@ abstract class DetailInformationModel : EpoxyModelWithHolder<DetailInformationMo
     @EpoxyAttribute
     lateinit var item: VehicleDetailsEntry.Information
 
+    @EpoxyAttribute
+    var marked: Boolean = false
+
     override fun bind(holder: Holder) = holder.run {
         titleView.text = item.title
         bodyView.text = item.description
+        bodyView.isActivated = marked
     }
 
     class Holder : KotlinEpoxyHolder() {

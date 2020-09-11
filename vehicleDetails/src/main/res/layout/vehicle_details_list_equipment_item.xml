@@ -5,6 +5,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/list_item_background"
         android:orientation="vertical">
 
     <TextView
@@ -13,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="32dp"
             android:layout_marginBottom="12dp"
             android:visibility="gone"
             tools:text="Dies ist ein Titel" />
@@ -22,8 +23,9 @@
             android:id="@+id/body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginVertical="12dp"
+            android:background="@color/list_item_background"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="12dp"
             android:textAppearance="?textAppearanceBody2"
             android:textIsSelectable="true"
             app:layout_constraintTop_toBottomOf="@id/title"

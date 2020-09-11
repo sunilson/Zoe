@@ -11,8 +11,13 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-data class VehicleDetailsState(val details: List<VehicleDetailsEntry> = listOf())
-class VehicleDetailsEvent
+data class VehicleDetailsState(
+    val details: List<VehicleDetailsEntry> = listOf(),
+    val searchedIndex: Int = -1
+)
+
+sealed class VehicleDetailsEvent
+data class ScrollToPosition(val position: Int) : VehicleDetailsEvent()
 
 internal class VehicleDetailsViewModel @ViewModelInject constructor(
     private val refreshVehicleDetails: RefreshVehicleDetails,
@@ -35,6 +40,33 @@ internal class VehicleDetailsViewModel @ViewModelInject constructor(
         job = viewModelScope.launch {
             getVehicleDetails(vin).collect {
                 setState { copy(details = it) }
+            }
+        }
+    }
+
+    fun search(query: String) {
+        getState { state ->
+            val index = if (query.isEmpty()) {
+                -1
+            } else {
+                state.details.indexOfFirst { entry ->
+                    when (entry) {
+                        is VehicleDetailsEntry.Image -> false
+                        is VehicleDetailsEntry.Equipment -> entry.label.contains(
+                            query,
+                            ignoreCase = true
+                        )
+                        is VehicleDetailsEntry.Information -> entry.description.contains(
+                            query,
+                            ignoreCase = true
+                        )
+                    }
+                }
+            }
+
+            setState { copy(searchedIndex = index) }
+            if (index != -1) {
+                sendEvent(ScrollToPosition(index))
             }
         }
     }
