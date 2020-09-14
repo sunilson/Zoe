@@ -12,6 +12,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionInflater
 import at.sunilson.core.Do
+import at.sunilson.ktx.context.showToast
 import at.sunilson.ktx.fragment.useLightStatusBarIcons
 import at.sunilson.ktx.view.hideKeyboard
 import at.sunilson.ktx.view.showKeyboard
@@ -77,6 +78,7 @@ class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_details) {
         }
         binding.backButton.setOnClickListener { findNavController().navigateUp() }
         binding.searchInput.doAfterTextChanged { viewModel.search(it.toString()) }
+        binding.refreshLayout.setOnRefreshListener { viewModel.refreshDetails(args.vin) }
         Insetter.builder().applySystemWindowInsetsToMargin(Side.TOP).applyToView(binding.backButton)
         setupHeaderAnimation(binding.topContainer, binding.recyclerView, true)
     }
@@ -89,7 +91,7 @@ class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_details) {
     private fun observeCommands() {
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             viewModel.events.collect {
-                when (it) {
+               Do exhaustive  when (it) {
                     is ScrollToPosition -> if (it.position == 0) {
                         binding.recyclerView.scrollTo(0, 0)
                     } else {
@@ -98,6 +100,7 @@ class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_details) {
                             0
                         )
                     }
+                    is RefreshFailed -> requireContext().showToast(R.string.request_failed)
                 }
             }
         }
@@ -106,6 +109,7 @@ class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_details) {
     private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             viewModel.state.collect {
+                binding.refreshLayout.isRefreshing = it.loading
                 binding.recyclerView.withModels {
                     renderDetailItems(it.details, it.searchedIndex)
                 }

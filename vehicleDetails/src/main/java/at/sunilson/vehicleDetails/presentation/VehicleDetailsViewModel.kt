@@ -12,11 +12,13 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 data class VehicleDetailsState(
+    val loading: Boolean = false,
     val details: List<VehicleDetailsEntry> = listOf(),
     val searchedIndex: Int = -1
 )
 
 sealed class VehicleDetailsEvent
+object RefreshFailed: VehicleDetailsEvent()
 data class ScrollToPosition(val position: Int) : VehicleDetailsEvent()
 
 internal class VehicleDetailsViewModel @ViewModelInject constructor(
@@ -28,10 +30,12 @@ internal class VehicleDetailsViewModel @ViewModelInject constructor(
 
     fun refreshDetails(vin: String) {
         viewModelScope.launch {
+            setState { copy(loading = true) }
             refreshVehicleDetails(vin).fold(
                 {},
                 { Timber.e(it) }
             )
+            setState { copy(loading = false) }
         }
     }
 
