@@ -50,8 +50,6 @@ internal class ChargeEntriesFragment private constructor() :
         binding.manageButton.setOnClickListener {
             (parentFragment as? ChargeStatisticsOverviewFragment)?.switchToPosition(3)
         }
-
-        Insetter.builder().applySystemWindowInsetsToPadding(Side.TOP).applyToView(binding.root)
     }
 
     private fun observeState() {

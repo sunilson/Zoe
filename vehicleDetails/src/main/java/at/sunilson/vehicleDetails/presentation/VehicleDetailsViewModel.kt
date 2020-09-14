@@ -11,15 +11,15 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-data class VehicleDetailsState(
+internal data class VehicleDetailsState(
     val loading: Boolean = false,
     val details: List<VehicleDetailsEntry> = listOf(),
     val searchedIndex: Int = -1
 )
 
-sealed class VehicleDetailsEvent
-object RefreshFailed: VehicleDetailsEvent()
-data class ScrollToPosition(val position: Int) : VehicleDetailsEvent()
+internal sealed class VehicleDetailsEvent
+internal object RefreshFailed: VehicleDetailsEvent()
+internal data class ScrollToPosition(val position: Int) : VehicleDetailsEvent()
 
 internal class VehicleDetailsViewModel @ViewModelInject constructor(
     private val refreshVehicleDetails: RefreshVehicleDetails,

@@ -8,7 +8,6 @@ import android.provider.Settings
 import android.view.View
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
@@ -20,30 +19,39 @@ import at.sunilson.ktx.fragment.setStatusBarColor
 import at.sunilson.ktx.fragment.useLightNavigationBarIcons
 import at.sunilson.ktx.fragment.useLightStatusBarIcons
 import at.sunilson.presentationcore.base.viewBinding
+import at.sunilson.presentationcore.extensions.updateHeaderAnimationWithViewpager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
+import dev.chrisbanes.insetter.Insetter
+import dev.chrisbanes.insetter.Side
 
 @AndroidEntryPoint
 class ChargeStatisticsOverviewFragment : Fragment(R.layout.charge_statistics_overview_fragment) {
 
-    private val viewModel by viewModels<ChargeStatisticsOverviewViewModel>()
     private val binding by viewBinding(ChargeStatisticsOverviewFragmentBinding::bind)
     private val args by navArgs<ChargeStatisticsOverviewFragmentArgs>()
 
     override fun onResume() {
         super.onResume()
+        setStatusBarColor(android.R.color.transparent)
+        setNavigationBarColor(android.R.color.white)
         useLightStatusBarIcons(false)
         useLightNavigationBarIcons(false)
-        setStatusBarColor(android.R.color.transparent)
-        setNavigationBarColor(R.color.white)
-        drawBelowStatusBar(true)
+        drawBelowStatusBar()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         checkBatteryOptimization()
+        Insetter
+            .builder()
+            .applySystemWindowInsetsToPadding(Side.TOP)
+            .applyToView(binding.topContainer)
+        setupViewpager()
+        binding.backButton.setOnClickListener { findNavController().navigateUp() }
+    }
 
+    private fun setupViewpager() {
         binding.viewpager.adapter = ViewPagerAdapter(this, args.vin)
         binding.viewpager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -54,21 +62,24 @@ class ChargeStatisticsOverviewFragment : Fragment(R.layout.charge_statistics_ove
                     2 -> R.id.statistics
                     else -> R.id.manage
                 }
+                updateHeaderAnimationWithViewpager(position, binding.topContainer)
             }
         })
 
         binding.bottomNavigation.setOnNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.charge_entries -> binding.viewpager.setCurrentItem(0, true)
-                R.id.de_charge_entries -> binding.viewpager.setCurrentItem(1, true)
-                R.id.statistics -> binding.viewpager.setCurrentItem(2, true)
-                else -> binding.viewpager.setCurrentItem(3, true)
+            val position = when (it.itemId) {
+                R.id.charge_entries -> 0
+                R.id.de_charge_entries -> 1
+                R.id.statistics -> 2
+                else -> 3
             }
+            binding.viewpager.setCurrentItem(position, true)
+            updateHeaderAnimationWithViewpager(position, binding.topContainer)
             true
         }
 
         binding.viewpager.post {
-            if(args.manage) {
+            if (args.manage) {
                 switchToPosition(3)
             }
         }

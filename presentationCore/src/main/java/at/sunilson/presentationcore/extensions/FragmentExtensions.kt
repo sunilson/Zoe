@@ -4,9 +4,11 @@ import android.animation.AnimatorInflater
 import android.content.Context
 import android.util.TypedValue
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
-import androidx.annotation.ColorRes
+import androidx.core.view.children
+import androidx.core.view.doOnLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import at.sunilson.presentationcore.R
@@ -44,10 +46,28 @@ fun Fragment.setupHeaderAnimation(
             container?.isActivated = list.canScrollVertically(-1)
         }
     }
+
+    list?.doOnLayout {
+        container?.isActivated = list.canScrollVertically(-1)
+    }
+}
+
+fun Fragment.updateHeaderAnimationWithViewpager(activePosition: Int, container: View?) {
+    val fragment = childFragmentManager.findFragmentByTag("f$activePosition") ?: return
+    val recyclerview = (fragment.view as? ViewGroup)
+        ?.children
+        ?.filterIsInstance<RecyclerView>()
+        ?.firstOrNull()
+
+    if (recyclerview != null) {
+        setupHeaderAnimation(container, recyclerview, true)
+    } else {
+        container?.isActivated = false
+    }
 }
 
 @ColorInt
-fun Context.getThemeColor(@AttrRes res: Int) : Int{
+fun Context.getThemeColor(@AttrRes res: Int): Int {
     val typedValue = TypedValue()
     theme.resolveAttribute(res, typedValue, true)
     return typedValue.data

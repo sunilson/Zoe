@@ -6,9 +6,9 @@
 
     <fragment xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/appointmentsFragment"
-            android:name="at.sunilson.appointments.presentation.AppointmentsFragment"
+            android:name="at.sunilson.appointments.presentation.container.AppointmentsContainerFragment"
             android:label="AppointmentsFragment"
-            tools:layout="@layout/fragment_appointments">
+            tools:layout="@layout/fragment_appointments_container">
 
         <argument
                 android:name="vin"

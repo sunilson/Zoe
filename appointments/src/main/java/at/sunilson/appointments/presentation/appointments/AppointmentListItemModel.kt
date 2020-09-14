@@ -1,4 +1,4 @@
-package at.sunilson.appointments.presentation
+package at.sunilson.appointments.presentation.appointments
 
 import android.widget.TextView
 import at.sunilson.appointments.R
@@ -10,7 +10,7 @@ import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
 
 @EpoxyModelClass
-abstract class AppointmentListItemModel : EpoxyModelWithHolder<AppointmentListItemModel.Holder>() {
+internal abstract class AppointmentListItemModel : EpoxyModelWithHolder<AppointmentListItemModel.Holder>() {
 
     override fun getDefaultLayout() = R.layout.appointment_list_item
 

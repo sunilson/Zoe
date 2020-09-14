@@ -34,7 +34,7 @@ import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_details) {
+internal class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_details) {
 
     @Inject
     internal lateinit var vehicleDetailsService: VehicleDetailsService

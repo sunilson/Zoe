@@ -1,4 +1,4 @@
-package at.sunilson.appointments.presentation
+package at.sunilson.appointments.presentation.appointments
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope

@@ -1,14 +1,13 @@
-package at.sunilson.appointments.presentation
+package at.sunilson.appointments.presentation.appointments
 
 import android.os.Bundle
 import android.view.View
 import android.view.animation.OvershootInterpolator
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import at.sunilson.appointments.R
 import at.sunilson.appointments.databinding.FragmentAppointmentsBinding
 import at.sunilson.appointments.domain.entities.Appointment
@@ -16,24 +15,22 @@ import at.sunilson.core.Do
 import at.sunilson.ktx.context.showToast
 import at.sunilson.ktx.fragment.useLightStatusBarIcons
 import at.sunilson.presentationcore.base.viewBinding
-import at.sunilson.presentationcore.extensions.setupHeaderAnimation
 import dagger.hilt.android.AndroidEntryPoint
-import dev.chrisbanes.insetter.Insetter
-import dev.chrisbanes.insetter.Side
 import jp.wasabeef.recyclerview.animators.ScaleInAnimator
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
-internal class AppointmentsFragment : Fragment(R.layout.fragment_appointments) {
+internal class AppointmentsFragment private constructor(): Fragment(R.layout.fragment_appointments) {
 
     private val viewModel by viewModels<AppointmentsViewModel>()
     private val binding by viewBinding(FragmentAppointmentsBinding::bind)
-    private val args by navArgs<AppointmentsFragmentArgs>()
+    private val vin: String
+        get() = checkNotNull(requireArguments().getString("vin"))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.refreshAppointments(args.vin)
+        viewModel.refreshAppointments(vin)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,14 +38,7 @@ internal class AppointmentsFragment : Fragment(R.layout.fragment_appointments) {
         observeState()
         observeEvents()
 
-        Insetter
-            .builder()
-            .applySystemWindowInsetsToPadding(Side.TOP)
-            .applyToView(binding.topContainer)
-
-        setupHeaderAnimation(binding.topContainer, binding.recyclerView, true)
-        binding.backButton.setOnClickListener { findNavController().navigateUp() }
-        binding.refreshLayout.setOnRefreshListener { viewModel.refreshAppointments(args.vin) }
+        binding.refreshLayout.setOnRefreshListener { viewModel.refreshAppointments(vin) }
         binding.refreshLayout.isEnabled = true
 
         binding.recyclerView.itemAnimator = ScaleInAnimator(OvershootInterpolator(1f)).apply {
@@ -58,7 +48,7 @@ internal class AppointmentsFragment : Fragment(R.layout.fragment_appointments) {
 
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             delay(300)
-            viewModel.loadAppointments(args.vin)
+            viewModel.loadAppointments(vin)
         }
     }
 
@@ -97,6 +87,12 @@ internal class AppointmentsFragment : Fragment(R.layout.fragment_appointments) {
                     appointment(appointment)
                 }
             }
+        }
+    }
+
+    companion object {
+        fun newInstance(vin: String) = AppointmentsFragment().apply {
+            arguments = bundleOf("vin" to vin)
         }
     }
 }
