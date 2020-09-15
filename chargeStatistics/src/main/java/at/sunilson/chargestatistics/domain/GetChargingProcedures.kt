@@ -37,7 +37,8 @@ internal class GetChargingProcedures @Inject constructor(private val getCharging
                     //Stop and save procedure
                     result.add(
                         ChargingProcedure(
-                            chargeTrackingPoint.batteryStatus.batteryLevel - currentStartTrackingPoint!!.batteryStatus.batteryLevel,
+                            currentStartTrackingPoint!!.batteryStatus.batteryLevel,
+                            chargeTrackingPoint.batteryStatus.batteryLevel,
                             chargeTrackingPoint.batteryStatus.availableEnery - currentStartTrackingPoint!!.batteryStatus.availableEnery,
                             currentStartTrackingPoint!!.timestamp.toZonedDateTime(),
                             chargeTrackingPoint.timestamp.toZonedDateTime()

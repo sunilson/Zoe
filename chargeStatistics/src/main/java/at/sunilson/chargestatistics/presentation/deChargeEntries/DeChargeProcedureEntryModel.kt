@@ -2,12 +2,11 @@ package at.sunilson.chargestatistics.presentation.deChargeEntries
 
 import android.view.View
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
 import at.sunilson.chargestatistics.R
 import at.sunilson.chargestatistics.domain.entities.DeChargingProcedure
 import at.sunilson.presentationcore.epoxy.KotlinEpoxyHolder
-import at.sunilson.presentationcore.extensions.formatFull
+import at.sunilson.presentationcore.extensions.formatPattern
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
@@ -30,20 +29,20 @@ abstract class DeChargeProcedureEntryModel :
     override fun bind(holder: Holder) = holder.run {
         this.sectionHeader.isVisible = this@DeChargeProcedureEntryModel.sectionHeader != null
         this.sectionHeader.text = this@DeChargeProcedureEntryModel.sectionHeader
-
-        title.text =
-            "${chargingProcedure.batteryLevelDifference} % entladen auf ${chargingProcedure.kmDifference} km (${chargingProcedure.energyLevelDifference} kWh)"
-
-        subTitle.text =
-            "Von ${chargingProcedure.startTime.formatFull()} bis ${chargingProcedure.endTime.formatFull()}"
-
-        card.setOnClickListener { onItemClick(it) }
+        battery.text =
+            "${chargingProcedure.batteryLevelDifference} % entladen (${chargingProcedure.startBatteryLevel} --> ${chargingProcedure.endBatteryLevel})"
+        energy.text =
+            "${chargingProcedure.energyLevelDifference} kWh auf ${chargingProcedure.kmDifference} km"
+        from.text =
+            "${chargingProcedure.startTime.formatPattern("dd.MM HH:mm")} bis ${
+                chargingProcedure.endTime.formatPattern("dd.MM HH:mm")
+            }"
     }
 
     class Holder : KotlinEpoxyHolder() {
+        val from by bind<TextView>(R.id.charge_procedure_from)
+        val battery by bind<TextView>(R.id.charge_procedure_battery)
+        val energy by bind<TextView>(R.id.charge_procedure_energy)
         val sectionHeader by bind<TextView>(R.id.section_header)
-        val card by bind<CardView>(R.id.container)
-        val title by bind<TextView>(R.id.charge_procedure_title)
-        val subTitle by bind<TextView>(R.id.charge_procedure_info)
     }
 }

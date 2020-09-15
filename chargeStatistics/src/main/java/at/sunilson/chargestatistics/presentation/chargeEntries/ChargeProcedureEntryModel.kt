@@ -5,7 +5,7 @@ import androidx.core.view.isVisible
 import at.sunilson.chargestatistics.R
 import at.sunilson.chargestatistics.domain.entities.ChargingProcedure
 import at.sunilson.presentationcore.epoxy.KotlinEpoxyHolder
-import at.sunilson.presentationcore.extensions.formatFull
+import at.sunilson.presentationcore.extensions.formatPattern
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
@@ -26,16 +26,16 @@ abstract class ChargeProcedureEntryModel :
         this.sectionHeader.isVisible = this@ChargeProcedureEntryModel.sectionHeader != null
         this.sectionHeader.text = this@ChargeProcedureEntryModel.sectionHeader
 
-        title.text =
-            "${chargingProcedure.batteryLevelDifference} % geladen (${chargingProcedure.energyLevelDifference} kWh)"
-
-        subTitle.text =
-            "Von ${chargingProcedure.startTime.formatFull()} bis ${chargingProcedure.endTime.formatFull()}"
+        battery.text =
+            "${chargingProcedure.batteryLevelDifference} % geladen (${chargingProcedure.startBatteryLevel} --> ${chargingProcedure.endBatteryLevel})"
+        energy.text = "${chargingProcedure.energyLevelDifference} kWh"
+        from.text = "${chargingProcedure.startTime.formatPattern("dd.MM HH:mm")} bis ${chargingProcedure.endTime.formatPattern("dd.MM HH:mm")}"
     }
 
     class Holder : KotlinEpoxyHolder() {
+        val from by bind<TextView>(R.id.charge_procedure_from)
+        val battery by bind<TextView>(R.id.charge_procedure_battery)
+        val energy by bind<TextView>(R.id.charge_procedure_energy)
         val sectionHeader by bind<TextView>(R.id.section_header)
-        val title by bind<TextView>(R.id.charge_procedure_title)
-        val subTitle by bind<TextView>(R.id.charge_procedure_info)
     }
 }

@@ -5,6 +5,7 @@
     <attr name="colorOnPrimarySecondary" format="color" />
     <attr name="buttonSecondaryBackground" format="color" />
     <attr name="dividerColor" format="color" />
+    <attr name="iconColorOnSurface" format="color" />
 
     <declare-styleable name="DiagonalCutView">
         <attr name="direction" format="enum">

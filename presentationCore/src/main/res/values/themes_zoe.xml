@@ -12,5 +12,6 @@
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorOnPrimarySecondary">@color/off_white</item>
         <item name="dividerColor">@color/lightGrayHalfAlpha</item>
+        <item name="iconColorOnSurface">@color/gray</item>
     </style>
 </resources>

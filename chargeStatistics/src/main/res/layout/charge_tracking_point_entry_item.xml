@@ -2,6 +2,7 @@
 
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,29 +25,67 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clipToPadding="false"
                 android:orientation="vertical"
                 android:padding="@dimen/card_padding">
 
+            <ImageView
+                    android:id="@+id/from_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:src="@drawable/ic_baseline_access_time_24"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/energy_icon"
+                    tools:ignore="ContentDescription" />
+
+            <ImageView
+                    android:id="@+id/energy_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:src="@drawable/ic_baseline_battery_charging_full_24"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/charge_procedure_battery"
+                    tools:ignore="ContentDescription" />
+
+
             <TextView
-                    android:id="@+id/charge_procedure_title"
+                    android:id="@+id/charge_procedure_battery"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="?textAppearanceHeadline6"
-                    tools:text="Zoe" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="10% geladen - Von 50% auf 60 %" />
 
             <TextView
-                    android:id="@+id/charge_procedure_info"
-                    android:layout_width="match_parent"
+                    android:id="@+id/charge_procedure_energy"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:textAppearance="?textAppearanceSubtitle2"
-                    tools:text="R135 ZE50 - 13000 km" />
+                    android:layout_marginStart="20dp"
+                    android:textAppearance="?textAppearanceBody1"
+                    app:layout_constraintBottom_toBottomOf="@id/energy_icon"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/energy_icon"
+                    app:layout_constraintTop_toTopOf="@id/energy_icon"
+                    tools:text="10 kWh" />
 
-        </LinearLayout>
+            <TextView
+                    android:id="@+id/charge_procedure_from"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:textAppearance="?textAppearanceBody1"
+                    app:layout_constraintBottom_toBottomOf="@id/from_icon"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/energy_icon"
+                    app:layout_constraintTop_toTopOf="@id/from_icon"
+                    tools:text="15.09.2020 16:17" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
 
