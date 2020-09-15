@@ -132,7 +132,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
         setupInsets()
         setupList()
 
-        setupHeaderAnimation(binding.cutView, binding.recyclerView, true)
+        setupHeaderAnimation(binding.cutView, binding.recyclerView)
     }
 
     private fun setupList() {

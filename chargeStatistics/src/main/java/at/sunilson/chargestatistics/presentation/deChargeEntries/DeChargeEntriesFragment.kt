@@ -14,6 +14,7 @@ import at.sunilson.chargestatistics.domain.entities.DeChargingProcedure
 import at.sunilson.chargestatistics.presentation.overview.ChargeStatisticsOverviewFragment
 import at.sunilson.core.extensions.isSameDay
 import at.sunilson.core.extensions.isSameMonth
+import at.sunilson.presentationcore.ViewpagerFragmentParentWithHeaderAnimation
 import at.sunilson.presentationcore.base.viewBinding
 import at.sunilson.presentationcore.extensions.formatPattern
 import dagger.hilt.android.AndroidEntryPoint
@@ -75,6 +76,11 @@ internal class DeChargeEntriesFragment private constructor() :
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (parentFragment as? ViewpagerFragmentParentWithHeaderAnimation)?.childBecameActive(binding.recyclerView)
     }
 
     companion object {

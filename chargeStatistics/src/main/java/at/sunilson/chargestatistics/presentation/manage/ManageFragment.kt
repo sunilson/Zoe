@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import at.sunilson.chargestatistics.R
 import at.sunilson.chargestatistics.databinding.ManageFragmentBinding
+import at.sunilson.presentationcore.ViewpagerFragmentParentWithHeaderAnimation
 import at.sunilson.presentationcore.base.viewBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,14 +30,14 @@ internal class ManageFragment : Fragment(R.layout.manage_fragment) {
     @Inject
     lateinit var sharedPreferences: SharedPreferences
 
+    override fun onResume() {
+        super.onResume()
+        (parentFragment as? ViewpagerFragmentParentWithHeaderAnimation)?.childBecameActive(binding.recyclerView)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeState()
-
-        Insetter
-            .builder()
-            .applySystemWindowInsetsToPadding(Side.TOP)
-            .applyToView(binding.root)
 
         binding.whitelistButton.setOnClickListener {
             startActivity(Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS))

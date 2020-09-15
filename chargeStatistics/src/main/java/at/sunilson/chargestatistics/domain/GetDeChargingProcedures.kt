@@ -6,6 +6,7 @@ import at.sunilson.chargetracking.domain.entities.ChargeTrackingPoint
 import at.sunilson.core.usecases.FlowUseCase
 import at.sunilson.ktx.datetime.toZonedDateTime
 import kotlinx.coroutines.flow.map
+import java.time.ZonedDateTime
 import javax.inject.Inject
 
 internal class GetDeChargingProcedures @Inject constructor(private val getChargingPoints: GetAllChargeTrackingPoints) :
@@ -53,5 +54,30 @@ internal class GetDeChargingProcedures @Inject constructor(private val getChargi
         }
 
         result.sortedByDescending { it.startTime }
+        listOf(
+            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
+            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
+            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
+            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
+            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
+            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
+            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
+            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
+            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
+            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
+            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
+            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
+            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
+            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
+            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
+            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
+            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
+            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
+            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
+            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
+            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
+            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
+            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10)
+        )
     }
 }

@@ -10,6 +10,7 @@ import androidx.appcompat.view.ContextThemeWrapper
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import at.sunilson.chargestatistics.R
 import at.sunilson.chargestatistics.databinding.ChargeStatisticsOverviewFragmentBinding
@@ -18,16 +19,19 @@ import at.sunilson.ktx.fragment.setNavigationBarColor
 import at.sunilson.ktx.fragment.setStatusBarColor
 import at.sunilson.ktx.fragment.useLightNavigationBarIcons
 import at.sunilson.ktx.fragment.useLightStatusBarIcons
+import at.sunilson.presentationcore.ViewpagerFragmentParentWithHeaderAnimation
 import at.sunilson.presentationcore.base.viewBinding
-import at.sunilson.presentationcore.extensions.updateHeaderAnimationWithViewpager
+import at.sunilson.presentationcore.extensions.setupHeaderAnimation
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.Insetter
 import dev.chrisbanes.insetter.Side
 
 @AndroidEntryPoint
-class ChargeStatisticsOverviewFragment : Fragment(R.layout.charge_statistics_overview_fragment) {
+class ChargeStatisticsOverviewFragment : Fragment(R.layout.charge_statistics_overview_fragment),
+    ViewpagerFragmentParentWithHeaderAnimation {
 
+    override var currentUnregisterCallback: (() -> Unit)? = null
     private val binding by viewBinding(ChargeStatisticsOverviewFragmentBinding::bind)
     private val args by navArgs<ChargeStatisticsOverviewFragmentArgs>()
 
@@ -62,7 +66,6 @@ class ChargeStatisticsOverviewFragment : Fragment(R.layout.charge_statistics_ove
                     2 -> R.id.statistics
                     else -> R.id.manage
                 }
-                updateHeaderAnimationWithViewpager(position, binding.topContainer)
             }
         })
 
@@ -74,7 +77,6 @@ class ChargeStatisticsOverviewFragment : Fragment(R.layout.charge_statistics_ove
                 else -> 3
             }
             binding.viewpager.setCurrentItem(position, true)
-            updateHeaderAnimationWithViewpager(position, binding.topContainer)
             true
         }
 
@@ -106,5 +108,10 @@ class ChargeStatisticsOverviewFragment : Fragment(R.layout.charge_statistics_ove
     fun switchToPosition(position: Int) {
         check(position < 4)
         binding.viewpager.currentItem = position
+    }
+
+    override fun childBecameActive(list: RecyclerView?) {
+        currentUnregisterCallback?.invoke()
+        currentUnregisterCallback = setupHeaderAnimation(binding.topContainer, list)
     }
 }

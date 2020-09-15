@@ -38,7 +38,7 @@ class SettingsDialogFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeState()
-        setupHeaderAnimation(binding.handleContainer, binding.recyclerView, true)
+        setupHeaderAnimation(binding.handleContainer, binding.recyclerView)
         observeEvents()
     }
 

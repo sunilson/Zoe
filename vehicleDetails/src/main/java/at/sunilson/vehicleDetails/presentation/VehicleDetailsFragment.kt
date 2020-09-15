@@ -80,7 +80,7 @@ internal class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_detai
         binding.searchInput.doAfterTextChanged { viewModel.search(it.toString()) }
         binding.refreshLayout.setOnRefreshListener { viewModel.refreshDetails(args.vin) }
         Insetter.builder().applySystemWindowInsetsToMargin(Side.TOP).applyToView(binding.backButton)
-        setupHeaderAnimation(binding.topContainer, binding.recyclerView, true)
+        setupHeaderAnimation(binding.topContainer, binding.recyclerView)
     }
 
     override fun onPause() {

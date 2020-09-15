@@ -7,6 +7,7 @@ import at.sunilson.core.usecases.FlowUseCase
 import at.sunilson.ktx.datetime.toZonedDateTime
 import at.sunilson.vehiclecore.domain.entities.Vehicle
 import kotlinx.coroutines.flow.map
+import java.time.ZonedDateTime
 import javax.inject.Inject
 
 internal class GetChargingProcedures @Inject constructor(private val getChargingPoints: GetAllChargeTrackingPoints) :
@@ -55,6 +56,32 @@ internal class GetChargingProcedures @Inject constructor(private val getCharging
         }
 
         result.sortedByDescending { it.startTime }
+
+        listOf(
+            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
+            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
+            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
+            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
+            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
+            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
+            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
+            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
+            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
+            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
+            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
+            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
+            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
+            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
+            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
+            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
+            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
+            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
+            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
+            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
+            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
+            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
+            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now())
+        )
     }
 
     companion object {

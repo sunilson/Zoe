@@ -13,12 +13,10 @@ import at.sunilson.chargestatistics.databinding.ChargeEntriesFragmentBinding
 import at.sunilson.chargestatistics.domain.entities.ChargingProcedure
 import at.sunilson.chargestatistics.presentation.overview.ChargeStatisticsOverviewFragment
 import at.sunilson.core.extensions.isSameDay
-import at.sunilson.core.extensions.isSameMonth
+import at.sunilson.presentationcore.ViewpagerFragmentParentWithHeaderAnimation
 import at.sunilson.presentationcore.base.viewBinding
 import at.sunilson.presentationcore.extensions.formatPattern
 import dagger.hilt.android.AndroidEntryPoint
-import dev.chrisbanes.insetter.Insetter
-import dev.chrisbanes.insetter.Side
 import jp.wasabeef.recyclerview.animators.ScaleInAnimator
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -74,6 +72,11 @@ internal class ChargeEntriesFragment private constructor() :
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (parentFragment as? ViewpagerFragmentParentWithHeaderAnimation)?.childBecameActive(binding.recyclerView)
     }
 
     companion object {

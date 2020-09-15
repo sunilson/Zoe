@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import at.sunilson.appointments.R
 import at.sunilson.appointments.databinding.FragmentAppointmentsContainerBinding
@@ -13,15 +14,18 @@ import at.sunilson.ktx.fragment.setNavigationBarColor
 import at.sunilson.ktx.fragment.setStatusBarColor
 import at.sunilson.ktx.fragment.useLightNavigationBarIcons
 import at.sunilson.ktx.fragment.useLightStatusBarIcons
+import at.sunilson.presentationcore.ViewpagerFragmentParentWithHeaderAnimation
 import at.sunilson.presentationcore.base.viewBinding
-import at.sunilson.presentationcore.extensions.updateHeaderAnimationWithViewpager
+import at.sunilson.presentationcore.extensions.setupHeaderAnimation
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.Insetter
 import dev.chrisbanes.insetter.Side
 
 @AndroidEntryPoint
-internal class AppointmentsContainerFragment : Fragment(R.layout.fragment_appointments_container) {
+internal class AppointmentsContainerFragment : Fragment(R.layout.fragment_appointments_container),
+    ViewpagerFragmentParentWithHeaderAnimation {
 
+    override var currentUnregisterCallback: (() -> Unit)? = null
     private val binding by viewBinding(FragmentAppointmentsContainerBinding::bind)
     private val args by navArgs<AppointmentsContainerFragmentArgs>()
 
@@ -42,7 +46,6 @@ internal class AppointmentsContainerFragment : Fragment(R.layout.fragment_appoin
                     0 -> binding.bottomNavigation.selectedItemId = R.id.appointments
                     else -> binding.bottomNavigation.selectedItemId = R.id.history
                 }
-                updateHeaderAnimationWithViewpager(position, binding.topContainer)
             }
         })
         binding.bottomNavigation.setOnNavigationItemSelectedListener {
@@ -51,9 +54,13 @@ internal class AppointmentsContainerFragment : Fragment(R.layout.fragment_appoin
                 else -> 1
             }
             binding.viewpager.currentItem = position
-            updateHeaderAnimationWithViewpager(position, binding.topContainer)
             true
         }
+    }
+
+    override fun childBecameActive(list: RecyclerView?) {
+        currentUnregisterCallback?.invoke()
+        currentUnregisterCallback = setupHeaderAnimation(binding.topContainer, list)
     }
 
     override fun onResume() {

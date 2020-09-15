@@ -46,7 +46,7 @@ internal class ContractsFragment : Fragment(R.layout.fragment_contracts) {
             .applySystemWindowInsetsToPadding(Side.TOP)
             .applyToView(binding.topContainer)
 
-        setupHeaderAnimation(binding.topContainer, binding.recyclerView, true)
+        setupHeaderAnimation(binding.topContainer, binding.recyclerView)
         binding.backButton.setOnClickListener { findNavController().navigateUp() }
         binding.refreshLayout.setOnRefreshListener { viewModel.refreshConracts(args.vin) }
         binding.refreshLayout.isEnabled = true

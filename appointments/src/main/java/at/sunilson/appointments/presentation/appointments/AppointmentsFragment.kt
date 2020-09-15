@@ -14,6 +14,7 @@ import at.sunilson.appointments.domain.entities.Appointment
 import at.sunilson.core.Do
 import at.sunilson.ktx.context.showToast
 import at.sunilson.ktx.fragment.useLightStatusBarIcons
+import at.sunilson.presentationcore.ViewpagerFragmentParentWithHeaderAnimation
 import at.sunilson.presentationcore.base.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import jp.wasabeef.recyclerview.animators.ScaleInAnimator
@@ -54,7 +55,7 @@ internal class AppointmentsFragment private constructor(): Fragment(R.layout.fra
 
     override fun onResume() {
         super.onResume()
-        useLightStatusBarIcons(false)
+        (parentFragment as? ViewpagerFragmentParentWithHeaderAnimation)?.childBecameActive(binding.recyclerView)
     }
 
     private fun observeEvents() {

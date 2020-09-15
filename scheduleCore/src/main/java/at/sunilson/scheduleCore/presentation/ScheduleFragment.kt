@@ -69,7 +69,7 @@ abstract class ScheduleFragment : Fragment(R.layout.fragment_schedule_overview) 
             viewModel.loadChargeSchedules(vin)
         }
 
-        setupHeaderAnimation(binding.headerContainer, binding.recyclerview, true)
+        setupHeaderAnimation(binding.headerContainer, binding.recyclerview)
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             viewModel.askForSaveApproval(
