@@ -75,7 +75,8 @@ class GetDeChargingProceduresTests : BaseUnitTest() {
                 ),
                 listOf(
                     DeChargingProcedure(
-                        4,
+                        10,
+                        6,
                         3,
                         Instant.ofEpochMilli(2L).atZone(ZoneId.systemDefault()),
                         Instant.ofEpochMilli(4L).atZone(ZoneId.systemDefault()),

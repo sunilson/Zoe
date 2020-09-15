@@ -74,7 +74,8 @@ class GetChargingProceduresTests : BaseUnitTest() {
                 ),
                 listOf(
                     ChargingProcedure(
-                        2,
+                        10,
+                        12,
                         10,
                         Instant.ofEpochMilli(1L).atZone(ZoneId.systemDefault()),
                         Instant.ofEpochMilli(4L).atZone(ZoneId.systemDefault())
