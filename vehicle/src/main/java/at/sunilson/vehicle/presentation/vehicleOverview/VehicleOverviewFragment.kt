@@ -38,6 +38,7 @@ import at.arkulpa.widget.VehicleWidgetProvider
 import at.sunilson.authentication.domain.LogoutHandler
 import at.sunilson.core.Do
 import at.sunilson.ktx.context.showToast
+import at.sunilson.ktx.fragment.drawBelowNavigationBar
 import at.sunilson.ktx.fragment.drawBelowStatusBar
 import at.sunilson.ktx.fragment.setNavigationBarColor
 import at.sunilson.ktx.fragment.setStatusBarColor
@@ -63,6 +64,7 @@ import coil.api.load
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.transition.Hold
 import dagger.hilt.android.AndroidEntryPoint
+import dev.chrisbanes.insetter.applySystemWindowInsetsToMargin
 import dev.chrisbanes.insetter.applySystemWindowInsetsToPadding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
@@ -235,6 +237,8 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     private fun setupInsets() {
         binding.splashContainer.applySystemWindowInsetsToPadding(top = true)
         binding.motionLayout.applySystemWindowInsetsToPadding(top = true)
+        binding.settingsButton.applySystemWindowInsetsToMargin(bottom = true)
+        binding.recyclerView.applySystemWindowInsetsToPadding(bottom = true)
     }
 
     private fun setupSwipeRefreshLayout() {
@@ -419,10 +423,11 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
 
     private fun setupUIFlags() {
         setStatusBarColor(android.R.color.transparent)
-        setNavigationBarColor(android.R.color.white)
+        setNavigationBarColor(android.R.color.transparent)
         useLightStatusBarIcons(!splashAnimationStarted)
         useLightNavigationBarIcons(false)
         drawBelowStatusBar()
+        drawBelowNavigationBar()
     }
 
     private fun updateVehicleWidget() {

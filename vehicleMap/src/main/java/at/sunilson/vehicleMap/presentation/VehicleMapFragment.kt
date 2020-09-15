@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import at.sunilson.ktx.datetime.toZonedDateTime
+import at.sunilson.ktx.fragment.drawBelowNavigationBar
 import at.sunilson.ktx.fragment.drawBelowStatusBar
 import at.sunilson.ktx.fragment.setNavigationBarColor
 import at.sunilson.ktx.fragment.setStatusBarColor
@@ -36,8 +37,8 @@ import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
-import dev.chrisbanes.insetter.Insetter
-import dev.chrisbanes.insetter.Side
+import dev.chrisbanes.insetter.applySystemWindowInsetsToMargin
+import dev.chrisbanes.insetter.applySystemWindowInsetsToPadding
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
@@ -70,7 +71,8 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
 
         binding.refreshFab.setOnClickListener { viewModel.refreshPosition(args.vin) }
 
-        Insetter.builder().applySystemWindowInsetsToMargin(Side.TOP).applyToView(binding.backButton)
+        binding.refreshFab.applySystemWindowInsetsToMargin(bottom = true)
+        binding.backButton.applySystemWindowInsetsToMargin(top = true)
     }
 
     private fun back() {
@@ -96,10 +98,11 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
         super.onResume()
         viewModel.refreshPosition(args.vin)
         setStatusBarColor(android.R.color.transparent)
-        setNavigationBarColor(android.R.color.white)
+        setNavigationBarColor(android.R.color.transparent)
         useLightStatusBarIcons(false)
         useLightNavigationBarIcons(false)
         drawBelowStatusBar()
+        drawBelowNavigationBar()
     }
 
     private fun observeState() {

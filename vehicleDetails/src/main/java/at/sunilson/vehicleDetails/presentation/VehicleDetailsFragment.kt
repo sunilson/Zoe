@@ -13,6 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionInflater
 import at.sunilson.core.Do
 import at.sunilson.ktx.context.showToast
+import at.sunilson.ktx.fragment.drawBelowNavigationBar
+import at.sunilson.ktx.fragment.drawBelowStatusBar
+import at.sunilson.ktx.fragment.setNavigationBarColor
+import at.sunilson.ktx.fragment.setStatusBarColor
 import at.sunilson.ktx.fragment.useLightStatusBarIcons
 import at.sunilson.ktx.view.hideKeyboard
 import at.sunilson.ktx.view.showKeyboard
@@ -158,6 +162,10 @@ internal class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_detai
 
     override fun onResume() {
         super.onResume()
+        setStatusBarColor(android.R.color.transparent)
+        setNavigationBarColor(R.color.white)
         useLightStatusBarIcons(false)
+        drawBelowStatusBar(true)
+        drawBelowNavigationBar(false)
     }
 }
