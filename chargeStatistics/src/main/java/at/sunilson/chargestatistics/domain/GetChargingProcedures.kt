@@ -56,32 +56,6 @@ internal class GetChargingProcedures @Inject constructor(private val getCharging
         }
 
         result.sortedByDescending { it.startTime }
-
-        listOf(
-            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
-            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
-            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
-            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
-            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
-            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
-            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
-            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
-            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
-            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
-            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
-            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
-            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
-            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
-            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
-            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
-            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
-            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
-            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
-            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
-            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
-            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now()),
-            ChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now())
-        )
     }
 
     companion object {

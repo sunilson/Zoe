@@ -72,6 +72,7 @@
 
             <com.google.android.material.button.MaterialButton
                     android:id="@+id/all_appointments_button"
+                    style="@style/Widget.App.Button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="6dp"
@@ -81,6 +82,7 @@
 
             <com.google.android.material.button.MaterialButton
                     android:id="@+id/all_contracts_button"
+                    style="@style/Widget.App.Button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"

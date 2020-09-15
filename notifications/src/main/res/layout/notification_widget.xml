@@ -68,6 +68,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
+                style="@style/Widget.App.Button"
                 app:icon="@drawable/ic_baseline_track_changes_24"
                 android:text="@string/activate_charge_tracker" />
 

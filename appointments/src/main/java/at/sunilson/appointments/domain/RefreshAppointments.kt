@@ -24,7 +24,6 @@ class RefreshAppointments @Inject constructor(
     internal lateinit var appointmentsDao: AppointmentsDao
 
     override suspend fun run(params: String) = SuspendableResult.of<Unit, Exception> {
-
         val currentVehicle = getVehicle(params).get() ?: error("No vehicle existent!")
 
         val response = appointmentsService.getAppointments(

@@ -54,30 +54,5 @@ internal class GetDeChargingProcedures @Inject constructor(private val getChargi
         }
 
         result.sortedByDescending { it.startTime }
-        listOf(
-            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
-            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
-            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
-            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
-            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
-            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
-            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
-            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
-            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
-            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
-            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
-            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
-            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
-            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
-            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
-            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
-            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
-            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
-            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
-            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
-            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
-            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10),
-            DeChargingProcedure(10, 10, ZonedDateTime.now(), ZonedDateTime.now(), 10)
-        )
     }
 }

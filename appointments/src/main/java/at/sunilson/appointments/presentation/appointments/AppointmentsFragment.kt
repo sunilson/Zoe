@@ -1,6 +1,8 @@
 package at.sunilson.appointments.presentation.appointments
 
+import android.content.Intent
 import android.os.Bundle
+import android.provider.CalendarContract
 import android.view.View
 import android.view.animation.OvershootInterpolator
 import android.widget.Toast
@@ -13,16 +15,17 @@ import at.sunilson.appointments.databinding.FragmentAppointmentsBinding
 import at.sunilson.appointments.domain.entities.Appointment
 import at.sunilson.core.Do
 import at.sunilson.ktx.context.showToast
-import at.sunilson.ktx.fragment.useLightStatusBarIcons
 import at.sunilson.presentationcore.ViewpagerFragmentParentWithHeaderAnimation
 import at.sunilson.presentationcore.base.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import jp.wasabeef.recyclerview.animators.ScaleInAnimator
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
+import java.time.ZoneOffset
 
 @AndroidEntryPoint
-internal class AppointmentsFragment private constructor(): Fragment(R.layout.fragment_appointments) {
+internal class AppointmentsFragment private constructor() :
+    Fragment(R.layout.fragment_appointments) {
 
     private val viewModel by viewModels<AppointmentsViewModel>()
     private val binding by viewBinding(FragmentAppointmentsBinding::bind)
@@ -58,6 +61,19 @@ internal class AppointmentsFragment private constructor(): Fragment(R.layout.fra
         (parentFragment as? ViewpagerFragmentParentWithHeaderAnimation)?.childBecameActive(binding.recyclerView)
     }
 
+    private fun addToCalendar(appointment: Appointment) {
+        startActivity(Intent(Intent.ACTION_INSERT).apply {
+            data = CalendarContract.Events.CONTENT_URI
+            putExtra(CalendarContract.Events.TITLE, appointment.label)
+            putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, true)
+            putExtra(
+                CalendarContract.EXTRA_EVENT_BEGIN_TIME,
+                appointment.date?.atStartOfDay()?.toInstant(ZoneOffset.UTC)?.toEpochMilli()
+                    ?: return@apply
+            )
+        })
+    }
+
     private fun observeEvents() {
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             viewModel.events.collect {
@@ -86,6 +102,7 @@ internal class AppointmentsFragment private constructor(): Fragment(R.layout.fra
                 appointmentListItem {
                     id(index)
                     appointment(appointment)
+                    addToCalendar { addToCalendar(it) }
                 }
             }
         }

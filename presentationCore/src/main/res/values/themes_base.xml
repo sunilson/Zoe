@@ -3,7 +3,6 @@
 
     <style name="Base.Theme.Zoe" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="bottomSheetDialogTheme">@style/Widget.App.BottomSheet</item>
-        <item name="materialButtonStyle">@style/Widget.App.Button</item>
         <item name="circularProgressBarStyle">@style/Widget.App.CircularProgressBar</item>
     </style>
 </resources>
