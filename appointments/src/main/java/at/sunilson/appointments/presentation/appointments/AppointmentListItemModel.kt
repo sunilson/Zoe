@@ -3,6 +3,7 @@ package at.sunilson.appointments.presentation.appointments
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.view.isVisible
 import at.sunilson.appointments.R
 import at.sunilson.appointments.domain.entities.Appointment
 import at.sunilson.presentationcore.epoxy.KotlinEpoxyHolder
@@ -26,6 +27,7 @@ internal abstract class AppointmentListItemModel :
     override fun bind(holder: Holder) = holder.run {
         title.text = appointment.label
         subTitle.text = "${appointment.date?.formatPattern("dd.MM.YYYY")}"
+        calendarButton.isVisible = appointment.upcoming
         calendarButton.setOnClickListener { addToCalendar(appointment) }
     }
 

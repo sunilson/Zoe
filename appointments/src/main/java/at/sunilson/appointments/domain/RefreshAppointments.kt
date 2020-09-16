@@ -34,8 +34,10 @@ class RefreshAppointments @Inject constructor(
         )
 
         val appointments = mutableListOf<DatabaseAppointment>()
-        response.upcomingMaintenances.forEach {
-            it.maintenances.forEach { appointments.add(it.toDatabaseEntity(params)) }
+        (response.previousMaintenances + response.upcomingMaintenances).forEach { year ->
+            year.maintenances.forEach { networkAppointment ->
+                appointments.add(networkAppointment.toDatabaseEntity(params))
+            }
         }
 
         appointmentsDao.insertAppointments(appointments)
