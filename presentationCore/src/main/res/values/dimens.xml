@@ -4,6 +4,6 @@
     <dimen name="button_corner_radius">20dp</dimen>
     <dimen name="card_margin_bottom">30dp</dimen>
     <dimen name="card_padding">20dp</dimen>
-    <dimen name="card_elevation">6dp</dimen>
+    <dimen name="card_elevation">4dp</dimen>
     <dimen name="list_padding_horizontal">20dp</dimen>
 </resources>
