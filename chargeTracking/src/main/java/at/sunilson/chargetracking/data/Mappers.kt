@@ -5,3 +5,6 @@ import at.sunilson.chargetracking.data.models.ChargeTrackingPoint as DatabaseCha
 
 internal fun ChargeTrackingPoint.toDatabaseEntity() =
     DatabaseChargeTrackingPoint(vehicleId, timestamp, batteryStatus, mileageKm, location)
+
+internal fun DatabaseChargeTrackingPoint.toEntity() =
+    ChargeTrackingPoint(vehicleId, timestamp, batteryStatus, mileageKm, location)

@@ -34,7 +34,8 @@ internal class GetSelectedVehicleCurrentChargeProcedure @Inject constructor(
             Duration.between(
                 firstPoint.timestamp.toZonedDateTime(),
                 currentPoint.timestamp.toZonedDateTime()
-            ), currentPoint.batteryStatus.availableEnery - firstPoint.batteryStatus.availableEnery
+            ),
+            currentPoint.batteryStatus.availableEnery - firstPoint.batteryStatus.availableEnery
         )
     }
 }

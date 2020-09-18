@@ -9,4 +9,11 @@ data class ChargeTrackingPoint(
     val batteryStatus: Vehicle.BatteryStatus,
     val mileageKm: Int,
     val location: Location? = null
-)
+) {
+    fun compareTimeIndependent(other: ChargeTrackingPoint): Boolean {
+        return other.batteryStatus == this.batteryStatus
+                && other.vehicleId == this.vehicleId
+                && mileageKm == this.mileageKm
+                && other.location == this.location
+    }
+}
