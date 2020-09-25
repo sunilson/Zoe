@@ -16,10 +16,10 @@ internal class GetAllAppointments @Inject constructor(private val appointmentsDa
                     try {
                         LocalDate.parse(dbAppointment.date)
                     } catch (exception: Exception) {
-                        null
+                        LocalDate.now().minusDays(1)
                     },
                     dbAppointment.label
                 )
-            }.filter { it.date != null }.sortedBy { it.date }
+            }.filter { it.date.isAfter(LocalDate.now()) }.sortedBy { it.date }
         }
 }

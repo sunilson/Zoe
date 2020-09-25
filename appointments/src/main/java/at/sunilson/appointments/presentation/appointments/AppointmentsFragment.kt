@@ -14,9 +14,11 @@ import at.sunilson.appointments.R
 import at.sunilson.appointments.databinding.FragmentAppointmentsBinding
 import at.sunilson.appointments.domain.entities.Appointment
 import at.sunilson.core.Do
+import at.sunilson.core.extensions.isSameMonth
 import at.sunilson.ktx.context.showToast
 import at.sunilson.presentationcore.ViewpagerFragmentParentWithHeaderAnimation
 import at.sunilson.presentationcore.base.viewBinding
+import at.sunilson.presentationcore.extensions.formatPattern
 import dagger.hilt.android.AndroidEntryPoint
 import jp.wasabeef.recyclerview.animators.ScaleInAnimator
 import kotlinx.coroutines.delay
@@ -98,12 +100,25 @@ internal class AppointmentsFragment private constructor() :
 
     private fun renderList(appointments: List<Appointment>) {
         binding.recyclerView.withModels {
+
+            var previousAppointment: Appointment? = null
+
             appointments.forEachIndexed { index, appointment ->
                 appointmentListItem {
                     id(index)
                     appointment(appointment)
                     addToCalendar { addToCalendar(it) }
+                    headline(
+                        if (previousAppointment == null
+                            || !previousAppointment!!.date.isSameMonth(appointment.date)
+                        ) {
+                            appointment.date.formatPattern("MMMM YYYY")
+                        } else {
+                            null
+                        }
+                    )
                 }
+                previousAppointment = appointment
             }
         }
     }

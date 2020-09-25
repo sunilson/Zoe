@@ -1,6 +1,5 @@
 package at.sunilson.appointments.presentation.appointments
 
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.core.view.isVisible
@@ -19,6 +18,9 @@ internal abstract class AppointmentListItemModel :
     override fun getDefaultLayout() = R.layout.appointment_list_item
 
     @EpoxyAttribute
+    var headline: String? = null
+
+    @EpoxyAttribute
     lateinit var appointment: Appointment
 
     @EpoxyAttribute
@@ -29,11 +31,14 @@ internal abstract class AppointmentListItemModel :
         subTitle.text = "${appointment.date?.formatPattern("dd.MM.YYYY")}"
         calendarButton.isVisible = appointment.upcoming
         calendarButton.setOnClickListener { addToCalendar(appointment) }
+        header.isVisible = headline != null
+        header.text = headline
     }
 
     class Holder : KotlinEpoxyHolder() {
         val calendarButton by bind<Button>(R.id.calendar_button)
         val title by bind<TextView>(R.id.title)
         val subTitle by bind<TextView>(R.id.subtitle)
+        val header by bind<TextView>(R.id.section_header)
     }
 }

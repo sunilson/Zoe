@@ -16,6 +16,11 @@ internal class SetChargeMode @Inject constructor(
     private val vehicleCoreRepository: VehicleCoreRepository
 ) : AsyncUseCase<Unit, SetChargeModeParams>() {
     override suspend fun run(params: SetChargeModeParams) = SuspendableResult.of<Unit, Exception> {
+        setChargeMode(params)
+        refreshAllChargeSchedules(params.vin)
+    }
+
+    private suspend fun setChargeMode(params: SetChargeModeParams) {
         chargeScheduleService.setChargeMode(
             vehicleCoreRepository.kamereonAccountID,
             params.vin,
@@ -31,7 +36,5 @@ internal class SetChargeMode @Inject constructor(
                 )
             )
         )
-
-        refreshAllChargeSchedules(params.vin)
     }
 }

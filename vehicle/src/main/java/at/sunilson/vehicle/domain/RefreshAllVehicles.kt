@@ -57,6 +57,7 @@ internal class RefreshAllVehicles @Inject constructor(
                 .getKilometerReading(kamereonId, vehicle.vin)
                 .toEntity()
 
+            //TODO Dont do this every time?
             refreshAppointments(vehicle.vin)
             refreshContracts(vehicle.vin)
 
