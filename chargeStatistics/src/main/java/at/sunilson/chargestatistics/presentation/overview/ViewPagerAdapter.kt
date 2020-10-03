@@ -13,7 +13,7 @@ class ViewPagerAdapter(fragment: Fragment, private val vin: String) :
     override fun createFragment(position: Int) = when (position) {
         0 -> ChargeEntriesFragment.newInstance(vin)
         1 -> DeChargeEntriesFragment.newInstance(vin)
-        2 -> StatisticsFragment()
+        2 -> StatisticsFragment.newInstance(vin)
         else -> ManageFragment()
     }
 

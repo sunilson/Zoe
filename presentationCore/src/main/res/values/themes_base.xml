@@ -2,7 +2,15 @@
 <resources>
 
     <style name="Base.Theme.Zoe" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="fontFamily">@font/custom_font</item>
+        <item name="android:fontFamily">@font/custom_font</item>
         <item name="bottomSheetDialogTheme">@style/Widget.App.BottomSheet</item>
         <item name="circularProgressBarStyle">@style/Widget.App.CircularProgressBar</item>
+        <item name="textAppearanceHeadline6">@style/Widget.App.Text.Headline6</item>
+        <item name="textAppearanceBody1">@style/Widget.App.Text.Body1</item>
+        <item name="textAppearanceBody2">@style/Widget.App.Text.Body2</item>
+        <item name="textAppearanceSubtitle1">@style/Widget.App.Text.Subtitle1</item>
+        <item name="textAppearanceSubtitle2">@style/Widget.App.Text.Subtitle2</item>
     </style>
+
 </resources>

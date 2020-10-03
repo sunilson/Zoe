@@ -8,4 +8,5 @@
     <string name="de_charges">Entladungen</string>
     <string name="charges">Ladungen</string>
     <string name="manage">Verwalten</string>
+    <string name="not_enough_data">Noch nicht genügend Daten vorhanden</string>
 </resources>

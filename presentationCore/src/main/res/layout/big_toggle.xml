@@ -32,6 +32,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@{textLeft}"
+            android:fontFamily=""
             android:textIsSelectable="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"

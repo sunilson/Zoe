@@ -1,11 +1,9 @@
 package at.sunilson.chargetracking.domain
 
 import androidx.lifecycle.asFlow
-import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import at.sunilson.chargetracking.domain.entities.ChargeTracker
 import at.sunilson.core.usecases.FlowUseCase
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.collect
@@ -25,17 +23,7 @@ class GetRunningChargeTrackers @Inject constructor(private val workManager: Work
                     .asFlow()
                     .map { workInfos ->
                         val workInfo = workInfos.firstOrNull() ?: return@map null
-                        ChargeTracker(
-                            vin,
-                            when (workInfo.state) {
-                                WorkInfo.State.ENQUEUED -> ChargeTracker.State.WAITING
-                                WorkInfo.State.RUNNING -> ChargeTracker.State.WORKING
-                                WorkInfo.State.SUCCEEDED -> ChargeTracker.State.COMPLETED
-                                WorkInfo.State.FAILED -> ChargeTracker.State.COMPLETED
-                                WorkInfo.State.BLOCKED -> ChargeTracker.State.BLOCKED
-                                WorkInfo.State.CANCELLED -> ChargeTracker.State.COMPLETED
-                            }
-                        )
+                        workInfo.toChargeTracker(vin)
                     }
                     .filterNotNull()
             } catch (e: Exception) {
@@ -46,6 +34,7 @@ class GetRunningChargeTrackers @Inject constructor(private val workManager: Work
 
         return channelFlow {
             val results = Array<ChargeTracker?>(flows.size) { null }
+            send(results.filterNotNull())
             flows.forEachIndexed { index, flow ->
                 launch {
                     flow.collect {

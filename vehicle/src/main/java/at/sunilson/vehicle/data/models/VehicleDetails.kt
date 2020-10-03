@@ -12,14 +12,11 @@ data class VehicleDetails(
     val model: Model,
     val version: Version,
     val registrationNumber: String,
-    val vcd: String,
     val assets: List<Assets>?,
     val yearsOfMaintenance: Int,
     val connectivityTechnology: String,
     val easyConnectStore: Boolean,
     val electrical: Boolean,
-    val rlinkStore: Boolean,
     val deliveryDate: String,
-    val retrievedFromDhs: Boolean,
     val engineEnergyType: String
 )

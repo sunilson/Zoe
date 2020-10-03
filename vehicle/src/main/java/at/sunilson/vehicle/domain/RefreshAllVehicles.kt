@@ -1,10 +1,9 @@
 package at.sunilson.vehicle.domain
 
 import at.sunilson.appointments.domain.RefreshAppointments
+import at.sunilson.chargetracking.domain.CheckIfTrackerIsRunning
 import at.sunilson.chargetracking.domain.CreateChargePointParams
 import at.sunilson.chargetracking.domain.CreateVehicleChargePoint
-import at.sunilson.chargetracking.domain.GetRunningChargeTrackers
-import at.sunilson.chargetracking.domain.entities.isTracking
 import at.sunilson.contracts.domain.RefreshContracts
 import at.sunilson.core.usecases.AsyncUseCase
 import at.sunilson.vehicle.data.VehicleService
@@ -28,7 +27,7 @@ internal class RefreshAllVehicles @Inject constructor(
     private val vehicleDao: VehicleDao,
     private val refreshVehicleLocation: RefreshVehicleLocation,
     private val createVehicleChargePoint: CreateVehicleChargePoint,
-    private val getRunningChargeTrackers: GetRunningChargeTrackers,
+    private val checkIfTrackerIsRunning: CheckIfTrackerIsRunning,
     private val refreshAppointments: RefreshAppointments,
     private val refreshContracts: RefreshContracts
 ) : AsyncUseCase<List<Vehicle>, Unit>() {
@@ -40,8 +39,6 @@ internal class RefreshAllVehicles @Inject constructor(
         val newVehicles = vehicleService.getAllVehicles(kamereonId).toVehicleList()
 
         Timber.d("Got vehicle list: $newVehicles")
-
-        val runningTrackers = getRunningChargeTrackers(newVehicles.map { it.vin }).first()
 
         //TODO Parallel
         Timber.d("Refreshing vehicles battery status...")
@@ -69,7 +66,7 @@ internal class RefreshAllVehicles @Inject constructor(
             )
 
             //Track vehicle state on refresh also (but only if tracker is running)
-            if (runningTrackers.firstOrNull { it.vin == vehicle.vin }.isTracking) {
+            if (checkIfTrackerIsRunning(vehicle.vin).get()) {
                 createVehicleChargePoint(
                     CreateChargePointParams(
                         vehicle.vin,
