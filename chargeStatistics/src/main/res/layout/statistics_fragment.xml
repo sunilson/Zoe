@@ -11,7 +11,6 @@
             android:layout_height="match_parent"
             android:clipChildren="false"
             android:clipToPadding="false"
-            android:paddingTop="20dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     <TextView

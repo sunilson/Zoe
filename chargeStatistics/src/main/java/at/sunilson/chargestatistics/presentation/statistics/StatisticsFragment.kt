@@ -9,8 +9,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import at.sunilson.chargestatistics.R
 import at.sunilson.chargestatistics.databinding.StatisticsFragmentBinding
-import at.sunilson.chargestatistics.domain.entities.LineChartData
+import at.sunilson.chargestatistics.domain.entities.ChartData
 import at.sunilson.chargestatistics.presentation.overview.ChargeStatisticsOverviewFragment
+import at.sunilson.chargestatistics.presentation.statistics.epoxy.barChart
+import at.sunilson.chargestatistics.presentation.statistics.epoxy.chartExplanation
 import at.sunilson.chargestatistics.presentation.statistics.epoxy.lineChart
 import at.sunilson.presentationcore.ViewpagerFragmentParentWithHeaderAnimation
 import at.sunilson.presentationcore.base.viewBinding
@@ -54,13 +56,21 @@ internal class StatisticsFragment private constructor() : Fragment(R.layout.stat
         }
     }
 
-    private fun renderList(entriesList: List<LineChartData>) {
+    private fun renderList(entriesList: List<ChartData<*>>) {
         binding.recyclerView.withModels {
+            chartExplanation { id("chartExplanation") }
             entriesList.forEach { lineChartData ->
-                lineChart {
-                    id(lineChartData.id)
-                    data(lineChartData)
+                when (lineChartData) {
+                    is ChartData.Line -> lineChart {
+                        id(lineChartData.id)
+                        data(lineChartData)
+                    }
+                    is ChartData.Bar -> barChart {
+                        id(lineChartData.id)
+                        data(lineChartData)
+                    }
                 }
+
             }
         }
     }

@@ -56,6 +56,7 @@ class ChargeStatisticsOverviewFragment : Fragment(R.layout.charge_statistics_ove
     }
 
     private fun setupViewpager() {
+        binding.viewpager.isUserInputEnabled = false
         binding.viewpager.adapter = ViewPagerAdapter(this, args.vin)
         binding.viewpager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {

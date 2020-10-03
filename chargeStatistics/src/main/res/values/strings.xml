@@ -9,4 +9,5 @@
     <string name="charges">Ladungen</string>
     <string name="manage">Verwalten</string>
     <string name="not_enough_data">Noch nicht genügend Daten vorhanden</string>
+    <string name="graph_explanation">Die Graphen können mit Zwei-Finger-Gesten skaliert werden um mehr/weniger Einträge anzuzeigen!</string>
 </resources>

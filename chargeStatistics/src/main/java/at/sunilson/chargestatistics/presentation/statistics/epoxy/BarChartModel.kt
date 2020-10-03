@@ -8,16 +8,16 @@ import at.sunilson.presentationcore.epoxy.KotlinEpoxyHolder
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
-import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.data.LineData
-import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
 
 @EpoxyModelClass
-abstract class LineChartModel : EpoxyModelWithHolder<LineChartModel.Holder>() {
+abstract class BarChartModel : EpoxyModelWithHolder<BarChartModel.Holder>() {
 
     @EpoxyAttribute
-    lateinit var data: ChartData.Line
+    lateinit var data: ChartData.Bar
 
     override fun bind(holder: Holder) {
         val primaryColor by ThemeColor(holder.chart.context, R.attr.colorPrimary)
@@ -48,25 +48,22 @@ abstract class LineChartModel : EpoxyModelWithHolder<LineChartModel.Holder>() {
             }
         }
 
-        holder.chart.data = LineData(
-            LineDataSet(data.entries, data.label).apply {
-                cubicIntensity = 0.2f
-                setDrawFilled(true)
+        holder.chart.data = BarData(
+            BarDataSet(data.entries, data.label).apply {
                 setDrawValues(false)
-                setDrawHorizontalHighlightIndicator(false)
-                circleRadius = 5f
-                circleColors = listOf(primaryColor)
                 colors = listOf(primaryColor)
-                lineWidth = 2f
             }
-        )
+        ).apply {
+            barWidth = 0.9f
+        }
+        holder.chart.setFitBars(true)
         holder.chart.invalidate()
     }
 
-    override fun getDefaultLayout() = R.layout.line_chart_model
+    override fun getDefaultLayout() = R.layout.bar_chart_model
 
     class Holder : KotlinEpoxyHolder() {
         val title by bind<TextView>(R.id.title)
-        val chart by bind<LineChart>(R.id.line_chart)
+        val chart by bind<BarChart>(R.id.bar_chart)
     }
 }
