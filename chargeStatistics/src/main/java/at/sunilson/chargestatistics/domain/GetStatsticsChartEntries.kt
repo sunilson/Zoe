@@ -26,8 +26,8 @@ internal class GetStatsticsChartEntries @Inject constructor(
                 { getBatterylevelChartEntries(chargeTrackingPoints).getOrNull() },
                 { getMileagePerDayEntries(chargeTrackingPoints).getOrNull() },
                 { getAverageMileagePerDay(chargeTrackingPoints).getOrNull() },
-                { getMostChargedWeekday(chargeTrackingPoints).getOrNull() },
                 { getAverageChargePerCharge(chargeTrackingPoints).getOrNull() },
+                { getMostChargedWeekday(chargeTrackingPoints).getOrNull() },
             )
                 .filterNotNull()
                 .sortedWith { o1, o2 ->
