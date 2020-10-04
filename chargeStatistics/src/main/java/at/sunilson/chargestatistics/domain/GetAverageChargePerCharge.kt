@@ -12,10 +12,11 @@ import javax.inject.Named
 internal class GetAverageChargePerCharge @Inject constructor(
     private val extractChargingProcedures: ExtractChargingProcedures,
     @Named(GERMAN_FORMAT) private val formatter: NumberFormat
-) : AsyncUseCase<Statistic.Fact, List<ChargeTrackingPoint>>() {
+) : AsyncUseCase<Statistic.Fact?, List<ChargeTrackingPoint>>() {
     override suspend fun run(params: List<ChargeTrackingPoint>) =
-        SuspendableResult.of<Statistic.Fact, Exception> {
+        SuspendableResult.of<Statistic.Fact?, Exception> {
             val chargingProcedures = extractChargingProcedures(params).get()
+            if (chargingProcedures.isEmpty()) return@of null
             val count = chargingProcedures.size
             val sum = chargingProcedures.sumBy { it.energyLevelDifference }
 
