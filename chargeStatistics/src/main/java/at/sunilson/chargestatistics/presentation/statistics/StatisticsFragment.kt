@@ -59,8 +59,13 @@ internal class StatisticsFragment private constructor() : Fragment(R.layout.stat
 
     private fun renderList(entriesList: List<Statistic>) {
         binding.recyclerView.withModels {
-            if (entriesList.isNotEmpty()) chartExplanation { id("chartExplanation") }
+            var explanationAdded = false
             entriesList.forEach { statistic ->
+                if (!explanationAdded && statistic is Statistic.Chart<*>) {
+                    chartExplanation { id("chartExplanation") }
+                    explanationAdded = true
+                }
+
                 when (statistic) {
                     is Statistic.Chart.Line -> lineChart {
                         id(statistic.id)
