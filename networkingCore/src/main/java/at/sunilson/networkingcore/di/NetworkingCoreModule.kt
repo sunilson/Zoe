@@ -32,7 +32,7 @@ object NetworkingCoreModule {
                     )
                 )
             }
-            callTimeout(20, TimeUnit.SECONDS)
+            callTimeout(30, TimeUnit.SECONDS)
         }
         .build()
 
