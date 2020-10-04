@@ -3,13 +3,13 @@ package at.sunilson.chargestatistics.presentation.statistics
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import at.sunilson.chargestatistics.domain.GetStatsticsChartEntries
-import at.sunilson.chargestatistics.domain.entities.ChartData
+import at.sunilson.chargestatistics.domain.entities.Statistic
 import at.sunilson.unidirectionalviewmodel.core.UniDirectionalViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-internal data class StatisticsState(val entriesList: List<ChartData<*>> = listOf())
+internal data class StatisticsState(val entriesList: List<Statistic> = listOf())
 internal sealed class StatisticsEvents
 
 internal class StatisticsViewModel @ViewModelInject constructor(private val getStatsticsChartEntries: GetStatsticsChartEntries) :

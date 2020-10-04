@@ -9,10 +9,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import at.sunilson.chargestatistics.R
 import at.sunilson.chargestatistics.databinding.StatisticsFragmentBinding
-import at.sunilson.chargestatistics.domain.entities.ChartData
+import at.sunilson.chargestatistics.domain.entities.Statistic
 import at.sunilson.chargestatistics.presentation.overview.ChargeStatisticsOverviewFragment
 import at.sunilson.chargestatistics.presentation.statistics.epoxy.barChart
 import at.sunilson.chargestatistics.presentation.statistics.epoxy.chartExplanation
+import at.sunilson.chargestatistics.presentation.statistics.epoxy.fact
 import at.sunilson.chargestatistics.presentation.statistics.epoxy.lineChart
 import at.sunilson.presentationcore.ViewpagerFragmentParentWithHeaderAnimation
 import at.sunilson.presentationcore.base.viewBinding
@@ -56,21 +57,24 @@ internal class StatisticsFragment private constructor() : Fragment(R.layout.stat
         }
     }
 
-    private fun renderList(entriesList: List<ChartData<*>>) {
+    private fun renderList(entriesList: List<Statistic>) {
         binding.recyclerView.withModels {
-            chartExplanation { id("chartExplanation") }
-            entriesList.forEach { lineChartData ->
-                when (lineChartData) {
-                    is ChartData.Line -> lineChart {
-                        id(lineChartData.id)
-                        data(lineChartData)
+            if (entriesList.isNotEmpty()) chartExplanation { id("chartExplanation") }
+            entriesList.forEach { statistic ->
+                when (statistic) {
+                    is Statistic.Chart.Line -> lineChart {
+                        id(statistic.id)
+                        data(statistic)
                     }
-                    is ChartData.Bar -> barChart {
-                        id(lineChartData.id)
-                        data(lineChartData)
+                    is Statistic.Chart.Bar -> barChart {
+                        id(statistic.id)
+                        data(statistic)
+                    }
+                    is Statistic.Fact -> fact {
+                        id(statistic.id)
+                        fact(statistic)
                     }
                 }
-
             }
         }
     }

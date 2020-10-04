@@ -2,7 +2,7 @@ package at.sunilson.chargestatistics.presentation.statistics.epoxy
 
 import android.widget.TextView
 import at.sunilson.chargestatistics.R
-import at.sunilson.chargestatistics.domain.entities.ChartData
+import at.sunilson.chargestatistics.domain.entities.Statistic
 import at.sunilson.presentationcore.delegates.ThemeColor
 import at.sunilson.presentationcore.epoxy.KotlinEpoxyHolder
 import com.airbnb.epoxy.EpoxyAttribute
@@ -17,7 +17,7 @@ import com.github.mikephil.charting.data.BarDataSet
 abstract class BarChartModel : EpoxyModelWithHolder<BarChartModel.Holder>() {
 
     @EpoxyAttribute
-    lateinit var data: ChartData.Bar
+    lateinit var data: Statistic.Chart.Bar
 
     override fun bind(holder: Holder) {
         val primaryColor by ThemeColor(holder.chart.context, R.attr.colorPrimary)

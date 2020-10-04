@@ -48,7 +48,7 @@ object Dependencies {
     const val coil = "io.coil-kt:coil:0.11.0"
     const val insetter = "dev.chrisbanes:insetter:0.3.1"
     const val insetterKtx = "dev.chrisbanes:insetter-ktx:0.3.1"
-    const val sunilsonExtensions = "com.github.sunilson:android-kotlin-extensions:0.42"
+    const val sunilsonExtensions = "com.github.sunilson:android-kotlin-extensions:0.43"
     const val sunilsonViewModel = "com.github.sunilson:Unidirectional-ViewModel:0.73"
     const val maps = "com.google.android.gms:play-services-maps:17.0.0"
     const val epoxy = "com.airbnb.android:epoxy:3.11.0"

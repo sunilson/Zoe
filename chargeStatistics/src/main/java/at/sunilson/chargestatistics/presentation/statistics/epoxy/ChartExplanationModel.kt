@@ -1,9 +1,7 @@
 package at.sunilson.chargestatistics.presentation.statistics.epoxy
 
 import at.sunilson.chargestatistics.R
-import at.sunilson.chargestatistics.domain.entities.ChartData
 import at.sunilson.presentationcore.epoxy.KotlinEpoxyHolder
-import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
 
