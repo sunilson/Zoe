@@ -28,7 +28,7 @@ internal class GetStatsticsChartEntries @Inject constructor(
                 .filterNotNull()
                 .sortedWith { o1, o2 ->
                     when {
-                        o1 is Statistic.Fact && o2 is Statistic.Fact -> -1
+                        o1 is Statistic.Fact && o2 !is Statistic.Fact -> -1
                         o1 !is Statistic.Fact && o2 is Statistic.Fact -> 1
                         else -> 0
                     }
