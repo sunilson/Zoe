@@ -24,7 +24,7 @@ class GetMostChargedWeekday @Inject constructor() :
 
             Statistic.Fact(
                 "mostChargedWeekday",
-                "Tag mit meisten Ladungen",
+                "Meist geladen am",
                 "${weekday?.formatPattern("EEEE")}"
             )
         }
