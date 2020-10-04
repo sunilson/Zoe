@@ -2,16 +2,19 @@ package at.sunilson.chargestatistics.domain
 
 import at.sunilson.chargestatistics.domain.entities.Statistic
 import at.sunilson.chargetracking.domain.entities.ChargeTrackingPoint
+import at.sunilson.core.di.NumberFormatModule
+import at.sunilson.core.di.NumberFormatModule.GERMAN_FORMAT
 import at.sunilson.core.usecases.AsyncUseCase
 import at.sunilson.ktx.datetime.toZonedDateTime
 import com.github.kittinunf.result.coroutines.SuspendableResult
 import java.text.NumberFormat
 import java.time.temporal.ChronoUnit.DAYS
-import java.util.*
 import javax.inject.Inject
+import javax.inject.Named
 
-internal class GetAverageMileagePerDay @Inject constructor() :
-    AsyncUseCase<Statistic.Fact?, List<ChargeTrackingPoint>>() {
+internal class GetAverageMileagePerDay @Inject constructor(
+    @Named(GERMAN_FORMAT) private val formatter: NumberFormat
+) : AsyncUseCase<Statistic.Fact?, List<ChargeTrackingPoint>>() {
 
     override suspend fun run(params: List<ChargeTrackingPoint>) =
         SuspendableResult.of<Statistic.Fact?, Exception> {
@@ -23,11 +26,9 @@ internal class GetAverageMileagePerDay @Inject constructor() :
             val kmCount = params.last().mileageKm - params.first().mileageKm
 
             val average = kmCount / dayCount.toFloat()
-            val formatter =
-                NumberFormat.getNumberInstance(Locale.GERMAN).apply { maximumFractionDigits = 2 }
             Statistic.Fact(
                 "averageMileagePerDay",
-                "Kilometer pro Tag",
+                "Ø Kilometer pro Tag",
                 "${formatter.format(average)} km"
             )
         }

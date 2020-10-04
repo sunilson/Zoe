@@ -16,6 +16,7 @@ internal class GetStatsticsChartEntries @Inject constructor(
     private val getMileagePerDayEntries: GetMileagePerDayEntries,
     private val getAverageMileagePerDay: GetAverageMileagePerDay,
     private val getMostChargedWeekday: GetMostChargedWeekday,
+    private val getAverageChargePerCharge: GetAverageChargePerCharge
 ) : FlowUseCase<List<Statistic>, String>() {
     @ExperimentalCoroutinesApi
     override fun run(params: String) = getAllChargeTrackingPoints(params)
@@ -25,7 +26,8 @@ internal class GetStatsticsChartEntries @Inject constructor(
                 { getBatterylevelChartEntries(chargeTrackingPoints).getOrNull() },
                 { getMileagePerDayEntries(chargeTrackingPoints).getOrNull() },
                 { getAverageMileagePerDay(chargeTrackingPoints).getOrNull() },
-                { getMostChargedWeekday(chargeTrackingPoints).getOrNull() }
+                { getMostChargedWeekday(chargeTrackingPoints).getOrNull() },
+                { getAverageChargePerCharge(chargeTrackingPoints).getOrNull() },
             )
                 .filterNotNull()
                 .sortedWith { o1, o2 ->

@@ -1,5 +1,6 @@
 package at.sunilson.chargestatistics
 
+import at.sunilson.chargestatistics.domain.ExtractChargingProcedures
 import at.sunilson.chargestatistics.domain.GetChargingProcedures
 import at.sunilson.chargestatistics.domain.entities.ChargingProcedure
 import at.sunilson.chargetracking.domain.GetAllChargeTrackingPoints
@@ -24,12 +25,16 @@ class GetChargingProceduresTests : BaseUnitTest() {
 
     private lateinit var useCase: GetChargingProcedures
 
+    private lateinit var extractUseCase: ExtractChargingProcedures
+
     @MockK
     private lateinit var getAllChargeTrackingPoints: GetAllChargeTrackingPoints
 
+
     @BeforeEach
     fun before() {
-        useCase = GetChargingProcedures(getAllChargeTrackingPoints)
+        extractUseCase = ExtractChargingProcedures()
+        useCase = GetChargingProcedures(getAllChargeTrackingPoints, extractUseCase)
         useCase.dispatcher = Dispatchers.Main
     }
 

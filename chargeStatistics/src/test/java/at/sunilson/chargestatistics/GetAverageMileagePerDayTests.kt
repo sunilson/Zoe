@@ -2,6 +2,7 @@ package at.sunilson.chargestatistics
 
 import at.sunilson.chargestatistics.domain.GetAverageMileagePerDay
 import at.sunilson.chargetracking.domain.entities.ChargeTrackingPoint
+import at.sunilson.core.di.NumberFormatModule
 import at.sunilson.testcore.BaseUnitTest
 import at.sunilson.vehiclecore.domain.entities.Vehicle
 import kotlinx.coroutines.Dispatchers
@@ -20,7 +21,7 @@ class GetAverageMileagePerDayTests : BaseUnitTest() {
 
     @BeforeEach
     fun before() {
-        useCase = GetAverageMileagePerDay()
+        useCase = GetAverageMileagePerDay(NumberFormatModule.provideGermanNumberFormatter())
         useCase.dispatcher = Dispatchers.Main
     }
 

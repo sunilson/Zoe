@@ -8,7 +8,7 @@ import at.sunilson.ktx.datetime.toZonedDateTime
 import com.github.kittinunf.result.coroutines.SuspendableResult
 import javax.inject.Inject
 
-class GetMostChargedWeekday @Inject constructor() :
+internal class GetMostChargedWeekday @Inject constructor() :
     AsyncUseCase<Statistic.Fact?, List<ChargeTrackingPoint>>() {
     override suspend fun run(params: List<ChargeTrackingPoint>) =
         SuspendableResult.of<Statistic.Fact?, Exception> {
