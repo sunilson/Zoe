@@ -1,6 +1,6 @@
 package at.sunilson.chargestatistics
 
-import at.sunilson.chargestatistics.domain.GetChargingProcedures
+import at.sunilson.chargestatistics.domain.ExtractDeChargingProcedures
 import at.sunilson.chargestatistics.domain.GetDeChargingProcedures
 import at.sunilson.chargestatistics.domain.entities.ChargingProcedure
 import at.sunilson.chargestatistics.domain.entities.DeChargingProcedure
@@ -23,6 +23,7 @@ import java.time.Instant
 import java.time.ZoneId
 
 class GetDeChargingProceduresTests : BaseUnitTest() {
+    private lateinit var extractUseCase: ExtractDeChargingProcedures
     private lateinit var useCase: GetDeChargingProcedures
 
     @MockK
@@ -30,7 +31,8 @@ class GetDeChargingProceduresTests : BaseUnitTest() {
 
     @BeforeEach
     fun before() {
-        useCase = GetDeChargingProcedures(getAllChargeTrackingPoints)
+        extractUseCase = ExtractDeChargingProcedures()
+        useCase = GetDeChargingProcedures(getAllChargeTrackingPoints, extractUseCase)
         useCase.dispatcher = Dispatchers.Main
     }
 
