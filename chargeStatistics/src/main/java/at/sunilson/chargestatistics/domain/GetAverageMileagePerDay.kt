@@ -28,7 +28,7 @@ internal class GetAverageMileagePerDay @Inject constructor(
             val average = kmCount / dayCount.toFloat()
             Statistic.Fact(
                 "averageMileagePerDay",
-                "Ø Kilometer pro Tag",
+                "Ø Kilometer/Tag",
                 "${formatter.format(average)} km"
             )
         }

@@ -38,7 +38,7 @@ internal class GetMileagePerDayEntries @Inject constructor() :
                 entries,
                 1f,
                 1f,
-                "Gefahrene Kilometer pro Tag",
+                "Gefahrene Kilometer/Tag",
                 yValueFormatter = object : ValueFormatter() {
                     override fun getAxisLabel(value: Float, axis: AxisBase?): String {
                         return "${value.toInt()} km"

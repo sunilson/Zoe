@@ -20,7 +20,7 @@ internal class GetMostChargedWeekday @Inject constructor() :
                 .groupBy { it.timestamp.toZonedDateTime().toLocalDate().dayOfWeek }
                 .mapValues { it.value.size }
                 .maxByOrNull { it.value }
-                ?.key
+                ?.key ?: return@of null
 
             Statistic.Fact(
                 "mostChargedWeekday",
