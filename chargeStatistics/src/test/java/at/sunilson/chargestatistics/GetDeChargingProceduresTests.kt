@@ -34,6 +34,7 @@ class GetDeChargingProceduresTests : BaseUnitTest() {
         extractUseCase = ExtractDeChargingProcedures()
         useCase = GetDeChargingProcedures(getAllChargeTrackingPoints, extractUseCase)
         useCase.dispatcher = Dispatchers.Main
+        extractUseCase.dispatcher = Dispatchers.Main
     }
 
     @ParameterizedTest
