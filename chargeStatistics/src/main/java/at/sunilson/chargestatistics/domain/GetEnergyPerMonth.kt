@@ -18,6 +18,8 @@ internal class GetEnergyPerMonth @Inject constructor(
     override suspend fun run(params: List<ChargeTrackingPoint>) =
         SuspendableResult.of<Statistic.Chart.Bar?, Exception> {
             val chargeProcedures = extractDeChargingProcedures(params).get()
+            if(chargeProcedures.isEmpty()) return@of null
+
             val epochDay = LocalDate.ofEpochDay(0)
             val groupedByMonth = chargeProcedures.groupBy {
                 ChronoUnit.MONTHS.between(epochDay, it.startTime)

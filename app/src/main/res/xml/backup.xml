@@ -4,5 +4,5 @@
     <include domain="database" path="appointmentsDatabase"/>
     <include domain="database" path="chargeTrackingDatabase"/>
     <include domain="database" path="contractsDatabase"/>
-    <include domain="sharedpref" path="ZOE_APP.xml"/>
+    <include domain="sharedpref" path="."/>
 </full-backup-content>
