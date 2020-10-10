@@ -54,6 +54,7 @@ class SettingsDialogFragment : BottomSheetDialogFragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.events.collect {
                 Do exhaustive when (it) {
+                    is SettingsDialogEvent.LoggedOut -> {}
                     SettingsDialogEvent.VehicleSelected -> findNavController().navigate(
                         SettingsDialogFragmentDirections.reload()
                     )
@@ -70,12 +71,7 @@ class SettingsDialogFragment : BottomSheetDialogFragment() {
 
                 settingsDialogButtons {
                     id("buttons")
-                    settingsClicked {
-                        findNavController().navigate(
-                            Uri.parse("zoe://settings"),
-                            NavOptions.Builder().withDefaultAnimations()
-                        )
-                    }
+                    logoutClicked { viewModel.logout() }
                     impressumClicked {
                         findNavController()
                             .navigate(

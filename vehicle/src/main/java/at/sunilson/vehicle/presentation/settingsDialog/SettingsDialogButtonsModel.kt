@@ -17,19 +17,19 @@ abstract class SettingsDialogButtonsModel : EpoxyModelWithHolder<SettingsDialogB
     override fun getDefaultLayout() = R.layout.settings_dialog_buttons
 
     @EpoxyAttribute
-    lateinit var settingsClicked: () -> Unit
+    lateinit var logoutClicked: () -> Unit
 
     @EpoxyAttribute
     lateinit var impressumClicked: () -> Unit
 
     override fun bind(holder: Holder) = holder.run {
-        settingsButton.setOnClickListener { settingsClicked() }
+        logoutButton.setOnClickListener { logoutClicked() }
         impressumButton.setOnClickListener { impressumClicked() }
     }
 
 
     class Holder : KotlinEpoxyHolder() {
-        val settingsButton by bind<Button>(R.id.open_settings)
+        val logoutButton by bind<Button>(R.id.logout)
         val impressumButton by bind<Button>(R.id.impressum)
     }
 }

@@ -18,12 +18,11 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class SettingsOverviewFragment : Fragment(R.layout.fragment_settings_overview) {
 
-    val binding by viewBinding(FragmentSettingsOverviewBinding::bind)
-    val viewModel by viewModels<SettingsOverviewViewModel>()
+    private val binding by viewBinding(FragmentSettingsOverviewBinding::bind)
+    private val viewModel by viewModels<SettingsOverviewViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.logoutButton.setOnClickListener { viewModel.logout() }
         observeEvents()
         Insetter.builder().applySystemWindowInsetsToPadding(Side.TOP).applyToView(view)
     }
@@ -31,10 +30,6 @@ class SettingsOverviewFragment : Fragment(R.layout.fragment_settings_overview) {
     private fun observeEvents() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.events.collect {
-                Do exhaustive when (it) {
-                    LoggedOut -> {
-                    }
-                }
             }
         }
     }
