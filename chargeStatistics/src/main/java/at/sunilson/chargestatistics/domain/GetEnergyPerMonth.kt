@@ -34,6 +34,11 @@ internal class GetEnergyPerMonth @Inject constructor(
                 1f,
                 1f,
                 "Energie pro Monat",
+                yValueFormatter = object :ValueFormatter() {
+                    override fun getAxisLabel(value: Float, axis: AxisBase?): String {
+                        return "${value.toInt()} kWh"
+                    }
+                },
                 xValueFormatter = object : ValueFormatter() {
                     override fun getAxisLabel(value: Float, axis: AxisBase?): String {
                         return LocalDate

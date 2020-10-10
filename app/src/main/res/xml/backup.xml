@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<full-backup-content >
+    <include domain="database" path="vehicleDatabase"/>
+    <include domain="database" path="appointmentsDatabase"/>
+    <include domain="database" path="chargeTrackingDatabase"/>
+    <include domain="database" path="contractsDatabase"/>
+    <include domain="sharedpref" path="ZOE_APP.xml"/>
+</full-backup-content>
