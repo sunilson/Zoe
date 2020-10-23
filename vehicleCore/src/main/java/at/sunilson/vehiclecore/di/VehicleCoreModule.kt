@@ -48,7 +48,7 @@ object VehicleCoreModule {
 
     @Provides
     @Singleton
-    internal fun provideVehicleDao(database: VehicleDatabase) = database.vehicleDao()
+    fun provideVehicleDao(database: VehicleDatabase) = database.vehicleDao()
 
     @Provides
     @Singleton

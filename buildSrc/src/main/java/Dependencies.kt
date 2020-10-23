@@ -51,6 +51,7 @@ object Dependencies {
     const val sunilsonExtensions = "com.github.sunilson:android-kotlin-extensions:0.43"
     const val sunilsonViewModel = "com.github.sunilson:Unidirectional-ViewModel:0.73"
     const val maps = "com.google.android.gms:play-services-maps:17.0.0"
+    const val mapsUtils = "com.google.maps.android:android-maps-utils:2.0.3"
     const val epoxy = "com.airbnb.android:epoxy:3.11.0"
     const val epoxyKapt = "com.airbnb.android:epoxy-processor:3.11.0"
     const val lottie = "com.airbnb.android:lottie:3.4.1"

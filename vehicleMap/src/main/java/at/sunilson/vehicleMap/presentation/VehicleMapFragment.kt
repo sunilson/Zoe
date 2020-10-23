@@ -23,6 +23,7 @@ import at.sunilson.presentationcore.extensions.formatFull
 import at.sunilson.presentationcore.extensions.getThemeColor
 import at.sunilson.vehicleMap.R
 import at.sunilson.vehicleMap.databinding.FragmentVehicleMapBinding
+import at.sunilson.vehicleMap.domain.entities.ReachableArea
 import at.sunilson.vehiclecore.domain.entities.Location
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -33,12 +34,13 @@ import com.google.android.gms.maps.model.JointType
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.Polygon
+import com.google.android.gms.maps.model.PolygonOptions
 import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.applySystemWindowInsetsToMargin
-import dev.chrisbanes.insetter.applySystemWindowInsetsToPadding
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
@@ -54,6 +56,9 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
     private var map: GoogleMap? = null
     private var previousMarker: Marker? = null
     private var previousLine: Polyline? = null
+    private var previousArea: Polygon? = null
+    private var previousReachableArea: ReachableArea? = null
+    private var previousLocations: List<Location>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,6 +78,8 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
 
         binding.refreshFab.applySystemWindowInsetsToMargin(bottom = true)
         binding.backButton.applySystemWindowInsetsToMargin(top = true)
+        binding.centerAreaButton.setOnClickListener { centerReachableArea() }
+        binding.centerCarButton.setOnClickListener { centerCar() }
     }
 
     private fun back() {
@@ -110,6 +117,9 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
             viewModel.state.collect {
                 updateFab(it.loading)
                 drawLocationsLine(it.previousLocations)
+                if (it.reachableArea != null) {
+                    drawReachableArea(it.reachableArea)
+                }
                 binding.refreshFab.text = it.location?.timestamp?.toZonedDateTime()?.formatFull()
                     ?: requireContext().getString(R.string.nothing)
                 setMarkerToLocation(it.location ?: return@collect)
@@ -117,7 +127,44 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
         }
     }
 
+    private fun drawReachableArea(reachableArea: ReachableArea) {
+        if(reachableArea == previousReachableArea) return
+        previousReachableArea = reachableArea
+
+        previousArea?.remove()
+        previousArea = map?.addPolygon(
+            PolygonOptions()
+                .clickable(false)
+                .zIndex(1f)
+                .strokeWidth(5f)
+                .fillColor(requireContext().getThemeColor(R.attr.colorPrimaryLight))
+                .strokeColor(requireContext().getThemeColor(R.attr.colorPrimary))
+                .addAll(reachableArea.coordinates)
+        )
+
+        centerReachableArea()
+    }
+
+    private fun centerReachableArea() {
+        previousReachableArea?.let { reachableArea ->
+            map?.animateCamera(CameraUpdateFactory.newLatLngBounds(reachableArea.boundingBox, 50))
+        }
+    }
+
+    private fun centerCar() {
+        previousMarker?.let {marker ->
+            map?.animateCamera(
+                CameraUpdateFactory.newCameraPosition(
+                    CameraPosition.fromLatLngZoom(marker.position, 14f)
+                )
+            )
+        }
+    }
+
     private fun drawLocationsLine(locations: List<Location>) {
+        if(locations == previousLocations) return
+        previousLocations = locations
+
         previousLine?.remove()
         previousLine = map?.addPolyline(
             PolylineOptions()
@@ -156,16 +203,6 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
                 .position(LatLng(location.lat, location.lng))
                 .zIndex(2f)
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.zoe))
-        )
-        map?.animateCamera(
-            CameraUpdateFactory.newCameraPosition(
-                CameraPosition.fromLatLngZoom(
-                    LatLng(
-                        location.lat,
-                        location.lng
-                    ), 10f
-                )
-            )
         )
     }
 

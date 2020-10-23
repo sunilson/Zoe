@@ -1,8 +1,7 @@
 package at.sunilson.appointments.data
 
-import at.sunilson.appointments.data.models.AppointmentResponse
-import okhttp3.ResponseBody
-import retrofit2.Response
+import at.sunilson.appointments.data.models.network.AppointmentResponse
+import at.sunilson.appointments.data.models.network.ServiceResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -20,5 +19,5 @@ internal interface AppointmentsService {
     suspend fun getServiceHistory(
         @Path("accountId") accountId: String,
         @Path("vin") vin: String
-    ): ResponseBody
+    ): ServiceResponse
 }

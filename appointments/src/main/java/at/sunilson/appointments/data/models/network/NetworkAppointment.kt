@@ -1,4 +1,4 @@
-package at.sunilson.appointments.data.models
+package at.sunilson.appointments.data.models.network
 
 import com.squareup.moshi.JsonClass
 

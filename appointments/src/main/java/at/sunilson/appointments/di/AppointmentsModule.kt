@@ -33,7 +33,11 @@ object AppointmentsModule {
 
     @Provides
     @Singleton
-    internal fun provideVehicleDao(database: AppointmentsDatabase) = database.appointmentsDao()
+    internal fun provideAppointmentsDao(database: AppointmentsDatabase) = database.appointmentsDao()
+
+    @Provides
+    @Singleton
+    internal fun provideServicesDao(database: AppointmentsDatabase) = database.servicesDao()
 
     @Provides
     @Singleton

@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import at.sunilson.appointments.data.models.DatabaseAppointment
+import at.sunilson.appointments.data.models.database.DatabaseAppointment
 import kotlinx.coroutines.flow.Flow
 
 @Dao

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="blue">#6200EE</color>
+    <color name="blue_half_transparent">#4D6200EE</color>
     <color name="blueDark">#3700B3</color>
     <color name="lightGray">#BDBDBD</color>
     <color name="lightGrayHalfAlpha">#80BDBDBD</color>

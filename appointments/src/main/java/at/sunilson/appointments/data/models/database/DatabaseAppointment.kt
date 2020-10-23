@@ -1,4 +1,4 @@
-package at.sunilson.appointments.data.models
+package at.sunilson.appointments.data.models.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

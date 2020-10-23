@@ -6,6 +6,7 @@ import at.sunilson.chargetracking.domain.CreateChargePointParams
 import at.sunilson.chargetracking.domain.CreateVehicleChargePoint
 import at.sunilson.contracts.domain.RefreshContracts
 import at.sunilson.core.usecases.AsyncUseCase
+import at.sunilson.presentationcore.extensions.formatPattern
 import at.sunilson.vehicle.data.VehicleService
 import at.sunilson.vehicle.data.toVehicleList
 import at.sunilson.vehiclecore.data.VehicleCoreService
@@ -18,6 +19,7 @@ import at.sunilson.vehiclecore.domain.entities.Vehicle
 import com.github.kittinunf.result.coroutines.SuspendableResult
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
+import java.time.LocalDate
 import javax.inject.Inject
 
 internal class RefreshAllVehicles @Inject constructor(
@@ -43,7 +45,6 @@ internal class RefreshAllVehicles @Inject constructor(
         //TODO Parallel
         Timber.d("Refreshing vehicles battery status...")
         val enrichedVehicles = newVehicles.map { vehicle ->
-
             val (location, _) = refreshVehicleLocation(vehicle.vin)
 
             val batteryStatus = vehicleCoreService

@@ -2,7 +2,7 @@ package at.sunilson.appointments.domain
 
 import at.sunilson.appointments.data.AppointmentsDao
 import at.sunilson.appointments.data.AppointmentsService
-import at.sunilson.appointments.data.models.DatabaseAppointment
+import at.sunilson.appointments.data.models.database.DatabaseAppointment
 import at.sunilson.appointments.data.toDatabaseEntity
 import at.sunilson.core.usecases.AsyncUseCase
 import at.sunilson.presentationcore.extensions.formatPattern

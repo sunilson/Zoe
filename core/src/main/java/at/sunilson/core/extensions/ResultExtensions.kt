@@ -10,3 +10,8 @@ suspend fun <V, E : Exception> SuspendableResult<V, E>.doOnFailure(block: suspen
             throw this.error
         }
     }
+
+suspend fun <V, E : Exception> SuspendableResult<V, E>.doFinally(block: suspend () -> Unit): SuspendableResult<V, E> {
+    block()
+    return this
+}

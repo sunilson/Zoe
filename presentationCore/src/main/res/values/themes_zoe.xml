@@ -6,6 +6,7 @@
         <item name="colorSurface">@color/white</item>
         <item name="buttonSecondaryBackground">@color/lightGray</item>
         <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryLight">@color/blue_half_transparent</item>
         <item name="colorSecondary">@color/blue</item>
         <item name="colorPrimaryDark">@color/blueDark</item>
         <item name="colorOnSurface">@color/dark_gray</item>

@@ -1,5 +1,6 @@
-package at.sunilson.appointments.data.models
+package at.sunilson.appointments.data.models.network
 
+import at.sunilson.appointments.data.models.network.NetworkAppointment
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)

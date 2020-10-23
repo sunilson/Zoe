@@ -1,7 +1,8 @@
 package at.sunilson.appointments.domain
 
-import at.sunilson.appointments.data.AppointmentsDao
 import at.sunilson.appointments.data.AppointmentsService
+import at.sunilson.appointments.data.ServicesDao
+import at.sunilson.appointments.data.toDatabaseEntity
 import at.sunilson.core.usecases.AsyncUseCase
 import at.sunilson.vehiclecore.domain.VehicleCoreRepository
 import com.github.kittinunf.result.coroutines.SuspendableResult
@@ -14,10 +15,11 @@ class RefreshServiceHistory @Inject constructor(private val vehicleCoreRepositor
     internal lateinit var appointmentsService: AppointmentsService
 
     @Inject
-    internal lateinit var appointmentsDao: AppointmentsDao
+    internal lateinit var servicesDao: ServicesDao
 
     override suspend fun run(params: String) = SuspendableResult.of<Unit, Exception> {
         val response =
             appointmentsService.getServiceHistory(vehicleCoreRepository.kamereonAccountID, params)
+        servicesDao.insertServices(response.services.map { it.toDatabaseEntity(params) })
     }
 }

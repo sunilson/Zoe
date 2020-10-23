@@ -4,6 +4,7 @@ import at.sunilson.core.usecases.FlowUseCase
 import at.sunilson.vehiclecore.data.VehicleDao
 import at.sunilson.vehiclecore.data.toEntity
 import at.sunilson.vehiclecore.domain.entities.Location
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
@@ -16,9 +17,10 @@ class GetSelectedVehicleLocation @Inject constructor(
     override fun run(params: Unit) = getSelectedVehicle(Unit)
         .flatMapLatest { vehicle ->
             if (vehicle != null) {
-                vehicleDao.getVehicleLocation(vehicle?.vin).map { it?.toEntity() }
+                vehicleDao.getVehicleLocation(vehicle.vin).map { it?.toEntity() }
             } else {
                 flowOf()
             }
         }
+        .distinctUntilChanged()
 }
