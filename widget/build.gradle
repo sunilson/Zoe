@@ -20,8 +20,10 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation(project(":presentationCore"))
     implementation(project(":vehicleCore"))
+    implementation(project(":vehicleMap"))
     implementation(project(":core"))
     implementation(Dependencies.hilt)
+    implementation(Dependencies.maps)
     kapt(Dependencies.hiltKapt)
     kapt(Dependencies.hiltKaptJetpack)
 }

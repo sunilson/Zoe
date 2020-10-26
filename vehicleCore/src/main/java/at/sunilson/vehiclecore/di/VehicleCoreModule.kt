@@ -9,6 +9,7 @@ import at.sunilson.vehiclecore.data.VehicleCoreService
 import at.sunilson.vehiclecore.data.VehicleDatabase
 import at.sunilson.vehiclecore.data.ZoeDatabase
 import at.sunilson.vehiclecore.data.models.MIGRATION_6_7
+import at.sunilson.vehiclecore.data.models.MIGRATION_7_8
 import at.sunilson.vehiclecore.domain.VehicleCoreRepository
 import dagger.Binds
 import dagger.Module
@@ -39,6 +40,7 @@ object VehicleCoreModule {
     internal fun provideDatabase(@ApplicationContext context: Context): VehicleDatabase = Room
         .databaseBuilder(context, VehicleDatabase::class.java, "vehicleDatabase")
         .addMigrations(MIGRATION_6_7)
+        .addMigrations(MIGRATION_7_8)
         //.fallbackToDestructiveMigration()
         .build()
 

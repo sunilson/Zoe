@@ -38,6 +38,3 @@ fun LocationResponse.toEntity() =
             .toInstant()
             .toEpochMilli()
     )
-
-fun Location.toDatabaseEntity(vin: String) = DatabaseLocation(vin, lat, lng, timestamp)
-fun DatabaseLocation.toEntity() = Location(lat, lng, timestamp)

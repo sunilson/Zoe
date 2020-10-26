@@ -3,7 +3,7 @@ package at.sunilson.vehicleDetails.presentation.epoxy.models
 import android.widget.ImageView
 import at.sunilson.presentationcore.epoxy.KotlinEpoxyHolder
 import at.sunilson.vehicleDetails.R
-import coil.api.load
+import coil.load
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder

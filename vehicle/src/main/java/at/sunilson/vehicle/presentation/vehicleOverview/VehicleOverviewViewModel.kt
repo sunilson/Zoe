@@ -17,8 +17,6 @@ import at.sunilson.vehicle.domain.StartCharging
 import at.sunilson.vehicle.domain.StartClimateControl
 import at.sunilson.vehicle.domain.entities.ChargeProcedure
 import at.sunilson.vehiclecore.domain.GetSelectedVehicle
-import at.sunilson.vehiclecore.domain.GetSelectedVehicleLocation
-import at.sunilson.vehiclecore.domain.entities.Location
 import at.sunilson.vehiclecore.domain.entities.Vehicle
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
@@ -30,8 +28,6 @@ data class VehicleOverviewState(
     val loading: Boolean = false,
     @Persist
     val selectedVehicle: Vehicle? = null,
-    @Persist
-    val vehicleLocation: Location? = null,
     val currentChargeProcedure: ChargeProcedure? = null,
     val nextAppointment: Appointment? = null,
     val nextContract: Contract? = null
@@ -52,7 +48,6 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
     private val refreshAllVehicles: RefreshAllVehicles,
     private val startClimateControlUseCase: StartClimateControl,
     private val startChargingUseCase: StartCharging,
-    private val getSelectedVehicleLocation: GetSelectedVehicleLocation,
     private val getSelectedVehicleCurrentChargeProcedure: GetSelectedVehicleCurrentChargeProcedure,
     private val getNearestAppointment: GetNearestAppointment,
     private val getNearestExpiringContract: GetNearestExpiringContract,
@@ -118,16 +113,8 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
     }
 
 
-    fun showVehicleLocation() {
-        getState { it.selectedVehicle?.let { vehicle -> sendEvent(ShowVehicleLocation(vehicle.vin)) } }
-    }
-
     fun showChargeStatistics() {
         getState { it.selectedVehicle?.let { vehicle -> sendEvent(ShowChargeStatistics(vehicle.vin)) } }
-    }
-
-    fun showVehicleStatistics() {
-        getState { it.selectedVehicle?.let { vehicle -> sendEvent(ShowVehicleStatistics(vehicle.vin)) } }
     }
 
     fun showVehicleDetails() {
@@ -153,13 +140,6 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
                 } else {
                     setState { copy(selectedVehicle = it) }
                 }
-            }
-        }
-
-        locationJob?.cancel()
-        locationJob = viewModelScope.launch {
-            getSelectedVehicleLocation(Unit).collect {
-                setState { copy(vehicleLocation = it) }
             }
         }
 

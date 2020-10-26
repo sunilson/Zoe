@@ -1,3 +1,3 @@
 -keepnames class androidx.navigation.fragment.NavHostFragment
--keep class com.google.android.gms.maps.** { *; }
--keep interface com.google.android.gms.maps.** { *; }
+-keep class com.google.android.libraries.maps.** { *; }
+-keep interface com.google.android.libraries.maps.** { *; }

@@ -60,7 +60,7 @@ import at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models.vehicleDeta
 import at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models.vehicleLocationWidget
 import at.sunilson.vehiclecore.domain.entities.Vehicle
 import at.sunilson.vehiclecore.presentation.extensions.displayName
-import coil.api.load
+import coil.load
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.transition.Hold
 import dagger.hilt.android.AndroidEntryPoint
@@ -379,11 +379,11 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
                 currentChargeProcedure(state.currentChargeProcedure)
             }
 
-            if (state.vehicleLocation != null) {
+            if (vehicle.location != null) {
                 vehicleLocationWidget {
                     id("vehicleLocationWidget")
                     vehicle(vehicle)
-                    location(state.vehicleLocation)
+                    location(vehicle.location)
                     onMapClick { showVehicleLocation(it) }
                 }
             }

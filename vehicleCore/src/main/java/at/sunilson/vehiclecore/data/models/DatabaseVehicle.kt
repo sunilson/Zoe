@@ -18,3 +18,9 @@ val MIGRATION_6_7 = object : Migration(6, 7) {
         database.execSQL("ALTER TABLE DatabaseVehicle ADD COLUMN vehicleannualMileage INTEGER NOT NULL DEFAULT 0")
     }
 }
+
+val MIGRATION_7_8 = object : Migration(7, 8) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        database.execSQL("ALTER TABLE DatabaseVehicle ADD COLUMN vehiclelocation TEXT DEFAULT NULL")
+    }
+}

@@ -16,6 +16,9 @@ abstract class VehicleDao {
     @Query("SELECT * FROM DatabaseVehicle WHERE vin = :id")
     abstract fun getVehicle(id: String): Flow<DatabaseVehicle?>
 
+    @Query("SELECT * FROM DatabaseVehicle WHERE vin = :id")
+    abstract suspend fun getVehicleOnce(id: String): DatabaseVehicle?
+
     @Query("SELECT * FROM DatabaseVehicle")
     abstract fun getAllVehicles(): Flow<List<DatabaseVehicle>>
 
@@ -24,12 +27,6 @@ abstract class VehicleDao {
 
     @Update(onConflict = OnConflictStrategy.IGNORE)
     protected abstract suspend fun updateVehicles(databaseVehicles: List<DatabaseVehicle>)
-
-    @Query("SELECT * FROM DatabaseLocation WHERE vin = :vin")
-    abstract fun getVehicleLocation(vin: String): Flow<DatabaseLocation?>
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insertVehicleLocation(databaseLocation: DatabaseLocation)
 
     @Transaction
     open suspend fun upsertVehicles(databaseVehicles: List<DatabaseVehicle>) {

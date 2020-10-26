@@ -11,17 +11,17 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View.GONE
 import android.widget.RemoteViews
-import at.sunilson.vehiclecore.data.VehicleDao
-import at.sunilson.vehiclecore.data.toEntity
+import at.sunilson.vehiclecore.domain.GetSelectedVehicle
 import at.sunilson.vehiclecore.domain.VehicleCoreRepository
 import at.sunilson.vehiclecore.domain.entities.Vehicle
 import at.sunilson.vehiclecore.presentation.extensions.displayName
 import coil.Coil
-import coil.request.GetRequest
+import coil.request.ImageRequest
 import coil.request.SuccessResult
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -29,15 +29,13 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class VehicleWidgetProvider : AppWidgetProvider() {
 
+    private var updateJob: Job? = null
+
     @Inject
     lateinit var vehicleCoreRepository: VehicleCoreRepository
 
     @Inject
-    lateinit var vehicleDao: VehicleDao
-
-    override fun onReceive(context: Context, intent: Intent) {
-        super.onReceive(context, intent)
-    }
+    lateinit var getSelectedVehicle: GetSelectedVehicle
 
     override fun onAppWidgetOptionsChanged(
         context: Context,
@@ -64,11 +62,9 @@ class VehicleWidgetProvider : AppWidgetProvider() {
         appWidgetManager: AppWidgetManager?,
         appWidgetIds: IntArray?
     ) {
-        CoroutineScope(Dispatchers.Main).launch {
-            val selectedVehicle = vehicleCoreRepository.selectedVehicle ?: return@launch
-            val vehicle =
-                vehicleDao.getVehicle(selectedVehicle).first()?.toEntity() ?: return@launch
-
+        updateJob?.cancel()
+        updateJob = GlobalScope.launch(Dispatchers.Main) {
+            val vehicle = getSelectedVehicle(Unit).first() ?: return@launch
             appWidgetIds?.forEach { widgetId ->
                 val remoteViews = RemoteViews(context.packageName, R.layout.vehicle_widget_layout)
                 remoteViews.setTexts(context, vehicle)
@@ -97,7 +93,7 @@ class VehicleWidgetProvider : AppWidgetProvider() {
     }
 
     private suspend fun RemoteViews.loadVehicleImage(context: Context, vehicle: Vehicle) {
-        val request = GetRequest.Builder(context)
+        val request = ImageRequest.Builder(context)
             .data(vehicle.imageUrl)
             .allowHardware(false)
             .build()

@@ -21,7 +21,8 @@ data class Vehicle(
     val gearBox: String,
     val yearsOfMaintainance: Int,
     val connectivityTechnology: String,
-    val annualMileage: Int
+    val annualMileage: Int,
+    val location: Location?
 ) : Serializable {
     @JsonClass(generateAdapter = true)
     @Keep

@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import androidx.activity.addCallback
+import androidx.core.graphics.ColorUtils
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -25,19 +26,21 @@ import at.sunilson.vehicleMap.R
 import at.sunilson.vehicleMap.databinding.FragmentVehicleMapBinding
 import at.sunilson.vehicleMap.domain.entities.ReachableArea
 import at.sunilson.vehiclecore.domain.entities.Location
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.JointType
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.Polygon
-import com.google.android.gms.maps.model.PolygonOptions
-import com.google.android.gms.maps.model.Polyline
-import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.libraries.maps.CameraUpdateFactory
+import com.google.android.libraries.maps.GoogleMap
+import com.google.android.libraries.maps.SupportMapFragment
+import com.google.android.libraries.maps.model.BitmapDescriptorFactory
+import com.google.android.libraries.maps.model.CameraPosition
+import com.google.android.libraries.maps.model.JointType
+import com.google.android.libraries.maps.model.LatLng
+import com.google.android.libraries.maps.model.Marker
+import com.google.android.libraries.maps.model.MarkerOptions
+import com.google.android.libraries.maps.model.Polygon
+import com.google.android.libraries.maps.model.PolygonOptions
+import com.google.android.libraries.maps.model.Polyline
+import com.google.android.libraries.maps.model.PolylineOptions
+import com.google.android.libraries.maps.model.StrokeStyle
+import com.google.android.libraries.maps.model.StyleSpan
 import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.applySystemWindowInsetsToMargin
@@ -128,7 +131,7 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
     }
 
     private fun drawReachableArea(reachableArea: ReachableArea) {
-        if(reachableArea == previousReachableArea) return
+        if (reachableArea == previousReachableArea) return
         previousReachableArea = reachableArea
 
         previousArea?.remove()
@@ -152,7 +155,7 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
     }
 
     private fun centerCar() {
-        previousMarker?.let {marker ->
+        previousMarker?.let { marker ->
             map?.animateCamera(
                 CameraUpdateFactory.newCameraPosition(
                     CameraPosition.fromLatLngZoom(marker.position, 14f)
@@ -162,8 +165,10 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
     }
 
     private fun drawLocationsLine(locations: List<Location>) {
-        if(locations == previousLocations) return
+        if (locations == previousLocations) return
         previousLocations = locations
+
+        val primaryColor = requireContext().getThemeColor(R.attr.colorPrimary)
 
         previousLine?.remove()
         previousLine = map?.addPolyline(
@@ -174,6 +179,14 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
                 .jointType(JointType.ROUND)
                 .color(requireContext().getThemeColor(R.attr.colorPrimary))
                 .addAll(locations.map { LatLng(it.lat, it.lng) })
+                .addSpan(
+                    StyleSpan(
+                        StrokeStyle.gradientBuilder(
+                            ColorUtils.setAlphaComponent(primaryColor, 0),
+                            primaryColor
+                        ).build()
+                    )
+                )
         )
     }
 

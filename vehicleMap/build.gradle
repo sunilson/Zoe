@@ -25,9 +25,9 @@ dependencies {
     implementation(project(":chargeTracking"))
     implementation(project(":core"))
     implementation(project(":vehicleCore"))
+    implementation(Dependencies.maps)
     implementation(Dependencies.lottie)
     implementation(Dependencies.hilt)
-    implementation(Dependencies.maps)
     implementation(Dependencies.mapsUtils)
 
     kapt(Dependencies.moshiKapt)

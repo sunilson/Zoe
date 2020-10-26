@@ -6,11 +6,10 @@ import at.sunilson.core.extensions.doOnFailure
 import at.sunilson.unidirectionalviewmodel.core.UniDirectionalViewModel
 import at.sunilson.vehicleMap.domain.GetReachableArea
 import at.sunilson.vehicleMap.domain.GetVehicleLocations
+import at.sunilson.vehicleMap.domain.RefreshVehicleLocation
 import at.sunilson.vehicleMap.domain.entities.ReachableArea
-import at.sunilson.vehiclecore.domain.GetSelectedVehicleLocation
-import at.sunilson.vehiclecore.domain.RefreshVehicleLocation
+import at.sunilson.vehiclecore.domain.GetSelectedVehicle
 import at.sunilson.vehiclecore.domain.entities.Location
-import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -27,7 +26,7 @@ internal class VehicleMapEvents
 
 internal class VehicleMapViewModel @ViewModelInject constructor(
     private val refreshVehicleLocation: RefreshVehicleLocation,
-    private val getVehicleLocation: GetSelectedVehicleLocation,
+    private val getSelectedVehicle: GetSelectedVehicle,
     private val getVehicleLocations: GetVehicleLocations,
     private val getReachableArea: GetReachableArea
 ) : UniDirectionalViewModel<VehicleMapState, VehicleMapEvents>(VehicleMapState()) {
@@ -36,8 +35,8 @@ internal class VehicleMapViewModel @ViewModelInject constructor(
 
     init {
         viewModelScope.launch {
-            getVehicleLocation(Unit).collect { location ->
-                setState { copy(location = location) }
+            getSelectedVehicle(Unit).collect { vehicle ->
+                setState { copy(location = vehicle?.location) }
             }
         }
 

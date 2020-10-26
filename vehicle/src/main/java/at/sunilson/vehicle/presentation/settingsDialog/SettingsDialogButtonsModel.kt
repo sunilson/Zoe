@@ -6,7 +6,7 @@ import android.widget.TextView
 import at.sunilson.presentationcore.epoxy.KotlinEpoxyHolder
 import at.sunilson.vehicle.R
 import at.sunilson.vehiclecore.domain.entities.Vehicle
-import coil.api.load
+import coil.load
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
