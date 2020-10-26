@@ -57,6 +57,7 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+            <Transform android:rotation="180" />
             <PropertySet android:alpha="0" />
         </Constraint>
 
