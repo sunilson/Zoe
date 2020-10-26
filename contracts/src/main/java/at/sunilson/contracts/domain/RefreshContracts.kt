@@ -20,6 +20,6 @@ class RefreshContracts @Inject constructor(private val vehicleCoreRepository: Ve
     override suspend fun run(params: String) = SuspendableResult.of<Unit, Exception> {
         val contracts =
             contractsService.getContracts(vehicleCoreRepository.kamereonAccountID, params)
-        contractsDao.insertContracts(contracts.map { it.toDatabaseEntity(params) })
+        contractsDao.insertAndDeleteContracts(contracts.map { it.toDatabaseEntity(params) })
     }
 }
