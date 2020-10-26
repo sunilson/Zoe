@@ -3,6 +3,7 @@ package at.sunilson.appointments.presentation.appointments
 import android.content.Intent
 import android.os.Bundle
 import android.provider.CalendarContract
+import android.util.Log
 import android.view.View
 import android.view.animation.OvershootInterpolator
 import android.widget.Toast
@@ -19,6 +20,7 @@ import at.sunilson.ktx.context.showToast
 import at.sunilson.presentationcore.ViewpagerFragmentParentWithHeaderAnimation
 import at.sunilson.presentationcore.base.viewBinding
 import at.sunilson.presentationcore.extensions.formatPattern
+import at.sunilson.presentationcore.extensions.syncProgressDialogVisibility
 import dagger.hilt.android.AndroidEntryPoint
 import jp.wasabeef.recyclerview.animators.ScaleInAnimator
 import kotlinx.coroutines.delay
@@ -92,16 +94,23 @@ internal class AppointmentsFragment private constructor() :
     private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             viewModel.state.collect {
+                syncProgressDialogVisibility(it.changing)
                 binding.refreshLayout.isRefreshing = it.loading
-                renderList(it.appointments)
+                renderList(it.appointments, it.annualMileage)
             }
         }
     }
 
-    private fun renderList(appointments: List<Appointment>) {
+    private fun renderList(appointments: List<Appointment>, annualMileage: Int) {
         binding.recyclerView.withModels {
 
             var previousAppointment: Appointment? = null
+
+            appointmentsMileageSlider {
+                id("slider")
+                annualMileage(annualMileage)
+                sliderValueChanged { viewModel.updateVehicleMileage(it, vin) }
+            }
 
             appointments.forEachIndexed { index, appointment ->
                 appointmentListItem {

@@ -19,7 +19,7 @@ abstract class VehicleListItemModel : EpoxyModelWithHolder<VehicleListItemModel.
     @EpoxyAttribute
     lateinit var vehicle: Vehicle
 
-    @EpoxyAttribute
+    @EpoxyAttribute(hash = false)
     lateinit var onVehicleClick: (String) -> Unit
 
     override fun bind(holder: Holder) = holder.run {

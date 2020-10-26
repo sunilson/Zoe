@@ -20,7 +20,7 @@ abstract class VehicleDetailsWidgetModel :
     @EpoxyAttribute
     lateinit var vehicle: Vehicle
 
-    @EpoxyAttribute
+    @EpoxyAttribute(hash = false)
     lateinit var onButtonClick: (Vehicle) -> Unit
 
     override fun bind(holder: Holder) = holder.run {

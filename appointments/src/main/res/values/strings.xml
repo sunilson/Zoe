@@ -2,4 +2,5 @@
 <resources>
     <string name="appointments">Termine</string>
     <string name="history">Services</string>
+    <string name="annual_mileage">Jährliche Kilometer</string>
 </resources>

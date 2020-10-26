@@ -20,6 +20,6 @@ internal class GetAllAppointments @Inject constructor(private val appointmentsDa
                     },
                     dbAppointment.label
                 )
-            }.filter { it.date.isAfter(LocalDate.now()) }.sortedBy { it.date }
+            }.sortedBy { it.date }
         }
 }

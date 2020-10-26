@@ -14,10 +14,10 @@ abstract class ClimateControlWidgetModel :
 
     override fun getDefaultLayout() = R.layout.climate_control_widget
 
-    @EpoxyAttribute
+    @EpoxyAttribute(hash = false)
     lateinit var startClimateControlClicked: () -> Unit
 
-    @EpoxyAttribute
+    @EpoxyAttribute(hash = false)
     lateinit var planClimateControlClicked: () -> Unit
 
     override fun bind(holder: Holder) {

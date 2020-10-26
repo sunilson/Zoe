@@ -12,10 +12,10 @@ abstract class StatisticsWidgetModel : EpoxyModelWithHolder<StatisticsWidgetMode
 
     override fun getDefaultLayout() = R.layout.statistics_widget
 
-    @EpoxyAttribute
+    @EpoxyAttribute(hash = false)
     lateinit var onChargeClick: () -> Unit
 
-    @EpoxyAttribute
+    @EpoxyAttribute(hash = false)
     lateinit var onHvacClick: () -> Unit
 
     override fun bind(holder: Holder) = holder.run {

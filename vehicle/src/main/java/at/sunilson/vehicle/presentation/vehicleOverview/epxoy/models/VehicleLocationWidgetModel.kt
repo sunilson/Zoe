@@ -30,10 +30,9 @@ abstract class VehicleLocationWidgetModel :
     @EpoxyAttribute
     var location: Location? = null
 
-    @EpoxyAttribute
+    @EpoxyAttribute(hash = false)
     lateinit var onMapClick: (String) -> Unit
 
-    private val map: GoogleMap? = null
     private var previousMarker: Marker? = null
 
     override fun bind(holder: Holder) {

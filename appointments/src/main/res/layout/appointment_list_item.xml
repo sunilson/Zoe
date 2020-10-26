@@ -47,6 +47,7 @@
                     android:id="@+id/subtitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
                     android:textAppearance="?textAppearanceSubtitle1"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Juni 2021" />
@@ -57,10 +58,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:layout_marginTop="12dp"
                     android:text="Kalender"
                     app:icon="@drawable/ic_baseline_add_24" />
         </LinearLayout>
+
+        <FrameLayout
+                android:id="@+id/disabled_overlay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#80FFFFFF"
+                android:clickable="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:visibility="gone" />
 
     </com.google.android.material.card.MaterialCardView>
 </LinearLayout>

@@ -40,6 +40,6 @@ class RefreshAppointments @Inject constructor(
             }
         }
 
-        appointmentsDao.insertAppointments(appointments)
+        appointmentsDao.insertAndDeleteAppointments(appointments)
     }
 }

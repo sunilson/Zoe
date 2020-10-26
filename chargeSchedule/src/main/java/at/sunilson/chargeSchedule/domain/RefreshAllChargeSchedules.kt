@@ -1,7 +1,6 @@
 package at.sunilson.chargeSchedule.domain
 
 import at.sunilson.chargeSchedule.data.ChargeScheduleDatabase
-import at.sunilson.scheduleCore.data.ScheduleDao
 import at.sunilson.chargeSchedule.data.ChargeScheduleService
 import at.sunilson.core.usecases.AsyncUseCase
 import at.sunilson.scheduleCore.data.toDatabaseEntity
@@ -32,9 +31,10 @@ internal class RefreshAllChargeSchedules @Inject constructor(
 
             result.data.attributes.schedules.map { it.toEntity(chargeType) }
                 .also { chargeSchedules ->
-                    scheduleDatabase.chargeScheduleDao().insertSchedules(chargeSchedules.map {
-                        it.toDatabaseEntity(params)
-                    })
+                    scheduleDatabase.chargeScheduleDao()
+                        .insertAndDeleteSchedules(chargeSchedules.map {
+                            it.toDatabaseEntity(params)
+                        })
                 }
         }
 }

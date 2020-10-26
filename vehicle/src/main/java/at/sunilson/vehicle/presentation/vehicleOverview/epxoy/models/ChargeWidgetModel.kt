@@ -24,10 +24,10 @@ abstract class ChargeWidgetModel : EpoxyModelWithHolder<ChargeWidgetModel.Holder
     @EpoxyAttribute
     var currentChargeProcedure: ChargeProcedure? = null
 
-    @EpoxyAttribute
+    @EpoxyAttribute(hash = false)
     lateinit var chargeScheduleClicked: () -> Unit
 
-    @EpoxyAttribute
+    @EpoxyAttribute(hash = false)
     lateinit var chargeNowClicked: () -> Unit
 
     override fun bind(holder: Holder) = holder.run {

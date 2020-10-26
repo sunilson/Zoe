@@ -10,6 +10,8 @@ import androidx.core.view.doOnLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import at.sunilson.presentationcore.R
+import at.sunilson.presentationcore.base.ProgressDialogFragment
+import timber.log.Timber
 
 fun Fragment.setupHeaderAnimation(
     container: View,
@@ -58,3 +60,27 @@ fun Context.getThemeColor(@AttrRes res: Int): Int {
     theme.resolveAttribute(res, typedValue, true)
     return typedValue.data
 }
+
+const val PROGRESS_DIALOG_FRAGMENT_TAG = "PROGRESS_DIALOG_FRAGMENT_TAG"
+
+private val Fragment.existingProgressDialog
+    get() = childFragmentManager.findFragmentByTag(PROGRESS_DIALOG_FRAGMENT_TAG) as? ProgressDialogFragment
+
+fun Fragment.syncProgressDialogVisibility(show: Boolean = true) =
+    if (show) showProgressDialog() else hideProgressDialog()
+
+private fun Fragment.showNewProgressDialog() {
+    ProgressDialogFragment().apply { isCancelable = false }
+        .show(childFragmentManager, PROGRESS_DIALOG_FRAGMENT_TAG)
+    childFragmentManager.executePendingTransactions()
+}
+
+fun Fragment.showProgressDialog() {
+    val existing = existingProgressDialog ?: return showNewProgressDialog()
+    if (existing.isAdded) return
+    // After some testing we assume this does not happen.
+    // If it does we are save not showing the blocking dialog in these cases.
+    Timber.tag(PROGRESS_DIALOG_FRAGMENT_TAG).w("Not added ProgressDialog is still on backstack.")
+}
+
+fun Fragment.hideProgressDialog() = existingProgressDialog?.run { if (isAdded) dismiss() }

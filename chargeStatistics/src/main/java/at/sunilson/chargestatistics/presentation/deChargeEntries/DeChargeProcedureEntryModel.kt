@@ -23,7 +23,7 @@ abstract class DeChargeProcedureEntryModel :
     @EpoxyAttribute
     var sectionHeader: String? = null
 
-    @EpoxyAttribute
+    @EpoxyAttribute(hash = false)
     lateinit var onItemClick: (View) -> Unit
 
     override fun bind(holder: Holder) = holder.run {

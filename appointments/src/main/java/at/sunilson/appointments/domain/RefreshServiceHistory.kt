@@ -20,6 +20,6 @@ class RefreshServiceHistory @Inject constructor(private val vehicleCoreRepositor
     override suspend fun run(params: String) = SuspendableResult.of<Unit, Exception> {
         val response =
             appointmentsService.getServiceHistory(vehicleCoreRepository.kamereonAccountID, params)
-        servicesDao.insertServices(response.services.map { it.toDatabaseEntity(params) })
+        servicesDao.insertAndDeleteServices(response.services.map { it.toDatabaseEntity(params) })
     }
 }

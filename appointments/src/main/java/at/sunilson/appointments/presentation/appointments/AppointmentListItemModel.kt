@@ -1,6 +1,7 @@
 package at.sunilson.appointments.presentation.appointments
 
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.core.view.isVisible
 import at.sunilson.appointments.R
@@ -23,7 +24,7 @@ internal abstract class AppointmentListItemModel :
     @EpoxyAttribute
     lateinit var appointment: Appointment
 
-    @EpoxyAttribute
+    @EpoxyAttribute(hash = false)
     lateinit var addToCalendar: (Appointment) -> Unit
 
     override fun bind(holder: Holder) = holder.run {
@@ -33,6 +34,7 @@ internal abstract class AppointmentListItemModel :
         calendarButton.setOnClickListener { addToCalendar(appointment) }
         header.isVisible = headline != null
         header.text = headline
+        disabledOverlay.isVisible = !appointment.upcoming
     }
 
     class Holder : KotlinEpoxyHolder() {
@@ -40,5 +42,6 @@ internal abstract class AppointmentListItemModel :
         val title by bind<TextView>(R.id.title)
         val subTitle by bind<TextView>(R.id.subtitle)
         val header by bind<TextView>(R.id.section_header)
+        val disabledOverlay by bind<FrameLayout>(R.id.disabled_overlay)
     }
 }

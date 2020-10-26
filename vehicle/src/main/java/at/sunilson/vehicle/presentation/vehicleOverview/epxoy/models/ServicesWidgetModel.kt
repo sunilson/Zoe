@@ -24,10 +24,10 @@ abstract class ServicesWidgetModel :
     @EpoxyAttribute
     var contract: Contract? = null
 
-    @EpoxyAttribute
+    @EpoxyAttribute(hash = false)
     lateinit var allAppointmentsClicked: () -> Unit
 
-    @EpoxyAttribute
+    @EpoxyAttribute(hash = false)
     lateinit var allContractsClicked: () -> Unit
 
     override fun bind(holder: Holder) = holder.run {

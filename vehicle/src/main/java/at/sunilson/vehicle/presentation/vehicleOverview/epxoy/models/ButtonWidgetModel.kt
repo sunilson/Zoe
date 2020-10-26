@@ -15,7 +15,7 @@ abstract class ButtonWidgetModel : EpoxyModelWithHolder<ButtonWidgetModel.Holder
     @EpoxyAttribute
     lateinit var buttonText: String
 
-    @EpoxyAttribute
+    @EpoxyAttribute(hash = false)
     lateinit var onClick: () -> Unit
 
     override fun bind(holder: Holder) = holder.run {
