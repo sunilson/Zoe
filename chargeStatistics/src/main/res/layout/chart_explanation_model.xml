@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
     <TextView
             android:layout_width="match_parent"
@@ -13,4 +14,4 @@
             android:text="@string/graph_explanation"
             android:textAppearance="?textAppearanceBody1" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

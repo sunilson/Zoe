@@ -21,6 +21,7 @@
                 app:cameraTargetLat="40.730610"
                 app:cameraTargetLng="-73.935242"
                 app:cameraZoom="13"
+                app:layout_constraintTop_toTopOf="parent"
                 app:liteMode="true"
                 app:mapType="normal"
                 app:uiCompass="false"
@@ -30,9 +31,9 @@
                 android:id="@+id/timestamp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?textAppearanceSubtitle2"
                 android:background="@drawable/location_timestamp_background"
                 android:padding="8dp"
+                android:textAppearance="?textAppearanceSubtitle2"
                 android:textColor="@android:color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toRightOf="parent" />
