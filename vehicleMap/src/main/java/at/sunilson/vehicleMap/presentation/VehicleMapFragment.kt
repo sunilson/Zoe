@@ -21,10 +21,14 @@ import at.sunilson.ktx.fragment.useLightNavigationBarIcons
 import at.sunilson.ktx.fragment.useLightStatusBarIcons
 import at.sunilson.presentationcore.base.viewBinding
 import at.sunilson.presentationcore.extensions.formatFull
+import at.sunilson.presentationcore.extensions.formatPattern
 import at.sunilson.presentationcore.extensions.getThemeColor
 import at.sunilson.vehicleMap.R
+import at.sunilson.vehicleMap.databinding.ChargingStationInfoWindowContentBinding
 import at.sunilson.vehicleMap.databinding.FragmentVehicleMapBinding
+import at.sunilson.vehicleMap.domain.entities.ChargingStation
 import at.sunilson.vehicleMap.domain.entities.ReachableArea
+import at.sunilson.vehicleMap.domain.position
 import at.sunilson.vehiclecore.domain.entities.Location
 import com.google.android.libraries.maps.CameraUpdateFactory
 import com.google.android.libraries.maps.GoogleMap
@@ -57,11 +61,12 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
         get() = childFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
 
     private var map: GoogleMap? = null
+    private val charingStationMarkers = mutableListOf<Marker>()
     private var previousMarker: Marker? = null
     private var previousLine: Polyline? = null
     private var previousArea: Polygon? = null
     private var previousReachableArea: ReachableArea? = null
-    private var previousLocations: List<Location>? = null
+    private var cachedChargingStations: List<ChargingStation> = listOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,6 +86,7 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
 
         binding.refreshFab.applySystemWindowInsetsToMargin(bottom = true)
         binding.backButton.applySystemWindowInsetsToMargin(top = true)
+        binding.chargingStationButton.setOnClickListener { viewModel.toggleChargingStations() }
         binding.centerAreaButton.setOnClickListener { centerReachableArea() }
         binding.centerCarButton.setOnClickListener { centerCar() }
     }
@@ -96,11 +102,31 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
     }
 
     private fun setupMap() {
-        mapFragment?.getMapAsync {
+        mapFragment?.getMapAsync { map ->
+            map.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
+                override fun getInfoWindow(p0: Marker): View? = null
+                override fun getInfoContents(marker: Marker): View? {
+                    val chargingStation =
+                        cachedChargingStations
+                            .firstOrNull { it.location == marker.position }
+                            ?: return null
+                    val binding =
+                        ChargingStationInfoWindowContentBinding.inflate(layoutInflater, null, false)
+                    binding.name.text = chargingStation.name
+                    binding.freeSpaces.text = "Freie Plätze: ${chargingStation.availableSpots}"
+                    binding.address.text = chargingStation.address
+                    binding.openingTimes.text = chargingStation.openingTimes.joinToString {
+                        "${it.dayOfWeek.formatPattern("EEEE")}: ${it.startTime} - ${it.endTime}${System.lineSeparator()}"
+                    }
+                    binding.paymentModes.text = chargingStation.paymentModes.joinToString {
+                        "\u2022 $it${System.lineSeparator()}"
+                    }
+                    return binding.root
+                }
+            })
             startPostponedEnterTransition()
-            map = it
+            this.map = map
             viewModel.refreshPosition(args.vin)
-            viewModel.loadLocationList(args.vin)
         }
     }
 
@@ -117,9 +143,22 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
 
     private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            viewModel.chargingStations.collect {
+                drawChargingLocations(it)
+                cachedChargingStations = it
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            viewModel.loadLocationList(args.vin).collect {
+                drawLocationsLine(it)
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             viewModel.state.collect {
-                updateFab(it.loading)
-                drawLocationsLine(it.previousLocations)
+                binding.chargingStationButton.isEnabled = !it.loadingChargingStations
+                updateVehicleFab(it.loading)
                 if (it.reachableArea != null) {
                     drawReachableArea(it.reachableArea)
                 }
@@ -144,8 +183,6 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
                 .strokeColor(requireContext().getThemeColor(R.attr.colorPrimary))
                 .addAll(reachableArea.coordinates)
         )
-
-        centerReachableArea()
     }
 
     private fun centerReachableArea() {
@@ -164,10 +201,27 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
         }
     }
 
-    private fun drawLocationsLine(locations: List<Location>) {
-        if (locations == previousLocations) return
-        previousLocations = locations
+    private fun drawChargingLocations(locations: List<ChargingStation>) {
+        val map = map ?: return
+        locations
+            .filter { station -> charingStationMarkers.none { it.position == station.location } }
+            .forEach { station ->
+                station.location?.let {
+                    charingStationMarkers.add(
+                        map.addMarker(
+                            MarkerOptions()
+                                .position(it)
+                                .zIndex(1f)
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.charging_station_pin))
+                                .anchor(0.5f, 1f)
+                        )
+                    )
+                }
+            }
+    }
 
+    private fun drawLocationsLine(locations: List<Location>) {
+        if (locations.isEmpty()) return
         val primaryColor = requireContext().getThemeColor(R.attr.colorPrimary)
 
         previousLine?.remove()
@@ -190,7 +244,7 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
         )
     }
 
-    private fun updateFab(loading: Boolean) {
+    private fun updateVehicleFab(loading: Boolean) {
         if (loading) {
             binding.refreshFab.shrink()
             binding.refreshFab.setIconResource(R.drawable.animated_refresher)
@@ -206,17 +260,36 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
             binding.refreshFab.extend()
             binding.refreshFab.setIconResource(R.drawable.ic_baseline_refresh_24)
         }
+
         binding.refreshFab.isEnabled = !loading
     }
 
-    private fun setMarkerToLocation(location: Location) {
+    private fun setMarkerToLocation(location: Location) = map?.let { map ->
+        if (previousMarker?.position == location.position) return@let
+
         previousMarker?.remove()
-        previousMarker = map?.addMarker(
+        previousMarker = map.addMarker(
             MarkerOptions()
                 .position(LatLng(location.lat, location.lng))
                 .zIndex(2f)
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.zoe))
         )
+
+        centerCar()
+
+        map.setOnCameraIdleListener {
+            val visibleRegion = map.projection.visibleRegion.latLngBounds
+            val center = previousMarker?.position ?: return@setOnCameraIdleListener
+            val radius = FloatArray(1)
+            android.location.Location.distanceBetween(
+                center.latitude,
+                center.longitude,
+                visibleRegion.northeast.latitude,
+                visibleRegion.northeast.longitude,
+                radius
+            )
+            viewModel.mapPositionChanged(radius.first() / 1000.0)
+        }
     }
 
     override fun onDestroyView() {

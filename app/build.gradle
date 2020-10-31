@@ -74,6 +74,6 @@ dependencies {
     androidTestImplementation(Dependencies.espresso)
     androidTestImplementation(Dependencies.workManagerTesting)
     androidTestImplementation("androidx.test.ext:junit:1.1.2")
-    androidTestImplementation 'com.google.dagger:hilt-android-testing:2.28-alpha'
-    kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.28-alpha'
+    androidTestImplementation 'com.google.dagger:hilt-android-testing:2.29.1-alpha'
+    kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.29.1-alpha'
 }

@@ -1,12 +1,13 @@
 package at.sunilson.vehicleMap.data
 
+import at.sunilson.vehicleMap.data.models.NetworkCharingStation
 import at.sunilson.vehicleMap.data.models.ReachableAreaPostBody
 import at.sunilson.vehicleMap.data.models.ReachableAreaResponse
 import at.sunilson.vehicleMap.data.models.WeatherResponse
+import okhttp3.ResponseBody
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
-import retrofit2.http.Path
 import retrofit2.http.Query
 
 internal interface MapsService {
@@ -17,6 +18,13 @@ internal interface MapsService {
         @Query("lon") lng: Double,
         @Query("appid") apiKey: String
     ): WeatherResponse
+
+    @GET("https://mycms-bff-web-prod.apps.eu.kamereon.io/bff-web/v1/poi?type=0")
+    suspend fun getChargingStations(
+        @Query("latitude") lat: Double,
+        @Query("longitude") lng: Double,
+        @Query("radius") radius: Double
+    ): List<NetworkCharingStation>
 
     @POST("https://bemap-myr.benomad.com/myrenaultservices/journey/v1.0/reachablearea")
     suspend fun getReachableArea(@Body body: ReachableAreaPostBody): ReachableAreaResponse

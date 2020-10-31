@@ -29,6 +29,18 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/charging_station_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:backgroundTint="?colorSurface"
+            app:iconTint="?colorOnSurface"
+            app:layout_constraintBottom_toTopOf="@id/refresh_fab"
+            app:layout_constraintEnd_toStartOf="@id/center_area_button"
+            app:srcCompat="@drawable/ic_baseline_ev_station_24"
+            tools:text="20.12.1993 14:23" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/center_area_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

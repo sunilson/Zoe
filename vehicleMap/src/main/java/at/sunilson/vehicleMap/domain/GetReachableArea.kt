@@ -5,7 +5,6 @@ import at.sunilson.networkingcore.constants.ApiKeys.WEATHER_API_KEY
 import at.sunilson.vehicleMap.data.MapsService
 import at.sunilson.vehicleMap.data.models.ReachableAreaPostBody
 import at.sunilson.vehicleMap.domain.entities.ReachableArea
-import at.sunilson.vehiclecore.data.VehicleDao
 import at.sunilson.vehiclecore.domain.GetSelectedVehicle
 import at.sunilson.vehiclecore.domain.entities.Location
 import com.google.android.libraries.maps.model.LatLng
@@ -13,13 +12,17 @@ import com.google.android.libraries.maps.model.LatLngBounds
 import com.google.maps.android.PolyUtil
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
 
-class GetReachableArea @Inject constructor(private val getVehicle: GetSelectedVehicle) : FlowUseCase<ReachableArea, Unit>() {
+class GetReachableArea @Inject constructor(private val getVehicle: GetSelectedVehicle) :
+    FlowUseCase<ReachableArea, Unit>() {
 
     @Inject
     internal lateinit var mapsService: MapsService
 
+    private var mutex = Mutex()
     private var previousBatteryLevel: Int? = null
     private var previousLocation: Location? = null
     private var previousTemperature: Int? = null
@@ -30,17 +33,15 @@ class GetReachableArea @Inject constructor(private val getVehicle: GetSelectedVe
         val weather =
             mapsService.getWeatherData(location.lat, location.lng, WEATHER_API_KEY)
 
-        val isSameLocation = previousLocation == location
-        val isSameBatteryLevel =
-            previousBatteryLevel == vehicle.batteryStatus.batteryLevel
-        val isSameTemperature = previousTemperature == weather.main.temp.toInt()
+        mutex.withLock {
+            val isSameLocation = previousLocation == location
+            val isSameBatteryLevel =
+                previousBatteryLevel == vehicle.batteryStatus.batteryLevel
+            val isSameTemperature = previousTemperature == weather.main.temp.toInt()
 
-        previousTemperature = weather.main.temp.toInt()
-        previousLocation = location
-        previousBatteryLevel = vehicle.batteryStatus.batteryLevel
-
-        if (isSameBatteryLevel && isSameLocation && isSameTemperature) {
-            return@map null
+            if (isSameBatteryLevel && isSameLocation && isSameTemperature) {
+                return@map null
+            }
         }
 
         val result = mapsService.getReachableArea(
@@ -52,6 +53,12 @@ class GetReachableArea @Inject constructor(private val getVehicle: GetSelectedVe
                 location.lat
             )
         )
+
+        mutex.withLock {
+            previousTemperature = weather.main.temp.toInt()
+            previousLocation = location
+            previousBatteryLevel = vehicle.batteryStatus.batteryLevel
+        }
 
         ReachableArea(
             LatLngBounds(

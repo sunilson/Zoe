@@ -4,7 +4,6 @@ import android.app.Activity
 import android.app.Instrumentation.ActivityResult
 import android.content.Intent
 import android.os.Bundle
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.testing.FragmentScenario
 import androidx.fragment.app.testing.launchFragmentInContainer
@@ -39,8 +38,11 @@ import kotlin.reflect.full.createInstance
 @HiltAndroidTest
 abstract class BaseFragmentTest {
 
+    /* TODO
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
+
+     */
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)

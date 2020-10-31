@@ -4,9 +4,11 @@ import android.animation.AnimatorInflater
 import android.content.Context
 import android.util.TypedValue
 import android.view.View
+import android.widget.ScrollView
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.core.view.doOnLayout
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import at.sunilson.presentationcore.R

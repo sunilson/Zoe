@@ -15,6 +15,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(ApplicationComponent::class)
 object VehicleMapModule {
+
     @Provides
     @Singleton
     internal fun provideMapsService(@Named(NetworkingCoreModule.UNAUTHENTICATED_HTTP_CLIENT) client: OkHttpClient): MapsService {

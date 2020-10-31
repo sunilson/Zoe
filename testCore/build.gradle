@@ -24,12 +24,15 @@ dependencies {
     implementation(Dependencies.fragmentTesting)
     implementation(Dependencies.androidTestRules)
     implementation(Dependencies.androidTestRunner)
+    implementation(Dependencies.androidArchCommonCore)
+    implementation(Dependencies.androidArchRuntimeCore)
     implementation(Dependencies.androidArchTestingCore)
     implementation(Dependencies.appcompat)
     implementation(Dependencies.navigation)
     implementation(Dependencies.espressoIntent)
     implementation(Dependencies.espresso)
     implementation(Dependencies.espressoContrib)
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.4.10"
 
     implementation(Dependencies.hiltAndroidTest)
     kapt(Dependencies.hiltAndroidTestCompiler)

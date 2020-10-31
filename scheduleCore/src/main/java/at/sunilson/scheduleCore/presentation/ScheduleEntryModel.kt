@@ -86,6 +86,8 @@ abstract class ScheduleEntryModel :
     }
 
     private fun Holder.setupSlider(day: ScheduleDay?) {
+        slider.clearOnSliderTouchListeners()
+
         slider.setLabelFormatter {
             val hours = (it / 60).toInt()
             val minutes = (it - hours * 60).toInt()

@@ -4,14 +4,8 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
-import android.view.ViewGroup
-import android.widget.FrameLayout
 import android.widget.RemoteViews
-import androidx.core.os.bundleOf
 import at.sunilson.vehicleMap.domain.GetReachableArea
-import com.google.android.libraries.maps.MapView
-import com.google.android.libraries.maps.SupportMapFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
