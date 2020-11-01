@@ -28,6 +28,7 @@ dependencies {
     kapt(Dependencies.hiltKapt)
     kapt(Dependencies.hiltKaptJetpack)
 
-    implementation(Dependencies.sealedAnnotations)
-    kapt(Dependencies.sealedAnnotationsKapt)
+    implementation(Dependencies.moshixSealedRuntime)
+    implementation(Dependencies.moshixAdapters)
+    kapt(Dependencies.moshixSealedCodegen)
 }

@@ -2,12 +2,13 @@ package at.sunilson.scheduleCore.domain.entities
 
 import androidx.annotation.Keep
 import com.squareup.moshi.JsonClass
-import dev.zacsweers.moshisealed.annotations.DefaultNull
-import dev.zacsweers.moshisealed.annotations.TypeLabel
+import dev.zacsweers.moshix.sealed.annotations.DefaultNull
+import dev.zacsweers.moshix.sealed.annotations.TypeLabel
 import java.time.LocalTime
 
 @JsonClass(generateAdapter = true, generator = "sealed:type")
 @DefaultNull
+@Keep
 sealed class ScheduleDay {
     abstract val dayOfWeek: WeekDay
     abstract val time: LocalTime
@@ -20,6 +21,7 @@ sealed class ScheduleDay {
 
 @TypeLabel("charge")
 @JsonClass(generateAdapter = true)
+@Keep
 data class ChargeScheduleDay(
     override val dayOfWeek: WeekDay,
     override val time: LocalTime,
@@ -28,4 +30,5 @@ data class ChargeScheduleDay(
 
 @TypeLabel("hvac")
 @JsonClass(generateAdapter = true)
+@Keep
 data class HvacScheduleDay(override val dayOfWeek: WeekDay, override val time: LocalTime) : ScheduleDay()
