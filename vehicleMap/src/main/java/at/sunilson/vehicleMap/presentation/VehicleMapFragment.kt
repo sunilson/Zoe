@@ -115,12 +115,14 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
                     binding.name.text = chargingStation.name
                     binding.freeSpaces.text = "Freie Plätze: ${chargingStation.availableSpots}"
                     binding.address.text = chargingStation.address
-                    binding.openingTimes.text = chargingStation.openingTimes.joinToString {
-                        "${it.dayOfWeek.formatPattern("EEEE")}: ${it.startTime} - ${it.endTime}${System.lineSeparator()}"
-                    }
-                    binding.paymentModes.text = chargingStation.paymentModes.joinToString {
-                        "\u2022 $it${System.lineSeparator()}"
-                    }
+                    binding.openingTimes.text = chargingStation
+                        .openingTimes
+                        .joinToString("") { "${it.dayOfWeek.formatPattern("EEEE")}: ${it.startTime} - ${it.endTime}\n" }
+                        .trim()
+                    binding.paymentModes.text = chargingStation
+                            .paymentModes
+                            .joinToString("") { "\u2022 $it\n" }
+                            .trim()
                     return binding.root
                 }
             })
