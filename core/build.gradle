@@ -29,6 +29,12 @@ dependencies {
     api(Dependencies.okhttp)
     api(Dependencies.sunilsonExtensions)
     implementation(Dependencies.hilt)
+
+    debugApi(Dependencies.flipper)
+    debugApi(Dependencies.flipperNetwork)
+    debugApi(Dependencies.flipperSoloader)
+    releaseApi(Dependencies.flipperNoop)
+
     debugImplementation(Dependencies.chucker)
     kapt(Dependencies.hiltKapt)
 }

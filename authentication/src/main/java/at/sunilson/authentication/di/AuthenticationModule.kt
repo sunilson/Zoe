@@ -10,6 +10,8 @@ import at.sunilson.authentication.domain.LogoutHandlerImpl
 import at.sunilson.networkingcore.di.NetworkingCoreModule.UNAUTHENTICATED_HTTP_CLIENT
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
+import com.facebook.flipper.plugins.network.FlipperOkhttpInterceptor
+import com.facebook.flipper.plugins.network.NetworkFlipperPlugin
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -43,7 +45,8 @@ object AuthenticationModule {
     @Named(AUTHENTICATED_HTTP_CLIENT)
     internal fun provideAuthenticatedOkHttpClient(
         @ApplicationContext application: Context,
-        authenticationInterceptor: AuthenticationInterceptor
+        authenticationInterceptor: AuthenticationInterceptor,
+        networkFlipperPlugin: NetworkFlipperPlugin
     ) = OkHttpClient
         .Builder()
         .apply {
@@ -54,6 +57,7 @@ object AuthenticationModule {
                         collector = ChuckerCollector(application, showNotification = true)
                     )
                 )
+                addInterceptor(FlipperOkhttpInterceptor(networkFlipperPlugin))
             }
             callTimeout(30, TimeUnit.SECONDS)
             addInterceptor(authenticationInterceptor)

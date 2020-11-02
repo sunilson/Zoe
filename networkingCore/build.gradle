@@ -22,6 +22,7 @@ dependencies {
     implementation(Dependencies.okhttp)
     implementation(Dependencies.chucker)
     implementation(Dependencies.hilt)
+    debugApi(Dependencies.flipperNetwork)
     api(Dependencies.moshi)
     api(Dependencies.moshiAdapters)
     api(Dependencies.retrofit)

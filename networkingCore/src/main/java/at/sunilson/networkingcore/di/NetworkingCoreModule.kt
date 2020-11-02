@@ -4,6 +4,8 @@ import android.content.Context
 import at.sunilson.networkingcore.BuildConfig
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
+import com.facebook.flipper.plugins.network.FlipperOkhttpInterceptor
+import com.facebook.flipper.plugins.network.NetworkFlipperPlugin
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,7 +23,10 @@ object NetworkingCoreModule {
 
     @Provides
     @Named(UNAUTHENTICATED_HTTP_CLIENT)
-    fun provideOkHTTPClient(@ApplicationContext application: Context) = OkHttpClient
+    fun provideOkHTTPClient(
+        @ApplicationContext application: Context,
+        networkFlipperPlugin: NetworkFlipperPlugin
+    ) = OkHttpClient
         .Builder()
         .apply {
             if (BuildConfig.DEBUG) {
@@ -31,6 +36,7 @@ object NetworkingCoreModule {
                         collector = ChuckerCollector(application, showNotification = true)
                     )
                 )
+                addInterceptor(FlipperOkhttpInterceptor(networkFlipperPlugin))
             }
             callTimeout(30, TimeUnit.SECONDS)
         }

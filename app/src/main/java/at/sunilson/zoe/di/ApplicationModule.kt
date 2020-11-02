@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.work.WorkManager
 import at.sunilson.navigation.ActivityNavigator
 import at.sunilson.zoe.navigation.ActivityNavigatorImpl
+import com.facebook.flipper.plugins.network.NetworkFlipperPlugin
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,4 +22,8 @@ object ApplicationModule {
     @Provides
     @Singleton
     fun provideWorkmanager(@ApplicationContext context: Context) = WorkManager.getInstance(context)
+
+    @Provides
+    @Singleton
+    fun provideFlipperPlugin() = NetworkFlipperPlugin()
 }

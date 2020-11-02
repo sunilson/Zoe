@@ -13,6 +13,7 @@ const val COROUTINES_VERSION = "1.4.0"
 const val MOSHI_VERSION = "1.11.0"
 const val EPOXY_VERSION = "4.1.0"
 const val ARCH_CORE_VERSION = "2.1.0"
+const val FLIPPER_VERSION = "0.63.0"
 
 object Dependencies {
     const val contour = "app.cash.contour:contour:1.0.0"
@@ -83,4 +84,8 @@ object Dependencies {
     const val moshixSealedRuntime = "dev.zacsweers.moshix:moshi-sealed-runtime:0.5.0"
     const val moshixAdapters = "dev.zacsweers.moshix:moshi-adapters:0.6.0"
     const val moshixSealedCodegen = "dev.zacsweers.moshix:moshi-sealed-codegen:0.5.0"
+    const val flipper = "com.facebook.flipper:flipper:$FLIPPER_VERSION"
+    const val flipperNetwork = "com.facebook.flipper:flipper-network-plugin:$FLIPPER_VERSION"
+    const val flipperNoop = "com.facebook.flipper:flipper-noop:$FLIPPER_VERSION"
+    const val flipperSoloader = "com.facebook.soloader:soloader:0.9.0"
 }
