@@ -1,16 +1,11 @@
 package at.sunilson.networkingcore.di
 
-import android.content.Context
-import at.sunilson.networkingcore.BuildConfig
-import com.chuckerteam.chucker.api.ChuckerCollector
-import com.chuckerteam.chucker.api.ChuckerInterceptor
-import com.facebook.flipper.plugins.network.FlipperOkhttpInterceptor
-import com.facebook.flipper.plugins.network.NetworkFlipperPlugin
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
-import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.multibindings.ElementsIntoSet
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
@@ -22,22 +17,15 @@ object NetworkingCoreModule {
     const val UNAUTHENTICATED_HTTP_CLIENT = "unauthenticatedHttpClient"
 
     @Provides
+    @ElementsIntoSet
+    fun provideDefaultInterceptors(): Set<Interceptor> = emptySet()
+
+    @Provides
     @Named(UNAUTHENTICATED_HTTP_CLIENT)
-    fun provideOkHTTPClient(
-        @ApplicationContext application: Context,
-        networkFlipperPlugin: NetworkFlipperPlugin
-    ) = OkHttpClient
+    fun provideOkHTTPClient(interceptors: @JvmSuppressWildcards Set<Interceptor>) = OkHttpClient
         .Builder()
         .apply {
-            if (BuildConfig.DEBUG) {
-                addInterceptor(
-                    ChuckerInterceptor(
-                        application,
-                        collector = ChuckerCollector(application, showNotification = true)
-                    )
-                )
-                addInterceptor(FlipperOkhttpInterceptor(networkFlipperPlugin))
-            }
+            interceptors.forEach { addInterceptor(it) }
             callTimeout(30, TimeUnit.SECONDS)
         }
         .build()

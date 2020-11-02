@@ -1,6 +1,7 @@
 package at.sunilson.vehicleMap.di
 
-import at.sunilson.networkingcore.di.NetworkingCoreModule
+import at.sunilson.networkingcore.di.NetworkingCoreDebugModule
+import at.sunilson.networkingcore.di.NetworkingCoreModule.UNAUTHENTICATED_HTTP_CLIENT
 import at.sunilson.vehicleMap.data.MapsService
 import dagger.Module
 import dagger.Provides
@@ -18,7 +19,7 @@ object VehicleMapModule {
 
     @Provides
     @Singleton
-    internal fun provideMapsService(@Named(NetworkingCoreModule.UNAUTHENTICATED_HTTP_CLIENT) client: OkHttpClient): MapsService {
+    internal fun provideMapsService(@Named(UNAUTHENTICATED_HTTP_CLIENT) client: OkHttpClient): MapsService {
         return Retrofit
             .Builder()
             .client(client)

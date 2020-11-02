@@ -1,23 +1,17 @@
 package at.sunilson.authentication.di
 
-import android.content.Context
-import at.sunilson.authentication.BuildConfig
 import at.sunilson.authentication.data.AuthenticationInterceptor
 import at.sunilson.authentication.data.GigyaService
 import at.sunilson.authentication.data.KamereonService
 import at.sunilson.authentication.domain.LogoutHandler
 import at.sunilson.authentication.domain.LogoutHandlerImpl
 import at.sunilson.networkingcore.di.NetworkingCoreModule.UNAUTHENTICATED_HTTP_CLIENT
-import com.chuckerteam.chucker.api.ChuckerCollector
-import com.chuckerteam.chucker.api.ChuckerInterceptor
-import com.facebook.flipper.plugins.network.FlipperOkhttpInterceptor
-import com.facebook.flipper.plugins.network.NetworkFlipperPlugin
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
-import dagger.hilt.android.qualifiers.ApplicationContext
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -44,21 +38,12 @@ object AuthenticationModule {
     @Provides
     @Named(AUTHENTICATED_HTTP_CLIENT)
     internal fun provideAuthenticatedOkHttpClient(
-        @ApplicationContext application: Context,
-        authenticationInterceptor: AuthenticationInterceptor,
-        networkFlipperPlugin: NetworkFlipperPlugin
+        interceptors: @JvmSuppressWildcards Set<Interceptor>,
+        authenticationInterceptor: AuthenticationInterceptor
     ) = OkHttpClient
         .Builder()
         .apply {
-            if (BuildConfig.DEBUG) {
-                addInterceptor(
-                    ChuckerInterceptor(
-                        application,
-                        collector = ChuckerCollector(application, showNotification = true)
-                    )
-                )
-                addInterceptor(FlipperOkhttpInterceptor(networkFlipperPlugin))
-            }
+            interceptors.forEach { addInterceptor(it) }
             callTimeout(30, TimeUnit.SECONDS)
             addInterceptor(authenticationInterceptor)
         }
