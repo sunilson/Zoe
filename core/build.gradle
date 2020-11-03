@@ -32,7 +32,6 @@ dependencies {
 
     debugApi(Dependencies.flipper)
     debugApi(Dependencies.flipperNetwork)
-    debugApi(Dependencies.flipperSoloader)
     releaseApi(Dependencies.flipperNoop)
 
     debugImplementation(Dependencies.chucker)

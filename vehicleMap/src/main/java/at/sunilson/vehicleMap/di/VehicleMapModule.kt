@@ -1,6 +1,5 @@
 package at.sunilson.vehicleMap.di
 
-import at.sunilson.networkingcore.di.NetworkingCoreDebugModule
 import at.sunilson.networkingcore.di.NetworkingCoreModule.UNAUTHENTICATED_HTTP_CLIENT
 import at.sunilson.vehicleMap.data.MapsService
 import dagger.Module

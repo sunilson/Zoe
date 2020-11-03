@@ -10,7 +10,7 @@ interface LogoutHandler {
     fun emitLogout()
 }
 
-class LogoutHandlerImpl @Inject constructor() : LogoutHandler {
+internal class LogoutHandlerImpl @Inject constructor() : LogoutHandler {
 
     private val eventsChannel = BroadcastChannel<Unit>(1)
 

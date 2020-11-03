@@ -25,7 +25,7 @@ abstract class AbstractAuthenticationModule {
 
     @Binds
     @Singleton
-    abstract fun bindLogoutHandler(logoutHandlerImpl: LogoutHandlerImpl): LogoutHandler
+    internal abstract fun bindLogoutHandler(logoutHandlerImpl: LogoutHandlerImpl): LogoutHandler
 
 }
 
