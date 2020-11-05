@@ -14,7 +14,7 @@ const val MOSHI_VERSION = "1.11.0"
 const val EPOXY_VERSION = "4.1.0"
 const val ARCH_CORE_VERSION = "2.1.0"
 const val FLIPPER_VERSION = "0.63.0"
-const val FRAGMENT_VERSION = "1.3.0-beta01"
+const val FRAGMENT_VERSION = "1.3.0-alpha07"
 
 object Dependencies {
     const val contour = "app.cash.contour:contour:1.0.0"
