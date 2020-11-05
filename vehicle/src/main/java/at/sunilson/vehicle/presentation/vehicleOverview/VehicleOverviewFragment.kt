@@ -1,16 +1,23 @@
 package at.sunilson.vehicle.presentation.vehicleOverview
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Intent
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
+import android.graphics.Bitmap
+import android.graphics.Rect
 import android.graphics.drawable.Icon
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
+import android.view.PixelCopy
 import android.view.View
+import android.view.ViewAnimationUtils
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AccelerateInterpolator
@@ -21,10 +28,12 @@ import androidx.activity.addCallback
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
 import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.content.edit
 import androidx.core.net.toUri
 import androidx.core.view.doOnLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
@@ -51,6 +60,8 @@ import at.sunilson.presentationcore.extensions.withDefaultAnimations
 import at.sunilson.vehicle.R
 import at.sunilson.vehicle.databinding.FragmentVehicleOverviewBinding
 import at.sunilson.vehicle.presentation.hvacBroadcastReciever.HvacBroadCastReciever
+import at.sunilson.vehicle.presentation.settingsDialog.SettingsDialogFragment.Companion.SETTINGS_DIALOG_REQUEST
+import at.sunilson.vehicle.presentation.settingsDialog.SettingsDialogFragment.Companion.THEME_CHANGED_RESULT
 import at.sunilson.vehicle.presentation.utils.TimeUtils
 import at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models.chargeWidget
 import at.sunilson.vehicle.presentation.vehicleOverview.epxoy.models.climateControlWidget
@@ -70,8 +81,11 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
 import timber.log.Timber
 import javax.inject.Inject
+import kotlin.coroutines.resume
+import kotlin.math.hypot
 
 
 @AndroidEntryPoint
@@ -83,17 +97,11 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     private var lastBackPress: Long = -1L
     private var splashAnimationStarted = false
 
-
     @Inject
     lateinit var logoutHandler: LogoutHandler
 
     @Inject
     lateinit var notificationRepository: NotificationRepository
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.refreshVehicles()
-    }
 
     private fun tryExit() {
         val currentTime = System.currentTimeMillis()
@@ -126,6 +134,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { tryExit() }
 
+        setupThemeReveal()
         setupClickListeners()
         setupSwipeRefreshLayout()
         observeState()
@@ -133,6 +142,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
         setupUIFlags()
         setupInsets()
         setupList()
+        setupResultListeners()
 
         setupHeaderAnimation(binding.cutView, binding.recyclerView)
     }
@@ -322,6 +332,49 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
             )
     }
 
+    private fun revealNewTheme() {
+        binding.themeOverlay.doOnLayout {
+            val cx = binding.themeOverlay.width / 2
+            val cy = binding.themeOverlay.height / 2
+            val radius = hypot(cx.toDouble(), cy.toDouble()).toFloat()
+            val anim =
+                ViewAnimationUtils.createCircularReveal(binding.themeOverlay, cx, cy, radius, 0f)
+            anim.duration = 1000
+            anim.addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    super.onAnimationEnd(animation)
+                    binding.themeOverlay.visibility = View.GONE
+                }
+            })
+            anim.start()
+        }
+    }
+
+    private suspend fun takeScreenshot() = suspendCancellableCoroutine<Bitmap?> {
+        val view = requireView()
+        val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
+        val locationOfViewInWindow = IntArray(2)
+        view.getLocationInWindow(locationOfViewInWindow)
+        PixelCopy.request(
+            requireActivity().window,
+            Rect(
+                locationOfViewInWindow[0],
+                locationOfViewInWindow[1],
+                locationOfViewInWindow[0] + view.width,
+                locationOfViewInWindow[1] + view.height
+            ),
+            bitmap,
+            { copyResult ->
+                if (copyResult == PixelCopy.SUCCESS) {
+                    it.resume(bitmap)
+                } else {
+                    it.resume(null)
+                }
+            },
+            Handler()
+        )
+    }
+
     private fun showChargeStatistics(vin: String, manage: Boolean = false) {
         reenterTransition = null
         exitTransition = null
@@ -484,6 +537,27 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
 
         shortcutManager?.dynamicShortcuts =
             listOf(hvacShortcut, locationShortcut, chargeStatisticsShortcut)
+    }
+
+    private fun setupThemeReveal() {
+        if (viewModel.themeImage != null) {
+            binding.themeOverlay.setImageBitmap(viewModel.themeImage)
+            revealNewTheme()
+            viewModel.themeImage = null
+        }
+    }
+
+    private fun setupResultListeners() {
+        setFragmentResultListener(SETTINGS_DIALOG_REQUEST) { _, bundle ->
+            if (bundle.getBoolean(THEME_CHANGED_RESULT, false)) {
+                viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+                    delay(500)
+                    viewModel.themeImage = takeScreenshot()
+                    requireActivity().recreate()
+                }
+
+            }
+        }
     }
 
     override fun onResume() {

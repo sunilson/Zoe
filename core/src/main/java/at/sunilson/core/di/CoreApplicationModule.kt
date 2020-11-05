@@ -18,6 +18,4 @@ object CoreApplicationModule {
     //TODO Use encrypted shared preferences
     fun provideSharedPreferences(application: Application): SharedPreferences =
         application.getSharedPreferences("ZOE_APP", Context.MODE_PRIVATE)
-
-
 }

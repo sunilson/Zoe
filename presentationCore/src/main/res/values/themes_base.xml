@@ -11,6 +11,14 @@
         <item name="textAppearanceBody2">@style/Widget.App.Text.Body2</item>
         <item name="textAppearanceSubtitle1">@style/Widget.App.Text.Subtitle1</item>
         <item name="textAppearanceSubtitle2">@style/Widget.App.Text.Subtitle2</item>
+
+        <item name="colorSurface">@color/white</item>
+        <item name="buttonSecondaryBackground">@color/lightGray</item>
+        <item name="colorOnSurface">@color/dark_gray</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnPrimarySecondary">@color/off_white</item>
+        <item name="dividerColor">@color/lightGrayHalfAlpha</item>
+        <item name="iconColorOnSurface">@color/gray</item>
     </style>
 
 </resources>

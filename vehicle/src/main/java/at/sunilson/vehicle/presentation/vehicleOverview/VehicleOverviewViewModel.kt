@@ -1,5 +1,7 @@
 package at.sunilson.vehicle.presentation.vehicleOverview
 
+import android.graphics.Bitmap
+import android.util.Log
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.SavedStateHandle
@@ -57,14 +59,16 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
 ) {
 
     private var selectedVehicleJob: Job? = null
-    private var locationJob: Job? = null
     private var chargeProcedureJob: Job? = null
     private var nearestAppointmentJob: Job? = null
     private var nearestExpiringContractJob: Job? = null
     private var refreshingJob: Job? = null
 
+    var themeImage: Bitmap? = null
+
     init {
         loadSelectedVehicle()
+        refreshVehicles()
     }
 
     fun refreshVehicles(invisible: Boolean = false) {

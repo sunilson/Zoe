@@ -1,5 +1,7 @@
 package at.sunilson.vehicle.presentation.settingsDialog
 
+import android.content.SharedPreferences
+import androidx.core.content.edit
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import at.sunilson.authentication.domain.LogoutUseCase
@@ -19,9 +21,10 @@ internal sealed class SettingsDialogEvent {
 }
 
 internal class SettingsDialogViewModel @ViewModelInject constructor(
+    private val sharedPreferences: SharedPreferences,
     private val getAllVehicles: GetAllVehicles,
     private val setSelectedVehicle: SetSelectedVehicle,
-    private val logoutUseCase: LogoutUseCase
+    private val logoutUseCase: LogoutUseCase,
 ) : UniDirectionalViewModel<SettingsDialogState, SettingsDialogEvent>(SettingsDialogState()) {
 
     init {
@@ -39,5 +42,9 @@ internal class SettingsDialogViewModel @ViewModelInject constructor(
             { sendEvent(SettingsDialogEvent.LoggedOut) },
             {}
         )
+    }
+
+    fun themeChosen(theme: Int) {
+        sharedPreferences.edit { putInt("theme", theme) }
     }
 }

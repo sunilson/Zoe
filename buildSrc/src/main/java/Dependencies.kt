@@ -14,6 +14,7 @@ const val MOSHI_VERSION = "1.11.0"
 const val EPOXY_VERSION = "4.1.0"
 const val ARCH_CORE_VERSION = "2.1.0"
 const val FLIPPER_VERSION = "0.63.0"
+const val FRAGMENT_VERSION = "1.3.0-beta01"
 
 object Dependencies {
     const val contour = "app.cash.contour:contour:1.0.0"
@@ -66,7 +67,8 @@ object Dependencies {
     const val workManagerTesting = "androidx.work:work-testing:$WORKMANAGER_VERSION"
     const val mockk = "io.mockk:mockk:$MOCKK_VERSION"
     const val mockkAndroid = "io.mockk:mockk-android:$MOCKK_VERSION"
-    const val fragmentTesting = "androidx.fragment:fragment-testing:1.3.0-beta01"
+    const val fragment = "androidx.fragment:fragment-ktx:$FRAGMENT_VERSION"
+    const val fragmentTesting = "androidx.fragment:fragment-testing:$FRAGMENT_VERSION"
     const val androidArchRuntimeCore = "androidx.arch.core:core-runtime:$ARCH_CORE_VERSION"
     const val androidArchCommonCore = "androidx.arch.core:core-common:$ARCH_CORE_VERSION"
     const val androidArchTestingCore = "androidx.arch.core:core-testing:$ARCH_CORE_VERSION"

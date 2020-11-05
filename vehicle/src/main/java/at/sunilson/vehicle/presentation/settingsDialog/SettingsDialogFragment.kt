@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
@@ -54,7 +56,8 @@ class SettingsDialogFragment : BottomSheetDialogFragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.events.collect {
                 Do exhaustive when (it) {
-                    is SettingsDialogEvent.LoggedOut -> {}
+                    is SettingsDialogEvent.LoggedOut -> {
+                    }
                     SettingsDialogEvent.VehicleSelected -> findNavController().navigate(
                         SettingsDialogFragmentDirections.reload()
                     )
@@ -68,7 +71,6 @@ class SettingsDialogFragment : BottomSheetDialogFragment() {
 
         binding.recyclerView.withModels {
             vehicles.forEach { vehicle ->
-
                 settingsDialogButtons {
                     id("buttons")
                     logoutClicked { viewModel.logout() }
@@ -81,6 +83,18 @@ class SettingsDialogFragment : BottomSheetDialogFragment() {
                     }
                 }
 
+                themeListItem {
+                    id("theme")
+                    onThemeChosen {
+                        viewModel.themeChosen(it)
+                        setFragmentResult(
+                            SETTINGS_DIALOG_REQUEST,
+                            bundleOf(THEME_CHANGED_RESULT to true)
+                        )
+                        findNavController().navigateUp()
+                    }
+                }
+
                 vehicleListItem {
                     id(vehicle.vin)
                     vehicle(vehicle)
@@ -88,5 +102,10 @@ class SettingsDialogFragment : BottomSheetDialogFragment() {
                 }
             }
         }
+    }
+
+    companion object {
+        const val SETTINGS_DIALOG_REQUEST = "settingsDialogRequest"
+        const val THEME_CHANGED_RESULT = "settingsDialogThemeChanged"
     }
 }

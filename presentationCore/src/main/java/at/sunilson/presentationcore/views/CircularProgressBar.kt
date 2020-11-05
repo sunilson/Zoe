@@ -6,11 +6,13 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
+import android.os.Bundle
 import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.annotation.ColorInt
+import androidx.core.os.bundleOf
 import at.sunilson.presentationcore.R
 import timber.log.Timber
 import kotlin.math.max
@@ -138,31 +140,44 @@ class CircularProgressBar @JvmOverloads constructor(
     }
 
     override fun onRestoreInstanceState(state: Parcelable?) {
-        super.onRestoreInstanceState(state)
-        Timber.d("Restored circular progress bar")
-    }
-
-    init {
-        //Get initial attributes
-        context.theme.obtainStyledAttributes(
-            attributeSet,
-            R.styleable.CircularProgressBar,
-            R.attr.circularProgressBarStyle,
-            R.style.CircularProgressBar
-        ).apply {
-            try {
-                strokeWidth = getFloat(R.styleable.CircularProgressBar_foregroundStrokeWidth, 50f)
-                backgroundStrokeWidth =
-                    getFloat(R.styleable.CircularProgressBar_backgroundStrokeWidth, 50f)
-                progress = getFloat(R.styleable.CircularProgressBar_progress, 0f)
-                strokeColor = getColor(R.styleable.CircularProgressBar_strokeColor, Color.WHITE)
-                backgroundStrokeColor =
-                    getColor(R.styleable.CircularProgressBar_backgroundStrokeColor, Color.WHITE)
-                hasBackgroundRing =
-                    getBoolean(R.styleable.CircularProgressBar_hasBackgroundRing, true)
-            } finally {
-                recycle()
-            }
+        if(state is Bundle) {
+            angle = 3.6f * state.getFloat("progress", 0f)
+            invalidate()
+            progress = state.getFloat("progress", 0f)
+            super.onRestoreInstanceState(state.getParcelable("superState"))
+        } else {
+            super.onRestoreInstanceState(state)
         }
     }
+
+    override fun onSaveInstanceState(): Parcelable? {
+        return bundleOf(
+            "progress" to progress,
+            "superState" to super.onSaveInstanceState()
+        )
+    }
+
+init {
+    //Get initial attributes
+    context.theme.obtainStyledAttributes(
+        attributeSet,
+        R.styleable.CircularProgressBar,
+        R.attr.circularProgressBarStyle,
+        R.style.CircularProgressBar
+    ).apply {
+        try {
+            strokeWidth = getFloat(R.styleable.CircularProgressBar_foregroundStrokeWidth, 50f)
+            backgroundStrokeWidth =
+                getFloat(R.styleable.CircularProgressBar_backgroundStrokeWidth, 50f)
+            progress = getFloat(R.styleable.CircularProgressBar_progress, 0f)
+            strokeColor = getColor(R.styleable.CircularProgressBar_strokeColor, Color.WHITE)
+            backgroundStrokeColor =
+                getColor(R.styleable.CircularProgressBar_backgroundStrokeColor, Color.WHITE)
+            hasBackgroundRing =
+                getBoolean(R.styleable.CircularProgressBar_hasBackgroundRing, true)
+        } finally {
+            recycle()
+        }
+    }
+}
 }

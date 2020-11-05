@@ -18,14 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="30dp"
             android:text="@string/impressum" />
-
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:text="@string/choose_your_vehicle"
-            android:textAppearance="?textAppearanceHeadline6" />
 
 </LinearLayout>

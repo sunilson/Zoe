@@ -1,6 +1,7 @@
 package at.sunilson.zoe
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.ShortcutManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -32,9 +33,12 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var workManager: WorkManager
 
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.Base_Theme_Zoe_AppTheme)
         super.onCreate(savedInstanceState)
+        setTheme(sharedPreferences.getInt("theme", R.style.Base_Theme_Zoe_Blue))
         if (!checkLoggedIn()) return
         observeLogout()
         setContentView(R.layout.activity_main)

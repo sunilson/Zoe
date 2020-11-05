@@ -7,7 +7,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/vehicle_widget_background"
         android:orientation="vertical"
-        android:theme="@style/Base.Theme.Zoe.AppTheme">
+        android:theme="@style/Base.Theme.Zoe.Blue">
 
     <ImageView
             android:id="@+id/reachable_area_widget_image"

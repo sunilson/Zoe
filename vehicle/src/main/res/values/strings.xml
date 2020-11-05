@@ -29,4 +29,5 @@
     <string name="services_contracts"><![CDATA[Termine & Verträge]]></string>
     <string name="show_all_contracts">Verträge</string>
     <string name="logout">Ausloggen</string>
+    <string name="choose_theme">Wähle ein Theme</string>
 </resources>
