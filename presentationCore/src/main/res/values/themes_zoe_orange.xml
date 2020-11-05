@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Base.Theme.Zoe.Orange">
+        <item name="colorPrimary">@color/orange</item>
+        <item name="colorPrimaryLight">@color/blue_half_transparent</item>
+        <item name="colorSecondary">@color/orange</item>
+        <item name="colorPrimaryDark">@color/orange</item>
+    </style>
+</resources>
