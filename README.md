@@ -1,5 +1,7 @@
 # Zoe
 
+[![Build Status](https://app.bitrise.io/app/88e7234ef3aaac97/status.svg?token=ZOZxn0aiS6PKAMWDrdjS6Q&branch=master)](https://app.bitrise.io/app/88e7234ef3aaac97)
+
 Personal project using the "My Renault" API to create a small, simple app to view and control your Renault Zoe (mainly the Renault Zoe ZE50 R110/R135). Work in progress...
 
 Current version is available as an internal test release on the play store. Contact me at weisslinus@gmail.com to get access
