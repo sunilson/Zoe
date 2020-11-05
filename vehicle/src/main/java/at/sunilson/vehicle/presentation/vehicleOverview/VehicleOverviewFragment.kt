@@ -103,6 +103,13 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     @Inject
     lateinit var notificationRepository: NotificationRepository
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        //Use viewmodel so it is already initialized
+        viewModel
+    }
+
     private fun tryExit() {
         val currentTime = System.currentTimeMillis()
         if (currentTime - lastBackPress < 2000) {

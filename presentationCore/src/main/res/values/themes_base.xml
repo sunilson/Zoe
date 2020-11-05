@@ -2,6 +2,7 @@
 <resources>
 
     <style name="Base.Theme.Zoe" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowDisablePreview">true</item>
         <item name="fontFamily">@font/custom_font</item>
         <item name="android:fontFamily">@font/custom_font</item>
         <item name="bottomSheetDialogTheme">@style/Widget.App.BottomSheet</item>
