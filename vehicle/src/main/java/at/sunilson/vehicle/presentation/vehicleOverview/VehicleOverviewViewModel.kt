@@ -64,8 +64,6 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
     private var nearestExpiringContractJob: Job? = null
     private var refreshingJob: Job? = null
 
-    var themeImage: Bitmap? = null
-
     init {
         loadSelectedVehicle()
         refreshVehicles()

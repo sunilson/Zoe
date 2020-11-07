@@ -16,6 +16,10 @@
                 <action android:name="StartHVAC" />
             </intent-filter>
         </receiver>
+
+        <activity
+                android:name=".presentation.vehicleOverview.TestActivity"
+                android:theme="@style/noAnimTheme" />
     </application>
 
 </manifest>
