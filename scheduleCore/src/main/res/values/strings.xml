@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="start">Beginn</string>
-    <string name="ready_at">Fertig um</string>
-    <string name="end">Ende</string>
-    <string name="cant_change_in_app">Kann nicht in App geändert werden</string>
-    <string name="must_change_in_zoe_climate_controle">Diese Einstellung muss in den Klimatisierungs-Planungs-Einstellungen direkt im Auto geändert werden</string>
-</resources>

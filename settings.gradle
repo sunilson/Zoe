@@ -1,3 +1,4 @@
+include ':stringRes'
 include ':vehicleDetails'
 include ':contracts'
 include ':hvacSchedule'

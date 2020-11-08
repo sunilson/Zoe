@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="opening_times">Öffnungszeiten</string>
-    <string name="payment_methods">Zahlungsmöglichkeiten</string>
-    <string name="address">Adresse</string>
-    <string name="charging_modes">Lademöglichkeiten</string>
-</resources>

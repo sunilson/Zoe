@@ -1,6 +1,9 @@
 package at.sunilson.zoe
 
 import android.util.Log
+import androidx.lifecycle.Lifecycle
+import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ActivityScenario.launch
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
@@ -21,8 +24,7 @@ class LoginTest {
     @get:Rule(order = 0)
     var hiltRule = HiltAndroidRule(this)
 
-    @get:Rule(order = 1)
-    val activityRule = ActivityScenarioRule(MainActivity::class.java)
+    lateinit var scenario: ActivityScenario<MainActivity>
 
     @Before
     fun before() {
@@ -36,6 +38,10 @@ class LoginTest {
 
     @Test
     fun test() {
-        Thread.sleep(5000)
+        hiltRule.inject()
+        scenario = launch(MainActivity::class.java)
+        scenario.moveToState(Lifecycle.State.CREATED).onActivity {
+            Thread.sleep(5000)
+        }
     }
 }

@@ -3,6 +3,7 @@ package at.sunilson.vehiclecore.data
 import at.sunilson.vehiclecore.data.models.batterystatus.BatteryStatusResponse
 import at.sunilson.vehiclecore.data.models.cockpit.CockpitResponse
 import at.sunilson.vehiclecore.data.models.location.LocationResponse
+import okhttp3.ResponseBody
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -24,4 +25,10 @@ interface VehicleCoreService {
         @Path("accountId") accountId: String,
         @Path("vin") vin: String
     ): CockpitResponse
+
+    @GET("accounts/{accountId}/kamereon/kca/car-adapter/v1/cars/{vin}/hvac-status?country=AT")
+    suspend fun getHVACStatus(
+        @Path("accountId") accountId: String,
+        @Path("vin") vin: String
+    ): ResponseBody
 }

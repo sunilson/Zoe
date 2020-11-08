@@ -2,7 +2,7 @@ package at.sunilson.vehicleDetails.presentation
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.isVisible
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -63,28 +63,51 @@ internal class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_detai
         super.onViewCreated(view, savedInstanceState)
         observeState()
         observeCommands()
-        binding.searchButton.setOnClickListener {
-            binding.headline.isVisible = false
-            binding.searchInputLayout.isVisible = true
-            binding.searchInput.requestFocus()
-            binding.searchInput.showKeyboard()
-            binding.searchButton.isVisible = false
-            binding.cancelButton.isVisible = true
-        }
-        binding.cancelButton.setOnClickListener {
-            binding.headline.isVisible = true
-            binding.cancelButton.isVisible = false
-            binding.searchInputLayout.isVisible = false
-            binding.searchInput.setText("")
-            binding.searchButton.isVisible = true
-            binding.searchInput.clearFocus()
-            binding.searchInput.hideKeyboard()
-        }
+
+        setupMotionLayout()
         binding.backButton.setOnClickListener { findNavController().navigateUp() }
         binding.searchInput.doAfterTextChanged { viewModel.search(it.toString()) }
         binding.refreshLayout.setOnRefreshListener { viewModel.refreshDetails(args.vin) }
-        Insetter.builder().applySystemWindowInsetsToMargin(Side.TOP).applyToView(binding.backButton)
         setupHeaderAnimation(binding.topContainer, binding.recyclerView)
+    }
+
+    private fun setupMotionLayout() {
+        Insetter
+            .builder()
+            .applySystemWindowInsetsToPadding(Side.TOP)
+            .applyToView(binding.topContainer)
+        Insetter
+            .builder()
+            .applySystemWindowInsetsToPadding(Side.BOTTOM)
+            .applyToView(binding.refreshLayout)
+
+        binding.topContainer.setTransitionListener(object : MotionLayout.TransitionListener {
+            override fun onTransitionChange(
+                p0: MotionLayout?,
+                start: Int,
+                end: Int,
+                progress: Float
+            ) {
+                binding.searchInput.isEnabled = progress >= 0.5f
+                binding.searchButton.setImageResource(if (progress >= 0.5f) R.drawable.ic_baseline_close_24 else R.drawable.ic_baseline_search_24)
+            }
+
+            override fun onTransitionCompleted(p0: MotionLayout?, newId: Int) {
+                if (newId == R.id.end) {
+                    binding.searchInput.requestFocus()
+                    binding.searchInput.showKeyboard()
+                } else {
+                    binding.searchInput.clearFocus()
+                    binding.searchInput.hideKeyboard()
+                }
+            }
+
+            override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
+            }
+
+            override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {
+            }
+        })
     }
 
     override fun onPause() {
@@ -95,7 +118,7 @@ internal class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_detai
     private fun observeCommands() {
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             viewModel.events.collect {
-               Do exhaustive  when (it) {
+                Do exhaustive when (it) {
                     is ScrollToPosition -> if (it.position == 0) {
                         binding.recyclerView.scrollTo(0, 0)
                     } else {

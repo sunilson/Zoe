@@ -18,6 +18,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation(project(":core"))
     implementation(Dependencies.hilt)
+    api(project(":stringRes"))
     api(Dependencies.insetter)
     api(Dependencies.insetterKtx)
     api(Dependencies.coil)

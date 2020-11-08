@@ -1,5 +1,0 @@
-<resources>
-    <string name="app_name">Zoe</string>
-    <string name="back_button_content_description">Zurück Button</string>
-    <string name="request_failed">Abfrage fehlgeschlagen! Zoe befindet sich mögleichrweise im Ruhezustand</string>
-</resources>
