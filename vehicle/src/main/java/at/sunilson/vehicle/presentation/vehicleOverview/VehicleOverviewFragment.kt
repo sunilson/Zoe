@@ -23,6 +23,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.view.animation.OvershootInterpolator
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.core.animation.doOnEnd
@@ -77,6 +78,7 @@ import com.google.android.material.transition.Hold
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.applySystemWindowInsetsToMargin
 import dev.chrisbanes.insetter.applySystemWindowInsetsToPadding
+import jp.wasabeef.recyclerview.animators.ScaleInAnimator
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
@@ -155,6 +157,11 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     }
 
     private fun setupList() {
+        binding.recyclerView.itemAnimator = ScaleInAnimator(OvershootInterpolator(1f)).apply {
+            addDuration = 300L
+            removeDuration = 300L
+        }
+
         //Use extra space to prefetch more items for smoother scrolling
         binding.recyclerView.layoutManager = object : LinearLayoutManager(requireContext()) {
             override fun calculateExtraLayoutSpace(
