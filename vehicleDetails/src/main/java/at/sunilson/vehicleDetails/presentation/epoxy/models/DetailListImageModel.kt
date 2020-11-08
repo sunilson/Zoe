@@ -1,6 +1,7 @@
 package at.sunilson.vehicleDetails.presentation.epoxy.models
 
 import android.widget.ImageView
+import androidx.core.view.doOnNextLayout
 import at.sunilson.presentationcore.epoxy.KotlinEpoxyHolder
 import at.sunilson.vehicleDetails.R
 import coil.load
@@ -37,7 +38,9 @@ abstract class DetailListImageModel : EpoxyModelWithHolder<DetailListImageModel.
         holder.image.transitionName = transitionName
         imageJob = launch {
             holder.image.load(imageUrl).await()
-            imageLoaded()
+            holder.image.doOnNextLayout {
+                imageLoaded()
+            }
         }
     }
 

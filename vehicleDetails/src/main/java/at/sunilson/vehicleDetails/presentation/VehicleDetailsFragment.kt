@@ -167,8 +167,6 @@ internal class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_detai
                 }
                 is VehicleDetailsEntry.Image -> detailListImage {
                     id("vehicleImage")
-                    imageUrl(detail.url)
-                    imageLoaded { startPostponedEnterTransition() }
                     transitionName(
                         if (args.smallTransition) {
                             "vehicleImageSmall"
@@ -176,6 +174,8 @@ internal class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_detai
                             "vehicleImage"
                         }
                     )
+                    imageUrl(detail.url)
+                    imageLoaded { startPostponedEnterTransition() }
                 }
             }
 
