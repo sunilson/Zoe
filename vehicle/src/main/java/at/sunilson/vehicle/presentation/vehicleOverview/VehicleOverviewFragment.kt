@@ -5,11 +5,9 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
-import android.content.Context
 import android.content.Intent
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
-import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Rect
 import android.graphics.drawable.Icon
@@ -100,9 +98,6 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     private var splashAnimationStarted = false
 
     @Inject
-    lateinit var themeAnimationCoordinator: ThemeAnimationCoordinator
-
-    @Inject
     lateinit var logoutHandler: LogoutHandler
 
     @Inject
@@ -146,6 +141,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { tryExit() }
 
+        setupThemeReveal()
         setupClickListeners()
         setupSwipeRefreshLayout()
         observeState()
@@ -156,8 +152,6 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
         setupResultListeners()
 
         setupHeaderAnimation(binding.cutView, binding.recyclerView)
-
-        setupThemeReveal()
     }
 
     private fun setupList() {
@@ -329,9 +323,6 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     }
 
     private fun showVehicleDetails(vin: String) {
-        startActivity(Intent(requireContext(), TestActivity::class.java))
-
-        /*
         exitTransition = null
         reenterTransition = null
         findNavController()
@@ -346,8 +337,6 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
                     }
                 )
             )
-
-         */
     }
 
     private fun revealNewTheme() {
@@ -558,11 +547,10 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     }
 
     private fun setupThemeReveal() {
-        if (themeAnimationCoordinator.themeImage != null) {
-            themeAnimationCoordinator.themeRecreationFinished()
-            binding.themeOverlay.setImageBitmap(themeAnimationCoordinator.themeImage)
+        if (viewModel.themeImage != null) {
+            binding.themeOverlay.setImageBitmap(viewModel.themeImage)
             revealNewTheme()
-            themeAnimationCoordinator.themeImage = null
+            viewModel.themeImage = null
         }
     }
 
@@ -571,10 +559,10 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
             if (bundle.getBoolean(THEME_CHANGED_RESULT, false)) {
                 viewLifecycleOwner.lifecycleScope.launchWhenResumed {
                     delay(500)
-                    themeAnimationCoordinator.themeImage = takeScreenshot()
-                    startActivity(Intent(requireContext(), TestActivity::class.java))
+                    viewModel.themeImage = takeScreenshot()
                     requireActivity().recreate()
                 }
+
             }
         }
     }
