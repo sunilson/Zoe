@@ -19,6 +19,7 @@ dependencies {
     implementation(project(":core"))
     implementation(Dependencies.hilt)
     api(project(":stringRes"))
+    api(Dependencies.fragment)
     api(Dependencies.insetter)
     api(Dependencies.insetterKtx)
     api(Dependencies.coil)

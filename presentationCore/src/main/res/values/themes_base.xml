@@ -5,7 +5,6 @@
         <item name="android:windowDisablePreview">true</item>
         <item name="fontFamily">@font/custom_font</item>
         <item name="android:fontFamily">@font/custom_font</item>
-        <item name="bottomSheetDialogTheme">@style/Widget.App.BottomSheet</item>
         <item name="circularProgressBarStyle">@style/Widget.App.CircularProgressBar</item>
         <item name="textAppearanceHeadline6">@style/Widget.App.Text.Headline6</item>
         <item name="textAppearanceBody1">@style/Widget.App.Text.Body1</item>
@@ -14,12 +13,15 @@
         <item name="textAppearanceSubtitle2">@style/Widget.App.Text.Subtitle2</item>
 
         <item name="colorSurface">@color/white</item>
+        <item name="android:colorBackground">@color/white</item>
         <item name="buttonSecondaryBackground">@color/lightGray</item>
         <item name="colorOnSurface">@color/dark_gray</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorOnPrimarySecondary">@color/off_white</item>
         <item name="dividerColor">@color/lightGrayHalfAlpha</item>
         <item name="iconColorOnSurface">@color/gray</item>
+        <item name="colorVehicleBackground">?colorPrimary</item>
+        <item name="bottomSheetBackground">?android:colorBackground</item>
     </style>
 
 </resources>

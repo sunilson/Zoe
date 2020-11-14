@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Base application theme. -->
-    <style name="Base.Theme.Zoe.Green">
-        <item name="colorPrimary">@color/black</item>
-        <item name="colorPrimaryLight">@color/black</item>
-        <item name="colorSecondary">@color/black</item>
-        <item name="colorPrimaryDark">@color/black</item>
-    </style>
+    <style name="Base.Theme.Zoe.Green" parent="Base.Theme.Zoe.Night"/>
 </resources>

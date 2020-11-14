@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -27,7 +28,7 @@ import kotlinx.coroutines.launch
 class SettingsDialogFragment : BottomSheetDialogFragment() {
 
     private val viewModel by viewModels<SettingsDialogViewModel>()
-    val binding by viewBinding(DialogFragmentSettingsBinding::bind)
+    private val binding by viewBinding(DialogFragmentSettingsBinding::bind)
 
     override fun onCreateView(
         inflater: LayoutInflater,

@@ -14,8 +14,12 @@ import at.sunilson.contracts.databinding.FragmentContractsBinding
 import at.sunilson.contracts.domain.entities.Contract
 import at.sunilson.core.Do
 import at.sunilson.ktx.context.showToast
+import at.sunilson.ktx.fragment.setNavigationBarThemeColor
+import at.sunilson.ktx.fragment.setStatusBarColor
+import at.sunilson.ktx.fragment.useLightNavigationBarIcons
 import at.sunilson.ktx.fragment.useLightStatusBarIcons
 import at.sunilson.presentationcore.base.viewBinding
+import at.sunilson.presentationcore.extensions.nightMode
 import at.sunilson.presentationcore.extensions.setupHeaderAnimation
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.Insetter
@@ -64,7 +68,10 @@ internal class ContractsFragment : Fragment(R.layout.fragment_contracts) {
 
     override fun onResume() {
         super.onResume()
-        useLightStatusBarIcons(false)
+        setStatusBarColor(android.R.color.transparent)
+        setNavigationBarThemeColor(R.attr.colorSurface)
+        useLightStatusBarIcons(requireContext().nightMode)
+        useLightNavigationBarIcons(requireContext().nightMode)
     }
 
     private fun observeEvents() {

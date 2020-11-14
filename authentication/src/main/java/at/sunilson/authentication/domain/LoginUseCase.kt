@@ -32,7 +32,7 @@ class LoginUseCase @Inject constructor(
             params == null || sp.getString(LAST_SUCCESSFUL_LOGIN, "") == params.username
 
         if (lastGigyaToken == null && params == null) {
-            TODO("Login not possible, throw error")
+            error("Long not possible")
         }
 
         val gigyaToken = if (isSameUser && lastGigyaToken != null) {
@@ -73,7 +73,6 @@ class LoginUseCase @Inject constructor(
             ).accounts.first().accountId
         }
         sp.edit { putString(KAMEREON_ACCOUNT_ID, kamereonAccountId) }
-        //TODO Save ID + any other account info that could be of value for app
 
         if (params != null) {
             sp.edit { putString(LAST_SUCCESSFUL_LOGIN, params.username) }

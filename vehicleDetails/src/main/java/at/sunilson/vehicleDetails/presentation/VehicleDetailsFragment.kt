@@ -16,11 +16,13 @@ import at.sunilson.ktx.context.showToast
 import at.sunilson.ktx.fragment.drawBelowNavigationBar
 import at.sunilson.ktx.fragment.drawBelowStatusBar
 import at.sunilson.ktx.fragment.setNavigationBarColor
+import at.sunilson.ktx.fragment.setNavigationBarThemeColor
 import at.sunilson.ktx.fragment.setStatusBarColor
 import at.sunilson.ktx.fragment.useLightStatusBarIcons
 import at.sunilson.ktx.view.hideKeyboard
 import at.sunilson.ktx.view.showKeyboard
 import at.sunilson.presentationcore.base.viewBinding
+import at.sunilson.presentationcore.extensions.nightMode
 import at.sunilson.presentationcore.extensions.setupHeaderAnimation
 import at.sunilson.vehicleDetails.R
 import at.sunilson.vehicleDetails.data.VehicleDetailsService
@@ -53,7 +55,7 @@ internal class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_detai
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedElementEnterTransition =
-            TransitionInflater.from(context).inflateTransition(android.R.transition.move)
+            TransitionInflater.from(requireContext()).inflateTransition(android.R.transition.move)
         postponeEnterTransition()
         viewModel.refreshDetails(args.vin)
         viewModel.loadVehicle(args.vin)
@@ -186,8 +188,12 @@ internal class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_detai
     override fun onResume() {
         super.onResume()
         setStatusBarColor(android.R.color.transparent)
-        setNavigationBarColor(R.color.white)
-        useLightStatusBarIcons(false)
+        if (requireContext().nightMode) {
+            setNavigationBarThemeColor(R.attr.colorSurface)
+        } else {
+            setNavigationBarColor(android.R.color.white)
+        }
+        useLightStatusBarIcons(requireContext().nightMode)
         drawBelowStatusBar(true)
         drawBelowNavigationBar(false)
     }

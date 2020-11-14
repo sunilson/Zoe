@@ -50,12 +50,15 @@ import at.sunilson.core.Do
 import at.sunilson.ktx.context.showToast
 import at.sunilson.ktx.fragment.drawBelowNavigationBar
 import at.sunilson.ktx.fragment.drawBelowStatusBar
+import at.sunilson.ktx.fragment.edgeToEdge
 import at.sunilson.ktx.fragment.setNavigationBarColor
+import at.sunilson.ktx.fragment.setNavigationBarThemeColor
 import at.sunilson.ktx.fragment.setStatusBarColor
 import at.sunilson.ktx.fragment.useLightNavigationBarIcons
 import at.sunilson.ktx.fragment.useLightStatusBarIcons
 import at.sunilson.ktx.navigation.navigateSafe
 import at.sunilson.presentationcore.base.viewBinding
+import at.sunilson.presentationcore.extensions.nightMode
 import at.sunilson.presentationcore.extensions.setupHeaderAnimation
 import at.sunilson.presentationcore.extensions.withDefaultAnimations
 import at.sunilson.vehicle.R
@@ -490,11 +493,14 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
 
     private fun setupUIFlags() {
         setStatusBarColor(android.R.color.transparent)
-        setNavigationBarColor(android.R.color.transparent)
+        if(requireContext().nightMode) {
+            setNavigationBarThemeColor(R.attr.colorSurface)
+        } else {
+            setNavigationBarColor(android.R.color.transparent)
+        }
         useLightStatusBarIcons(!splashAnimationStarted)
         useLightNavigationBarIcons(false)
-        drawBelowStatusBar()
-        drawBelowNavigationBar()
+        edgeToEdge()
     }
 
     private fun updateVehicleWidget() {

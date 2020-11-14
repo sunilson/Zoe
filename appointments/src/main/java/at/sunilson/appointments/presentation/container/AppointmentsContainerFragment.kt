@@ -11,11 +11,13 @@ import at.sunilson.appointments.R
 import at.sunilson.appointments.databinding.FragmentAppointmentsContainerBinding
 import at.sunilson.ktx.fragment.drawBelowStatusBar
 import at.sunilson.ktx.fragment.setNavigationBarColor
+import at.sunilson.ktx.fragment.setNavigationBarThemeColor
 import at.sunilson.ktx.fragment.setStatusBarColor
 import at.sunilson.ktx.fragment.useLightNavigationBarIcons
 import at.sunilson.ktx.fragment.useLightStatusBarIcons
 import at.sunilson.presentationcore.ViewpagerFragmentParentWithHeaderAnimation
 import at.sunilson.presentationcore.base.viewBinding
+import at.sunilson.presentationcore.extensions.nightMode
 import at.sunilson.presentationcore.extensions.setupHeaderAnimation
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.Insetter
@@ -66,9 +68,13 @@ internal class AppointmentsContainerFragment : Fragment(R.layout.fragment_appoin
     override fun onResume() {
         super.onResume()
         setStatusBarColor(android.R.color.transparent)
-        setNavigationBarColor(android.R.color.white)
-        useLightStatusBarIcons(false)
-        useLightNavigationBarIcons(false)
+        if (requireContext().nightMode) {
+            setNavigationBarThemeColor(R.attr.colorSurface)
+        } else {
+            setNavigationBarColor(android.R.color.white)
+        }
+        useLightStatusBarIcons(requireContext().nightMode)
+        useLightNavigationBarIcons(requireContext().nightMode)
         drawBelowStatusBar()
     }
 }

@@ -29,7 +29,6 @@ dependencies {
     implementation(project(":chargeTracking"))
     implementation(project(":appointments"))
     implementation(project(":contracts"))
-    implementation(Dependencies.fragment)
     implementation(Dependencies.lottie)
     implementation(Dependencies.hilt)
     implementation(Dependencies.maps)

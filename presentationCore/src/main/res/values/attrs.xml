@@ -7,6 +7,8 @@
     <attr name="dividerColor" format="color" />
     <attr name="iconColorOnSurface" format="color" />
     <attr name="colorPrimaryLight" format="color" />
+    <attr name="colorVehicleBackground" format="color" />
+    <attr name="bottomSheetBackground" format="color" />
 
     <declare-styleable name="DiagonalCutView">
         <attr name="direction" format="enum">

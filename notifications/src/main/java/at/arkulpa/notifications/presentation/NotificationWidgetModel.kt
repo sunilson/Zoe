@@ -8,6 +8,7 @@ import at.sunilson.presentationcore.epoxy.KotlinEpoxyHolder
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
+import com.google.android.material.switchmaterial.SwitchMaterial
 
 @EpoxyModelClass
 abstract class NotificationWidgetModel : EpoxyModelWithHolder<NotificationWidgetModel.Holder>() {
@@ -56,11 +57,11 @@ abstract class NotificationWidgetModel : EpoxyModelWithHolder<NotificationWidget
 
     class Holder : KotlinEpoxyHolder() {
         val chargeTrackButton by bind<Button>(R.id.charge_tracking_button)
-        val chargeErrorSwitch by bind<Switch>(R.id.charge_error)
-        val chargestartSwitch by bind<Switch>(R.id.charge_start)
-        val chargeEndSwitch by bind<Switch>(R.id.charge_end)
-        val chargeEightyPercentSwitch by bind<Switch>(R.id.charge_eighty_percent)
-        val batteryLowSwitch by bind<Switch>(R.id.battery_low)
+        val chargeErrorSwitch by bind<SwitchMaterial>(R.id.charge_error)
+        val chargestartSwitch by bind<SwitchMaterial>(R.id.charge_start)
+        val chargeEndSwitch by bind<SwitchMaterial>(R.id.charge_end)
+        val chargeEightyPercentSwitch by bind<SwitchMaterial>(R.id.charge_eighty_percent)
+        val batteryLowSwitch by bind<SwitchMaterial>(R.id.battery_low)
     }
 }
 

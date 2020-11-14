@@ -5,7 +5,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?colorPrimary">
+        android:background="?colorVehicleBackground">
 
     <at.sunilson.presentationcore.views.MotionLayoutSavedState
             android:id="@+id/motion_layout"
@@ -17,7 +17,7 @@
                 android:id="@+id/content_container"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:background="?colorSurface"
+                android:background="?android:colorBackground"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="@id/content_spacer">
 
@@ -38,7 +38,7 @@
                 android:id="@+id/cut_view"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:color="?colorPrimary"
+                app:color="?colorVehicleBackground"
                 app:curtainRadius="16dp"
                 app:layout_constraintBottom_toBottomOf="@id/progress_spacer"
                 app:layout_constraintTop_toTopOf="parent" />

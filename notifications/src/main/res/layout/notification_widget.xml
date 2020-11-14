@@ -14,63 +14,68 @@
 
         <TextView
                 android:id="@+id/headline"
-                android:textAppearance="?textAppearanceHeadline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/notifications" />
+                android:text="@string/notifications"
+                android:textAppearance="?textAppearanceHeadline6" />
 
         <TextView
-                android:textAppearance="?textAppearanceBody1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="@string/notifications_explanation" />
+                android:text="@string/notifications_explanation"
+                android:textAppearance="?textAppearanceBody1" />
 
 
-        <Switch
+        <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/charge_end"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="@string/charging_done" />
+                android:text="@string/charging_done"
+                android:textColor="?android:textColorPrimary" />
 
-        <Switch
+        <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/charge_eighty_percent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="@string/charge_eigthy_percent_warning" />
+                android:text="@string/charge_eigthy_percent_warning"
+                android:textColor="?android:textColorPrimary" />
 
 
-        <Switch
+        <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/charge_start"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="@string/charging_started" />
+                android:text="@string/charging_started"
+                android:textColor="?android:textColorPrimary" />
 
-        <Switch
+        <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/charge_error"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="@string/charge_error_warning" />
+                android:text="@string/charge_error_warning"
+                android:textColor="?android:textColorPrimary" />
 
-        <Switch
+        <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/battery_low"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="@string/low_battery" />
+                android:text="@string/low_battery"
+                android:textColor="?android:textColorPrimary" />
 
         <com.google.android.material.button.MaterialButton
                 android:id="@+id/charge_tracking_button"
+                style="@style/Widget.App.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                style="@style/Widget.App.Button"
-                app:icon="@drawable/ic_baseline_track_changes_24"
-                android:text="@string/activate_charge_tracker" />
+                android:text="@string/activate_charge_tracker"
+                app:icon="@drawable/ic_baseline_track_changes_24" />
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

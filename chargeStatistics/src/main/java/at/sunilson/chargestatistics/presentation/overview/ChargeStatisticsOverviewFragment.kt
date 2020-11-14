@@ -16,11 +16,14 @@ import at.sunilson.chargestatistics.R
 import at.sunilson.chargestatistics.databinding.ChargeStatisticsOverviewFragmentBinding
 import at.sunilson.ktx.fragment.drawBelowStatusBar
 import at.sunilson.ktx.fragment.setNavigationBarColor
+import at.sunilson.ktx.fragment.setNavigationBarThemeColor
 import at.sunilson.ktx.fragment.setStatusBarColor
 import at.sunilson.ktx.fragment.useLightNavigationBarIcons
 import at.sunilson.ktx.fragment.useLightStatusBarIcons
 import at.sunilson.presentationcore.ViewpagerFragmentParentWithHeaderAnimation
 import at.sunilson.presentationcore.base.viewBinding
+import at.sunilson.presentationcore.extensions.getThemeColor
+import at.sunilson.presentationcore.extensions.nightMode
 import at.sunilson.presentationcore.extensions.setupHeaderAnimation
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,9 +41,9 @@ class ChargeStatisticsOverviewFragment : Fragment(R.layout.charge_statistics_ove
     override fun onResume() {
         super.onResume()
         setStatusBarColor(android.R.color.transparent)
-        setNavigationBarColor(android.R.color.white)
-        useLightStatusBarIcons(false)
-        useLightNavigationBarIcons(false)
+        setNavigationBarThemeColor(R.attr.colorSurface)
+        useLightStatusBarIcons(requireContext().nightMode)
+        useLightNavigationBarIcons(requireContext().nightMode)
         drawBelowStatusBar()
     }
 
