@@ -12,9 +12,11 @@ import androidx.navigation.fragment.findNavController
 import at.sunilson.core.Do
 import at.sunilson.ktx.context.showToast
 import at.sunilson.ktx.fragment.setNavigationBarColor
+import at.sunilson.ktx.fragment.setNavigationBarThemeColor
 import at.sunilson.ktx.fragment.setStatusBarColor
 import at.sunilson.ktx.fragment.useLightStatusBarIcons
 import at.sunilson.presentationcore.base.viewBinding
+import at.sunilson.presentationcore.extensions.nightMode
 import at.sunilson.presentationcore.extensions.setupHeaderAnimation
 import at.sunilson.scheduleCore.R
 import at.sunilson.scheduleCore.databinding.FragmentScheduleOverviewBinding
@@ -36,9 +38,13 @@ abstract class ScheduleFragment : Fragment(R.layout.fragment_schedule_overview) 
 
     override fun onResume() {
         super.onResume()
-        useLightStatusBarIcons(false)
+        useLightStatusBarIcons(requireContext().nightMode)
         setStatusBarColor(android.R.color.transparent)
-        setNavigationBarColor(R.color.white)
+        if (requireContext().nightMode) {
+            setNavigationBarThemeColor(R.attr.colorSurface)
+        } else {
+            setNavigationBarColor(android.R.color.white)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

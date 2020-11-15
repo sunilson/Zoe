@@ -4,7 +4,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?colorSurface">
+        android:background="?android:colorBackground">
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/header_container"
@@ -51,7 +51,7 @@
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
                 android:paddingHorizontal="@dimen/list_padding_horizontal"
-                android:paddingTop="20dp"
+                android:paddingVertical="20dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
@@ -70,7 +70,7 @@
             android:id="@+id/disabled_overlay"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="#80FFFFFF"
+            android:background="@color/loading_background"
             android:clickable="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/header_container" />
