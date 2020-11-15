@@ -14,10 +14,10 @@ class GetSelectedVehicle @Inject constructor(
     private val vehicleDao: VehicleDao
 ) : FlowUseCase<Vehicle?, Unit>() {
     override fun run(params: Unit) =
-        vehicleRepository.selectedVehicleFlow.flatMapMerge { selectedVehicleVin ->
+        vehicleRepository.selectedVehicle.flatMapMerge { selectedVehicleVin ->
             if (selectedVehicleVin.isNullOrEmpty()) {
                 vehicleDao.getAllVehicles().map { vehicles ->
-                    vehicles.firstOrNull()?.apply { vehicleRepository.selectedVehicle = vin }
+                    vehicles.firstOrNull()?.apply { vehicleRepository.setSelectedVehicle(vin) }
                 }
             } else {
                 vehicleDao.getVehicle(selectedVehicleVin)

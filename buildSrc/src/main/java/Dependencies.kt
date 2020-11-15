@@ -90,4 +90,5 @@ object Dependencies {
     const val flipperNetwork = "com.facebook.flipper:flipper-network-plugin:$FLIPPER_VERSION"
     const val flipperNoop = "com.facebook.flipper:flipper-noop:$FLIPPER_VERSION"
     const val flipperSoloader = "com.facebook.soloader:soloader:0.9.0"
+    const val dataStore = "androidx.datastore:datastore-preferences:1.0.0-alpha02"
 }

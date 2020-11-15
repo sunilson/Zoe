@@ -7,6 +7,7 @@ import at.sunilson.ktx.context.showToast
 import at.sunilson.vehicle.domain.StartClimateControl
 import at.sunilson.vehiclecore.domain.VehicleCoreRepository
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 import javax.inject.Inject
@@ -23,7 +24,8 @@ class HvacBroadCastReciever : BaseBroadCastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
         runBlocking {
-            val selectedVehicle = vehicleCoreRepository.selectedVehicle ?: return@runBlocking
+            val selectedVehicle =
+                vehicleCoreRepository.selectedVehicle.firstOrNull() ?: return@runBlocking
             startClimateControl(selectedVehicle).fold(
                 { context.showToast("Klimatisierungs Anfrage gesendet!") },
                 {

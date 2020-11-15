@@ -4,7 +4,7 @@
         <item name="colorPrimary">@color/lightGray</item>
         <item name="colorSurface">@color/dark_gray</item>
         <item name="android:colorBackground">@color/gray</item>
-        <item name="colorPrimaryLight">@color/lightGray</item>
+        <item name="colorPrimaryLight">@color/lightGrayHalfAlpha</item>
         <item name="colorSecondary">@color/white</item>
         <item name="colorPrimaryDark">@color/dark_gray</item>
         <item name="colorOnSurface">@color/white</item>

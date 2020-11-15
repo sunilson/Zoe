@@ -1,20 +1,24 @@
 package at.sunilson.vehiclecore.data
 
 import android.content.SharedPreferences
-import androidx.core.content.edit
+import androidx.datastore.DataStore
+import androidx.datastore.preferences.Preferences
+import androidx.datastore.preferences.edit
+import androidx.datastore.preferences.preferencesKey
 import at.sunilson.authentication.data.AuthSharedPrefConstants
 import at.sunilson.vehiclecore.domain.VehicleCoreRepository
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class VehicleCoreRepositoryImpl @Inject constructor(private val sharedPreferences: SharedPreferences) :
-    VehicleCoreRepository {
+class VehicleCoreRepositoryImpl @Inject constructor(
+    private val sharedPreferences: SharedPreferences,
+    private val dataStore: DataStore<Preferences>
+) : VehicleCoreRepository {
+    private val SELECTED_VEHICLE = preferencesKey<String>("selectedVehicle")
+
     override val kamereonAccountID: String
         get() = requireNotNull(
             sharedPreferences.getString(
@@ -23,26 +27,10 @@ class VehicleCoreRepositoryImpl @Inject constructor(private val sharedPreference
             )
         )
 
-    override var selectedVehicle: String?
-        get() = sharedPreferences.getString(SELECTED_VEHICLE, null)
-        set(value) {
-            sharedPreferences.edit { putString(SELECTED_VEHICLE, value) }
-        }
+    override val selectedVehicle: Flow<String?>
+        get() = dataStore.data.map { it[SELECTED_VEHICLE] }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    override val selectedVehicleFlow: Flow<String?>
-        get() = callbackFlow {
-            offer(sharedPreferences.getString(SELECTED_VEHICLE, null))
-            val listener = SharedPreferences.OnSharedPreferenceChangeListener { sp, key ->
-                if (key == SELECTED_VEHICLE) {
-                    offer(sp.getString(key, null))
-                }
-            }
-            sharedPreferences.registerOnSharedPreferenceChangeListener(listener)
-            awaitClose { sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener) }
-        }.distinctUntilChanged()
-
-    companion object {
-        const val SELECTED_VEHICLE = "selectedVehicle"
+    override suspend fun setSelectedVehicle(vin: String) {
+        dataStore.edit { it[SELECTED_VEHICLE] = vin }
     }
 }

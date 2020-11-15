@@ -28,6 +28,7 @@ dependencies {
     api(Dependencies.timber)
     api(Dependencies.okhttp)
     api(Dependencies.sunilsonExtensions)
+    api(Dependencies.dataStore)
     implementation(Dependencies.hilt)
 
     debugApi(Dependencies.flipper)

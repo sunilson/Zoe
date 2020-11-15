@@ -6,10 +6,10 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import at.sunilson.authentication.domain.LogoutUseCase
 import at.sunilson.unidirectionalviewmodel.core.UniDirectionalViewModel
-import at.sunilson.vehicle.domain.SetSelectedVehicle
+import at.sunilson.vehicle.domain.SelectVehicle
 import at.sunilson.vehiclecore.domain.GetAllVehicles
 import at.sunilson.vehiclecore.domain.entities.Vehicle
-import com.github.kittinunf.result.success
+import com.github.kittinunf.result.coroutines.success
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -23,7 +23,7 @@ internal sealed class SettingsDialogEvent {
 internal class SettingsDialogViewModel @ViewModelInject constructor(
     private val sharedPreferences: SharedPreferences,
     private val getAllVehicles: GetAllVehicles,
-    private val setSelectedVehicle: SetSelectedVehicle,
+    private val setSelectedVehicle: SelectVehicle,
     private val logoutUseCase: LogoutUseCase,
 ) : UniDirectionalViewModel<SettingsDialogState, SettingsDialogEvent>(SettingsDialogState()) {
 
@@ -34,7 +34,9 @@ internal class SettingsDialogViewModel @ViewModelInject constructor(
     }
 
     fun selectVehicle(vin: String) {
-        setSelectedVehicle(vin).success { sendEvent(SettingsDialogEvent.VehicleSelected) }
+        viewModelScope.launch {
+            setSelectedVehicle(vin).success { sendEvent(SettingsDialogEvent.VehicleSelected) }
+        }
     }
 
     fun logout() {
