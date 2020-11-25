@@ -6,6 +6,8 @@ import android.content.SharedPreferences
 import androidx.datastore.DataStore
 import androidx.datastore.preferences.Preferences
 import androidx.datastore.preferences.createDataStore
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,8 +20,21 @@ import javax.inject.Singleton
 object CoreApplicationModule {
     @Provides
     @Singleton
-    fun provideSharedPreferences(application: Application): SharedPreferences =
-        application.getSharedPreferences("ZOE_APP", Context.MODE_PRIVATE)
+    fun provideSharedPreferences(application: Application): SharedPreferences {
+        val masterKey = MasterKey
+            .Builder(application)
+            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+            .setRequestStrongBoxBacked(true)
+            .build()
+
+        return EncryptedSharedPreferences.create(
+            application,
+            "ZOE_APP",
+            masterKey,
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        )
+    }
 
     @Provides
     @Singleton

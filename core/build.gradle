@@ -30,6 +30,7 @@ dependencies {
     api(Dependencies.sunilsonExtensions)
     api(Dependencies.dataStore)
     implementation(Dependencies.hilt)
+    implementation "androidx.security:security-crypto:1.1.0-alpha02"
 
     debugApi(Dependencies.flipper)
     debugApi(Dependencies.flipperNetwork)

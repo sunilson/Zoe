@@ -14,12 +14,15 @@ import at.sunilson.core.Do
 import at.sunilson.ktx.context.showToast
 import at.sunilson.ktx.fragment.safeStartActivity
 import at.sunilson.ktx.fragment.setNavigationBarColor
+import at.sunilson.ktx.fragment.setNavigationBarThemeColor
 import at.sunilson.ktx.fragment.setStatusBarColor
+import at.sunilson.ktx.fragment.setStatusBarThemeColor
 import at.sunilson.ktx.fragment.useLightNavigationBarIcons
 import at.sunilson.ktx.fragment.useLightStatusBarIcons
 import at.sunilson.navigation.ActivityNavigator
 import at.sunilson.navigation.ActivityNavigatorParams
 import at.sunilson.presentationcore.base.viewBinding
+import at.sunilson.presentationcore.extensions.nightMode
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -36,10 +39,15 @@ internal class LoginFragment : Fragment(R.layout.fragment_login) {
 
     override fun onResume() {
         super.onResume()
-        setStatusBarColor(R.color.white)
-        setNavigationBarColor(R.color.white)
-        useLightStatusBarIcons(false)
-        useLightNavigationBarIcons(false)
+        if (requireContext().nightMode) {
+            setStatusBarThemeColor(R.attr.colorSurface)
+            setNavigationBarThemeColor(R.attr.colorSurface)
+        } else {
+            setStatusBarColor(android.R.color.white)
+            setNavigationBarColor(android.R.color.white)
+        }
+        useLightStatusBarIcons(requireContext().nightMode)
+        useLightNavigationBarIcons(requireContext().nightMode)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
