@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -19,6 +18,7 @@ import at.sunilson.presentationcore.extensions.withDefaultAnimations
 import at.sunilson.vehicle.R
 import at.sunilson.vehicle.databinding.DialogFragmentSettingsBinding
 import at.sunilson.vehiclecore.domain.entities.Vehicle
+import at.sunilson.vehiclecore.presentation.vehicleListItem
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect

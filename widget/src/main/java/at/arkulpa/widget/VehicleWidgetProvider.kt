@@ -11,19 +11,19 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View.GONE
 import android.widget.RemoteViews
-import at.sunilson.vehiclecore.domain.GetSelectedVehicle
-import at.sunilson.vehiclecore.domain.VehicleCoreRepository
+import at.arkulpa.widget.domain.GetVehicleForWidget
 import at.sunilson.vehiclecore.domain.entities.Vehicle
 import at.sunilson.vehiclecore.presentation.extensions.displayName
 import coil.Coil
 import coil.request.ImageRequest
 import coil.request.SuccessResult
+import com.github.kittinunf.result.coroutines.success
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -32,10 +32,7 @@ class VehicleWidgetProvider : AppWidgetProvider() {
     private var updateJob: Job? = null
 
     @Inject
-    lateinit var vehicleCoreRepository: VehicleCoreRepository
-
-    @Inject
-    lateinit var getSelectedVehicle: GetSelectedVehicle
+    internal lateinit var getVehicleForWidget: GetVehicleForWidget
 
     override fun onAppWidgetOptionsChanged(
         context: Context,
@@ -44,7 +41,6 @@ class VehicleWidgetProvider : AppWidgetProvider() {
         newOptions: Bundle?
     ) {
         super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions)
-        //TODO https://stackoverflow.com/questions/17138191/how-to-make-android-widget-layout-responsive
 
         val options = appWidgetManager.getAppWidgetOptions(appWidgetId) ?: return
         val minWidth = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)
@@ -57,6 +53,10 @@ class VehicleWidgetProvider : AppWidgetProvider() {
         appWidgetManager.updateAppWidget(appWidgetId, remoteViews)
     }
 
+    override fun onReceive(context: Context, intent: Intent?) {
+        super.onReceive(context, intent)
+    }
+
     override fun onUpdate(
         context: Context,
         appWidgetManager: AppWidgetManager?,
@@ -64,14 +64,21 @@ class VehicleWidgetProvider : AppWidgetProvider() {
     ) {
         updateJob?.cancel()
         updateJob = GlobalScope.launch(Dispatchers.Main) {
-            val vehicle = getSelectedVehicle(Unit).first() ?: return@launch
             appWidgetIds?.forEach { widgetId ->
-                val remoteViews = RemoteViews(context.packageName, R.layout.vehicle_widget_layout)
-                remoteViews.setTexts(context, vehicle)
-                remoteViews.setupClickIntents(context)
-                remoteViews.loadVehicleImage(context, vehicle)
-
-                appWidgetManager?.updateAppWidget(widgetId, remoteViews)
+                try {
+                    Timber.d("Loading widget info for Widget $widgetId")
+                    getVehicleForWidget(widgetId.toString()).success { vehicle ->
+                        Timber.d("Loaded vehicle for widghet $widgetId: $vehicle")
+                        val remoteViews =
+                            RemoteViews(context.packageName, R.layout.vehicle_widget_layout)
+                        remoteViews.setTexts(context, vehicle)
+                        remoteViews.setupClickIntents(context, vehicle)
+                        remoteViews.loadVehicleImage(context, vehicle)
+                        appWidgetManager?.updateAppWidget(widgetId, remoteViews)
+                    }
+                } catch (e: Exception) {
+                    Timber.e(e, "Error updating widget $widgetId")
+                }
             }
         }
     }
@@ -102,14 +109,13 @@ class VehicleWidgetProvider : AppWidgetProvider() {
         setImageViewBitmap(R.id.vehicle_image, bitmap)
     }
 
-    private fun RemoteViews.setupClickIntents(context: Context) {
-        val selectedVehicle = vehicleCoreRepository.selectedVehicle
-
+    private fun RemoteViews.setupClickIntents(context: Context, selectedVehicle: Vehicle) {
         val homeIntent = Intent().apply {
             action = Intent.ACTION_VIEW
             component = ComponentName("at.sunilson.zoe", "at.sunilson.zoe.MainActivity")
-            data = Uri.parse("zoe://vehicle_overview")
+            data = Uri.parse("zoe://vehicle_overview/${selectedVehicle.vin}")
         }
+
         val pendingHomeIntent =
             PendingIntent.getActivity(context, 1, homeIntent, PendingIntent.FLAG_UPDATE_CURRENT)
         setOnClickPendingIntent(R.id.widget_root, pendingHomeIntent)
@@ -128,13 +134,7 @@ class VehicleWidgetProvider : AppWidgetProvider() {
         val mapIntent = Intent().apply {
             action = Intent.ACTION_VIEW
             component = ComponentName("at.sunilson.zoe", "at.sunilson.zoe.MainActivity")
-            data = Uri.parse(
-                if (selectedVehicle == null) {
-                    "zoe://vehicle_overview"
-                } else {
-                    "zoe://vehicle_location/$selectedVehicle"
-                }
-            )
+            data = Uri.parse("zoe://vehicle_location/${selectedVehicle.vin}")
         }
         val pendingMapIntent =
             PendingIntent.getActivity(context, 1, mapIntent, PendingIntent.FLAG_UPDATE_CURRENT)
@@ -144,16 +144,14 @@ class VehicleWidgetProvider : AppWidgetProvider() {
         val chargeIntent = Intent().apply {
             action = Intent.ACTION_VIEW
             component = ComponentName("at.sunilson.zoe", "at.sunilson.zoe.MainActivity")
-            data = Uri.parse(
-                if (selectedVehicle == null) {
-                    "zoe://vehicle_overview"
-                } else {
-                    "zoe://charge_statistics/$selectedVehicle"
-                }
-            )
+            data = Uri.parse("zoe://charge_statistics/${selectedVehicle.vin}")
         }
         val pendingChargeIntent =
             PendingIntent.getActivity(context, 1, chargeIntent, PendingIntent.FLAG_UPDATE_CURRENT)
         setOnClickPendingIntent(R.id.show_charge_statistics, pendingChargeIntent)
+    }
+
+    companion object {
+        const val UPDATE_WIDGET_ID = "updateWidgetId"
     }
 }

@@ -13,6 +13,8 @@
                     android:name="android.appwidget.provider"
                     android:resource="@xml/vehicle_widget_provider" />
         </receiver>
+
+        <!--
         <receiver
                 android:name=".ReachableAreaWidgetProvider"
                 android:label="Reachable Area Widget">
@@ -23,5 +25,14 @@
                     android:name="android.appwidget.provider"
                     android:resource="@xml/reachable_area_widget_provider" />
         </receiver>
+        -->
+
+        <activity
+                android:name=".VehicleWidgetConfigurationActivity"
+                android:theme="@style/Base.Theme.Zoe.Blue">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
     </application>
 </manifest>

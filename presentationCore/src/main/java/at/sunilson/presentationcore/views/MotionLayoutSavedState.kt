@@ -4,9 +4,11 @@ import android.content.Context
 import android.os.Parcel
 import android.os.Parcelable
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import androidx.constraintlayout.motion.widget.MotionLayout
-import androidx.core.widget.NestedScrollView
+import androidx.core.view.children
+import androidx.core.view.doOnNextLayout
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 
@@ -55,23 +57,23 @@ class MotionLayoutSavedState @JvmOverloads constructor(
     override fun onRestoreInstanceState(state: Parcelable?) {
         if (state is SavedState) {
             super.onRestoreInstanceState(state.superState)
-            progress = state.progress
+            doOnNextLayout { progress = state.progress }
         } else {
             super.onRestoreInstanceState(state)
         }
     }
 
     override fun onNestedPreScroll(target: View, dx: Int, dy: Int, consumed: IntArray, type: Int) {
+
         if (target !is SwipeRefreshLayout) {
             return super.onNestedPreScroll(target, dx, dy, consumed, type)
         }
 
-        val scrollView = target.getChildAt(0)
+        val scrollView = target.children.firstOrNull { it is RecyclerView }
 
         if (scrollView !is RecyclerView) {
             return super.onNestedPreScroll(target, dx, dy, consumed, type)
         }
-
 
         val canScrollVertically = scrollView.canScrollVertically(-1)
         if (dy < 0 && canScrollVertically) {

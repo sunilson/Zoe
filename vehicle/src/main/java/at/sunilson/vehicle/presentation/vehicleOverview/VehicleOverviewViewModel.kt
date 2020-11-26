@@ -15,6 +15,7 @@ import at.sunilson.unidirectionalviewmodel.savedstate.PersistableState
 import at.sunilson.unidirectionalviewmodel.savedstate.UniDirectionalSavedStateViewModelReflection
 import at.sunilson.vehicle.domain.GetSelectedVehicleCurrentChargeProcedure
 import at.sunilson.vehicle.domain.RefreshAllVehicles
+import at.sunilson.vehicle.domain.SelectVehicle
 import at.sunilson.vehicle.domain.StartCharging
 import at.sunilson.vehicle.domain.StartClimateControl
 import at.sunilson.vehicle.domain.entities.ChargeProcedure
@@ -53,6 +54,7 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
     private val getSelectedVehicleCurrentChargeProcedure: GetSelectedVehicleCurrentChargeProcedure,
     private val getNearestAppointment: GetNearestAppointment,
     private val getNearestExpiringContract: GetNearestExpiringContract,
+    private val selectVehicle: SelectVehicle,
     @Assisted savedStateHandle: SavedStateHandle
 ) : UniDirectionalSavedStateViewModelReflection<VehicleOverviewState, VehicleOverviewEvents>(
     VehicleOverviewState(), savedStateHandle
@@ -69,6 +71,12 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
     init {
         loadSelectedVehicle()
         refreshVehicles()
+    }
+
+    fun vehicleSelected(vin: String) {
+        viewModelScope.launch {
+            selectVehicle(vin)
+        }
     }
 
     fun refreshVehicles(invisible: Boolean = false) {

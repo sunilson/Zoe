@@ -40,6 +40,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import at.arkulpa.notifications.domain.NotificationRepository
@@ -101,6 +102,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     private val animators = mutableListOf<ValueAnimator>()
     private var lastBackPress: Long = -1L
     private var splashAnimationStarted = false
+    private val args by navArgs<VehicleOverviewFragmentArgs>()
 
     @Inject
     lateinit var logoutHandler: LogoutHandler
@@ -110,9 +112,12 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        //Use viewmodel so it is already initialized
-        viewModel
+        if(args.vin != null) {
+            viewModel.vehicleSelected(args.vin!!)
+        } else {
+            //Use viewmodel so it is already initialized
+            viewModel
+        }
     }
 
     private fun tryExit() {

@@ -10,7 +10,13 @@
             android:label="VehicleOverviewFragment"
             tools:layout="@layout/fragment_vehicle_overview">
 
-        <deepLink app:uri="zoe://vehicle_overview" />
+        <deepLink app:uri="zoe://vehicle_overview/{vin}" />
+
+        <argument
+                android:name="vin"
+                android:defaultValue="@null"
+                app:argType="string"
+                app:nullable="true" />
 
         <action
                 android:id="@+id/show_settings_dialog"

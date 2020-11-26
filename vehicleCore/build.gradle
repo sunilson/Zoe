@@ -21,6 +21,7 @@ dependencies {
     implementation(project(":authentication"))
     implementation(project(":networkingCore"))
     implementation(project(":core"))
+    implementation(project(":presentationCore"))
     implementation(Dependencies.lifecycleLiveData)
     implementation(Dependencies.hilt)
     implementation(Dependencies.room)
@@ -29,4 +30,5 @@ dependencies {
     kapt(Dependencies.hiltKapt)
     kapt(Dependencies.hiltKaptJetpack)
     kapt(Dependencies.roomKapt)
+    kapt(Dependencies.epoxyKapt)
 }
