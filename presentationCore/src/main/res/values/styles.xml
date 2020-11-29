@@ -1,11 +1,19 @@
 <resources>
 
-    <style name="Widget.App.BottomSheet" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
+    <style name="Widget.App.BottomSheet" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
     </style>
 
-    <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@drawable/bottom_sheet_background</item>
+    <style name="BottomSheetStyle" parent="Widget.MaterialComponents.BottomSheet">
+        <item name="shapeAppearanceOverlay">@style/Widget.App.BottomSheet.RoundedCorners</item>
+    </style>
+
+    <style name="Widget.App.BottomSheet.RoundedCorners" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">16dp</item>
+        <item name="cornerSizeTopLeft">16dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
     </style>
 
     <style name="Widget.App.Button" parent="Widget.MaterialComponents.Button.OutlinedButton">

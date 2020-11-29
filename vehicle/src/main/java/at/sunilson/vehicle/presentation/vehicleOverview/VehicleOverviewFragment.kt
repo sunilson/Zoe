@@ -29,7 +29,6 @@ import androidx.activity.addCallback
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
 import androidx.core.content.ContextCompat.getSystemService
-import androidx.core.content.edit
 import androidx.core.net.toUri
 import androidx.core.view.doOnLayout
 import androidx.core.view.isVisible
@@ -49,8 +48,6 @@ import at.arkulpa.widget.VehicleWidgetProvider
 import at.sunilson.authentication.domain.LogoutHandler
 import at.sunilson.core.Do
 import at.sunilson.ktx.context.showToast
-import at.sunilson.ktx.fragment.drawBelowNavigationBar
-import at.sunilson.ktx.fragment.drawBelowStatusBar
 import at.sunilson.ktx.fragment.edgeToEdge
 import at.sunilson.ktx.fragment.setNavigationBarColor
 import at.sunilson.ktx.fragment.setNavigationBarThemeColor
@@ -65,6 +62,7 @@ import at.sunilson.presentationcore.extensions.withDefaultAnimations
 import at.sunilson.vehicle.R
 import at.sunilson.vehicle.databinding.FragmentVehicleOverviewBinding
 import at.sunilson.vehicle.presentation.hvacBroadcastReciever.HvacBroadCastReciever
+import at.sunilson.vehicle.presentation.hvacStartDialog.StartHVACDialog
 import at.sunilson.vehicle.presentation.settingsDialog.SettingsDialogFragment.Companion.SETTINGS_DIALOG_REQUEST
 import at.sunilson.vehicle.presentation.settingsDialog.SettingsDialogFragment.Companion.THEME_CHANGED_RESULT
 import at.sunilson.vehicle.presentation.utils.TimeUtils
@@ -112,7 +110,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if(args.vin != null) {
+        if (args.vin != null) {
             viewModel.vehicleSelected(args.vin!!)
         } else {
             //Use viewmodel so it is already initialized
@@ -305,6 +303,8 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
                         startSplashAnimation()
                     } else {
                     }
+                    HVACStopped -> requireContext().showToast(R.string.hvac_stopped)
+                    HVACNotStopped -> requireContext().showToast(R.string.hvac_not_stopped)
                 }
             }
         }
@@ -438,7 +438,12 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
                         NavOptions.Builder().withDefaultAnimations()
                     )
                 }
-                startClimateControlClicked { viewModel.startClimateControl(vehicle.vin) }
+                startClimateControlClicked {
+                    StartHVACDialog().show(childFragmentManager, null)
+                }
+                stopClimateControlClicked {
+                    viewModel.stopHVAC()
+                }
             }
 
             chargeWidget {
@@ -498,7 +503,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
 
     private fun setupUIFlags() {
         setStatusBarColor(android.R.color.transparent)
-        if(requireContext().nightMode) {
+        if (requireContext().nightMode) {
             setNavigationBarThemeColor(R.attr.colorSurface)
         } else {
             setNavigationBarColor(android.R.color.transparent)

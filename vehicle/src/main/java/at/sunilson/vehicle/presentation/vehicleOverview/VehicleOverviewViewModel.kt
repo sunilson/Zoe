@@ -1,7 +1,6 @@
 package at.sunilson.vehicle.presentation.vehicleOverview
 
 import android.graphics.Bitmap
-import android.util.Log
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.SavedStateHandle
@@ -17,7 +16,7 @@ import at.sunilson.vehicle.domain.GetSelectedVehicleCurrentChargeProcedure
 import at.sunilson.vehicle.domain.RefreshAllVehicles
 import at.sunilson.vehicle.domain.SelectVehicle
 import at.sunilson.vehicle.domain.StartCharging
-import at.sunilson.vehicle.domain.StartClimateControl
+import at.sunilson.vehicle.domain.StopHVAC
 import at.sunilson.vehicle.domain.entities.ChargeProcedure
 import at.sunilson.vehiclecore.domain.GetSelectedVehicle
 import at.sunilson.vehiclecore.domain.entities.Vehicle
@@ -40,6 +39,8 @@ sealed class VehicleOverviewEvents
 object ShowSplashScreen : VehicleOverviewEvents()
 object NoVehiclesAvailable : VehicleOverviewEvents()
 object RequestFailed : VehicleOverviewEvents()
+object HVACStopped : VehicleOverviewEvents()
+object HVACNotStopped : VehicleOverviewEvents()
 data class ShowToast(val message: String) : VehicleOverviewEvents()
 data class ShowVehicleDetails(val vin: String, val imageUri: String) : VehicleOverviewEvents()
 data class ShowVehicleStatistics(val vin: String) : VehicleOverviewEvents()
@@ -49,12 +50,12 @@ data class ShowVehicleLocation(val vin: String) : VehicleOverviewEvents()
 internal class VehicleOverviewViewModel @ViewModelInject constructor(
     private val getSelectedVehicle: GetSelectedVehicle,
     private val refreshAllVehicles: RefreshAllVehicles,
-    private val startClimateControlUseCase: StartClimateControl,
     private val startChargingUseCase: StartCharging,
     private val getSelectedVehicleCurrentChargeProcedure: GetSelectedVehicleCurrentChargeProcedure,
     private val getNearestAppointment: GetNearestAppointment,
     private val getNearestExpiringContract: GetNearestExpiringContract,
     private val selectVehicle: SelectVehicle,
+    private val stopHVAC: StopHVAC,
     @Assisted savedStateHandle: SavedStateHandle
 ) : UniDirectionalSavedStateViewModelReflection<VehicleOverviewState, VehicleOverviewEvents>(
     VehicleOverviewState(), savedStateHandle
@@ -106,15 +107,6 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
         }
     }
 
-    fun startClimateControl(vin: String, targetTemperature: Int = 21, startTime: Long? = null) {
-        viewModelScope.launch {
-            startClimateControlUseCase(vin).fold(
-                { sendEvent(ShowToast("Klimatisierungs Anfrage gesendet!")) },
-                { Timber.e(it) }
-            )
-        }
-    }
-
     fun startCharging(vin: String) {
         viewModelScope.launch {
             startChargingUseCase(vin).fold(
@@ -124,6 +116,14 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
         }
     }
 
+    fun stopHVAC() {
+        viewModelScope.launch {
+            stopHVAC(Unit).fold(
+                { sendEvent(HVACStopped) },
+                { sendEvent(HVACNotStopped) }
+            )
+        }
+    }
 
     fun showChargeStatistics() {
         getState { it.selectedVehicle?.let { vehicle -> sendEvent(ShowChargeStatistics(vehicle.vin)) } }

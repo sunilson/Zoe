@@ -5,13 +5,16 @@ import at.sunilson.networkingcore.KamereonPostBody
 import at.sunilson.vehicle.data.VehicleService
 import at.sunilson.vehiclecore.domain.VehicleCoreRepository
 import com.github.kittinunf.result.coroutines.SuspendableResult
+import kotlinx.coroutines.flow.firstOrNull
 import javax.inject.Inject
 
-internal class StartClimateControl @Inject constructor(
+internal class StopHVAC @Inject constructor(
     private val vehicleService: VehicleService,
     private val vehicleCoreRepository: VehicleCoreRepository
-) : AsyncUseCase<Unit, String>() {
-    override suspend fun run(vin: String) = SuspendableResult.of<Unit, Exception> {
+) : AsyncUseCase<Unit, Unit>() {
+    override suspend fun run(params: Unit) = SuspendableResult.of<Unit, Exception> {
+        val vin =
+            vehicleCoreRepository.selectedVehicle.firstOrNull() ?: error("No vehicle selected")
         vehicleService.startHVAC(
             vehicleCoreRepository.kamereonAccountID,
             vin,
@@ -19,8 +22,7 @@ internal class StartClimateControl @Inject constructor(
                 KamereonPostBody.Data(
                     "HvacStart",
                     mapOf(
-                        "action" to "start",
-                        "targetTemperature" to 21
+                        "action" to "cancel",
                     )
                 )
             )

@@ -21,7 +21,7 @@
         <item name="dividerColor">@color/lightGrayHalfAlpha</item>
         <item name="iconColorOnSurface">@color/gray</item>
         <item name="colorVehicleBackground">?colorPrimary</item>
-        <item name="bottomSheetBackground">?android:colorBackground</item>
+        <item name="bottomSheetDialogTheme">@style/Widget.App.BottomSheet</item>
     </style>
 
 </resources>

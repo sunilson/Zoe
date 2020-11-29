@@ -4,7 +4,9 @@ import android.content.Context
 import android.content.Intent
 import at.sunilson.core.base.BaseBroadCastReceiver
 import at.sunilson.ktx.context.showToast
-import at.sunilson.vehicle.domain.StartClimateControl
+import at.sunilson.vehicle.R
+import at.sunilson.vehicle.domain.GetHVACInstantPreferences
+import at.sunilson.vehicle.domain.StartHVAC
 import at.sunilson.vehiclecore.domain.VehicleCoreRepository
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.firstOrNull
@@ -16,7 +18,10 @@ import javax.inject.Inject
 class HvacBroadCastReciever : BaseBroadCastReceiver() {
 
     @Inject
-    internal lateinit var startClimateControl: StartClimateControl
+    internal lateinit var startHVAC: StartHVAC
+
+    @Inject
+    internal lateinit var getHVACInstantPreferences: GetHVACInstantPreferences
 
     @Inject
     lateinit var vehicleCoreRepository: VehicleCoreRepository
@@ -24,12 +29,11 @@ class HvacBroadCastReciever : BaseBroadCastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
         runBlocking {
-            val selectedVehicle =
-                vehicleCoreRepository.selectedVehicle.firstOrNull() ?: return@runBlocking
-            startClimateControl(selectedVehicle).fold(
-                { context.showToast("Klimatisierungs Anfrage gesendet!") },
+            val preferences = getHVACInstantPreferences(Unit).firstOrNull() ?: return@runBlocking
+            startHVAC(preferences).fold(
+                { context.showToast(context.getString(R.string.hvac_started)) },
                 {
-                    context.showToast("Klimatisierungs Anfrage konnte nicht gesendet werden!")
+                    context.showToast(context.getString(R.string.hvac_not_started))
                     Timber.e(it)
                 }
             )

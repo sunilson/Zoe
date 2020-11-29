@@ -1,5 +1,6 @@
 package at.sunilson.vehicle.presentation.settingsDialog
 
+import android.content.DialogInterface
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,7 +13,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import at.sunilson.core.Do
+import at.sunilson.ktx.fragment.setNavigationBarColor
+import at.sunilson.ktx.fragment.setNavigationBarThemeColor
 import at.sunilson.presentationcore.base.viewBinding
+import at.sunilson.presentationcore.extensions.nightMode
 import at.sunilson.presentationcore.extensions.setupHeaderAnimation
 import at.sunilson.presentationcore.extensions.withDefaultAnimations
 import at.sunilson.vehicle.R
@@ -36,6 +40,20 @@ class SettingsDialogFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.dialog_fragment_settings, container, false)
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        setNavigationBarColor(android.R.color.transparent)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (requireContext().nightMode) {
+            setNavigationBarThemeColor(R.attr.colorSurface)
+        } else {
+            setNavigationBarColor(android.R.color.white)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

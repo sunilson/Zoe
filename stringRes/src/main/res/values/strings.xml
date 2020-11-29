@@ -80,4 +80,13 @@
     <string name="choose_theme">Wähle ein Theme</string>
     <string name="search_button">Search button</string>
     <string name="cancel_button">cancel button</string>
+    <string name="degrees">%s Grad</string>
+    <string name="target_temperature">Zieltemperatur</string>
+    <string name="instant">Sofort</string>
+    <string name="starting_at">Starten um</string>
+    <string name="stop">Stoppen</string>
+    <string name="hvac_stopped">Anfrage gesendet!</string>
+    <string name="hvac_not_stopped">Anfrage konnte nicht gesendet werden!</string>
+    <string name="hvac_started">Klimatisierungs Anfrage gesendet!</string>
+    <string name="hvac_not_started">Klimatisierungs Anfrage konnte nicht gesendet werden!</string>
 </resources>
