@@ -2,13 +2,13 @@ package at.sunilson.vehicle.domain
 
 import at.sunilson.core.usecases.AsyncUseCase
 import at.sunilson.networkingcore.KamereonPostBody
+import at.sunilson.presentationcore.extensions.formatPattern
 import at.sunilson.vehicle.data.VehicleService
 import at.sunilson.vehiclecore.domain.VehicleCoreRepository
 import com.github.kittinunf.result.coroutines.SuspendableResult
 import kotlinx.coroutines.flow.firstOrNull
+import java.time.OffsetDateTime
 import java.time.ZoneId
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 
@@ -22,13 +22,12 @@ internal class StartHVAC @Inject constructor(
 
         var dateTimeString = ""
         if (params.time != null) {
-            dateTimeString = DateTimeFormatter
-                .ISO_DATE_TIME
-                .format(
-                    ZonedDateTime
-                        .from(params.time)
-                        .withZoneSameInstant(ZoneId.systemDefault())
-                )
+            dateTimeString = OffsetDateTime
+                .now()
+                .atZoneSameInstant(ZoneId.systemDefault())
+                .withHour(params.time.hour)
+                .withMinute(params.time.minute)
+                .formatPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
         }
 
         vehicleService.startHVAC(

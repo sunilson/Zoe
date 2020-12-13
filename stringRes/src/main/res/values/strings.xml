@@ -89,4 +89,6 @@
     <string name="hvac_not_stopped">Anfrage konnte nicht gesendet werden!</string>
     <string name="hvac_started">Klimatisierungs Anfrage gesendet!</string>
     <string name="hvac_not_started">Klimatisierungs Anfrage konnte nicht gesendet werden!</string>
+    <string name="next_appointment">Nächster Termin</string>
+    <string name="next_contract">Nächster Vertrag</string>
 </resources>

@@ -21,11 +21,11 @@
                 android:textAppearance="?textAppearanceHeadline6" />
 
         <TextView
-                style="?textAppearanceSubtitle1"
+                style="?textAppearanceSubtitle2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Nächster Termin" />
+                android:text="@string/next_appointment" />
 
         <TextView
                 android:id="@+id/next_appointment_title"
@@ -43,11 +43,11 @@
                 android:layout_height="wrap_content" />
 
         <TextView
-                style="?textAppearanceSubtitle1"
+                style="?textAppearanceSubtitle2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Nächster Vertrag" />
+                android:text="@string/next_contract" />
 
         <TextView
                 android:id="@+id/next_contract_title"

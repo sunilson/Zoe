@@ -10,6 +10,7 @@ import at.sunilson.vehicle.domain.SaveHVACInstantPreferences
 import at.sunilson.vehicle.domain.StartHVAC
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.time.LocalTime
 
 internal sealed class StartHVACEvent {
@@ -48,7 +49,10 @@ internal class StartHVACViewModel @ViewModelInject constructor(
             viewModelScope.launch {
                 startHVAC(HVACPreferences(state.temperature.toInt(), state.startTime)).fold(
                     { sendEvent(StartHVACEvent.HVACStarted) },
-                    { sendEvent(StartHVACEvent.HVACNotStarted) }
+                    {
+                        Timber.e(it, "HVAC could not be started!")
+                        sendEvent(StartHVACEvent.HVACNotStarted)
+                    }
                 )
             }
         }

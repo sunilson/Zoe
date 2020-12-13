@@ -22,6 +22,7 @@ dependencies {
     api(Dependencies.coreKtx)
     api(Dependencies.appcompat)
     api(Dependencies.coroutines)
+    api(Dependencies.coroutinesReactive)
     api(Dependencies.result)
     api(Dependencies.resultCoroutines)
     api(Dependencies.kotlinStdLib)
@@ -30,7 +31,7 @@ dependencies {
     api(Dependencies.sunilsonExtensions)
     api(Dependencies.dataStore)
     implementation(Dependencies.hilt)
-    implementation "androidx.security:security-crypto:1.1.0-alpha02"
+    implementation "androidx.security:security-crypto:1.1.0-alpha03"
 
     debugApi(Dependencies.flipper)
     debugApi(Dependencies.flipperNetwork)

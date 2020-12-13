@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        package="at.sunilson.zoe.deviceControl">
+
+    <application>
+        <service
+                android:name=".DeviceControlService"
+                android:exported="true"
+                android:label="DeviceControlService"
+                android:permission="android.permission.BIND_CONTROLS">
+            <intent-filter>
+                <action android:name="android.service.controls.ControlsProviderService" />
+            </intent-filter>
+        </service>
+    </application>
+
+</manifest>

@@ -105,6 +105,5 @@
                     android:scaleY="1" />
             <PropertySet android:alpha="1" />
         </Constraint>
-
     </ConstraintSet>
 </MotionScene>

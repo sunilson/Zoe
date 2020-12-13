@@ -39,7 +39,7 @@
                 android:id="@+id/charge_eighty_percent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:text="@string/charge_eigthy_percent_warning"
                 android:textColor="?android:textColorPrimary" />
 
@@ -48,7 +48,7 @@
                 android:id="@+id/charge_start"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:text="@string/charging_started"
                 android:textColor="?android:textColorPrimary" />
 
@@ -56,7 +56,7 @@
                 android:id="@+id/charge_error"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:text="@string/charge_error_warning"
                 android:textColor="?android:textColorPrimary" />
 
@@ -64,7 +64,7 @@
                 android:id="@+id/battery_low"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:text="@string/low_battery"
                 android:textColor="?android:textColorPrimary" />
 
@@ -73,7 +73,7 @@
                 style="@style/Widget.App.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="20dp"
                 android:text="@string/activate_charge_tracker"
                 app:icon="@drawable/ic_baseline_track_changes_24" />
 

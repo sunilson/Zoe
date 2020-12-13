@@ -6,6 +6,7 @@ import at.sunilson.chargetracking.domain.CreateChargePointParams
 import at.sunilson.chargetracking.domain.CreateVehicleChargePoint
 import at.sunilson.contracts.domain.RefreshContracts
 import at.sunilson.core.usecases.AsyncUseCase
+import at.sunilson.ktx.coroutines.doParallel
 import at.sunilson.vehicle.data.VehicleService
 import at.sunilson.vehicle.data.toVehicleList
 import at.sunilson.vehiclecore.data.VehicleCoreService
@@ -13,6 +14,7 @@ import at.sunilson.vehiclecore.data.VehicleDao
 import at.sunilson.vehiclecore.data.toDatabaseEntity
 import at.sunilson.vehiclecore.data.toEntity
 import at.sunilson.vehiclecore.domain.VehicleCoreRepository
+import at.sunilson.vehiclecore.domain.entities.Location
 import at.sunilson.vehiclecore.domain.entities.Vehicle
 import com.github.kittinunf.result.coroutines.SuspendableResult
 import kotlinx.coroutines.flow.first
@@ -38,31 +40,41 @@ internal class RefreshAllVehicles @Inject constructor(
 
         Timber.d("Got vehicle list: $newVehicles")
 
-        //TODO Parallel
         Timber.d("Refreshing vehicles battery status...")
         val enrichedVehicles = newVehicles.map { vehicle ->
-            val batteryStatus = vehicleCoreService
-                .getBatteryStatus(kamereonId, vehicle.vin)
-                .toEntity()
+            var batteryStatus: Vehicle.BatteryStatus? = null
+            var kilometerReading: Int? = null
+            var location: Location? = null
 
-            val kilometerReading = vehicleCoreService
-                .getKilometerReading(kamereonId, vehicle.vin)
-                .toEntity()
+            doParallel(
+                {
+                    batteryStatus = vehicleCoreService
+                        .getBatteryStatus(kamereonId, vehicle.vin)
+                        .toEntity()
+                },
+                {
+                    kilometerReading = vehicleCoreService
+                        .getKilometerReading(kamereonId, vehicle.vin)
+                        .toEntity()
+                },
+                {
+                    location = try {
+                        vehicleCoreService.getVehicleLocation(kamereonId, vehicle.vin).toEntity()
+                    } catch (e: Exception) {
+                        null
+                    }
+                },
+                { refreshAppointments(vehicle.vin) },
+                { refreshContracts(vehicle.vin) }
+            )
 
-            val location = try {
-                vehicleCoreService.getVehicleLocation(kamereonId, vehicle.vin).toEntity()
-            } catch (e: Exception) {
-                null
-            }
-
-            //TODO Dont do this every time?
-            refreshAppointments(vehicle.vin)
-            refreshContracts(vehicle.vin)
+            checkNotNull(batteryStatus)
+            checkNotNull(kilometerReading)
 
             val prev = previousVehicles.firstOrNull { it.vin == vehicle.vin }
             val newVehicle = vehicle.copy(
-                batteryStatus = batteryStatus,
-                mileageKm = kilometerReading,
+                batteryStatus = batteryStatus!!,
+                mileageKm = kilometerReading!!,
                 location = location,
                 lastChangeTimestamp = prev?.lastChangeTimestamp ?: System.currentTimeMillis()
             )
@@ -72,8 +84,8 @@ internal class RefreshAllVehicles @Inject constructor(
                 createVehicleChargePoint(
                     CreateChargePointParams(
                         vehicle.vin,
-                        batteryStatus,
-                        kilometerReading,
+                        batteryStatus!!,
+                        kilometerReading!!,
                         location
                     )
                 )
