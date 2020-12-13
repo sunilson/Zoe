@@ -21,10 +21,11 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.jdk9.asPublisher
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.util.concurrent.Flow
 import java.util.function.Consumer
 import javax.inject.Inject
@@ -80,19 +81,19 @@ class DeviceControlService : ControlsProviderService(), CoroutineScope {
         return updateFlow.asPublisher(coroutineContext)
     }
 
-    override fun createPublisherForAllAvailable(): Flow.Publisher<Control> {
-        return getAllVehicles(Unit).flatMapLatest {
-            val controls = it.map { vehicle ->
-                Control
-                    .StatelessBuilder(vehicle.vin, pi)
-                    .setTitle(vehicle.vin)
-                    .setSubtitle(getString(R.string.start_pre_hvac))
-                    .setStructure(getString(R.string.car))
-                    .setDeviceType(DeviceTypes.TYPE_AC_HEATER)
-                    .build()
-            }
-            flow { controls.forEach { control -> emit(control) } }
-        }.asPublisher()
+    override fun createPublisherForAllAvailable(): Flow.Publisher<Control> = runBlocking {
+        val vehicles = getAllVehicles(Unit).firstOrNull()
+        val controls = vehicles?.map { vehicle ->
+            Control
+                .StatelessBuilder(vehicle.vin, pi)
+                .setTitle(vehicle.vin)
+                .setSubtitle(getString(R.string.start_pre_hvac))
+                .setStructure(getString(R.string.car))
+                .setDeviceType(DeviceTypes.TYPE_AC_HEATER)
+                .build()
+        }.orEmpty()
+
+        flow { controls.forEach { emit(it) } }.asPublisher()
     }
 
     override fun performControlAction(
