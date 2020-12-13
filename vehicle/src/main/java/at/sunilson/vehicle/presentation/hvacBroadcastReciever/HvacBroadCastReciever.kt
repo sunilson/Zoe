@@ -6,7 +6,7 @@ import at.sunilson.core.base.BaseBroadCastReceiver
 import at.sunilson.ktx.context.showToast
 import at.sunilson.vehicle.R
 import at.sunilson.vehicle.domain.GetHVACInstantPreferences
-import at.sunilson.vehicle.domain.StartHVAC
+import at.sunilson.vehicleDetails.domain.StartHVAC
 import at.sunilson.vehiclecore.domain.VehicleCoreRepository
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.firstOrNull
@@ -18,7 +18,7 @@ import javax.inject.Inject
 class HvacBroadCastReciever : BaseBroadCastReceiver() {
 
     @Inject
-    internal lateinit var startHVAC: StartHVAC
+    internal lateinit var startHVAC: at.sunilson.vehicleDetails.domain.StartHVAC
 
     @Inject
     internal lateinit var getHVACInstantPreferences: GetHVACInstantPreferences

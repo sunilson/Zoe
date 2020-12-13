@@ -15,14 +15,6 @@ interface VehicleService {
     suspend fun getAllVehicles(@Path("accountId") accountId: String): AllVehiclesResponse
 
     @Headers("Content-Type: application/vnd.api+json")
-    @POST("accounts/{accountId}/kamereon/kca/car-adapter/v1/cars/{vin}/actions/hvac-start?country=AT")
-    suspend fun startHVAC(
-        @Path("accountId") accountId: String,
-        @Path("vin") vin: String,
-        @Body kamereonPostBody: KamereonPostBody
-    ): ResponseBody
-
-    @Headers("Content-Type: application/vnd.api+json")
     @POST("accounts/{accountId}/kamereon/kca/car-adapter/v1/cars/{vin}/actions/charging-start?country=AT")
     suspend fun startCharging(
         @Path("accountId") accountId: String,

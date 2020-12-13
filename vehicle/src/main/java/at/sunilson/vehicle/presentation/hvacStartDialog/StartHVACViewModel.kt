@@ -7,7 +7,7 @@ import at.sunilson.unidirectionalviewmodel.extensions.registerPureMiddleWare
 import at.sunilson.vehicle.domain.GetHVACInstantPreferences
 import at.sunilson.vehicle.domain.HVACPreferences
 import at.sunilson.vehicle.domain.SaveHVACInstantPreferences
-import at.sunilson.vehicle.domain.StartHVAC
+import at.sunilson.vehicleDetails.domain.StartHVAC
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -22,7 +22,7 @@ internal data class StartHVACState(val temperature: Float = 21f, val startTime: 
 internal class StartHVACViewModel @ViewModelInject constructor(
     private val saveHVACInstantPreferences: SaveHVACInstantPreferences,
     private val getHVACInstantPreferences: GetHVACInstantPreferences,
-    private val startHVAC: StartHVAC
+    private val startHVAC: at.sunilson.vehicleDetails.domain.StartHVAC
 ) : UniDirectionalViewModel<StartHVACState, StartHVACEvent>(StartHVACState()) {
 
     init {

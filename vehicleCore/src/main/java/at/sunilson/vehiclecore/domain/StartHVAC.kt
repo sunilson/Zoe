@@ -1,19 +1,17 @@
-package at.sunilson.vehicle.domain
+package at.sunilson.vehiclecore.domain
 
 import at.sunilson.core.usecases.AsyncUseCase
 import at.sunilson.networkingcore.KamereonPostBody
 import at.sunilson.presentationcore.extensions.formatPattern
-import at.sunilson.vehicle.data.VehicleService
-import at.sunilson.vehiclecore.domain.VehicleCoreRepository
+import at.sunilson.vehiclecore.data.VehicleCoreService
 import com.github.kittinunf.result.coroutines.SuspendableResult
 import kotlinx.coroutines.flow.firstOrNull
 import java.time.OffsetDateTime
 import java.time.ZoneId
 import javax.inject.Inject
 
-
-internal class StartHVAC @Inject constructor(
-    private val vehicleService: VehicleService,
+class StartHVAC @Inject constructor(
+    private val vehicleService: VehicleCoreService,
     private val vehicleCoreRepository: VehicleCoreRepository
 ) : AsyncUseCase<Unit, HVACPreferences>() {
     override suspend fun run(params: HVACPreferences) = SuspendableResult.of<Unit, Exception> {

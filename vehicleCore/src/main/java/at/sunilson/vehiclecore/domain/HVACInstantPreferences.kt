@@ -1,4 +1,4 @@
-package at.sunilson.vehicle.domain
+package at.sunilson.vehiclecore.domain
 
 import androidx.datastore.DataStore
 import androidx.datastore.preferences.Preferences
@@ -8,7 +8,6 @@ import androidx.datastore.preferences.remove
 import at.sunilson.core.usecases.AsyncUseCase
 import at.sunilson.core.usecases.FlowUseCase
 import at.sunilson.presentationcore.extensions.formatPattern
-import at.sunilson.vehiclecore.domain.VehicleCoreRepository
 import com.github.kittinunf.result.coroutines.SuspendableResult
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flatMapLatest
@@ -16,10 +15,10 @@ import kotlinx.coroutines.flow.map
 import java.time.LocalTime
 import javax.inject.Inject
 
-internal data class HVACPreferences(val temperature: Int, val time: LocalTime? = null)
+data class HVACPreferences(val temperature: Int, val time: LocalTime? = null)
 
 
-internal class SaveHVACInstantPreferences @Inject constructor(
+class SaveHVACInstantPreferences @Inject constructor(
     private val dataStore: DataStore<Preferences>,
     private val vehicleCoreRepository: VehicleCoreRepository
 ) : AsyncUseCase<Unit, HVACPreferences>() {
@@ -42,7 +41,7 @@ internal class SaveHVACInstantPreferences @Inject constructor(
     }
 }
 
-internal class GetHVACInstantPreferences @Inject constructor(
+class GetHVACInstantPreferences @Inject constructor(
     private val dataStore: DataStore<Preferences>,
     private val vehicleCoreRepository: VehicleCoreRepository
 ) : FlowUseCase<HVACPreferences, Unit>() {

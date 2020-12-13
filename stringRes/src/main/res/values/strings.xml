@@ -91,4 +91,6 @@
     <string name="hvac_not_started">Klimatisierungs Anfrage konnte nicht gesendet werden!</string>
     <string name="next_appointment">Nächster Termin</string>
     <string name="next_contract">Nächster Vertrag</string>
+    <string name="car">Auto</string>
+    <string name="start_pre_hvac">Vorklimatisierung starten</string>
 </resources>

@@ -1,10 +1,14 @@
 package at.sunilson.vehiclecore.data
 
+import at.sunilson.networkingcore.KamereonPostBody
 import at.sunilson.vehiclecore.data.models.batterystatus.BatteryStatusResponse
 import at.sunilson.vehiclecore.data.models.cockpit.CockpitResponse
 import at.sunilson.vehiclecore.data.models.location.LocationResponse
 import okhttp3.ResponseBody
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Headers
+import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface VehicleCoreService {
@@ -30,5 +34,13 @@ interface VehicleCoreService {
     suspend fun getHVACStatus(
         @Path("accountId") accountId: String,
         @Path("vin") vin: String
+    ): ResponseBody
+
+    @Headers("Content-Type: application/vnd.api+json")
+    @POST("accounts/{accountId}/kamereon/kca/car-adapter/v1/cars/{vin}/actions/hvac-start?country=AT")
+    suspend fun startHVAC(
+        @Path("accountId") accountId: String,
+        @Path("vin") vin: String,
+        @Body kamereonPostBody: KamereonPostBody
     ): ResponseBody
 }
