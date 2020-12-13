@@ -4,25 +4,26 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import at.sunilson.unidirectionalviewmodel.core.UniDirectionalViewModel
 import at.sunilson.unidirectionalviewmodel.extensions.registerPureMiddleWare
-import at.sunilson.vehicle.domain.GetHVACInstantPreferences
-import at.sunilson.vehicle.domain.HVACPreferences
-import at.sunilson.vehicle.domain.SaveHVACInstantPreferences
-import at.sunilson.vehicleDetails.domain.StartHVAC
+import at.sunilson.vehiclecore.domain.GetHVACInstantPreferences
+import at.sunilson.vehiclecore.domain.HVACPreferences
+import at.sunilson.vehiclecore.domain.SaveHVACInstantPreferences
+import at.sunilson.vehiclecore.domain.StartHVAC
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.time.LocalTime
 
 internal sealed class StartHVACEvent {
-    object HVACStarted: StartHVACEvent()
-    object HVACNotStarted: StartHVACEvent()
+    object HVACStarted : StartHVACEvent()
+    object HVACNotStarted : StartHVACEvent()
 }
+
 internal data class StartHVACState(val temperature: Float = 21f, val startTime: LocalTime? = null)
 
 internal class StartHVACViewModel @ViewModelInject constructor(
     private val saveHVACInstantPreferences: SaveHVACInstantPreferences,
     private val getHVACInstantPreferences: GetHVACInstantPreferences,
-    private val startHVAC: at.sunilson.vehicleDetails.domain.StartHVAC
+    private val startHVAC: StartHVAC
 ) : UniDirectionalViewModel<StartHVACState, StartHVACEvent>(StartHVACState()) {
 
     init {
