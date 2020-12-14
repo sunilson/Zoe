@@ -20,7 +20,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.jdk9.asPublisher
@@ -43,7 +45,7 @@ class DeviceControlService : ControlsProviderService(), CoroutineScope {
 
     override val coroutineContext: CoroutineContext = SupervisorJob() + Dispatchers.Main
 
-    private lateinit var updateFlow: MutableSharedFlow<Control>
+    private lateinit var updateFlow: MutableStateFlow<Control?>
     private var vehicleJob: Job? = null
 
     private val pi: PendingIntent
@@ -55,7 +57,7 @@ class DeviceControlService : ControlsProviderService(), CoroutineScope {
         )
 
     override fun createPublisherFor(controlIds: MutableList<String>): Flow.Publisher<Control> {
-        updateFlow = MutableSharedFlow()
+        updateFlow = MutableStateFlow(null)
 
         vehicleJob?.cancel()
         vehicleJob = launch {
@@ -78,7 +80,7 @@ class DeviceControlService : ControlsProviderService(), CoroutineScope {
             }
         }
 
-        return updateFlow.asPublisher(coroutineContext)
+        return updateFlow.filterNotNull().asPublisher(coroutineContext)
     }
 
     override fun createPublisherForAllAvailable(): Flow.Publisher<Control> = runBlocking {
