@@ -411,6 +411,8 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     private fun renderVehicle(state: VehicleOverviewState) {
         val vehicle = state.selectedVehicle ?: return
 
+
+
         binding.vehicleSubtitle.text =
             if (vehicle.batteryStatus.chargeState == Vehicle.BatteryStatus.ChargeState.CHARGING) {
                 "Laden: ${TimeUtils.formatMinuteDuration(vehicle.batteryStatus.remainingChargeTime)} verbleibend"
@@ -422,8 +424,8 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
         binding.progressBar.progress = vehicle.batteryStatus.batteryLevel.toFloat()
         binding.vehicleImage.load(vehicle.imageUrl)
         binding.vehicleImageSmall.load(vehicle.imageUrl)
-        binding.recyclerView.withModels {
 
+        binding.recyclerView.withModels {
             vehicleDetailsWidget {
                 id("vehicleDetailsWidget")
                 vehicle(vehicle)

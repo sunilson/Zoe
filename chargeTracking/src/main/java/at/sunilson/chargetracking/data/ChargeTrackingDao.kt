@@ -12,8 +12,11 @@ abstract class ChargeTrackingDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract suspend fun insertChargeTrackingPoint(chargeTrackingPoint: ChargeTrackingPoint)
 
-    @Query("SELECT * FROM CHARGETRACKINGPOINT WHERE vehicleId = :vin")
+    @Query("SELECT * FROM CHARGETRACKINGPOINT WHERE vehicleId = :vin ORDER BY timestamp DESC")
     abstract fun getAllChargeTrackingPoints(vin: String): Flow<List<ChargeTrackingPoint>>
+
+    @Query("SELECT * FROM CHARGETRACKINGPOINT WHERE vehicleId = :vin ORDER BY timestamp DESC LIMIT :amount OFFSET :offset")
+    abstract suspend fun getChargeTrackingPoints(vin: String, offset: Int, amount: Int): List<ChargeTrackingPoint>
 
     @Query("SELECT * FROM CHARGETRACKINGPOINT WHERE vehicleId = :vin ORDER BY timestamp DESC LIMIT 1")
     abstract suspend fun getLatestChargeTrackingPoint(vin: String): ChargeTrackingPoint?

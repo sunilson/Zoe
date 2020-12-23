@@ -9,12 +9,7 @@ android {
 
     buildFeatures.viewBinding = true
 
-    buildTypes {
-        release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
+
 }
 
 dependencies {
@@ -26,6 +21,7 @@ dependencies {
     implementation(project(":chargeTracking"))
     implementation(Dependencies.hilt)
     implementation(Dependencies.charts)
+    implementation(Dependencies.paging)
 
     testImplementation(project(":testCore"))
     testImplementation(Dependencies.coroutineTesting)

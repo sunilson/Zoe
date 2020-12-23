@@ -8,20 +8,16 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import at.sunilson.chargestatistics.R
 import at.sunilson.chargestatistics.databinding.DeChargeEntriesFragmentBinding
-import at.sunilson.chargestatistics.domain.entities.DeChargingProcedure
 import at.sunilson.chargestatistics.presentation.overview.ChargeStatisticsOverviewFragment
-import at.sunilson.core.extensions.isSameDay
-import at.sunilson.core.extensions.isSameMonth
 import at.sunilson.presentationcore.ViewpagerFragmentParentWithHeaderAnimation
 import at.sunilson.presentationcore.base.viewBinding
-import at.sunilson.presentationcore.extensions.formatPattern
 import dagger.hilt.android.AndroidEntryPoint
-import dev.chrisbanes.insetter.Insetter
-import dev.chrisbanes.insetter.Side
 import jp.wasabeef.recyclerview.animators.ScaleInAnimator
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -30,6 +26,7 @@ internal class DeChargeEntriesFragment private constructor() :
 
     private val binding by viewBinding(DeChargeEntriesFragmentBinding::bind)
     private val viewModel by viewModels<DeChargeEntriesViewModel>()
+    private val adapter = DeChargeEntriesAdapter()
 
     private val vin: String
         get() = requireNotNull(requireArguments().getString("vin"))
@@ -48,6 +45,8 @@ internal class DeChargeEntriesFragment private constructor() :
             removeDuration = 300L
         }
 
+        binding.recyclerView.adapter = adapter
+
         binding.manageButton.setOnClickListener {
             (parentFragment as? ChargeStatisticsOverviewFragment)?.switchToPosition(3)
         }
@@ -55,25 +54,17 @@ internal class DeChargeEntriesFragment private constructor() :
 
     private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launch {
+            adapter.loadStateFlow.collectLatest {
+                val notLoadingAndEmpty =
+                    it.refresh is LoadState.NotLoading && adapter.itemCount == 0
+                binding.manageButton.isVisible = notLoadingAndEmpty
+                binding.noChargesText.isVisible = notLoadingAndEmpty
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.state.collect { state ->
-                binding.manageButton.isVisible = state.deChargingProcedures.isEmpty()
-                binding.noChargesText.isVisible = state.deChargingProcedures.isEmpty()
-
-                binding.recyclerView.withModels {
-                    var lastProcedure: DeChargingProcedure? = null
-                    state.deChargingProcedures.forEach { chargeProcedure ->
-                        deChargeProcedureEntry {
-                            id(chargeProcedure.startTime.toEpochSecond())
-                            chargingProcedure(chargeProcedure)
-                            if (lastProcedure?.startTime?.isSameDay(chargeProcedure.startTime) != true) {
-                                sectionHeader(chargeProcedure.startTime.formatPattern("dd.MM.YYYY"))
-                            }
-                            onItemClick { }
-                        }
-
-                        lastProcedure = chargeProcedure
-                    }
-                }
+                adapter.submitData(state.deChargingProcedures)
             }
         }
     }

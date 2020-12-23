@@ -19,6 +19,7 @@ import at.sunilson.presentationcore.extensions.formatPattern
 import dagger.hilt.android.AndroidEntryPoint
 import jp.wasabeef.recyclerview.animators.ScaleInAnimator
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -27,6 +28,7 @@ internal class ChargeEntriesFragment private constructor() :
 
     private val binding by viewBinding(ChargeEntriesFragmentBinding::bind)
     private val viewModel by viewModels<ChargeEntriesViewModel>()
+    private val adapter = ChargeEntriesAdapter()
 
     private val vin: String
         get() = requireNotNull(requireArguments().getString("vin"))
@@ -45,6 +47,8 @@ internal class ChargeEntriesFragment private constructor() :
             removeDuration = 300L
         }
 
+        binding.recyclerView.adapter = adapter
+
         binding.manageButton.setOnClickListener {
             (parentFragment as? ChargeStatisticsOverviewFragment)?.switchToPosition(3)
         }
@@ -52,24 +56,17 @@ internal class ChargeEntriesFragment private constructor() :
 
     private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launch {
+            adapter.loadStateFlow.collectLatest {
+                //TODO
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.state.collect { state ->
-                binding.manageButton.isVisible = state.chargingProcedures.isEmpty()
-                binding.noChargesText.isVisible = state.chargingProcedures.isEmpty()
-
-                binding.recyclerView.withModels {
-                    var lastProcedure: ChargingProcedure? = null
-                    state.chargingProcedures.forEach { chargeProcedure ->
-                        chargeProcedureEntry {
-                            id(chargeProcedure.startTime.toEpochSecond())
-                            if (lastProcedure?.startTime?.isSameDay(chargeProcedure.startTime) != true) {
-                                sectionHeader(chargeProcedure.startTime.formatPattern("dd.MM.YYYY"))
-                            }
-                            chargingProcedure(chargeProcedure)
-                        }
-
-                        lastProcedure = chargeProcedure
-                    }
-                }
+                //TODO
+                //binding.manageButton.isVisible = state.chargingProcedures.isEmpty()
+                //binding.noChargesText.isVisible = state.chargingProcedures.isEmpty()
+                adapter.submitData(state.chargingProcedures)
             }
         }
     }
