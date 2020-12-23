@@ -11,12 +11,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import at.sunilson.chargestatistics.R
 import at.sunilson.chargestatistics.databinding.ChargeEntriesFragmentBinding
-import at.sunilson.chargestatistics.domain.entities.ChargingProcedure
 import at.sunilson.chargestatistics.presentation.overview.ChargeStatisticsOverviewFragment
-import at.sunilson.core.extensions.isSameDay
 import at.sunilson.presentationcore.ViewpagerFragmentParentWithHeaderAnimation
 import at.sunilson.presentationcore.base.viewBinding
-import at.sunilson.presentationcore.extensions.formatPattern
 import dagger.hilt.android.AndroidEntryPoint
 import jp.wasabeef.recyclerview.animators.ScaleInAnimator
 import kotlinx.coroutines.flow.collect
@@ -60,7 +57,7 @@ internal class ChargeEntriesFragment private constructor() :
             adapter.loadStateFlow.collectLatest {
                 adapter.loadStateFlow.collectLatest {
                     val notLoadingAndEmpty =
-                        it.refresh is LoadState.NotLoading && adapter.itemCount == 0
+                        it.prepend is LoadState.NotLoading && it.append is LoadState.NotLoading && it.refresh is LoadState.NotLoading && adapter.itemCount == 0
                     binding.manageButton.isVisible = notLoadingAndEmpty
                     binding.noChargesText.isVisible = notLoadingAndEmpty
                 }

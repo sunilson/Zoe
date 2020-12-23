@@ -88,7 +88,7 @@ class VehicleWidgetProvider : AppWidgetProvider() {
 
         setTextViewText(
             R.id.vehicle_battery,
-            "${vehicle.batteryStatus.batteryLevel} % (${vehicle.batteryStatus.remainingRange} km"
+            "${vehicle.batteryStatus.batteryLevel} % (${vehicle.batteryStatus.remainingRange} km)"
         )
 
         setTextViewText(
