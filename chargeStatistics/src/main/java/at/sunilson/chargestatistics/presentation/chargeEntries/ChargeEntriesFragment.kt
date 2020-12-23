@@ -8,6 +8,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import at.sunilson.chargestatistics.R
 import at.sunilson.chargestatistics.databinding.ChargeEntriesFragmentBinding
 import at.sunilson.chargestatistics.domain.entities.ChargingProcedure
@@ -57,15 +58,17 @@ internal class ChargeEntriesFragment private constructor() :
     private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launch {
             adapter.loadStateFlow.collectLatest {
-                //TODO
+                adapter.loadStateFlow.collectLatest {
+                    val notLoadingAndEmpty =
+                        it.refresh is LoadState.NotLoading && adapter.itemCount == 0
+                    binding.manageButton.isVisible = notLoadingAndEmpty
+                    binding.noChargesText.isVisible = notLoadingAndEmpty
+                }
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.state.collect { state ->
-                //TODO
-                //binding.manageButton.isVisible = state.chargingProcedures.isEmpty()
-                //binding.noChargesText.isVisible = state.chargingProcedures.isEmpty()
                 adapter.submitData(state.chargingProcedures)
             }
         }
