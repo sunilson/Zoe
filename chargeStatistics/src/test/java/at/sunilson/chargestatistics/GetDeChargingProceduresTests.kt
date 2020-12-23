@@ -23,8 +23,8 @@ import java.time.Instant
 import java.time.ZoneId
 
 class GetDeChargingProceduresTests : BaseUnitTest() {
+
     private lateinit var extractUseCase: ExtractDeChargingProcedures
-    private lateinit var useCase: GetDeChargingProcedures
 
     @MockK
     private lateinit var getAllChargeTrackingPoints: GetAllChargeTrackingPoints
@@ -32,8 +32,6 @@ class GetDeChargingProceduresTests : BaseUnitTest() {
     @BeforeEach
     fun before() {
         extractUseCase = ExtractDeChargingProcedures()
-        useCase = GetDeChargingProcedures(getAllChargeTrackingPoints, extractUseCase)
-        useCase.dispatcher = Dispatchers.Main
         extractUseCase.dispatcher = Dispatchers.Main
     }
 
@@ -44,7 +42,7 @@ class GetDeChargingProceduresTests : BaseUnitTest() {
         result: List<ChargingProcedure>
     ) = runBlockingTest {
         every { getAllChargeTrackingPoints(any()) } returns flowOf(chargePoints)
-        assertEquals(result, useCase("123").first())
+        assertEquals(result, extractUseCase(chargePoints).get())
     }
 
 
