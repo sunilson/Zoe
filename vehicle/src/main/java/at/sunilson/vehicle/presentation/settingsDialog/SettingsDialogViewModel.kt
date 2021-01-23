@@ -3,15 +3,19 @@ package at.sunilson.vehicle.presentation.settingsDialog
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.ViewModel
 import at.sunilson.authentication.domain.LogoutUseCase
-import at.sunilson.unidirectionalviewmodel.core.UniDirectionalViewModel
 import at.sunilson.vehicle.domain.SelectVehicle
 import at.sunilson.vehiclecore.domain.GetAllVehicles
 import at.sunilson.vehiclecore.domain.entities.Vehicle
 import com.github.kittinunf.result.coroutines.success
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import org.orbitmvi.orbit.ContainerHost
+import org.orbitmvi.orbit.coroutines.transformFlow
+import org.orbitmvi.orbit.syntax.simple.intent
+import org.orbitmvi.orbit.syntax.simple.postSideEffect
+import org.orbitmvi.orbit.syntax.strict.orbit
+import org.orbitmvi.orbit.syntax.strict.reduce
+import org.orbitmvi.orbit.viewmodel.container
 
 internal data class SettingsDialogState(val vehicles: List<Vehicle> = listOf())
 internal sealed class SettingsDialogEvent {
@@ -25,23 +29,22 @@ internal class SettingsDialogViewModel @ViewModelInject constructor(
     private val getAllVehicles: GetAllVehicles,
     private val setSelectedVehicle: SelectVehicle,
     private val logoutUseCase: LogoutUseCase,
-) : UniDirectionalViewModel<SettingsDialogState, SettingsDialogEvent>(SettingsDialogState()) {
+) : ViewModel(), ContainerHost<SettingsDialogState, SettingsDialogEvent> {
+
+    override val container =
+        container<SettingsDialogState, SettingsDialogEvent>(SettingsDialogState())
 
     init {
-        viewModelScope.launch {
-            getAllVehicles(Unit).collect { setState { copy(vehicles = it) } }
-        }
+        orbit { transformFlow { getAllVehicles(Unit) }.reduce { state.copy(vehicles = event) } }
     }
 
-    fun selectVehicle(vin: String) {
-        viewModelScope.launch {
-            setSelectedVehicle(vin).success { sendEvent(SettingsDialogEvent.VehicleSelected) }
-        }
+    fun vehicleSelected(vin: String) = intent {
+        setSelectedVehicle(vin).success { postSideEffect(SettingsDialogEvent.VehicleSelected) }
     }
 
-    fun logout() {
+    fun logoutClicked() = intent {
         logoutUseCase(Unit).fold(
-            { sendEvent(SettingsDialogEvent.LoggedOut) },
+            { postSideEffect(SettingsDialogEvent.LoggedOut) },
             {}
         )
     }

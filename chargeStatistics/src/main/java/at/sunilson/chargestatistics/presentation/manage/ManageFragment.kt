@@ -5,7 +5,6 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
-import androidx.appcompat.view.ContextThemeWrapper
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -13,10 +12,7 @@ import at.sunilson.chargestatistics.R
 import at.sunilson.chargestatistics.databinding.ManageFragmentBinding
 import at.sunilson.presentationcore.ViewpagerFragmentParentWithHeaderAnimation
 import at.sunilson.presentationcore.base.viewBinding
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
-import dev.chrisbanes.insetter.Insetter
-import dev.chrisbanes.insetter.Side
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -46,16 +42,16 @@ internal class ManageFragment : Fragment(R.layout.manage_fragment) {
 
     private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.state.collect { state ->
+            viewModel.container.stateFlow.collect { state ->
                 binding.recyclerView.withModels {
                     state.trackingInfos.forEach { vehicleChargeTrackingInfo ->
                         vehicleChargeTrackingInfo {
                             id(vehicleChargeTrackingInfo.vehicle.vin)
                             toggleTracking {
                                 if (it) {
-                                    viewModel.startTracking(vehicleChargeTrackingInfo.vehicle.vin)
+                                    viewModel.startTrackingClicked(vehicleChargeTrackingInfo.vehicle.vin)
                                 } else {
-                                    viewModel.stopTracking(vehicleChargeTrackingInfo.vehicle.vin)
+                                    viewModel.stopTrackingClicked(vehicleChargeTrackingInfo.vehicle.vin)
                                 }
                             }
                             vehicleChargeTrackingInfo(vehicleChargeTrackingInfo)

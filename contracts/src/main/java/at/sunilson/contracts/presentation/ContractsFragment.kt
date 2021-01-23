@@ -37,13 +37,13 @@ internal class ContractsFragment : Fragment(R.layout.fragment_contracts) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.refreshConracts(args.vin)
+        viewModel.refreshConractsRequested(args.vin)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeState()
-        observeEvents()
+        observeSideEffects()
 
         Insetter
             .builder()
@@ -52,7 +52,7 @@ internal class ContractsFragment : Fragment(R.layout.fragment_contracts) {
 
         setupHeaderAnimation(binding.topContainer, binding.recyclerView)
         binding.backButton.setOnClickListener { findNavController().navigateUp() }
-        binding.refreshLayout.setOnRefreshListener { viewModel.refreshConracts(args.vin) }
+        binding.refreshLayout.setOnRefreshListener { viewModel.refreshConractsRequested(args.vin) }
         binding.refreshLayout.isEnabled = true
 
         binding.recyclerView.itemAnimator = ScaleInAnimator(OvershootInterpolator(1f)).apply {
@@ -62,7 +62,7 @@ internal class ContractsFragment : Fragment(R.layout.fragment_contracts) {
 
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             delay(300)
-            viewModel.loadContracts(args.vin)
+            viewModel.viewCreated(args.vin)
         }
     }
 
@@ -74,11 +74,11 @@ internal class ContractsFragment : Fragment(R.layout.fragment_contracts) {
         useLightNavigationBarIcons(requireContext().nightMode)
     }
 
-    private fun observeEvents() {
+    private fun observeSideEffects() {
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            viewModel.events.collect {
+            viewModel.container.sideEffectFlow.collect {
                 Do exhaustive when (it) {
-                    is RequestFailed -> requireContext().showToast(
+                    is ContractsSideEffects.RequestFailed -> requireContext().showToast(
                         R.string.request_failed,
                         Toast.LENGTH_LONG
                     )
@@ -89,7 +89,7 @@ internal class ContractsFragment : Fragment(R.layout.fragment_contracts) {
 
     private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            viewModel.state.collect {
+            viewModel.container.stateFlow.collect {
                 binding.refreshLayout.isRefreshing = it.loading
                 renderList(it.contracts)
             }

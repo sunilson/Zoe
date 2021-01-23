@@ -50,7 +50,7 @@ abstract class ScheduleFragment : Fragment(R.layout.fragment_schedule_overview) 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        observeEvents()
+        observeSideEffects()
         observeState()
 
         viewModel.refreshSchedules(vin)
@@ -72,7 +72,7 @@ abstract class ScheduleFragment : Fragment(R.layout.fragment_schedule_overview) 
         //Delay loading so transition is smooth
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             delay(300)
-            viewModel.loadChargeSchedules(vin)
+            viewModel.viewCreated(vin)
         }
 
         setupHeaderAnimation(binding.headerContainer, binding.recyclerview)
@@ -102,11 +102,11 @@ abstract class ScheduleFragment : Fragment(R.layout.fragment_schedule_overview) 
             .show()
     }
 
-    private fun observeEvents() {
+    private fun observeSideEffects() {
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            viewModel.events.collect {
+            viewModel.container.sideEffectFlow.collect {
                 Do exhaustive when (it) {
-                    SettingModeFailed -> if (!isHvac) {
+                    ScheduleSideEffects.SettingModeFailed -> if (!isHvac) {
                         requireContext().showToast("Konnte nicht geändert werden!")
                     } else {
                         MaterialAlertDialogBuilder(
@@ -120,10 +120,10 @@ abstract class ScheduleFragment : Fragment(R.layout.fragment_schedule_overview) 
                             .setPositiveButton("Ok") { _, _ -> }
                             .show()
                     }
-                    UpdatingSchedulesFailed -> requireContext().showToast("Ladeprogramme konnten nicht angepasst werden! Bitte versuche es später noch einmal")
-                    ModeNowAlways -> requireContext().showToast("Ladeplanung ist jetzt inaktiv!")
-                    is AskForSaveApproval -> askForSaveApproval(it.exit)
-                    Exit -> findNavController().navigateUp()
+                    ScheduleSideEffects.UpdatingSchedulesFailed -> requireContext().showToast("Ladeprogramme konnten nicht angepasst werden! Bitte versuche es später noch einmal")
+                    ScheduleSideEffects.ModeNowAlways -> requireContext().showToast("Ladeplanung ist jetzt inaktiv!")
+                    is ScheduleSideEffects.AskForSaveApproval -> askForSaveApproval(it.exit)
+                    ScheduleSideEffects.Exit -> findNavController().navigateUp()
                 }
             }
         }
@@ -131,7 +131,7 @@ abstract class ScheduleFragment : Fragment(R.layout.fragment_schedule_overview) 
 
     private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            viewModel.state.collect {
+            viewModel.container.stateFlow.collect {
                 binding.toggle.isEnabled = !it.settingChargeMode && !it.schedulesUpdated
                 binding.swipeRefreshLayout.isRefreshing = it.loading
                 renderList(it.schedules)

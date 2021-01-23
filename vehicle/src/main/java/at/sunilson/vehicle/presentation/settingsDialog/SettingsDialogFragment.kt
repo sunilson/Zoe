@@ -60,20 +60,20 @@ class SettingsDialogFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         observeState()
         setupHeaderAnimation(binding.handleContainer, binding.recyclerView)
-        observeEvents()
+        observeSideEffects()
     }
 
     private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.state.collect {
+            viewModel.container.stateFlow.collect {
                 renderList(it.vehicles)
             }
         }
     }
 
-    private fun observeEvents() {
+    private fun observeSideEffects() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.events.collect {
+            viewModel.container.sideEffectFlow.collect {
                 Do exhaustive when (it) {
                     is SettingsDialogEvent.LoggedOut -> {
                     }
@@ -92,7 +92,7 @@ class SettingsDialogFragment : BottomSheetDialogFragment() {
             vehicles.forEach { vehicle ->
                 settingsDialogButtons {
                     id("buttons")
-                    logoutClicked { viewModel.logout() }
+                    logoutClicked { viewModel.logoutClicked() }
                     impressumClicked {
                         findNavController()
                             .navigate(
@@ -117,7 +117,7 @@ class SettingsDialogFragment : BottomSheetDialogFragment() {
                 vehicleListItem {
                     id(vehicle.vin)
                     vehicle(vehicle)
-                    onVehicleClick { viewModel.selectVehicle(it) }
+                    onVehicleClick { viewModel.vehicleSelected(it) }
                 }
             }
         }

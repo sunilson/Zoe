@@ -158,7 +158,7 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            viewModel.state.collect {
+            viewModel.container.stateFlow.collect {
                 binding.chargingStationButton.isEnabled = !it.loadingChargingStations
                 updateVehicleFab(it.loading)
                 if (it.reachableArea != null) {

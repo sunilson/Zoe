@@ -57,20 +57,54 @@ internal class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_detai
         sharedElementEnterTransition =
             TransitionInflater.from(requireContext()).inflateTransition(android.R.transition.move)
         postponeEnterTransition()
-        viewModel.refreshDetails(args.vin)
-        viewModel.loadVehicle(args.vin)
+        viewModel.refreshDetailsRequested(args.vin)
+        viewModel.viewCreated(args.vin)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.searchInput.hideKeyboard()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeState()
-        observeCommands()
+        observeSideEffects()
 
         setupMotionLayout()
         binding.backButton.setOnClickListener { findNavController().navigateUp() }
-        binding.searchInput.doAfterTextChanged { viewModel.search(it.toString()) }
-        binding.refreshLayout.setOnRefreshListener { viewModel.refreshDetails(args.vin) }
+        binding.searchInput.doAfterTextChanged { viewModel.searchQueryEntered(it.toString()) }
+        binding.refreshLayout.setOnRefreshListener { viewModel.refreshDetailsRequested(args.vin) }
         setupHeaderAnimation(binding.topContainer, binding.recyclerView)
+    }
+
+    private fun observeSideEffects() {
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            viewModel.container.sideEffectFlow.collect {
+                Do exhaustive when (it) {
+                    is VehicleDetailsSideEffects.ScrollToPosition -> if (it.position == 0) {
+                        binding.recyclerView.scrollTo(0, 0)
+                    } else {
+                        (binding.recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(
+                            it.position,
+                            0
+                        )
+                    }
+                    is VehicleDetailsSideEffects.RefreshFailed -> requireContext().showToast(R.string.request_failed)
+                }
+            }
+        }
+    }
+
+    private fun observeState() {
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            viewModel.container.stateFlow.collect {
+                binding.refreshLayout.isRefreshing = it.loading
+                binding.recyclerView.withModels {
+                    renderDetailItems(it.details, it.searchedIndex)
+                }
+            }
+        }
     }
 
     private fun setupMotionLayout() {
@@ -110,40 +144,6 @@ internal class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_detai
             override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {
             }
         })
-    }
-
-    override fun onPause() {
-        super.onPause()
-        binding.searchInput.hideKeyboard()
-    }
-
-    private fun observeCommands() {
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            viewModel.events.collect {
-                Do exhaustive when (it) {
-                    is ScrollToPosition -> if (it.position == 0) {
-                        binding.recyclerView.scrollTo(0, 0)
-                    } else {
-                        (binding.recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(
-                            it.position,
-                            0
-                        )
-                    }
-                    is RefreshFailed -> requireContext().showToast(R.string.request_failed)
-                }
-            }
-        }
-    }
-
-    private fun observeState() {
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            viewModel.state.collect {
-                binding.refreshLayout.isRefreshing = it.loading
-                binding.recyclerView.withModels {
-                    renderDetailItems(it.details, it.searchedIndex)
-                }
-            }
-        }
     }
 
     private fun EpoxyController.renderDetailItems(

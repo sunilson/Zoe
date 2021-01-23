@@ -1,14 +1,19 @@
 package at.sunilson.contracts.presentation
 
 import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import at.sunilson.contracts.domain.GetAllContrats
 import at.sunilson.contracts.domain.RefreshContracts
 import at.sunilson.contracts.domain.entities.Contract
-import at.sunilson.unidirectionalviewmodel.core.UniDirectionalViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import org.orbitmvi.orbit.ContainerHost
+import org.orbitmvi.orbit.syntax.simple.intent
+import org.orbitmvi.orbit.syntax.simple.postSideEffect
+import org.orbitmvi.orbit.syntax.simple.reduce
+import org.orbitmvi.orbit.viewmodel.container
 import timber.log.Timber
 
 internal data class ContractsState(
@@ -16,35 +21,35 @@ internal data class ContractsState(
     val contracts: List<Contract> = listOf()
 )
 
-internal sealed class ContractsEvents
-internal object RequestFailed : ContractsEvents()
+internal sealed class ContractsSideEffects {
+    internal object RequestFailed : ContractsSideEffects()
+}
 
 internal class ContractsViewModel @ViewModelInject constructor(
     private val getAllContrats: GetAllContrats,
     private val refreshContracts: RefreshContracts
-) : UniDirectionalViewModel<ContractsState, ContractsEvents>(ContractsState()) {
+) : ViewModel(), ContainerHost<ContractsState, ContractsSideEffects> {
 
     private var contractsJob: Job? = null
+    override val container = container<ContractsState, ContractsSideEffects>(ContractsState())
 
-    fun refreshConracts(vin: String) {
-        viewModelScope.launch {
-            setState { copy(loading = true) }
-            refreshContracts(vin).fold(
-                {},
-                {
-                    sendEvent(RequestFailed)
-                    Timber.e(it)
-                }
-            )
-            setState { copy(loading = false) }
-        }
+    fun refreshConractsRequested(vin: String) = intent {
+        reduce { state.copy(loading = true) }
+        refreshContracts(vin).fold(
+            {},
+            {
+                postSideEffect(ContractsSideEffects.RequestFailed)
+                Timber.e(it)
+            }
+        )
+        reduce { state.copy(loading = false) }
     }
 
-    fun loadContracts(vin: String) {
+    fun viewCreated(vin: String) {
         contractsJob?.cancel()
         contractsJob = viewModelScope.launch {
             getAllContrats(vin).collect {
-                setState { copy(contracts = it) }
+                intent { reduce { state.copy(contracts = it) } }
             }
         }
     }

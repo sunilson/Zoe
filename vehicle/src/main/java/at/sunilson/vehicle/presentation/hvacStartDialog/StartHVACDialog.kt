@@ -42,13 +42,13 @@ class StartHVACDialog : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupSlider()
         observeState()
-        observeEvents()
+        observeSideEffects()
 
         binding.time.setOnClickListener {
             val picker = MaterialTimePicker.Builder().setTimeFormat(TimeFormat.CLOCK_24H).build()
             picker.show(childFragmentManager, null)
             picker.addOnPositiveButtonClickListener {
-                viewModel.setTime(LocalTime.now().withHour(picker.hour).withMinute(picker.minute))
+                viewModel.timeSet(LocalTime.now().withHour(picker.hour).withMinute(picker.minute))
             }
         }
 
@@ -59,7 +59,7 @@ class StartHVACDialog : BottomSheetDialogFragment() {
         binding.temperatureSlider.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
             override fun onStartTrackingTouch(slider: Slider) {}
             override fun onStopTrackingTouch(slider: Slider) {
-                viewModel.setTemperature(slider.value)
+                viewModel.temperatureChanged(slider.value)
             }
         })
 
@@ -68,9 +68,9 @@ class StartHVACDialog : BottomSheetDialogFragment() {
         }
     }
 
-    private fun observeEvents() {
+    private fun observeSideEffects() {
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            viewModel.events.collect {
+            viewModel.container.sideEffectFlow.collect {
                 Do exhaustive when (it) {
                     StartHVACEvent.HVACStarted -> {
                         requireContext().showToast(R.string.hvac_started)
@@ -86,7 +86,7 @@ class StartHVACDialog : BottomSheetDialogFragment() {
 
     private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            viewModel.state.collect {
+            viewModel.container.stateFlow.collect {
                 binding.temperature.text =
                     getString(R.string.degrees, it.temperature.toInt().toString())
                 binding.temperatureSlider.value = it.temperature

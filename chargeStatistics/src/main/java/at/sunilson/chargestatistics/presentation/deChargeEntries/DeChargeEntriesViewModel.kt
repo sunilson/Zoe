@@ -1,25 +1,30 @@
 package at.sunilson.chargestatistics.presentation.deChargeEntries
 
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.ViewModel
 import androidx.paging.PagingData
 import at.sunilson.chargestatistics.domain.GetDeChargingProcedures
 import at.sunilson.chargestatistics.domain.entities.DeChargingProcedure
-import at.sunilson.unidirectionalviewmodel.core.UniDirectionalViewModel
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import org.orbitmvi.orbit.ContainerHost
+import org.orbitmvi.orbit.syntax.simple.intent
+import org.orbitmvi.orbit.syntax.simple.reduce
+import org.orbitmvi.orbit.viewmodel.container
 
 internal data class DeChargeEntriesState(val deChargingProcedures: PagingData<DeChargingProcedure> = PagingData.empty())
-internal sealed class DeChargeEntriesEvent
+internal sealed class DeChargeEntriesSideEffects
 
 internal class DeChargeEntriesViewModel @ViewModelInject constructor(private val getDeChargingProcedures: GetDeChargingProcedures) :
-    UniDirectionalViewModel<DeChargeEntriesState, DeChargeEntriesEvent>(DeChargeEntriesState()) {
+    ViewModel(),
+    ContainerHost<DeChargeEntriesState, DeChargeEntriesSideEffects> {
 
-    fun loadChargeProcedures(vin: String) {
-        viewModelScope.launch {
-            getDeChargingProcedures(vin).collect {
-                setState { copy(deChargingProcedures = it) }
-            }
+    override val container = container<DeChargeEntriesState, DeChargeEntriesSideEffects>(
+        DeChargeEntriesState()
+    )
+
+    fun viewCreated(vin: String) = intent {
+        getDeChargingProcedures(vin).collect {
+            reduce { state.copy(deChargingProcedures = it) }
         }
     }
 }

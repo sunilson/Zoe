@@ -33,7 +33,7 @@ internal class DeChargeEntriesFragment private constructor() :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.loadChargeProcedures(vin)
+        viewModel.viewCreated(vin)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -63,7 +63,7 @@ internal class DeChargeEntriesFragment private constructor() :
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.state.collect { state ->
+            viewModel.container.stateFlow.collect { state ->
                 adapter.submitData(state.deChargingProcedures)
             }
         }

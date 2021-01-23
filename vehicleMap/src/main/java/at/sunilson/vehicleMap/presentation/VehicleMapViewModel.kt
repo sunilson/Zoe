@@ -1,9 +1,8 @@
 package at.sunilson.vehicleMap.presentation
 
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.ViewModel
 import at.sunilson.core.extensions.doOnFailure
-import at.sunilson.unidirectionalviewmodel.core.UniDirectionalViewModel
 import at.sunilson.vehicleMap.domain.GetChargingStationsForSelectedVehicle
 import at.sunilson.vehicleMap.domain.GetReachableArea
 import at.sunilson.vehicleMap.domain.GetVehicleLocations
@@ -14,8 +13,13 @@ import at.sunilson.vehiclecore.domain.GetSelectedVehicle
 import at.sunilson.vehiclecore.domain.entities.Location
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import org.orbitmvi.orbit.ContainerHost
+import org.orbitmvi.orbit.coroutines.transformFlow
+import org.orbitmvi.orbit.syntax.simple.intent
+import org.orbitmvi.orbit.syntax.simple.reduce
+import org.orbitmvi.orbit.syntax.strict.orbit
+import org.orbitmvi.orbit.syntax.strict.reduce
+import org.orbitmvi.orbit.viewmodel.container
 import timber.log.Timber
 
 internal data class VehicleMapState(
@@ -26,7 +30,7 @@ internal data class VehicleMapState(
     val chargingStationsVisible: Boolean = false
 )
 
-internal class VehicleMapEvents
+internal class VehicleMapSideEffects
 
 internal class VehicleMapViewModel @ViewModelInject constructor(
     private val refreshVehicleLocation: RefreshVehicleLocation,
@@ -34,7 +38,9 @@ internal class VehicleMapViewModel @ViewModelInject constructor(
     private val getVehicleLocations: GetVehicleLocations,
     private val getReachableArea: GetReachableArea,
     private val getChargingStationsForSelectedVehicle: GetChargingStationsForSelectedVehicle
-) : UniDirectionalViewModel<VehicleMapState, VehicleMapEvents>(VehicleMapState()) {
+) : ViewModel(), ContainerHost<VehicleMapState, VehicleMapSideEffects> {
+
+    override val container = container<VehicleMapState, VehicleMapSideEffects>(VehicleMapState())
 
     private val _chargingStations = MutableStateFlow<List<ChargingStation>>(listOf())
     val chargingStations: Flow<List<ChargingStation>>
@@ -43,59 +49,51 @@ internal class VehicleMapViewModel @ViewModelInject constructor(
     private var lastRadius: Double? = null
 
     init {
-        viewModelScope.launch {
-            getSelectedVehicle(Unit).collect { vehicle ->
-                setState { copy(location = vehicle?.location) }
+        orbit {
+            transformFlow { getSelectedVehicle(Unit) }.reduce {
+                state.copy(location = event?.location)
             }
         }
 
-        viewModelScope.launch {
-            getReachableArea(Unit).collect { reachableArea ->
-                setState { copy(reachableArea = reachableArea) }
+        orbit {
+            transformFlow { getReachableArea(Unit) }.reduce {
+                state.copy(reachableArea = event)
             }
         }
     }
 
     fun loadLocationList(vin: String): Flow<List<Location>> = getVehicleLocations(vin)
 
-    fun refreshPosition(vin: String) {
-        viewModelScope.launch {
-            setState { copy(loading = true) }
-            refreshVehicleLocation(vin).doOnFailure { Timber.e(it) }
-            setState { copy(loading = false) }
+    fun refreshPosition(vin: String) = intent {
+        reduce { state.copy(loading = true) }
+        refreshVehicleLocation(vin).doOnFailure { Timber.e(it) }
+        reduce { state.copy(loading = false) }
+    }
+
+    fun toggleChargingStations() = intent {
+        val toggled = !state.chargingStationsVisible
+
+        if (toggled && lastRadius != null) {
+            mapPositionChanged(lastRadius!!, forced = true)
+        } else if (!toggled) {
+            _chargingStations.value = listOf()
+            reduce { state.copy(chargingStationsVisible = toggled) }
         }
     }
 
-    fun toggleChargingStations() {
-        getState { state ->
-            val toggled = !state.chargingStationsVisible
-
-            if (toggled && lastRadius != null) {
-                mapPositionChanged(lastRadius!!, forced = true)
-            } else if (!toggled) {
-                _chargingStations.value = listOf()
-                setState { copy(chargingStationsVisible = toggled) }
-            }
-        }
-    }
-
-    fun mapPositionChanged(radius: Double, forced: Boolean = false) {
+    fun mapPositionChanged(radius: Double, forced: Boolean = false) = intent {
         lastRadius = radius
 
-        getState { state ->
-            if (!state.chargingStationsVisible && !forced) return@getState
+        if (!state.chargingStationsVisible && !forced) return@intent
 
-            viewModelScope.launch {
-                setState { copy(loadingChargingStations = true) }
-                getChargingStationsForSelectedVehicle(radius).fold(
-                    {
-                        _chargingStations.value = it
-                        setState { copy(chargingStationsVisible = true) }
-                    },
-                    { Timber.e(it) }
-                )
-                setState { copy(loadingChargingStations = false) }
-            }
-        }
+        reduce { state.copy(loadingChargingStations = true) }
+        getChargingStationsForSelectedVehicle(radius).fold(
+            {
+                _chargingStations.value = it
+                reduce { state.copy(chargingStationsVisible = true) }
+            },
+            { Timber.e(it) }
+        )
+        reduce { state.copy(loadingChargingStations = false) }
     }
 }

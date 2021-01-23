@@ -35,7 +35,7 @@ internal class HistoryFragment : Fragment(R.layout.fragment_history) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeState()
-        binding.refreshLayout.setOnRefreshListener { viewModel.loadHistory(vin) }
+        binding.refreshLayout.setOnRefreshListener { viewModel.viewCreated(vin) }
 
         binding.recyclerView.itemAnimator = ScaleInAnimator(OvershootInterpolator(1f)).apply {
             addDuration = 300L
@@ -44,13 +44,13 @@ internal class HistoryFragment : Fragment(R.layout.fragment_history) {
 
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             delay(300)
-            viewModel.loadHistory(vin)
+            viewModel.viewCreated(vin)
         }
     }
 
     private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            viewModel.state.collect { state ->
+            viewModel.container.stateFlow.collect { state ->
                 binding.refreshLayout.isRefreshing = state.loading
                 setupList(state.services)
             }

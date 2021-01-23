@@ -14,6 +14,7 @@ import dev.chrisbanes.insetter.Insetter
 import dev.chrisbanes.insetter.Side
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import org.orbitmvi.orbit.viewmodel.container
 
 @AndroidEntryPoint
 class SettingsOverviewFragment : Fragment(R.layout.fragment_settings_overview) {
@@ -23,14 +24,6 @@ class SettingsOverviewFragment : Fragment(R.layout.fragment_settings_overview) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observeEvents()
         Insetter.builder().applySystemWindowInsetsToPadding(Side.TOP).applyToView(view)
-    }
-
-    private fun observeEvents() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.events.collect {
-            }
-        }
     }
 }

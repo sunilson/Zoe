@@ -1,27 +1,33 @@
 package at.arkulpa.widget
 
 import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import at.arkulpa.widget.domain.SelectVehicleForWidget
 import at.arkulpa.widget.domain.SelectVehicleForWidgetParams
-import at.sunilson.unidirectionalviewmodel.core.UniDirectionalViewModel
 import at.sunilson.vehiclecore.domain.GetAllVehicles
 import at.sunilson.vehiclecore.domain.entities.Vehicle
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import org.orbitmvi.orbit.ContainerHost
+import org.orbitmvi.orbit.syntax.simple.intent
+import org.orbitmvi.orbit.syntax.simple.reduce
+import org.orbitmvi.orbit.viewmodel.container
 
 data class VehicleWidgetState(val vehicles: List<Vehicle> = listOf())
-sealed class VehicleWidgetEvent
+sealed class VehicleWidgetSideEffects
 
 internal class VehicleWidgetConfigurationViewModel @ViewModelInject constructor(
     private val getAllVehicles: GetAllVehicles,
     private val selectVehicleForWidget: SelectVehicleForWidget
-) : UniDirectionalViewModel<VehicleWidgetState, VehicleWidgetEvent>(VehicleWidgetState()) {
+) : ViewModel(), ContainerHost<VehicleWidgetState, VehicleWidgetSideEffects> {
+
+    override val container = container<VehicleWidgetState, VehicleWidgetSideEffects>(VehicleWidgetState())
 
     init {
         viewModelScope.launch {
             getAllVehicles(Unit).collect {
-                setState { copy(vehicles = it) }
+                intent { reduce { state.copy(vehicles = it) } }
             }
         }
     }

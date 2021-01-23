@@ -1,14 +1,16 @@
 package at.sunilson.vehicleDetails.presentation
 
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.viewModelScope
-import at.sunilson.unidirectionalviewmodel.core.UniDirectionalViewModel
+import androidx.lifecycle.ViewModel
 import at.sunilson.vehicleDetails.domain.GetVehicleDetails
 import at.sunilson.vehicleDetails.domain.RefreshVehicleDetails
 import at.sunilson.vehicleDetails.domain.entities.VehicleDetailsEntry
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import org.orbitmvi.orbit.ContainerHost
+import org.orbitmvi.orbit.syntax.simple.intent
+import org.orbitmvi.orbit.syntax.simple.postSideEffect
+import org.orbitmvi.orbit.syntax.simple.reduce
+import org.orbitmvi.orbit.viewmodel.container
 import timber.log.Timber
 
 internal data class VehicleDetailsState(
@@ -17,61 +19,58 @@ internal data class VehicleDetailsState(
     val searchedIndex: Int = -1
 )
 
-internal sealed class VehicleDetailsEvent
-internal object RefreshFailed: VehicleDetailsEvent()
-internal data class ScrollToPosition(val position: Int) : VehicleDetailsEvent()
+internal sealed class VehicleDetailsSideEffects {
+    object RefreshFailed : VehicleDetailsSideEffects()
+    data class ScrollToPosition(val position: Int) : VehicleDetailsSideEffects()
+}
+
 
 internal class VehicleDetailsViewModel @ViewModelInject constructor(
     private val refreshVehicleDetails: RefreshVehicleDetails,
     private val getVehicleDetails: GetVehicleDetails
-) : UniDirectionalViewModel<VehicleDetailsState, VehicleDetailsEvent>(VehicleDetailsState()) {
+) : ViewModel(), ContainerHost<VehicleDetailsState, VehicleDetailsSideEffects> {
 
-    private var job: Job? = null
+    override val container = container<VehicleDetailsState, VehicleDetailsSideEffects>(
+        VehicleDetailsState()
+    )
 
-    fun refreshDetails(vin: String) {
-        viewModelScope.launch {
-            setState { copy(loading = true) }
-            refreshVehicleDetails(vin).fold(
-                {},
-                { Timber.e(it) }
-            )
-            setState { copy(loading = false) }
+    fun viewCreated(vin: String) = intent {
+        getVehicleDetails(vin).collect {
+            reduce { state.copy(details = it) }
         }
     }
 
-    fun loadVehicle(vin: String) {
-        job?.cancel()
-        job = viewModelScope.launch {
-            getVehicleDetails(vin).collect {
-                setState { copy(details = it) }
-            }
-        }
+    fun refreshDetailsRequested(vin: String) = intent {
+        reduce { state.copy(loading = true) }
+        refreshVehicleDetails(vin).fold(
+            {},
+            { Timber.e(it) }
+        )
+        reduce { state.copy(loading = false) }
     }
 
-    fun search(query: String) {
-        getState { state ->
-            val index = if (query.isEmpty()) {
-                -1
-            } else {
-                state.details.indexOfFirst { entry ->
-                    when (entry) {
-                        is VehicleDetailsEntry.Image -> false
-                        is VehicleDetailsEntry.Equipment -> entry.label.contains(
-                            query,
-                            ignoreCase = true
-                        )
-                        is VehicleDetailsEntry.Information -> entry.description.contains(
-                            query,
-                            ignoreCase = true
-                        )
-                    }
+    fun searchQueryEntered(query: String) = intent {
+        val index = if (query.isEmpty()) {
+            -1
+        } else {
+            state.details.indexOfFirst { entry ->
+                when (entry) {
+                    is VehicleDetailsEntry.Image -> false
+                    is VehicleDetailsEntry.Equipment -> entry.label.contains(
+                        query,
+                        ignoreCase = true
+                    )
+                    is VehicleDetailsEntry.Information -> entry.description.contains(
+                        query,
+                        ignoreCase = true
+                    )
                 }
             }
+        }
 
-            setState { copy(searchedIndex = index) }
-            if (index != -1) {
-                sendEvent(ScrollToPosition(index))
-            }
+        reduce { state.copy(searchedIndex = index) }
+        if (index != -1) {
+            postSideEffect(VehicleDetailsSideEffects.ScrollToPosition(index))
         }
     }
 }

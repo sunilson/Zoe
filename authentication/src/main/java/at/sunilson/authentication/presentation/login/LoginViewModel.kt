@@ -1,40 +1,38 @@
 package at.sunilson.authentication.presentation.login
 
-import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.ViewModel
 import at.sunilson.authentication.domain.LoginUseCase
 import at.sunilson.authentication.domain.entities.LoginParams
-import at.sunilson.unidirectionalviewmodel.core.UniDirectionalViewModel
-import kotlinx.coroutines.launch
+import org.orbitmvi.orbit.ContainerHost
+import org.orbitmvi.orbit.syntax.simple.intent
+import org.orbitmvi.orbit.syntax.simple.postSideEffect
+import org.orbitmvi.orbit.viewmodel.container
 import timber.log.Timber
 
 
 class LoginState()
-sealed class LoginEvent {
-    object LoginSuccess : LoginEvent()
-    object LoginFailure : LoginEvent()
+sealed class LoginSideEffects {
+    object LoginSuccess : LoginSideEffects()
+    object LoginFailure : LoginSideEffects()
 }
 
-internal class LoginViewModel @ViewModelInject constructor(
-    private val loginUseCase: LoginUseCase,
-    @Assisted private val savedStateHandle: SavedStateHandle
-) : UniDirectionalViewModel<LoginState, LoginEvent>(LoginState()) {
+internal class LoginViewModel @ViewModelInject constructor(private val loginUseCase: LoginUseCase) :
+    ContainerHost<LoginState, LoginSideEffects>, ViewModel() {
 
-    fun login(username: String, password: String) {
-        viewModelScope.launch {
-            loginUseCase(LoginParams(username, password, false)).fold(
-                {
-                    sendEvent(LoginEvent.LoginSuccess)
-                    Timber.tag(LOG_TAG).d("Login success!")
-                },
-                {
-                    sendEvent(LoginEvent.LoginFailure)
-                    Timber.tag(LOG_TAG).e(it, "Login failure!")
-                }
-            )
-        }
+    override val container = container<LoginState, LoginSideEffects>(LoginState())
+
+    fun loginClicked(username: String, password: String) = intent {
+        loginUseCase(LoginParams(username, password, false)).fold(
+            {
+                postSideEffect(LoginSideEffects.LoginSuccess)
+                Timber.tag(LOG_TAG).d("Login success!")
+            },
+            {
+                postSideEffect(LoginSideEffects.LoginFailure)
+                Timber.tag(LOG_TAG).e(it, "Login failure!")
+            }
+        )
     }
 
     companion object {

@@ -54,7 +54,7 @@ internal class LoginFragment : Fragment(R.layout.fragment_login) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.loginButton.setOnClickListener {
-            viewModel.login(
+            viewModel.loginClicked(
                 binding.usernameInput.text.toString(),
                 binding.passwordInput.text.toString()
             )
@@ -66,18 +66,18 @@ internal class LoginFragment : Fragment(R.layout.fragment_login) {
             })
         }
 
-        observeEvents()
+        observeSideEffects()
     }
 
 
-    private fun observeEvents() {
+    private fun observeSideEffects() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.events.collect {
+            viewModel.container.sideEffectFlow.collect {
                 Do exhaustive when (it) {
-                    LoginEvent.LoginSuccess -> activityNavigator.startMainActivity(
+                    LoginSideEffects.LoginSuccess -> activityNavigator.startMainActivity(
                         ActivityNavigatorParams(requireActivity())
                     )
-                    LoginEvent.LoginFailure -> requireContext().showToast("Login fehlgeschlagen!")
+                    LoginSideEffects.LoginFailure -> requireContext().showToast("Login fehlgeschlagen!")
                 }
             }
         }

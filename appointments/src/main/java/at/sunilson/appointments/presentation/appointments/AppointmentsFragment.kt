@@ -44,7 +44,7 @@ internal class AppointmentsFragment private constructor() :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeState()
-        observeEvents()
+        observeSideEffects()
 
         binding.refreshLayout.setOnRefreshListener { viewModel.refreshAppointments(vin) }
         binding.refreshLayout.isEnabled = true
@@ -78,11 +78,11 @@ internal class AppointmentsFragment private constructor() :
         })
     }
 
-    private fun observeEvents() {
+    private fun observeSideEffects() {
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            viewModel.events.collect {
+            viewModel.container.sideEffectFlow.collect {
                 Do exhaustive when (it) {
-                    is RequestFailed -> requireContext().showToast(
+                    is AppointmentsSideEffects.RequestFailed -> requireContext().showToast(
                         R.string.request_failed,
                         Toast.LENGTH_LONG
                     )
@@ -93,7 +93,7 @@ internal class AppointmentsFragment private constructor() :
 
     private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            viewModel.state.collect {
+            viewModel.container.stateFlow.collect {
                 syncProgressDialogVisibility(it.changing)
                 binding.refreshLayout.isRefreshing = it.loading
                 renderList(it.appointments, it.annualMileage)

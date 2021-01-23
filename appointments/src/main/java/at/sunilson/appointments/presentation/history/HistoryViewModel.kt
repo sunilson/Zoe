@@ -1,39 +1,41 @@
 package at.sunilson.appointments.presentation.history
 
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.ViewModel
 import at.sunilson.appointments.domain.GetAllServices
 import at.sunilson.appointments.domain.RefreshServiceHistory
 import at.sunilson.appointments.domain.entities.Service
-import at.sunilson.unidirectionalviewmodel.core.UniDirectionalViewModel
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import org.orbitmvi.orbit.ContainerHost
+import org.orbitmvi.orbit.coroutines.transformFlow
+import org.orbitmvi.orbit.syntax.simple.intent
+import org.orbitmvi.orbit.syntax.simple.reduce
+import org.orbitmvi.orbit.syntax.strict.orbit
+import org.orbitmvi.orbit.syntax.strict.reduce
+import org.orbitmvi.orbit.viewmodel.container
 
 internal data class HistoryState(
     val loading: Boolean = false,
     val services: List<Service> = listOf()
 )
 
-internal sealed class HistoryEvent
+internal sealed class HistorySideEffects
 
 internal class HistoryViewModel @ViewModelInject constructor(
     private val refreshServiceHistory: RefreshServiceHistory,
     private val getAllServices: GetAllServices
-) : UniDirectionalViewModel<HistoryState, HistoryEvent>(HistoryState()) {
+) : ViewModel(), ContainerHost<HistoryState, HistorySideEffects> {
 
-    fun loadHistory(vin: String) {
-        viewModelScope.launch {
-            getAllServices(vin).collect {
-                setState { copy(services = it) }
-            }
+    override val container = container<HistoryState, HistorySideEffects>(HistoryState())
+
+    fun viewCreated(vin: String) {
+        orbit {
+            transformFlow { getAllServices(vin) }.reduce { state.copy(services = event) }
         }
     }
 
-    fun refreshHistory(vin: String) {
-        viewModelScope.launch {
-            setState { copy(loading = true) }
-            refreshServiceHistory(vin)
-            setState { copy(loading = false) }
-        }
+    fun refreshHistory(vin: String) = intent {
+        reduce { state.copy(loading = true) }
+        refreshServiceHistory(vin)
+        reduce { state.copy(loading = false) }
     }
 }

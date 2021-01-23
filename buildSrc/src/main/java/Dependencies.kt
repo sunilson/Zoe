@@ -16,6 +16,7 @@ const val ARCH_CORE_VERSION = "2.1.0"
 const val FLIPPER_VERSION = "0.63.0"
 const val FRAGMENT_VERSION = "1.3.0-alpha07"
 const val PAGING_VERSION = "3.0.0-alpha11"
+const val ORBIT_VERSION = "2.2.0"
 
 object Dependencies {
     const val contour = "app.cash.contour:contour:1.0.0"
@@ -26,7 +27,7 @@ object Dependencies {
     const val appcompat = "androidx.appcompat:appcompat:1.2.0"
     const val coreKtx = "androidx.core:core-ktx:1.5.0-alpha04"
     const val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:1.3.72"
-    const val constraintlayout = "androidx.constraintlayout:constraintlayout:2.1.0-alpha1"
+    const val constraintlayout = "androidx.constraintlayout:constraintlayout:2.1.0-alpha2"
     const val retrofit = "com.squareup.retrofit2:retrofit:2.9.0"
     const val moshi = "com.squareup.moshi:moshi:$MOSHI_VERSION"
     const val moshiAdapters = "com.squareup.moshi:moshi-adapters:$MOSHI_VERSION"
@@ -49,7 +50,8 @@ object Dependencies {
     const val result = "com.github.kittinunf.result:result:$RESULT_VERSION"
     const val resultCoroutines = "com.github.kittinunf.result:result-coroutines:$RESULT_VERSION"
     const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$COROUTINES_VERSION"
-    const val coroutinesReactive = "org.jetbrains.kotlinx:kotlinx-coroutines-jdk9:$COROUTINES_VERSION"
+    const val coroutinesReactive =
+        "org.jetbrains.kotlinx:kotlinx-coroutines-jdk9:$COROUTINES_VERSION"
     const val timber = "com.jakewharton.timber:timber:4.7.1"
     const val room = "androidx.room:room-runtime:$ROOM_VERSION"
     const val roomCoroutines = "androidx.room:room-ktx:$ROOM_VERSION"
@@ -58,7 +60,6 @@ object Dependencies {
     const val insetter = "dev.chrisbanes:insetter:0.3.1"
     const val insetterKtx = "dev.chrisbanes:insetter-ktx:0.3.1"
     const val sunilsonExtensions = "com.github.sunilson:android-kotlin-extensions:0.54"
-    const val sunilsonViewModel = "com.github.sunilson:Unidirectional-ViewModel:0.74"
     const val maps = "com.google.android.libraries.maps:maps:3.1.0-beta"
     const val mapsUtils = "com.google.maps.android:android-maps-utils-v3:1.3.1"
     const val epoxy = "com.airbnb.android:epoxy:$EPOXY_VERSION"
@@ -94,4 +95,9 @@ object Dependencies {
     const val flipperSoloader = "com.facebook.soloader:soloader:0.9.0"
     const val dataStore = "androidx.datastore:datastore-preferences:1.0.0-alpha02"
     const val paging = "androidx.paging:paging-runtime:$PAGING_VERSION"
+    const val orbit = "org.orbit-mvi:orbit-core:$ORBIT_VERSION"
+    const val orbitViewModel = "org.orbit-mvi:orbit-viewmodel:$ORBIT_VERSION"
+    const val orbitCoroutines = "org.orbit-mvi:orbit-coroutines:$ORBIT_VERSION"
+    const val orbitTest = "org.orbit-mvi:orbit-test:$ORBIT_VERSION"
+
 }

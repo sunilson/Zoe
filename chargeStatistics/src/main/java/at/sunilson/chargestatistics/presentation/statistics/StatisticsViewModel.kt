@@ -1,27 +1,33 @@
 package at.sunilson.chargestatistics.presentation.statistics
 
 import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import at.sunilson.chargestatistics.domain.GetStatsticsChartEntries
 import at.sunilson.chargestatistics.domain.entities.Statistic
-import at.sunilson.unidirectionalviewmodel.core.UniDirectionalViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import org.orbitmvi.orbit.ContainerHost
+import org.orbitmvi.orbit.syntax.simple.intent
+import org.orbitmvi.orbit.syntax.simple.reduce
+import org.orbitmvi.orbit.viewmodel.container
 
 internal data class StatisticsState(val entriesList: List<Statistic> = listOf())
-internal sealed class StatisticsEvents
+internal sealed class StatisticsSideEffects
 
 internal class StatisticsViewModel @ViewModelInject constructor(private val getStatsticsChartEntries: GetStatsticsChartEntries) :
-    UniDirectionalViewModel<StatisticsState, StatisticsEvents>(StatisticsState()) {
+    ViewModel(), ContainerHost<StatisticsState, StatisticsSideEffects> {
+
+    override val container = container<StatisticsState, StatisticsSideEffects>(StatisticsState())
 
     private var chartJob: Job? = null
 
-    fun loadChartEntries(vin: String) {
+    fun viewCreated(vin: String) {
         chartJob?.cancel()
         chartJob = viewModelScope.launch {
             getStatsticsChartEntries(vin).collect {
-                setState { copy(entriesList = it) }
+                intent { reduce { state.copy(entriesList = it) } }
             }
         }
     }

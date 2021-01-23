@@ -65,7 +65,7 @@ internal class VehicleWidgetConfigurationActivity : AppCompatActivity() {
 
     private fun observeState() {
         lifecycleScope.launchWhenCreated {
-            viewModel.state.collect { state ->
+            viewModel.container.stateFlow.collect { state ->
                 binding?.vehicleList?.withModels {
                     state.vehicles.forEach { vehicle ->
                         vehicleListItem {

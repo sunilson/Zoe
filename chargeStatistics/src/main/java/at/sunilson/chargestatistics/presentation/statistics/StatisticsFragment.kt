@@ -36,7 +36,7 @@ internal class StatisticsFragment private constructor() : Fragment(R.layout.stat
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.loadChartEntries(vin)
+        viewModel.viewCreated(vin)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,7 +49,7 @@ internal class StatisticsFragment private constructor() : Fragment(R.layout.stat
 
     private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            viewModel.state.collect { state ->
+            viewModel.container.stateFlow.collect { state ->
                 binding.noChargesText.isVisible = state.entriesList.isEmpty()
                 binding.manageButton.isVisible = state.entriesList.isEmpty()
                 renderList(state.entriesList)

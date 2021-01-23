@@ -83,7 +83,6 @@ import dev.chrisbanes.insetter.applySystemWindowInsetsToPadding
 import jp.wasabeef.recyclerview.animators.ScaleInAnimator
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import timber.log.Timber
@@ -93,7 +92,7 @@ import kotlin.math.hypot
 
 
 @AndroidEntryPoint
-class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
+internal class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
 
     private val binding by viewBinding(FragmentVehicleOverviewBinding::bind)
     private val viewModel by viewModels<VehicleOverviewViewModel>()
@@ -115,16 +114,6 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
         } else {
             //Use viewmodel so it is already initialized
             viewModel
-        }
-    }
-
-    private fun tryExit() {
-        val currentTime = System.currentTimeMillis()
-        if (currentTime - lastBackPress < 2000) {
-            requireActivity().finish()
-        } else {
-            requireContext().showToast("Erneut drücken um zu beenden", Toast.LENGTH_SHORT)
-            lastBackPress = currentTime
         }
     }
 
@@ -153,13 +142,69 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
         setupClickListeners()
         setupSwipeRefreshLayout()
         observeState()
-        observeEvents()
+        observeSideEffects()
         setupUIFlags()
         setupInsets()
         setupList()
         setupResultListeners()
 
         setupHeaderAnimation(binding.cutView, binding.recyclerView)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setupUIFlags()
+    }
+
+    private fun observeSideEffects() {
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            viewModel.container.sideEffectFlow.collect { event ->
+                Do exhaustive when (event) {
+                    is VehicleOverviewSideEffects.ShowToast -> requireContext().showToast(event.message)
+                    is VehicleOverviewSideEffects.RequestFailed -> requireContext().showToast(
+                        R.string.request_failed,
+                        Toast.LENGTH_LONG
+                    )
+                    is VehicleOverviewSideEffects.ShowVehicleDetails -> showVehicleDetails(event.vin)
+                    is VehicleOverviewSideEffects.ShowVehicleStatistics -> findNavController().navigate(
+                        "https://zoe.app/statistics/${event.vin}".toUri()
+                    )
+                    is VehicleOverviewSideEffects.ShowChargeStatistics -> showChargeStatistics(event.vin)
+                    is VehicleOverviewSideEffects.ShowVehicleLocation -> showVehicleLocation(event.vin)
+                    is VehicleOverviewSideEffects.NoVehiclesAvailable -> logoutHandler.emitLogout()
+                    is VehicleOverviewSideEffects.ShowSplashScreen -> if (!splashAnimationStarted) {
+                        splashAnimationStarted = true
+                        startSplashAnimation()
+                    } else {
+                    }
+                    VehicleOverviewSideEffects.HVACStopped -> requireContext().showToast(R.string.hvac_stopped)
+                    VehicleOverviewSideEffects.HVACNotStopped -> requireContext().showToast(R.string.hvac_not_stopped)
+                }
+            }
+        }
+    }
+
+    private fun observeState() {
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            viewModel.container.stateFlow.collect { state ->
+                binding.contentContainer.isRefreshing = state.loading
+                if (state.selectedVehicle != null) {
+                    updateShortcuts(state.selectedVehicle)
+                    renderVehicle(state)
+                    updateVehicleWidget()
+                }
+            }
+        }
+    }
+
+    private fun tryExit() {
+        val currentTime = System.currentTimeMillis()
+        if (currentTime - lastBackPress < 2000) {
+            requireActivity().finish()
+        } else {
+            requireContext().showToast("Erneut drücken um zu beenden", Toast.LENGTH_SHORT)
+            lastBackPress = currentTime
+        }
     }
 
     private fun setupList() {
@@ -217,7 +262,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     private fun finishSplashAnimation() {
         viewLifecycleOwner.lifecycleScope.launch {
             while (true) {
-                if (viewModel.state.first().selectedVehicle != null) {
+                if (viewModel.container.currentState.selectedVehicle != null) {
                     break
                 }
                 delay(300L)
@@ -273,54 +318,13 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
 
     private fun setupSwipeRefreshLayout() {
         binding.contentContainer.setOnRefreshListener {
-            viewModel.refreshVehicles()
+            viewModel.refreshVehiclesRequested()
         }
     }
 
     private fun setupClickListeners() {
-        binding.vehicleImage.setOnClickListener { viewModel.showVehicleDetails() }
-        binding.settingsButton.setOnClickListener {
-            navigateSafe(R.id.show_settings_dialog)
-        }
-    }
-
-    private fun observeEvents() {
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            viewModel.events.collect { event ->
-                Do exhaustive when (event) {
-                    is ShowToast -> requireContext().showToast(event.message)
-                    is RequestFailed -> requireContext().showToast(
-                        R.string.request_failed,
-                        Toast.LENGTH_LONG
-                    )
-                    is ShowVehicleDetails -> showVehicleDetails(event.vin)
-                    is ShowVehicleStatistics -> findNavController().navigate("https://zoe.app/statistics/${event.vin}".toUri())
-                    is ShowChargeStatistics -> showChargeStatistics(event.vin)
-                    is ShowVehicleLocation -> showVehicleLocation(event.vin)
-                    is NoVehiclesAvailable -> logoutHandler.emitLogout()
-                    is ShowSplashScreen -> if (!splashAnimationStarted) {
-                        splashAnimationStarted = true
-                        startSplashAnimation()
-                    } else {
-                    }
-                    HVACStopped -> requireContext().showToast(R.string.hvac_stopped)
-                    HVACNotStopped -> requireContext().showToast(R.string.hvac_not_stopped)
-                }
-            }
-        }
-    }
-
-    private fun observeState() {
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            viewModel.state.collect { state ->
-                binding.contentContainer.isRefreshing = state.loading
-                if (state.selectedVehicle != null) {
-                    updateShortcuts(state.selectedVehicle)
-                    renderVehicle(state)
-                    updateVehicleWidget()
-                }
-            }
-        }
+        binding.vehicleImage.setOnClickListener { viewModel.showVehicleDetailsClicked() }
+        binding.settingsButton.setOnClickListener { navigateSafe(R.id.show_settings_dialog) }
     }
 
     private fun showVehicleLocation(vin: String) {
@@ -372,6 +376,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
         }
     }
 
+    //TODO Extract this into extension function
     private suspend fun takeScreenshot() = suspendCancellableCoroutine<Bitmap?> {
         val view = requireView()
         val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
@@ -411,8 +416,6 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     private fun renderVehicle(state: VehicleOverviewState) {
         val vehicle = state.selectedVehicle ?: return
 
-
-
         binding.vehicleSubtitle.text =
             if (vehicle.batteryStatus.chargeState == Vehicle.BatteryStatus.ChargeState.CHARGING) {
                 "Laden: ${TimeUtils.formatMinuteDuration(vehicle.batteryStatus.remainingChargeTime)} verbleibend"
@@ -444,7 +447,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
                     StartHVACDialog().show(childFragmentManager, null)
                 }
                 stopClimateControlClicked {
-                    viewModel.stopHVAC()
+                    viewModel.stopHVACClicked()
                 }
             }
 
@@ -457,7 +460,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
                         NavOptions.Builder().withDefaultAnimations()
                     )
                 }
-                chargeNowClicked { viewModel.startCharging(vehicle.vin) }
+                chargeNowClicked { viewModel.startChargingClicked(vehicle.vin) }
                 currentChargeProcedure(state.currentChargeProcedure)
             }
 
@@ -528,8 +531,7 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
     }
 
     private fun updateShortcuts(vehicle: Vehicle) {
-        val shortcutManager =
-            getSystemService<ShortcutManager>(requireContext(), ShortcutManager::class.java)
+        val shortcutManager = getSystemService(requireContext(), ShortcutManager::class.java)
 
         val hvacShortcut = ShortcutInfo.Builder(context, "startClimateControl")
             .setShortLabel(getString(R.string.start_hvac_shortcut))
@@ -590,11 +592,5 @@ class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
 
             }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        setupUIFlags()
-        // TODO Only not on first app start viewModel.refreshVehicles(true)
     }
 }

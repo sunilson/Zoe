@@ -1,17 +1,13 @@
 package at.sunilson.vehicle.presentation.vehicleOverview
 
 import android.graphics.Bitmap
-import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import at.sunilson.appointments.domain.GetNearestAppointment
 import at.sunilson.appointments.domain.entities.Appointment
 import at.sunilson.contracts.domain.GetNearestExpiringContract
 import at.sunilson.contracts.domain.entities.Contract
-import at.sunilson.unidirectionalviewmodel.savedstate.Persist
-import at.sunilson.unidirectionalviewmodel.savedstate.PersistableState
-import at.sunilson.unidirectionalviewmodel.savedstate.UniDirectionalSavedStateViewModelReflection
 import at.sunilson.vehicle.domain.GetSelectedVehicleCurrentChargeProcedure
 import at.sunilson.vehicle.domain.RefreshAllVehicles
 import at.sunilson.vehicle.domain.SelectVehicle
@@ -23,29 +19,35 @@ import at.sunilson.vehiclecore.domain.entities.Vehicle
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import org.orbitmvi.orbit.ContainerHost
+import org.orbitmvi.orbit.syntax.simple.intent
+import org.orbitmvi.orbit.syntax.simple.postSideEffect
+import org.orbitmvi.orbit.syntax.simple.reduce
+import org.orbitmvi.orbit.viewmodel.container
 import timber.log.Timber
 
-@PersistableState
 data class VehicleOverviewState(
     val loading: Boolean = false,
-    @Persist
     val selectedVehicle: Vehicle? = null,
     val currentChargeProcedure: ChargeProcedure? = null,
     val nextAppointment: Appointment? = null,
     val nextContract: Contract? = null
 )
 
-sealed class VehicleOverviewEvents
-object ShowSplashScreen : VehicleOverviewEvents()
-object NoVehiclesAvailable : VehicleOverviewEvents()
-object RequestFailed : VehicleOverviewEvents()
-object HVACStopped : VehicleOverviewEvents()
-object HVACNotStopped : VehicleOverviewEvents()
-data class ShowToast(val message: String) : VehicleOverviewEvents()
-data class ShowVehicleDetails(val vin: String, val imageUri: String) : VehicleOverviewEvents()
-data class ShowVehicleStatistics(val vin: String) : VehicleOverviewEvents()
-data class ShowChargeStatistics(val vin: String) : VehicleOverviewEvents()
-data class ShowVehicleLocation(val vin: String) : VehicleOverviewEvents()
+sealed class VehicleOverviewSideEffects {
+    object ShowSplashScreen : VehicleOverviewSideEffects()
+    object NoVehiclesAvailable : VehicleOverviewSideEffects()
+    object RequestFailed : VehicleOverviewSideEffects()
+    object HVACStopped : VehicleOverviewSideEffects()
+    object HVACNotStopped : VehicleOverviewSideEffects()
+    data class ShowToast(val message: String) : VehicleOverviewSideEffects()
+    data class ShowVehicleDetails(val vin: String, val imageUri: String) :
+        VehicleOverviewSideEffects()
+
+    data class ShowVehicleStatistics(val vin: String) : VehicleOverviewSideEffects()
+    data class ShowChargeStatistics(val vin: String) : VehicleOverviewSideEffects()
+    data class ShowVehicleLocation(val vin: String) : VehicleOverviewSideEffects()
+}
 
 internal class VehicleOverviewViewModel @ViewModelInject constructor(
     private val getSelectedVehicle: GetSelectedVehicle,
@@ -55,11 +57,12 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
     private val getNearestAppointment: GetNearestAppointment,
     private val getNearestExpiringContract: GetNearestExpiringContract,
     private val selectVehicle: SelectVehicle,
-    private val stopHVAC: StopHVAC,
-    @Assisted savedStateHandle: SavedStateHandle
-) : UniDirectionalSavedStateViewModelReflection<VehicleOverviewState, VehicleOverviewEvents>(
-    VehicleOverviewState(), savedStateHandle
-) {
+    private val stopHVAC: StopHVAC
+) : ViewModel(), ContainerHost<VehicleOverviewState, VehicleOverviewSideEffects> {
+
+    override val container = container<VehicleOverviewState, VehicleOverviewSideEffects>(
+        VehicleOverviewState()
+    )
 
     private var selectedVehicleJob: Job? = null
     private var chargeProcedureJob: Job? = null
@@ -71,86 +74,78 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
 
     init {
         loadSelectedVehicle()
-        refreshVehicles()
+        refreshVehiclesRequested()
     }
 
-    fun vehicleSelected(vin: String) {
-        viewModelScope.launch {
-            selectVehicle(vin)
-        }
-    }
+    fun vehicleSelected(vin: String) = intent { selectVehicle(vin) }
 
-    fun refreshVehicles(invisible: Boolean = false) {
+    fun refreshVehiclesRequested(invisible: Boolean = false) = intent {
         refreshingJob?.cancel()
         refreshingJob = viewModelScope.launch {
-            if (!invisible) setState { copy(loading = true) }
+            if (!invisible) reduce { state.copy(loading = true) }
 
             refreshAllVehicles(Unit).fold(
                 {
                     if (it.isEmpty()) {
-                        sendEvent(NoVehiclesAvailable)
+                        postSideEffect(VehicleOverviewSideEffects.NoVehiclesAvailable)
                     }
                 },
                 {
                     Timber.e(it)
-                    getState { state ->
-                        if (state.selectedVehicle == null) {
-                            sendEvent(NoVehiclesAvailable)
-                        } else {
-                            sendEvent(RequestFailed)
-                        }
+                    if (state.selectedVehicle == null) {
+                        postSideEffect(VehicleOverviewSideEffects.NoVehiclesAvailable)
+                    } else {
+                        postSideEffect(VehicleOverviewSideEffects.RequestFailed)
                     }
                 }
             )
 
-            setState { copy(loading = false) }
+            reduce { state.copy(loading = false) }
         }
     }
 
-    fun startCharging(vin: String) {
-        viewModelScope.launch {
-            startChargingUseCase(vin).fold(
-                { sendEvent(ShowToast("Lade Anfrage gesendet!")) },
-                { Timber.e(it) }
-            )
+    fun startChargingClicked(vin: String) = intent {
+        startChargingUseCase(vin).fold(
+            { postSideEffect(VehicleOverviewSideEffects.ShowToast("Lade Anfrage gesendet!")) },
+            { Timber.e(it) }
+        )
+    }
+
+    fun stopHVACClicked() = intent {
+        stopHVAC(Unit).fold(
+            { postSideEffect(VehicleOverviewSideEffects.HVACStopped) },
+            { postSideEffect(VehicleOverviewSideEffects.HVACNotStopped) }
+        )
+    }
+
+    fun showChargeStatistics() = intent {
+        state.selectedVehicle?.let { vehicle ->
+            postSideEffect(VehicleOverviewSideEffects.ShowChargeStatistics(vehicle.vin))
         }
     }
 
-    fun stopHVAC() {
-        viewModelScope.launch {
-            stopHVAC(Unit).fold(
-                { sendEvent(HVACStopped) },
-                { sendEvent(HVACNotStopped) }
-            )
-        }
-    }
-
-    fun showChargeStatistics() {
-        getState { it.selectedVehicle?.let { vehicle -> sendEvent(ShowChargeStatistics(vehicle.vin)) } }
-    }
-
-    fun showVehicleDetails() {
-        getState {
-            it.selectedVehicle?.let { vehicle ->
-                sendEvent(
-                    ShowVehicleDetails(
-                        vehicle.vin,
-                        vehicle.imageUrl
-                    )
+    fun showVehicleDetailsClicked() = intent {
+        state.selectedVehicle?.let { vehicle ->
+            postSideEffect(
+                VehicleOverviewSideEffects.ShowVehicleDetails(
+                    vehicle.vin,
+                    vehicle.imageUrl
                 )
-            }
+            )
         }
     }
 
     private fun loadSelectedVehicle() {
         selectedVehicleJob?.cancel()
         selectedVehicleJob = viewModelScope.launch {
-            getSelectedVehicle(Unit).collect {
-                if (it == null) {
-                    Timber.e("Selected Vehicle was null")
-                    sendEvent(ShowSplashScreen)
-                } else {
-                    setState { copy(selectedVehicle = it) }
+            getSelectedVehicle(Unit).collect { vehicle ->
+                intent {
+                    if (vehicle == null) {
+                        Timber.e("Selected Vehicle was null")
+                        postSideEffect(VehicleOverviewSideEffects.ShowSplashScreen)
+                    } else {
+                        reduce { state.copy(selectedVehicle = vehicle) }
+                    }
                 }
             }
         }
@@ -158,21 +153,21 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
         chargeProcedureJob?.cancel()
         chargeProcedureJob = viewModelScope.launch {
             getSelectedVehicleCurrentChargeProcedure(Unit).collect {
-                setState { copy(currentChargeProcedure = it) }
+                intent { reduce { state.copy(currentChargeProcedure = it) } }
             }
         }
 
         nearestAppointmentJob?.cancel()
         nearestAppointmentJob = viewModelScope.launch {
             getNearestAppointment(Unit).collect {
-                setState { copy(nextAppointment = it) }
+                intent { reduce { state.copy(nextAppointment = it) } }
             }
         }
 
         nearestExpiringContractJob?.cancel()
         nearestExpiringContractJob = viewModelScope.launch {
             getNearestExpiringContract(Unit).collect {
-                setState { copy(nextContract = it) }
+                intent { reduce { state.copy(nextContract = it) } }
             }
         }
     }
