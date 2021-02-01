@@ -135,17 +135,15 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
         }
     }
 
-    private fun loadSelectedVehicle() {
+    private fun loadSelectedVehicle() = intent {
         selectedVehicleJob?.cancel()
         selectedVehicleJob = viewModelScope.launch {
             getSelectedVehicle(Unit).collect { vehicle ->
-                intent {
-                    if (vehicle == null) {
-                        Timber.e("Selected Vehicle was null")
-                        postSideEffect(VehicleOverviewSideEffects.ShowSplashScreen)
-                    } else {
-                        reduce { state.copy(selectedVehicle = vehicle) }
-                    }
+                if (vehicle == null) {
+                    Timber.e("Selected Vehicle was null")
+                    postSideEffect(VehicleOverviewSideEffects.ShowSplashScreen)
+                } else {
+                    reduce { state.copy(selectedVehicle = vehicle) }
                 }
             }
         }
@@ -153,21 +151,21 @@ internal class VehicleOverviewViewModel @ViewModelInject constructor(
         chargeProcedureJob?.cancel()
         chargeProcedureJob = viewModelScope.launch {
             getSelectedVehicleCurrentChargeProcedure(Unit).collect {
-                intent { reduce { state.copy(currentChargeProcedure = it) } }
+                reduce { state.copy(currentChargeProcedure = it) }
             }
         }
 
         nearestAppointmentJob?.cancel()
         nearestAppointmentJob = viewModelScope.launch {
             getNearestAppointment(Unit).collect {
-                intent { reduce { state.copy(nextAppointment = it) } }
+                reduce { state.copy(nextAppointment = it) }
             }
         }
 
         nearestExpiringContractJob?.cancel()
         nearestExpiringContractJob = viewModelScope.launch {
             getNearestExpiringContract(Unit).collect {
-                intent { reduce { state.copy(nextContract = it) } }
+                reduce { state.copy(nextContract = it) }
             }
         }
     }

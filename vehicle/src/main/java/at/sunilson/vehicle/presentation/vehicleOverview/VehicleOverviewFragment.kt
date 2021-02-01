@@ -413,6 +413,7 @@ internal class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_over
     }
 
 
+    @Suppress("LongMethod")
     private fun renderVehicle(state: VehicleOverviewState) {
         val vehicle = state.selectedVehicle ?: return
 

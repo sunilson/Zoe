@@ -45,7 +45,7 @@ class CheckNotifications @Inject constructor(
         newStatus: Vehicle.BatteryStatus,
         oldStatus: Vehicle.BatteryStatus?
     ) {
-        if(oldStatus?.chargeState != Vehicle.BatteryStatus.ChargeState.CHARGE_ERROR && newStatus.chargeState == Vehicle.BatteryStatus.ChargeState.CHARGE_ERROR) {
+        if (oldStatus?.chargeState != Vehicle.BatteryStatus.ChargeState.CHARGE_ERROR && newStatus.chargeState == Vehicle.BatteryStatus.ChargeState.CHARGE_ERROR) {
             sendNotification(
                 SendNotificationParams(
                     "Ladefehler",
@@ -60,11 +60,12 @@ class CheckNotifications @Inject constructor(
         newStatus: Vehicle.BatteryStatus,
         oldStatus: Vehicle.BatteryStatus?
     ) {
-        if (repository.chargedEightyPercentNotificationEnabled(vin)
-            && oldStatus?.isCharging == true
-            && newStatus.isCharging == true
-            && newStatus.batteryLevel >= 80
-            && oldStatus.batteryLevel < 80) {
+        if (oldStatus == null) return
+
+        val stillCharging = oldStatus.isCharging && newStatus.isCharging
+        val batteryLevelMovedOver80 = newStatus.batteryLevel >= 80 && oldStatus.batteryLevel < 80
+
+        if (repository.chargedEightyPercentNotificationEnabled(vin) && stillCharging && batteryLevelMovedOver80) {
             sendNotification(
                 SendNotificationParams(
                     "Mindestens 80% geladen",
@@ -94,7 +95,10 @@ class CheckNotifications @Inject constructor(
         newStatus: Vehicle.BatteryStatus,
         oldStatus: Vehicle.BatteryStatus?
     ) {
-        if (repository.chargeFinishedNotificationEnabled(vin) && oldStatus?.isCharging != true && newStatus.isCharging && oldStatus?.pluggedIn == true) {
+        val chargeStarted =
+            oldStatus?.isCharging != true && newStatus.isCharging && oldStatus?.pluggedIn == true
+
+        if (repository.chargeFinishedNotificationEnabled(vin) && chargeStarted) {
             sendNotification(
                 SendNotificationParams(
                     "Laden gestartet",

@@ -9,7 +9,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-internal class GetStatsticsChartEntries @Inject constructor(
+@Suppress("LongParameterList")
+internal class GetStatticsChartEntries @Inject constructor(
     private val getAllChargeTrackingPoints: GetAllChargeTrackingPoints,
     private val getMileageChartEntries: GetMileageChartEntries,
     private val getBatterylevelChartEntries: GetBatterylevelChartEntries,

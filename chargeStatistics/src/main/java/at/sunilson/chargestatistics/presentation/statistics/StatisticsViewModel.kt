@@ -3,7 +3,7 @@ package at.sunilson.chargestatistics.presentation.statistics
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import at.sunilson.chargestatistics.domain.GetStatsticsChartEntries
+import at.sunilson.chargestatistics.domain.GetStatticsChartEntries
 import at.sunilson.chargestatistics.domain.entities.Statistic
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
@@ -16,7 +16,7 @@ import org.orbitmvi.orbit.viewmodel.container
 internal data class StatisticsState(val entriesList: List<Statistic> = listOf())
 internal sealed class StatisticsSideEffects
 
-internal class StatisticsViewModel @ViewModelInject constructor(private val getStatsticsChartEntries: GetStatsticsChartEntries) :
+internal class StatisticsViewModel @ViewModelInject constructor(private val getStatticsChartEntries: GetStatticsChartEntries) :
     ViewModel(), ContainerHost<StatisticsState, StatisticsSideEffects> {
 
     override val container = container<StatisticsState, StatisticsSideEffects>(StatisticsState())
@@ -26,7 +26,7 @@ internal class StatisticsViewModel @ViewModelInject constructor(private val getS
     fun viewCreated(vin: String) {
         chartJob?.cancel()
         chartJob = viewModelScope.launch {
-            getStatsticsChartEntries(vin).collect {
+            getStatticsChartEntries(vin).collect {
                 intent { reduce { state.copy(entriesList = it) } }
             }
         }

@@ -28,14 +28,11 @@ internal class GetChargingStationsForSelectedVehicle @Inject constructor(
         SuspendableResult.of<List<ChargingStation>, Exception> {
             val location = getSelectedVehicle(Unit).first()?.location
                 ?: error("No vehicle with a location found")
-
             val radius = min(max(params, 0.0), MAX_RADIUS)
+            val previousRadiusIsBigger = previousRadius != null && previousRadius!! >= radius
 
             mutex.withLock {
-                if (previousResult != null
-                    && previousLocation == location
-                    && (previousRadius != null && previousRadius!! >= radius)
-                ) {
+                if (previousResult != null && previousLocation == location && previousRadiusIsBigger) {
                     return@of previousResult!!
                 }
 
