@@ -32,7 +32,7 @@ sealed class ScheduleSideEffects {
     object Exit : ScheduleSideEffects()
 }
 
-
+@Suppress("TooManyFunctions")
 abstract class SchedulesViewModel : ViewModel(), ContainerHost<ScheduleState, ScheduleSideEffects> {
 
     override val container = container<ScheduleState, ScheduleSideEffects>(ScheduleState())

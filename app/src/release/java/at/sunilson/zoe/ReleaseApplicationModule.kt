@@ -11,8 +11,7 @@ import javax.inject.Singleton
 object ReleaseApplicationModule {
     @Provides
     @Singleton
-    internal fun provideFlipperInitializer() : FlipperInitializer {
+    internal fun provideFlipperInitializer(): FlipperInitializer {
         return FlipperInitializerImpl()
     }
-
 }

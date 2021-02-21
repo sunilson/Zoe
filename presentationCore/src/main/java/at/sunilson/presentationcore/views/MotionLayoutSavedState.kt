@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Parcel
 import android.os.Parcelable
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.view.children
@@ -78,7 +77,7 @@ class MotionLayoutSavedState @JvmOverloads constructor(
         val canScrollVertically = scrollView.canScrollVertically(-1)
         if (dy < 0 && canScrollVertically) {
             // don't start motionLayout transition
-            return;
+            return
         }
 
         super.onNestedPreScroll(target, dx, dy, consumed, type)

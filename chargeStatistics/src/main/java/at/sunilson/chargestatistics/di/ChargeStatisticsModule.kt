@@ -8,11 +8,11 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.*
-import javax.annotation.Nullable
 
 @Module
 @InstallIn(ApplicationComponent::class)
 object ChargeStatisticsModule {
     @Provides
-    fun provideGeocoder(@ApplicationContext context: Context) = Geocoder(context, Locale.getDefault())
+    fun provideGeocoder(@ApplicationContext context: Context) =
+        Geocoder(context, Locale.getDefault())
 }

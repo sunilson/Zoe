@@ -17,9 +17,9 @@
 
         <TextView
                 android:id="@+id/schedule_name"
-                android:textAppearance="?textAppearanceHeadline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textAppearance="?textAppearanceHeadline6"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Ladeprogramm 1" />
 
@@ -33,20 +33,20 @@
 
         <TextView
                 android:id="@+id/schedule_start_time_title"
-                android:textAppearance="?textAppearanceBody1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/start"
+                android:textAppearance="?textAppearanceBody1"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="@id/schedule_start_time" />
 
 
         <TextView
                 android:id="@+id/schedule_end_time_title"
-                android:textAppearance="?textAppearanceBody1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/end"
+                android:textAppearance="?textAppearanceBody1"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="@id/schedule_end_time" />
 
@@ -62,10 +62,10 @@
 
         <TextView
                 android:id="@+id/schedule_start_time"
-                android:textAppearance="?textAppearanceBody1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:textAppearance="?textAppearanceBody1"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/schedule_name"
                 tools:text="19:45" />
@@ -73,10 +73,10 @@
 
         <TextView
                 android:id="@+id/schedule_end_time"
-                android:textAppearance="?textAppearanceBody1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
+                android:textAppearance="?textAppearanceBody1"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/schedule_start_time"
                 tools:text="20:15" />

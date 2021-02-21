@@ -10,5 +10,6 @@ import javax.inject.Inject
 internal class GetAllHvacSchedules @Inject constructor(private val scheduleDatabase: HvacScheduleDatabase) :
     FlowUseCase<List<Schedule>, String>() {
     override fun run(params: String) =
-        scheduleDatabase.hvacScheduleDao().getAllSchedulesForVehicle(params).map { it.map { it.toEntity() } }
+        scheduleDatabase.hvacScheduleDao().getAllSchedulesForVehicle(params)
+            .map { it.map { it.toEntity() } }
 }

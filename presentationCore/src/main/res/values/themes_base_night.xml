@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="Base.Theme.Zoe.Night">
         <item name="colorPrimary">@color/lightGray</item>
         <item name="colorSurface">@color/dark_gray</item>

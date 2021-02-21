@@ -18,7 +18,7 @@ internal class GetEnergyPerMonth @Inject constructor(
     override suspend fun run(params: List<ChargeTrackingPoint>) =
         SuspendableResult.of<Statistic.Chart.Bar?, Exception> {
             val chargeProcedures = extractDeChargingProcedures(params).get()
-            if(chargeProcedures.isEmpty()) return@of null
+            if (chargeProcedures.isEmpty()) return@of null
 
             val epochDay = LocalDate.ofEpochDay(0)
             val groupedByMonth = chargeProcedures.groupBy {
@@ -36,7 +36,7 @@ internal class GetEnergyPerMonth @Inject constructor(
                 1f,
                 1f,
                 "Energie pro Monat",
-                yValueFormatter = object :ValueFormatter() {
+                yValueFormatter = object : ValueFormatter() {
                     override fun getAxisLabel(value: Float, axis: AxisBase?): String {
                         return "${value.toInt()} kWh"
                     }

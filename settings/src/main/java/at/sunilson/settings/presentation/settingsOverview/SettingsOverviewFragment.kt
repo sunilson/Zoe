@@ -4,17 +4,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
-import at.sunilson.core.Do
 import at.sunilson.presentationcore.base.viewBinding
 import at.sunilson.settings.R
 import at.sunilson.settings.databinding.FragmentSettingsOverviewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.Insetter
 import dev.chrisbanes.insetter.Side
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
-import org.orbitmvi.orbit.viewmodel.container
 
 @AndroidEntryPoint
 class SettingsOverviewFragment : Fragment(R.layout.fragment_settings_overview) {

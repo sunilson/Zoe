@@ -3,7 +3,6 @@ package at.sunilson.appointments.presentation.history
 import android.widget.TextView
 import androidx.core.view.isVisible
 import at.sunilson.appointments.R
-import at.sunilson.appointments.domain.entities.Appointment
 import at.sunilson.appointments.domain.entities.Service
 import at.sunilson.presentationcore.epoxy.KotlinEpoxyHolder
 import at.sunilson.presentationcore.extensions.formatPattern

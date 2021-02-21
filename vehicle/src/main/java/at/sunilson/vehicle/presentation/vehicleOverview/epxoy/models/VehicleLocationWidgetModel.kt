@@ -11,7 +11,6 @@ import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
 import com.google.android.libraries.maps.CameraUpdateFactory
-import com.google.android.libraries.maps.GoogleMap
 import com.google.android.libraries.maps.MapView
 import com.google.android.libraries.maps.model.BitmapDescriptorFactory
 import com.google.android.libraries.maps.model.LatLng
@@ -38,7 +37,9 @@ abstract class VehicleLocationWidgetModel :
     override fun bind(holder: Holder) {
         holder.run {
             timestamp.text =
-                location?.timestamp?.toZonedDateTime()?.formatFull() ?: timestamp.context.getString(R.string.nothing)
+                location?.timestamp?.toZonedDateTime()?.formatFull() ?: timestamp.context.getString(
+                    R.string.nothing
+                )
 
             map.onCreate(null)
             map.getMapAsync { googleMap ->

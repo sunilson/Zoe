@@ -34,5 +34,4 @@ class StatisticsOverviewFragment : Fragment(R.layout.fragment_statistics_overvie
             )
         }
     }
-
 }

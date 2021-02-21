@@ -15,7 +15,7 @@ import at.sunilson.ktx.fragment.setNavigationBarThemeColor
 import at.sunilson.ktx.fragment.setStatusBarColor
 import at.sunilson.ktx.fragment.useLightNavigationBarIcons
 import at.sunilson.ktx.fragment.useLightStatusBarIcons
-import at.sunilson.presentationcore.ViewpagerFragmentParentWithHeaderAnimation
+import at.sunilson.presentationcore.ViewpagerFragmentParentWithAnimation
 import at.sunilson.presentationcore.base.viewBinding
 import at.sunilson.presentationcore.extensions.nightMode
 import at.sunilson.presentationcore.extensions.setupHeaderAnimation
@@ -25,7 +25,7 @@ import dev.chrisbanes.insetter.Side
 
 @AndroidEntryPoint
 internal class AppointmentsContainerFragment : Fragment(R.layout.fragment_appointments_container),
-    ViewpagerFragmentParentWithHeaderAnimation {
+    ViewpagerFragmentParentWithAnimation {
 
     override var currentUnregisterCallback: (() -> Unit)? = null
     private val binding by viewBinding(FragmentAppointmentsContainerBinding::bind)

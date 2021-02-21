@@ -39,5 +39,4 @@ internal class GetVehicleDetails @Inject constructor(
                 }
             }
         }
-
 }

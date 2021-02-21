@@ -4,8 +4,6 @@ import at.sunilson.chargestatistics.domain.entities.Statistic
 import at.sunilson.chargestatistics.domain.formatters.DateAxisFormatter
 import at.sunilson.chargetracking.domain.entities.ChargeTrackingPoint
 import at.sunilson.core.usecases.AsyncUseCase
-import at.sunilson.core.usecases.UseCase
-import com.github.kittinunf.result.Result
 import com.github.kittinunf.result.coroutines.SuspendableResult
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.data.Entry

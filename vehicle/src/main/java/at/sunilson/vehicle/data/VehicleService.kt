@@ -1,14 +1,13 @@
 package at.sunilson.vehicle.data
 
-import at.sunilson.vehicle.data.models.AllVehiclesResponse
 import at.sunilson.networkingcore.KamereonPostBody
+import at.sunilson.vehicle.data.models.AllVehiclesResponse
 import okhttp3.ResponseBody
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.Path
-import retrofit2.http.Query
 
 interface VehicleService {
     @GET("accounts/{accountId}/vehicles?country=AT")

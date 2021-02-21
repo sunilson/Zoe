@@ -51,6 +51,7 @@ import dev.chrisbanes.insetter.applySystemWindowInsetsToMargin
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
+@Suppress("TooManyFunctions")
 class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
 
     private val viewModel by viewModels<VehicleMapViewModel>()
@@ -120,9 +121,9 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
                         .joinToString("") { "${it.dayOfWeek.formatPattern("EEEE")}: ${it.startTime} - ${it.endTime}\n" }
                         .trim()
                     binding.paymentModes.text = chargingStation
-                            .paymentModes
-                            .joinToString("") { "\u2022 $it\n" }
-                            .trim()
+                        .paymentModes
+                        .joinToString("") { "\u2022 $it\n" }
+                        .trim()
                     return binding.root
                 }
             })

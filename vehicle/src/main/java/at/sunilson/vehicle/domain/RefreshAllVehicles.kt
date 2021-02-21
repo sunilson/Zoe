@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.first
 import timber.log.Timber
 import javax.inject.Inject
 
+@Suppress("LongParameterList")
 internal class RefreshAllVehicles @Inject constructor(
     private val vehicleService: VehicleService,
     private val vehicleCoreService: VehicleCoreService,
@@ -79,7 +80,7 @@ internal class RefreshAllVehicles @Inject constructor(
                 lastChangeTimestamp = prev?.lastChangeTimestamp ?: System.currentTimeMillis()
             )
 
-            //Track vehicle state on refresh also (but only if tracker is running)
+            // Track vehicle state on refresh also (but only if tracker is running)
             if (checkIfTrackerIsRunning(vehicle.vin).get()) {
                 createVehicleChargePoint(
                     CreateChargePointParams(

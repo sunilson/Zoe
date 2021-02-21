@@ -27,13 +27,12 @@
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true">
-        <activity android:name="at.sunilson.authentication.presentation.AuthenticationActivity"/>
+        <activity android:name="at.sunilson.authentication.presentation.AuthenticationActivity" />
         <activity
                 android:name=".MainActivity"
                 android:launchMode="singleTask"
                 android:theme="@style/SplashScreenTheme"
-                android:windowSoftInputMode="adjustResize"
-                >
+                android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

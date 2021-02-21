@@ -16,8 +16,9 @@ import org.orbitmvi.orbit.viewmodel.container
 internal data class StatisticsState(val entriesList: List<Statistic> = listOf())
 internal sealed class StatisticsSideEffects
 
-internal class StatisticsViewModel @ViewModelInject constructor(private val getStatticsChartEntries: GetStatticsChartEntries) :
-    ViewModel(), ContainerHost<StatisticsState, StatisticsSideEffects> {
+internal class StatisticsViewModel @ViewModelInject constructor(
+    private val getStatticsChartEntries: GetStatticsChartEntries
+) : ViewModel(), ContainerHost<StatisticsState, StatisticsSideEffects> {
 
     override val container = container<StatisticsState, StatisticsSideEffects>(StatisticsState())
 

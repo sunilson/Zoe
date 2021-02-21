@@ -49,6 +49,7 @@ sealed class VehicleOverviewSideEffects {
     data class ShowVehicleLocation(val vin: String) : VehicleOverviewSideEffects()
 }
 
+@Suppress("LongParameterList")
 internal class VehicleOverviewViewModel @ViewModelInject constructor(
     private val getSelectedVehicle: GetSelectedVehicle,
     private val refreshAllVehicles: RefreshAllVehicles,

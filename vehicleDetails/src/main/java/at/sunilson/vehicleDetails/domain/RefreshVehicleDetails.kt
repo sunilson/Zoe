@@ -7,10 +7,8 @@ import at.sunilson.vehicleDetails.data.VehicleDetailsService
 import at.sunilson.vehicleDetails.data.models.DatabaseVehicleDetails
 import at.sunilson.vehicleDetails.domain.entities.VehicleDetailsEntry
 import at.sunilson.vehiclecore.data.VehicleDao
-import at.sunilson.vehiclecore.data.toEntity
 import at.sunilson.vehiclecore.domain.VehicleCoreRepository
 import com.github.kittinunf.result.coroutines.SuspendableResult
-import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 internal class RefreshVehicleDetails @Inject constructor(

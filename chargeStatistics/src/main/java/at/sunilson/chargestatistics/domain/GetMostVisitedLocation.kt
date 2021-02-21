@@ -6,7 +6,6 @@ import at.sunilson.chargetracking.domain.entities.ChargeTrackingPoint
 import at.sunilson.core.usecases.AsyncUseCase
 import at.sunilson.vehiclecore.domain.entities.Location
 import com.github.kittinunf.result.coroutines.SuspendableResult
-import javax.annotation.Nullable
 import javax.inject.Inject
 
 internal class GetMostVisitedLocation @Inject constructor(private val geocoder: Geocoder) :

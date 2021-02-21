@@ -1,7 +1,7 @@
 package at.sunilson.chargeSchedule.data
 
-import at.sunilson.scheduleCore.data.remote.ScheduleResponse
 import at.sunilson.networkingcore.KamereonPostBody
+import at.sunilson.scheduleCore.data.remote.ScheduleResponse
 import okhttp3.ResponseBody
 import retrofit2.http.Body
 import retrofit2.http.GET

@@ -42,7 +42,6 @@ class GetAverageChargePerChargeTests : BaseUnitTest() {
             Assertions.assertEquals(expectedResult, result?.value)
         }
 
-
     companion object {
         @JvmStatic
         fun testData() = listOf(

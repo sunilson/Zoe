@@ -11,7 +11,7 @@ import at.sunilson.appointments.R
 import at.sunilson.appointments.databinding.FragmentHistoryBinding
 import at.sunilson.appointments.domain.entities.Service
 import at.sunilson.core.extensions.isSameMonth
-import at.sunilson.presentationcore.ViewpagerFragmentParentWithHeaderAnimation
+import at.sunilson.presentationcore.ViewpagerFragmentParentWithAnimation
 import at.sunilson.presentationcore.base.viewBinding
 import at.sunilson.presentationcore.extensions.formatPattern
 import dagger.hilt.android.AndroidEntryPoint
@@ -59,7 +59,7 @@ internal class HistoryFragment : Fragment(R.layout.fragment_history) {
 
     override fun onResume() {
         super.onResume()
-        (parentFragment as? ViewpagerFragmentParentWithHeaderAnimation)?.childBecameActive(null)
+        (parentFragment as? ViewpagerFragmentParentWithAnimation)?.childBecameActive(null)
     }
 
     private fun setupList(services: List<Service>) {

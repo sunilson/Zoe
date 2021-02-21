@@ -30,7 +30,7 @@ class CreateVehicleChargePoint @Inject constructor(
         SuspendableResult.of<ChargeTrackingPoint, Exception> {
             val (vin, batteryStatus, mileage, location) = params
 
-            //Update existing vehicle
+            // Update existing vehicle
             val previousVehicle = vehicleDao.getVehicle(vin).first()?.toEntity()
 
             previousVehicle?.copy(batteryStatus = batteryStatus, mileageKm = mileage)?.let {
@@ -55,10 +55,10 @@ class CreateVehicleChargePoint @Inject constructor(
                 location
             )
 
-            //Only insert if not the same or 14 minutes passed
-            if (previousTrackingPoint == null
-                || !previousTrackingPoint.compareTimeIndependent(trackingPoint)
-                || trackingPoint.timestamp - previousTrackingPoint.timestamp >= TRACKING_POINT_MINUTE_THRESHOLD
+            // Only insert if not the same or 14 minutes passed
+            if (previousTrackingPoint == null ||
+                !previousTrackingPoint.compareTimeIndependent(trackingPoint) ||
+                trackingPoint.timestamp - previousTrackingPoint.timestamp >= TRACKING_POINT_MINUTE_THRESHOLD
             ) {
                 chargeTrackingDao.insertChargeTrackingPoint(trackingPoint.toDatabaseEntity())
             }
@@ -69,5 +69,4 @@ class CreateVehicleChargePoint @Inject constructor(
     companion object {
         const val TRACKING_POINT_MINUTE_THRESHOLD = 14 * 60 * 1000
     }
-
 }

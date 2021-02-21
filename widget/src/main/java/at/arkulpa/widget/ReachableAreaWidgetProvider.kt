@@ -21,7 +21,6 @@ class ReachableAreaWidgetProvider : AppWidgetProvider() {
     @Inject
     lateinit var getReachableArea: GetReachableArea
 
-
     override fun onAppWidgetOptionsChanged(
         context: Context,
         appWidgetManager: AppWidgetManager,
@@ -43,7 +42,7 @@ class ReachableAreaWidgetProvider : AppWidgetProvider() {
 
         updateJob?.cancel()
         updateJob = GlobalScope.launch(Dispatchers.Main) {
-            //val reachableArea = getReachableArea(Unit).firstOrNull() ?: return@launch
+            // val reachableArea = getReachableArea(Unit).firstOrNull() ?: return@launch
             appWidgetIds?.forEach { widgetId ->
                 val options = appWidgetManager.getAppWidgetOptions(widgetId)
                 val minWidth = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)

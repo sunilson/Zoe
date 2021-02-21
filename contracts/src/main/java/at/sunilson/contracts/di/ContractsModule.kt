@@ -34,12 +34,13 @@ object ContractsModule {
 
     @Provides
     @Singleton
-    internal fun provideContractsService(@Named(AuthenticationModule.AUTHENTICATED_HTTP_CLIENT) okHttpClient: OkHttpClient) =
-        Retrofit
-            .Builder()
-            .client(okHttpClient)
-            .addConverterFactory(MoshiConverterFactory.create())
-            .baseUrl(Constants.KAMEREON_BASE_URL)
-            .build()
-            .create(ContractsService::class.java)
+    internal fun provideContractsService(
+        @Named(AuthenticationModule.AUTHENTICATED_HTTP_CLIENT) okHttpClient: OkHttpClient
+    ) = Retrofit
+        .Builder()
+        .client(okHttpClient)
+        .addConverterFactory(MoshiConverterFactory.create())
+        .baseUrl(Constants.KAMEREON_BASE_URL)
+        .build()
+        .create(ContractsService::class.java)
 }

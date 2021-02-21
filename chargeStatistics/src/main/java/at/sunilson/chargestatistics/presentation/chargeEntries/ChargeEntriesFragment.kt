@@ -12,7 +12,7 @@ import androidx.paging.LoadState
 import at.sunilson.chargestatistics.R
 import at.sunilson.chargestatistics.databinding.ChargeEntriesFragmentBinding
 import at.sunilson.chargestatistics.presentation.overview.ChargeStatisticsOverviewFragment
-import at.sunilson.presentationcore.ViewpagerFragmentParentWithHeaderAnimation
+import at.sunilson.presentationcore.ViewpagerFragmentParentWithAnimation
 import at.sunilson.presentationcore.base.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import jp.wasabeef.recyclerview.animators.ScaleInAnimator
@@ -56,8 +56,10 @@ internal class ChargeEntriesFragment private constructor() :
         viewLifecycleOwner.lifecycleScope.launch {
             adapter.loadStateFlow.collectLatest {
                 adapter.loadStateFlow.collectLatest {
-                    val notLoadingAndEmpty =
-                        it.prepend is LoadState.NotLoading && it.append is LoadState.NotLoading && it.refresh is LoadState.NotLoading && adapter.itemCount == 0
+                    val notLoadingAndEmpty = it.prepend is LoadState.NotLoading &&
+                            it.append is LoadState.NotLoading &&
+                            it.refresh is LoadState.NotLoading &&
+                            adapter.itemCount == 0
                     binding.manageButton.isVisible = notLoadingAndEmpty
                     binding.noChargesText.isVisible = notLoadingAndEmpty
                 }
@@ -73,7 +75,7 @@ internal class ChargeEntriesFragment private constructor() :
 
     override fun onResume() {
         super.onResume()
-        (parentFragment as? ViewpagerFragmentParentWithHeaderAnimation)?.childBecameActive(binding.recyclerView)
+        (parentFragment as? ViewpagerFragmentParentWithAnimation)?.childBecameActive(binding.recyclerView)
     }
 
     companion object {

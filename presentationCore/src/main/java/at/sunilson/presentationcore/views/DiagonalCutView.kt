@@ -12,7 +12,10 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import at.sunilson.ktx.core.px
 import at.sunilson.presentationcore.R
 
-class DiagonalCutView @JvmOverloads constructor(context: Context, attributeSet: AttributeSet? = null) :
+class DiagonalCutView @JvmOverloads constructor(
+    context: Context,
+    attributeSet: AttributeSet? = null
+) :
     ConstraintLayout(context, attributeSet) {
 
     private val paint = Paint(ANTI_ALIAS_FLAG)
@@ -31,13 +34,11 @@ class DiagonalCutView @JvmOverloads constructor(context: Context, attributeSet: 
             offset = value.px(context)
         }
 
-
     var direction: Int = 0
         set(value) {
             field = value
             invalidate()
         }
-
 
     init {
         context.theme.obtainStyledAttributes(
@@ -83,7 +84,6 @@ class DiagonalCutView @JvmOverloads constructor(context: Context, attributeSet: 
                 path.lineTo(width.toFloat() - offset, 0f)
             }
         }
-
 
         path.close()
         canvas?.drawPath(path, paint)

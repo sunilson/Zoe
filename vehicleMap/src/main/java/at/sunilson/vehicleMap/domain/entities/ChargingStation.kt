@@ -2,7 +2,6 @@ package at.sunilson.vehicleMap.domain.entities
 
 import com.google.android.libraries.maps.model.LatLng
 import java.time.DayOfWeek
-import java.time.LocalTime
 
 internal data class ChargingStation(
     val id: String,

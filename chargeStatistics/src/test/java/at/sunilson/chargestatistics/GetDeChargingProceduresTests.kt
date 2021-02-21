@@ -1,7 +1,6 @@
 package at.sunilson.chargestatistics
 
 import at.sunilson.chargestatistics.domain.ExtractDeChargingProcedures
-import at.sunilson.chargestatistics.domain.GetDeChargingProcedures
 import at.sunilson.chargestatistics.domain.entities.ChargingProcedure
 import at.sunilson.chargestatistics.domain.entities.DeChargingProcedure
 import at.sunilson.chargetracking.domain.GetAllChargeTrackingPoints
@@ -11,7 +10,6 @@ import at.sunilson.vehiclecore.domain.entities.Vehicle
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -45,7 +43,6 @@ class GetDeChargingProceduresTests : BaseUnitTest() {
         assertEquals(result, extractUseCase(chargePoints).get())
     }
 
-
     companion object {
         private fun batteryStatus(level: Int, energy: Int, charging: Boolean) =
             Vehicle.BatteryStatus(
@@ -54,7 +51,11 @@ class GetDeChargingProceduresTests : BaseUnitTest() {
                 0,
                 energy,
                 true,
-                if (charging) Vehicle.BatteryStatus.ChargeState.CHARGING else Vehicle.BatteryStatus.ChargeState.NOT_CHARGING,
+                if (charging) {
+                    Vehicle.BatteryStatus.ChargeState.CHARGING
+                } else {
+                    Vehicle.BatteryStatus.ChargeState.NOT_CHARGING
+                },
                 0f,
                 0
             )

@@ -8,7 +8,6 @@ import com.github.kittinunf.result.coroutines.SuspendableResult
 import com.google.common.util.concurrent.ListenableFuture
 import javax.inject.Inject
 
-
 class CheckIfTrackerIsRunning @Inject constructor(private val workManager: WorkManager) :
     AsyncUseCase<Boolean, String>() {
     override suspend fun run(params: String) = SuspendableResult.of<Boolean, Exception> {

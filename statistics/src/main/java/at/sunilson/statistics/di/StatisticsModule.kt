@@ -20,7 +20,9 @@ import javax.inject.Singleton
 abstract class StatisticsBindingModule {
     @Binds
     @Singleton
-    internal abstract fun bindStatisticsRepository(statisticsRepositoryImpl: StatisticsRepositoryImpl): StatisticsRepository
+    internal abstract fun bindStatisticsRepository(
+        statisticsRepositoryImpl: StatisticsRepositoryImpl
+    ): StatisticsRepository
 }
 
 @InstallIn(ApplicationComponent::class)
@@ -29,13 +31,13 @@ object StatisticsModule {
 
     @Provides
     @Singleton
-    internal fun provideStatisticsService(@Named(AuthenticationModule.AUTHENTICATED_HTTP_CLIENT) okHttpClient: OkHttpClient) =
-        Retrofit
-            .Builder()
-            .client(okHttpClient)
-            .addConverterFactory(MoshiConverterFactory.create())
-            .baseUrl("https://api-wired-prod-1-euw1.wrd-aws.com/commerce/v1/")
-            .build()
-            .create(VehicleStatisticsService::class.java)
-
+    internal fun provideStatisticsService(
+        @Named(AuthenticationModule.AUTHENTICATED_HTTP_CLIENT) okHttpClient: OkHttpClient
+    ) = Retrofit
+        .Builder()
+        .client(okHttpClient)
+        .addConverterFactory(MoshiConverterFactory.create())
+        .baseUrl("https://api-wired-prod-1-euw1.wrd-aws.com/commerce/v1/")
+        .build()
+        .create(VehicleStatisticsService::class.java)
 }

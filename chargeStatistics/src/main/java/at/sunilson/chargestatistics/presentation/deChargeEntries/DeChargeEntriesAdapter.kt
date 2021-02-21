@@ -11,7 +11,6 @@ import at.sunilson.chargestatistics.domain.entities.DeChargingProcedure
 import at.sunilson.core.extensions.isSameDay
 import at.sunilson.presentationcore.extensions.formatPattern
 
-
 class DeChargeEntriesDiffCallback : DiffUtil.ItemCallback<DeChargingProcedure>() {
     override fun areContentsTheSame(
         oldItem: DeChargingProcedure,
@@ -28,7 +27,7 @@ class DeChargeEntriesDiffCallback : DiffUtil.ItemCallback<DeChargingProcedure>()
     }
 }
 
-class DeChargeEntriesAdapter() :
+class DeChargeEntriesAdapter :
     PagingDataAdapter<DeChargingProcedure, DeChargeEntriesAdapter.ViewHolder>(
         DeChargeEntriesDiffCallback()
     ) {

@@ -1,8 +1,6 @@
 package at.sunilson.contracts.domain.entities
 
-import androidx.room.PrimaryKey
 import java.time.LocalDate
-import java.time.ZonedDateTime
 
 data class Contract(
     val id: String,

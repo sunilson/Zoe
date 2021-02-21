@@ -36,9 +36,10 @@ internal class RefreshAllHvacSchedules @Inject constructor(
 
             result.data.attributes.schedules.map { it.toEntity(chargeType) }
                 .also { chargeSchedules ->
-                    scheduleDatabase.hvacScheduleDao().insertAndDeleteSchedules(chargeSchedules.map {
-                        it.toDatabaseEntity(params)
-                    })
+                    scheduleDatabase.hvacScheduleDao()
+                        .insertAndDeleteSchedules(chargeSchedules.map {
+                            it.toDatabaseEntity(params)
+                        })
                 }
         }
 }

@@ -93,12 +93,12 @@
 
         <com.google.android.material.button.MaterialButton
                 android:id="@+id/charge_now_button"
+                style="@style/Widget.App.Button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="12dp"
                 android:text="@string/now"
-                style="@style/Widget.App.Button"
                 app:icon="@drawable/ic_baseline_play_arrow_24"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@id/charge_schedule_button"
@@ -106,15 +106,15 @@
 
         <com.google.android.material.button.MaterialButton
                 android:id="@+id/charge_schedule_button"
+                style="@style/Widget.App.Button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/plan"
-                style="@style/Widget.App.Button"
                 app:icon="@drawable/ic_baseline_calendar_today_24"
+                app:layout_constraintBottom_toBottomOf="@id/charge_now_button"
                 app:layout_constraintLeft_toRightOf="@id/charge_now_button"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@id/charge_now_button"
-                app:layout_constraintBottom_toBottomOf="@id/charge_now_button"/>
+                app:layout_constraintTop_toTopOf="@id/charge_now_button" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

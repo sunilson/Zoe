@@ -7,8 +7,7 @@ import androidx.annotation.ColorInt
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-
-class ThemeColor(private val context: Context, @AttrRes private val attr: Int) :
+class ThemeColorDelegate(private val context: Context, @AttrRes private val attr: Int) :
     ReadOnlyProperty<Any?, @ColorInt Int> {
     override fun getValue(thisRef: Any?, property: KProperty<*>): Int {
         val typedValue = TypedValue()

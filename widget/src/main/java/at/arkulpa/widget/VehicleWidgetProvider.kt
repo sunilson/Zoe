@@ -140,7 +140,6 @@ class VehicleWidgetProvider : AppWidgetProvider() {
             PendingIntent.getActivity(context, 1, mapIntent, PendingIntent.FLAG_UPDATE_CURRENT)
         setOnClickPendingIntent(R.id.show_vehicle_location, pendingMapIntent)
 
-
         val chargeIntent = Intent().apply {
             action = Intent.ACTION_VIEW
             component = ComponentName("at.sunilson.zoe", "at.sunilson.zoe.MainActivity")

@@ -37,7 +37,8 @@ internal class AppointmentsViewModel @ViewModelInject constructor(
     private val getSelectedVehicle: GetSelectedVehicle
 ) : ViewModel(), ContainerHost<AppointmentsState, AppointmentsSideEffects> {
 
-    override val container = container<AppointmentsState, AppointmentsSideEffects>(AppointmentsState())
+    override val container =
+        container<AppointmentsState, AppointmentsSideEffects>(AppointmentsState())
 
     private var appointmentsJob: Job? = null
     private var vehicleJob: Job? = null

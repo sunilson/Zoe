@@ -31,7 +31,6 @@ class GetRunningChargeTrackers @Inject constructor(private val workManager: Work
             }
         }
 
-
         return channelFlow {
             val results = Array<ChargeTracker?>(flows.size) { null }
             send(results.filterNotNull())

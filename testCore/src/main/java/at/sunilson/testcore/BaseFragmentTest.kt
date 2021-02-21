@@ -71,7 +71,7 @@ abstract class BaseFragmentTest {
 
     @After
     fun mainAfter() {
-        //Intents.release()
+        // Intents.release()
     }
 
     /**

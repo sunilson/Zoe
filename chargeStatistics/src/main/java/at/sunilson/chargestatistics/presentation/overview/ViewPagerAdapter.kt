@@ -18,5 +18,4 @@ class ViewPagerAdapter(fragment: Fragment, private val vin: String) :
     }
 
     override fun getItemCount() = 4
-
 }

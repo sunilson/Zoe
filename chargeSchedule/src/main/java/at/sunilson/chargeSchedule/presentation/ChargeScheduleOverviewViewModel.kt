@@ -10,8 +10,6 @@ import at.sunilson.chargeSchedule.domain.UpdateChargeScheduleParams
 import at.sunilson.scheduleCore.domain.entities.Schedule
 import at.sunilson.scheduleCore.domain.entities.ScheduleType
 import at.sunilson.scheduleCore.presentation.SchedulesViewModel
-import kotlinx.coroutines.Job
-
 
 internal class ChargeScheduleOverviewViewModel @ViewModelInject constructor(
     private val getAllChargeSchedules: GetAllChargeSchedules,

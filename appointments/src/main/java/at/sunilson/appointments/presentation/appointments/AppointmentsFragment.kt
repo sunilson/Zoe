@@ -3,7 +3,6 @@ package at.sunilson.appointments.presentation.appointments
 import android.content.Intent
 import android.os.Bundle
 import android.provider.CalendarContract
-import android.util.Log
 import android.view.View
 import android.view.animation.OvershootInterpolator
 import android.widget.Toast
@@ -17,7 +16,7 @@ import at.sunilson.appointments.domain.entities.Appointment
 import at.sunilson.core.Do
 import at.sunilson.core.extensions.isSameMonth
 import at.sunilson.ktx.context.showToast
-import at.sunilson.presentationcore.ViewpagerFragmentParentWithHeaderAnimation
+import at.sunilson.presentationcore.ViewpagerFragmentParentWithAnimation
 import at.sunilson.presentationcore.base.viewBinding
 import at.sunilson.presentationcore.extensions.formatPattern
 import at.sunilson.presentationcore.extensions.syncProgressDialogVisibility
@@ -62,7 +61,7 @@ internal class AppointmentsFragment private constructor() :
 
     override fun onResume() {
         super.onResume()
-        (parentFragment as? ViewpagerFragmentParentWithHeaderAnimation)?.childBecameActive(binding.recyclerView)
+        (parentFragment as? ViewpagerFragmentParentWithAnimation)?.childBecameActive(binding.recyclerView)
     }
 
     private fun addToCalendar(appointment: Appointment) {
@@ -118,8 +117,8 @@ internal class AppointmentsFragment private constructor() :
                     appointment(appointment)
                     addToCalendar { addToCalendar(it) }
                     headline(
-                        if (previousAppointment == null
-                            || !previousAppointment!!.date.isSameMonth(appointment.date)
+                        if (previousAppointment == null ||
+                            !previousAppointment!!.date.isSameMonth(appointment.date)
                         ) {
                             appointment.date.formatPattern("MMMM YYYY")
                         } else {

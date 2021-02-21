@@ -25,5 +25,4 @@ internal interface AppointmentsDao {
 
     @Query("SELECT * FROM DatabaseAppointment WHERE vin = :vin")
     fun getAllAppointments(vin: String): Flow<List<DatabaseAppointment>>
-
 }

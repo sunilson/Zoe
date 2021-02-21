@@ -10,8 +10,7 @@ import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.viewmodel.container
 import timber.log.Timber
 
-
-class LoginState()
+class LoginState
 sealed class LoginSideEffects {
     object LoginSuccess : LoginSideEffects()
     object LoginFailure : LoginSideEffects()

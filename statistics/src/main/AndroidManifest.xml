@@ -1,4 +1,1 @@
-<manifest
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        package="at.sunilson.statistics">
-</manifest>
+<manifest package="at.sunilson.statistics"></manifest>

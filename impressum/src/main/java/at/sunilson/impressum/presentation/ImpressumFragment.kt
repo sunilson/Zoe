@@ -14,7 +14,6 @@ import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import dev.chrisbanes.insetter.Insetter
 import dev.chrisbanes.insetter.Side
 
-
 class ImpressumFragment : Fragment(R.layout.fragment_impressum) {
 
     private val binding by viewBinding(FragmentImpressumBinding::bind)

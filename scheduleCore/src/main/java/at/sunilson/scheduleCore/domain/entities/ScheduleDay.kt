@@ -31,4 +31,5 @@ data class ChargeScheduleDay(
 @TypeLabel("hvac")
 @JsonClass(generateAdapter = true)
 @Keep
-data class HvacScheduleDay(override val dayOfWeek: WeekDay, override val time: LocalTime) : ScheduleDay()
+data class HvacScheduleDay(override val dayOfWeek: WeekDay, override val time: LocalTime) :
+    ScheduleDay()

@@ -29,7 +29,7 @@ class MainApplication : Application(), Configuration.Provider {
     }
 
     private fun setupTimber() {
-        if(BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         } else {
             Timber.plant(CrashlyticsTree())

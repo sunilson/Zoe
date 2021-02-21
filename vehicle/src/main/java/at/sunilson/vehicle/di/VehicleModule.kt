@@ -3,7 +3,6 @@ package at.sunilson.vehicle.di
 import at.sunilson.authentication.di.AuthenticationModule.AUTHENTICATED_HTTP_CLIENT
 import at.sunilson.vehicle.data.VehicleService
 import at.sunilson.vehiclecore.data.Constants.KAMEREON_BASE_URL
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,5 +27,4 @@ object VehicleModule {
             .baseUrl(KAMEREON_BASE_URL)
             .build()
             .create(VehicleService::class.java)
-
 }

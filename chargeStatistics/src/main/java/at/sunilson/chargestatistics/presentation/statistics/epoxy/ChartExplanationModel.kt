@@ -13,6 +13,5 @@ abstract class ChartExplanationModel : EpoxyModelWithHolder<ChartExplanationMode
 
     override fun getDefaultLayout() = R.layout.chart_explanation_model
 
-    class Holder : KotlinEpoxyHolder() {
-    }
+    class Holder : KotlinEpoxyHolder()
 }

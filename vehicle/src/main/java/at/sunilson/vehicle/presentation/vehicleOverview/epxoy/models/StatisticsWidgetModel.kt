@@ -28,4 +28,3 @@ abstract class StatisticsWidgetModel : EpoxyModelWithHolder<StatisticsWidgetMode
         val hvacButton by bind<MaterialButton>(R.id.hvac_statistics_button)
     }
 }
-

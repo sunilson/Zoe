@@ -1,7 +1,6 @@
 package at.arkulpa.notifications.presentation
 
 import android.widget.Button
-import android.widget.Switch
 import at.arkulpa.notifications.R
 import at.arkulpa.notifications.domain.NotificationRepository
 import at.sunilson.presentationcore.epoxy.KotlinEpoxyHolder
@@ -64,4 +63,3 @@ abstract class NotificationWidgetModel : EpoxyModelWithHolder<NotificationWidget
         val batteryLowSwitch by bind<SwitchMaterial>(R.id.battery_low)
     }
 }
-

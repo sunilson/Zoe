@@ -1,13 +1,7 @@
 package at.sunilson.vehicle.presentation.settingsDialog
 
-import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.annotation.StyleRes
 import at.sunilson.presentationcore.epoxy.KotlinEpoxyHolder
 import at.sunilson.vehicle.R
-import at.sunilson.vehiclecore.domain.entities.Vehicle
-import coil.load
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder

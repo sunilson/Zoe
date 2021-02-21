@@ -26,7 +26,6 @@ abstract class AbstractAuthenticationModule {
     @Binds
     @Singleton
     internal abstract fun bindLogoutHandler(logoutHandlerImpl: LogoutHandlerImpl): LogoutHandler
-
 }
 
 @Module
@@ -48,7 +47,6 @@ object AuthenticationModule {
             addInterceptor(authenticationInterceptor)
         }
         .build()
-
 
     @Provides
     @Singleton

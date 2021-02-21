@@ -31,7 +31,6 @@ interface VehicleStatisticsService {
         @Query("end") end: String
     ): ResponseBody
 
-
     @GET("accounts/{accountId}/kamereon/kca/car-adapter/v1/cars/{vin}/hvac-sessions?country=AT")
     suspend fun getHVACHistory(
         @Path("accountId") accountId: String,
@@ -39,5 +38,4 @@ interface VehicleStatisticsService {
         @Query("start") start: String,
         @Query("end") end: String
     ): ResponseBody
-
 }

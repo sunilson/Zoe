@@ -12,6 +12,7 @@ import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
 
 @EpoxyModelClass
+@Suppress("MaxLineLength", "MaximumLineLength")
 abstract class DeChargeProcedureEntryModel :
     EpoxyModelWithHolder<DeChargeProcedureEntryModel.Holder>() {
 

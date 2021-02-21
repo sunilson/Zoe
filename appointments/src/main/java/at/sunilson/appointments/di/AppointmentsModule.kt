@@ -9,16 +9,13 @@ import at.sunilson.vehiclecore.data.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityRetainedComponent
 import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.android.scopes.ActivityRetainedScoped
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Named
 import javax.inject.Singleton
-
 
 @InstallIn(ApplicationComponent::class)
 @Module
@@ -41,8 +38,9 @@ object AppointmentsModule {
 
     @Provides
     @Singleton
-    internal fun provideAppointmentsService(@Named(AuthenticationModule.AUTHENTICATED_HTTP_CLIENT) okHttpClient: OkHttpClient) =
-        Retrofit
+    internal fun provideAppointmentsService(
+        @Named(AuthenticationModule.AUTHENTICATED_HTTP_CLIENT) okHttpClient: OkHttpClient
+    ) = Retrofit
             .Builder()
             .client(okHttpClient)
             .addConverterFactory(MoshiConverterFactory.create())

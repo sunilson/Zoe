@@ -15,5 +15,4 @@ internal interface VehicleDetailsDao {
 
     @Query("SELECT * FROM DatabaseVehicleDetails WHERE vin = :vin")
     fun getAllVehicleDetails(vin: String): Flow<DatabaseVehicleDetails?>
-
 }

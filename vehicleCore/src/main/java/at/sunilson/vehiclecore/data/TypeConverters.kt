@@ -35,7 +35,7 @@ internal class TypeConverters {
 
     @TypeConverter
     fun toString(location: Location?): String? {
-        if(location == null) return null
+        if (location == null) return null
 
         val adapter = moshi.adapter(Location::class.java)
         return adapter.toJson(location)
@@ -43,7 +43,7 @@ internal class TypeConverters {
 
     @TypeConverter
     fun locationFromString(string: String?): Location? {
-        if(string.isNullOrEmpty()) return null
+        if (string.isNullOrEmpty()) return null
 
         val adapter = moshi.adapter(Location::class.java)
         return adapter.fromJson(string)

@@ -23,5 +23,4 @@ class TypeConverters {
         val adapter = moshi.adapter<List<VehicleDetailsEntry>>(type)
         return adapter.fromJson(string)!!
     }
-
 }

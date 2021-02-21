@@ -35,13 +35,13 @@ object VehicleDetailsModule {
 
     @Provides
     @Singleton
-    internal fun provideVehicleDetailsService(@Named(AuthenticationModule.AUTHENTICATED_HTTP_CLIENT) okHttpClient: OkHttpClient) =
-        Retrofit
-            .Builder()
-            .client(okHttpClient)
-            .addConverterFactory(MoshiConverterFactory.create())
-            .baseUrl(Constants.KAMEREON_BASE_URL)
-            .build()
-            .create(VehicleDetailsService::class.java)
-
+    internal fun provideVehicleDetailsService(
+        @Named(AuthenticationModule.AUTHENTICATED_HTTP_CLIENT) okHttpClient: OkHttpClient
+    ) = Retrofit
+        .Builder()
+        .client(okHttpClient)
+        .addConverterFactory(MoshiConverterFactory.create())
+        .baseUrl(Constants.KAMEREON_BASE_URL)
+        .build()
+        .create(VehicleDetailsService::class.java)
 }

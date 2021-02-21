@@ -24,7 +24,6 @@ internal sealed class VehicleDetailsSideEffects {
     data class ScrollToPosition(val position: Int) : VehicleDetailsSideEffects()
 }
 
-
 internal class VehicleDetailsViewModel @ViewModelInject constructor(
     private val refreshVehicleDetails: RefreshVehicleDetails,
     private val getVehicleDetails: GetVehicleDetails

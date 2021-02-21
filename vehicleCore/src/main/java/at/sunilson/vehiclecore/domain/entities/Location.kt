@@ -3,8 +3,6 @@ package at.sunilson.vehiclecore.domain.entities
 import androidx.annotation.Keep
 import com.squareup.moshi.JsonClass
 import java.io.Serializable
-import java.time.LocalDateTime
-import java.time.ZonedDateTime
 
 @Keep
 @JsonClass(generateAdapter = true)

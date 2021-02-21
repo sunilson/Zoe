@@ -4,7 +4,6 @@ import at.sunilson.contracts.data.models.DatabaseContract
 import at.sunilson.contracts.data.models.NetworkContract
 import at.sunilson.contracts.domain.entities.Contract
 import java.time.LocalDate
-import java.time.ZonedDateTime
 
 internal fun NetworkContract.toDatabaseEntity(vin: String) = DatabaseContract(
     contractId ?: code,
@@ -28,8 +27,8 @@ internal fun DatabaseContract.toEntity() = Contract(
     id,
     type,
     durationMonths,
-    if(startDate == null) null else LocalDate.parse(startDate),
-    if(endDate == null) null else LocalDate.parse(endDate),
+    if (startDate == null) null else LocalDate.parse(startDate),
+    if (endDate == null) null else LocalDate.parse(endDate),
     status,
     status,
     description,

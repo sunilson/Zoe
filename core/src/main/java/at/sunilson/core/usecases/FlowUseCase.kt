@@ -5,7 +5,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 
-abstract class FlowUseCase<out Result, in Params>() {
+abstract class FlowUseCase<out Result, in Params> {
 
     var dispatcher: CoroutineDispatcher = Dispatchers.IO
 

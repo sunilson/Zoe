@@ -43,7 +43,7 @@ internal class VehicleWidgetConfigurationActivity : AppCompatActivity() {
         window.useLightNavigationBarIcons(nightMode)
         window.useLightStatusBarIcons(nightMode)
 
-        //Widget wont be added if user leaves activity without confirming
+        // Widget wont be added if user leaves activity without confirming
         setResult(
             Activity.RESULT_CANCELED,
             Intent().apply { putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetID) }

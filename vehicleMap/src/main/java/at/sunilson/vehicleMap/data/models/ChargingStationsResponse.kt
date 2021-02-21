@@ -5,7 +5,7 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 @Keep
-data class NetworkCharingStation(
+data class ChargingStationsResponse(
     val type: String,
     val id: String,
     val name: String,
@@ -27,7 +27,6 @@ data class NetworkCharingStation(
         val startTime: String,
         val endTime: String
     )
-
 
     @JsonClass(generateAdapter = true)
     @Keep

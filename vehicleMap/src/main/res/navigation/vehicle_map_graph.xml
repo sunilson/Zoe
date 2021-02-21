@@ -2,8 +2,8 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        app:startDestination="@id/vehicleMapFragment"
-        android:id="@+id/vehicle_map_graph">
+        android:id="@+id/vehicle_map_graph"
+        app:startDestination="@id/vehicleMapFragment">
     <fragment
             android:id="@+id/vehicleMapFragment"
             android:name="at.sunilson.vehicleMap.presentation.VehicleMapFragment"

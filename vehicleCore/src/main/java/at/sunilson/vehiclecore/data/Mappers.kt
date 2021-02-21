@@ -1,6 +1,5 @@
 package at.sunilson.vehiclecore.data
 
-import at.sunilson.vehiclecore.data.models.DatabaseLocation
 import at.sunilson.vehiclecore.data.models.DatabaseVehicle
 import at.sunilson.vehiclecore.data.models.batterystatus.BatteryStatusResponse
 import at.sunilson.vehiclecore.data.models.cockpit.CockpitResponse

@@ -17,7 +17,7 @@ class VehicleCoreRepositoryImpl @Inject constructor(
     private val sharedPreferences: SharedPreferences,
     private val dataStore: DataStore<Preferences>
 ) : VehicleCoreRepository {
-    private val SELECTED_VEHICLE = preferencesKey<String>("selectedVehicle")
+    private val selectedVehicleKey = preferencesKey<String>("selectedVehicle")
 
     override val kamereonAccountID: String
         get() = requireNotNull(
@@ -28,9 +28,9 @@ class VehicleCoreRepositoryImpl @Inject constructor(
         )
 
     override val selectedVehicle: Flow<String?>
-        get() = dataStore.data.map { it[SELECTED_VEHICLE] }
+        get() = dataStore.data.map { it[selectedVehicleKey] }
 
     override suspend fun setSelectedVehicle(vin: String) {
-        dataStore.edit { it[SELECTED_VEHICLE] = vin }
+        dataStore.edit { it[selectedVehicleKey] = vin }
     }
 }

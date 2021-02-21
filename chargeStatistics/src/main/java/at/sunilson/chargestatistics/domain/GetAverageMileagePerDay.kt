@@ -2,7 +2,6 @@ package at.sunilson.chargestatistics.domain
 
 import at.sunilson.chargestatistics.domain.entities.Statistic
 import at.sunilson.chargetracking.domain.entities.ChargeTrackingPoint
-import at.sunilson.core.di.NumberFormatModule
 import at.sunilson.core.di.NumberFormatModule.GERMAN_FORMAT
 import at.sunilson.core.usecases.AsyncUseCase
 import at.sunilson.ktx.datetime.toZonedDateTime

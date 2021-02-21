@@ -13,7 +13,7 @@ fun TemporalAccessor.formatPattern(pattern: String) =
 
 fun Duration.format(): String {
     val seconds = seconds
-    return String.format("%02dh:%02dm", seconds / 3600, (seconds % 3600) / 60);
+    return String.format("%02dh:%02dm", seconds / 3600, (seconds % 3600) / 60)
 }
 
 fun Instant.toZonedDateTime() = ZonedDateTime.from(this).withZoneSameInstant(ZoneId.systemDefault())

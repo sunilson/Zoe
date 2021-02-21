@@ -11,6 +11,7 @@ import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
 
 @EpoxyModelClass
+@Suppress("MaxLineLength")
 abstract class ChargeProcedureEntryModel :
     EpoxyModelWithHolder<ChargeProcedureEntryModel.Holder>() {
 
@@ -29,7 +30,9 @@ abstract class ChargeProcedureEntryModel :
         battery.text =
             "${chargingProcedure.batteryLevelDifference} % geladen (${chargingProcedure.startBatteryLevel} --> ${chargingProcedure.endBatteryLevel})"
         energy.text = "${chargingProcedure.energyLevelDifference} kWh"
-        from.text = "${chargingProcedure.startTime.formatPattern("dd.MM HH:mm")} bis ${chargingProcedure.endTime.formatPattern("dd.MM HH:mm")}"
+        from.text = "${chargingProcedure.startTime.formatPattern("dd.MM HH:mm")} bis ${
+            chargingProcedure.endTime.formatPattern("dd.MM HH:mm")
+        }"
     }
 
     class Holder : KotlinEpoxyHolder() {

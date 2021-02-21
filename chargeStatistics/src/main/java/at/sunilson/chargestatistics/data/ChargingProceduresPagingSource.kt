@@ -30,7 +30,7 @@ internal class ChargingProceduresPagingSource @Inject constructor(
             return LoadResult.Page(
                 data = chargingProcedures,
                 null,
-                if(chargeTrackingPoints.isEmpty()) null else offset + chargeTrackingPoints.size
+                if (chargeTrackingPoints.isEmpty()) null else offset + chargeTrackingPoints.size
             )
         } catch (error: Exception) {
             TODO()

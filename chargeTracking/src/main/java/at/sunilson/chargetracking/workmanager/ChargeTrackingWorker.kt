@@ -13,7 +13,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
-
 class ChargeTrackingWorker @WorkerInject constructor(
     @Assisted context: Context,
     @Assisted private val params: WorkerParameters,

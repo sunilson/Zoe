@@ -125,7 +125,13 @@ internal class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_detai
                 progress: Float
             ) {
                 binding.searchInput.isEnabled = progress >= 0.5f
-                binding.searchButton.setImageResource(if (progress >= 0.5f) R.drawable.ic_baseline_close_24 else R.drawable.ic_baseline_search_24)
+                binding.searchButton.setImageResource(
+                    if (progress >= 0.5f) {
+                        R.drawable.ic_baseline_close_24
+                    } else {
+                        R.drawable.ic_baseline_search_24
+                    }
+                )
             }
 
             override fun onTransitionCompleted(p0: MotionLayout?, newId: Int) {

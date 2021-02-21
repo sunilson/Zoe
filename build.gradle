@@ -8,11 +8,11 @@ buildscript {
     }
     dependencies {
         classpath('com.android.tools.build:gradle:4.1.2')
-        classpath("com.google.gms:google-services:4.3.4")
-        classpath('com.google.firebase:firebase-crashlytics-gradle:2.4.1')
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.21")
+        classpath("com.google.gms:google-services:4.3.5")
+        classpath('com.google.firebase:firebase-crashlytics-gradle:2.5.0')
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.30")
         classpath("com.google.dagger:hilt-android-gradle-plugin:2.31.2-alpha")
-        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.3.2")
+        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.3.3")
         classpath 'com.google.android.gms:oss-licenses-plugin:0.10.2'
     }
 }
@@ -20,7 +20,7 @@ buildscript {
 plugins {
     id "com.github.ben-manes.versions" version "0.36.0"
     id "com.github.plnice.canidropjetifier" version "0.5"
-    id "io.gitlab.arturbosch.detekt" version "1.15.0"
+    id "io.gitlab.arturbosch.detekt" version "1.16.0-RC1"
 }
 
 detekt {
@@ -43,7 +43,7 @@ tasks.withType(io.gitlab.arturbosch.detekt.Detekt).configureEach {
 
 
 dependencies {
-    detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:1.15.0"
+    detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:1.16.0-RC1"
 }
 
 tasks.detekt.jvmTarget = "1.8"

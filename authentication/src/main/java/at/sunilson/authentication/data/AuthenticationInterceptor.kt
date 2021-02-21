@@ -40,7 +40,6 @@ class AuthenticationInterceptor @Inject constructor(
         return result
     }
 
-
     private fun refreshTokens() = runBlocking {
         loginUseCase(null)
     }

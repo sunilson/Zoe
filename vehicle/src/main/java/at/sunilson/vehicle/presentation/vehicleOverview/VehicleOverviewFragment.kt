@@ -90,8 +90,8 @@ import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.math.hypot
 
-
 @AndroidEntryPoint
+@Suppress("TooManyFunctions")
 internal class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_overview) {
 
     private val binding by viewBinding(FragmentVehicleOverviewBinding::bind)
@@ -112,7 +112,7 @@ internal class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_over
         if (args.vin != null) {
             viewModel.vehicleSelected(args.vin!!)
         } else {
-            //Use viewmodel so it is already initialized
+            // Use viewmodel so it is already initialized
             viewModel
         }
     }
@@ -176,6 +176,7 @@ internal class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_over
                         splashAnimationStarted = true
                         startSplashAnimation()
                     } else {
+                        Unit
                     }
                     VehicleOverviewSideEffects.HVACStopped -> requireContext().showToast(R.string.hvac_stopped)
                     VehicleOverviewSideEffects.HVACNotStopped -> requireContext().showToast(R.string.hvac_not_stopped)
@@ -213,7 +214,7 @@ internal class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_over
             removeDuration = 300L
         }
 
-        //Use extra space to prefetch more items for smoother scrolling
+        // Use extra space to prefetch more items for smoother scrolling
         binding.recyclerView.layoutManager = object : LinearLayoutManager(requireContext()) {
             override fun calculateExtraLayoutSpace(
                 state: RecyclerView.State,
@@ -376,7 +377,7 @@ internal class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_over
         }
     }
 
-    //TODO Extract this into extension function
+    // TODO Extract this into extension function
     private suspend fun takeScreenshot() = suspendCancellableCoroutine<Bitmap?> {
         val view = requireView()
         val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
@@ -411,7 +412,6 @@ internal class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_over
                 NavOptions.Builder().withDefaultAnimations()
             )
     }
-
 
     @Suppress("LongMethod")
     private fun renderVehicle(state: VehicleOverviewState) {
@@ -590,7 +590,6 @@ internal class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_over
                     viewModel.themeImage = takeScreenshot()
                     requireActivity().recreate()
                 }
-
             }
         }
     }

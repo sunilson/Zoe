@@ -57,7 +57,10 @@ class StartHVACDialog : BottomSheetDialogFragment() {
 
     private fun setupSlider() {
         binding.temperatureSlider.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
-            override fun onStartTrackingTouch(slider: Slider) {}
+            override fun onStartTrackingTouch(slider: Slider) {
+                // Do nothing
+            }
+
             override fun onStopTrackingTouch(slider: Slider) {
                 viewModel.temperatureChanged(slider.value)
             }

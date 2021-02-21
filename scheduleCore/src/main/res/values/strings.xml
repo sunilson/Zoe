@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="loading_schedule_error">Ladeprogramme konnten nicht angepasst werden! Bitte versuche es später noch einmal</string>
+    <string name="loading_schedule_inactive">Ladeplanung ist jetzt inaktiv!</string>
+    <string name="could_not_change">Konnte nicht geändert werden!</string>
+</resources>

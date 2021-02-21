@@ -22,8 +22,8 @@ import com.google.android.material.switchmaterial.SwitchMaterial
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
-
 @EpoxyModelClass
+@Suppress("TooManyFunctions")
 abstract class ScheduleEntryModel :
     EpoxyModelWithHolder<ScheduleEntryModel.Holder>() {
 
@@ -47,7 +47,7 @@ abstract class ScheduleEntryModel :
     override fun bind(holder: Holder) = holder.run {
         name.text = "Programm ${schedule.id}"
 
-        //If there is a day set we can setup sliders, time texts, etc., otherwise the schedule is not active
+        // If there is a day set we can setup sliders, time texts, etc., otherwise the schedule is not active
         val firstDay = schedule.days.firstOrNull()
 
         setupSlider(firstDay)
@@ -99,7 +99,10 @@ abstract class ScheduleEntryModel :
                 slider.isVisible = true
                 slider.value = day.duration.toFloat()
                 slider.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
-                    override fun onStartTrackingTouch(slider: Slider) {}
+                    override fun onStartTrackingTouch(slider: Slider) {
+                        // Do nothing
+                    }
+
                     override fun onStopTrackingTouch(slider: Slider) {
                         updateEndTime(slider.value.toInt())
                     }
@@ -198,7 +201,7 @@ abstract class ScheduleEntryModel :
             val index = chargeSchedule.days.indexOfFirst { it.dayOfWeek == dayOfWeek }
 
             val updatedChargeSchedule = if (index == -1) {
-                //If we already have a day we use those values to populate the new day
+                // If we already have a day we use those values to populate the new day
                 val alreadyExistingDay = chargeSchedule.days.firstOrNull()
                 val newChargeDay = if (isHvac) {
                     HvacScheduleDay(

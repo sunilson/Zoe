@@ -1,7 +1,6 @@
 package at.sunilson.chargestatistics.domain.entities
 
 import androidx.annotation.IntRange
-import java.time.LocalDateTime
 import java.time.ZonedDateTime
 import kotlin.math.max
 

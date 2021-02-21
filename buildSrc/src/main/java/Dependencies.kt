@@ -99,5 +99,4 @@ object Dependencies {
     const val orbitViewModel = "org.orbit-mvi:orbit-viewmodel:$ORBIT_VERSION"
     const val orbitCoroutines = "org.orbit-mvi:orbit-coroutines:$ORBIT_VERSION"
     const val orbitTest = "org.orbit-mvi:orbit-test:$ORBIT_VERSION"
-
 }

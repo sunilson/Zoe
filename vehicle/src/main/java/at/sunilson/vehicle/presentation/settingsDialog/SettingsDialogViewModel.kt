@@ -21,7 +21,6 @@ internal data class SettingsDialogState(val vehicles: List<Vehicle> = listOf())
 internal sealed class SettingsDialogEvent {
     object VehicleSelected : SettingsDialogEvent()
     object LoggedOut : SettingsDialogEvent()
-
 }
 
 internal class SettingsDialogViewModel @ViewModelInject constructor(

@@ -15,7 +15,7 @@ import at.sunilson.chargestatistics.presentation.statistics.epoxy.barChart
 import at.sunilson.chargestatistics.presentation.statistics.epoxy.chartExplanation
 import at.sunilson.chargestatistics.presentation.statistics.epoxy.fact
 import at.sunilson.chargestatistics.presentation.statistics.epoxy.lineChart
-import at.sunilson.presentationcore.ViewpagerFragmentParentWithHeaderAnimation
+import at.sunilson.presentationcore.ViewpagerFragmentParentWithAnimation
 import at.sunilson.presentationcore.base.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -31,7 +31,7 @@ internal class StatisticsFragment private constructor() : Fragment(R.layout.stat
 
     override fun onResume() {
         super.onResume()
-        (parentFragment as? ViewpagerFragmentParentWithHeaderAnimation)?.childBecameActive(binding.recyclerView)
+        (parentFragment as? ViewpagerFragmentParentWithAnimation)?.childBecameActive(binding.recyclerView)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

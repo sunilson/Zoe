@@ -8,7 +8,7 @@ import at.sunilson.scheduleCore.data.DatabaseSchedule
 import at.sunilson.scheduleCore.data.ScheduleDao
 
 @Dao
-internal interface HvacScheduleDao: ScheduleDao
+internal interface HvacScheduleDao : ScheduleDao
 
 @Database(
     entities = [DatabaseSchedule::class],

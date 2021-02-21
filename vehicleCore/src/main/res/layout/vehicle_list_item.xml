@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView
-        android:id="@+id/container"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/container"
         style="@style/WidgetCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -25,10 +25,10 @@
 
         <TextView
                 android:id="@+id/vehicle_name"
-                android:textAppearance="?textAppearanceHeadline6"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
+                android:textAppearance="?textAppearanceHeadline6"
                 app:layout_constraintBottom_toTopOf="@id/vehicle_info"
                 app:layout_constraintLeft_toRightOf="@id/vehicle_image"
                 app:layout_constraintRight_toRightOf="parent"
@@ -38,11 +38,11 @@
 
         <TextView
                 android:id="@+id/vehicle_info"
-                android:textAppearance="?textAppearanceSubtitle2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="8dp"
+                android:textAppearance="?textAppearanceSubtitle2"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@id/vehicle_image"
                 app:layout_constraintRight_toRightOf="parent"

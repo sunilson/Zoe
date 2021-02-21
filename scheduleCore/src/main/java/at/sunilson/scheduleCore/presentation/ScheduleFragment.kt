@@ -69,7 +69,7 @@ abstract class ScheduleFragment : Fragment(R.layout.fragment_schedule_overview) 
             removeDuration = 300L
         }
 
-        //Delay loading so transition is smooth
+        // Delay loading so transition is smooth
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             delay(300)
             viewModel.viewCreated(vin)
@@ -107,7 +107,7 @@ abstract class ScheduleFragment : Fragment(R.layout.fragment_schedule_overview) 
             viewModel.container.sideEffectFlow.collect {
                 Do exhaustive when (it) {
                     ScheduleSideEffects.SettingModeFailed -> if (!isHvac) {
-                        requireContext().showToast("Konnte nicht geändert werden!")
+                        requireContext().showToast(getString(R.string.could_not_change))
                     } else {
                         MaterialAlertDialogBuilder(
                             ContextThemeWrapper(
@@ -120,8 +120,12 @@ abstract class ScheduleFragment : Fragment(R.layout.fragment_schedule_overview) 
                             .setPositiveButton("Ok") { _, _ -> }
                             .show()
                     }
-                    ScheduleSideEffects.UpdatingSchedulesFailed -> requireContext().showToast("Ladeprogramme konnten nicht angepasst werden! Bitte versuche es später noch einmal")
-                    ScheduleSideEffects.ModeNowAlways -> requireContext().showToast("Ladeplanung ist jetzt inaktiv!")
+                    ScheduleSideEffects.UpdatingSchedulesFailed -> {
+                        requireContext().showToast(getString(R.string.loading_schedule_error))
+                    }
+                    ScheduleSideEffects.ModeNowAlways -> {
+                        requireContext().showToast(getString(R.string.loading_schedule_inactive))
+                    }
                     is ScheduleSideEffects.AskForSaveApproval -> askForSaveApproval(it.exit)
                     ScheduleSideEffects.Exit -> findNavController().navigateUp()
                 }

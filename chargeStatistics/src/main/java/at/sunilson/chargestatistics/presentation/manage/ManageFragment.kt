@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import at.sunilson.chargestatistics.R
 import at.sunilson.chargestatistics.databinding.ManageFragmentBinding
-import at.sunilson.presentationcore.ViewpagerFragmentParentWithHeaderAnimation
+import at.sunilson.presentationcore.ViewpagerFragmentParentWithAnimation
 import at.sunilson.presentationcore.base.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -28,7 +28,7 @@ internal class ManageFragment : Fragment(R.layout.manage_fragment) {
 
     override fun onResume() {
         super.onResume()
-        (parentFragment as? ViewpagerFragmentParentWithHeaderAnimation)?.childBecameActive(binding.recyclerView)
+        (parentFragment as? ViewpagerFragmentParentWithAnimation)?.childBecameActive(binding.recyclerView)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

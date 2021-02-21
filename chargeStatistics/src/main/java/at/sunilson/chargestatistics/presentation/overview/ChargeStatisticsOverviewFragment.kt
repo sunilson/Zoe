@@ -15,14 +15,12 @@ import androidx.viewpager2.widget.ViewPager2
 import at.sunilson.chargestatistics.R
 import at.sunilson.chargestatistics.databinding.ChargeStatisticsOverviewFragmentBinding
 import at.sunilson.ktx.fragment.drawBelowStatusBar
-import at.sunilson.ktx.fragment.setNavigationBarColor
 import at.sunilson.ktx.fragment.setNavigationBarThemeColor
 import at.sunilson.ktx.fragment.setStatusBarColor
 import at.sunilson.ktx.fragment.useLightNavigationBarIcons
 import at.sunilson.ktx.fragment.useLightStatusBarIcons
-import at.sunilson.presentationcore.ViewpagerFragmentParentWithHeaderAnimation
+import at.sunilson.presentationcore.ViewpagerFragmentParentWithAnimation
 import at.sunilson.presentationcore.base.viewBinding
-import at.sunilson.presentationcore.extensions.getThemeColor
 import at.sunilson.presentationcore.extensions.nightMode
 import at.sunilson.presentationcore.extensions.setupHeaderAnimation
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -32,7 +30,7 @@ import dev.chrisbanes.insetter.Side
 
 @AndroidEntryPoint
 class ChargeStatisticsOverviewFragment : Fragment(R.layout.charge_statistics_overview_fragment),
-    ViewpagerFragmentParentWithHeaderAnimation {
+    ViewpagerFragmentParentWithAnimation {
 
     override var currentUnregisterCallback: (() -> Unit)? = null
     private val binding by viewBinding(ChargeStatisticsOverviewFragmentBinding::bind)
@@ -99,8 +97,8 @@ class ChargeStatisticsOverviewFragment : Fragment(R.layout.charge_statistics_ove
                     requireContext(),
                     R.style.AlertDialogTheme
                 )
-            ).setTitle("Whitelist")
-                .setMessage("Damit das Tracking zuverlässig funktioniert, deaktiviere bitte die Batterie Optimierung für diese App.")
+            ).setTitle(getString(R.string.whitelis))
+                .setMessage(getString(R.string.tracking_battery_optimization_explanation))
                 .setPositiveButton("Ok") { _, _ ->
                     startActivity(Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS))
                 }

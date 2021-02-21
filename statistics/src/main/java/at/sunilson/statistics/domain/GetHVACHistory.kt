@@ -11,5 +11,4 @@ class GetHVACHistory @Inject constructor(private val repository: StatisticsRepos
         repository.getHVACHistory(params)
         Unit
     }
-
 }

@@ -17,7 +17,6 @@ import javax.inject.Inject
 
 data class HVACPreferences(val temperature: Int, val time: LocalTime? = null)
 
-
 class SaveHVACInstantPreferences @Inject constructor(
     private val dataStore: DataStore<Preferences>,
     private val vehicleCoreRepository: VehicleCoreRepository

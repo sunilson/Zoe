@@ -28,7 +28,9 @@ import javax.inject.Singleton
 abstract class VehicleCoreBindingModule {
     @Binds
     @Singleton
-    abstract fun bindVehicleCoreRepository(vehicleCoreRepositoryImpl: VehicleCoreRepositoryImpl): VehicleCoreRepository
+    abstract fun bindVehicleCoreRepository(
+        vehicleCoreRepositoryImpl: VehicleCoreRepositoryImpl
+    ): VehicleCoreRepository
 }
 
 @InstallIn(ApplicationComponent::class)
@@ -41,7 +43,7 @@ object VehicleCoreModule {
         .databaseBuilder(context, VehicleDatabase::class.java, "vehicleDatabase")
         .addMigrations(MIGRATION_6_7)
         .addMigrations(MIGRATION_7_8)
-        //.fallbackToDestructiveMigration()
+        // .fallbackToDestructiveMigration()
         .build()
 
     @Provides
@@ -54,13 +56,13 @@ object VehicleCoreModule {
 
     @Provides
     @Singleton
-    internal fun provideVehicleCoreService(@Named(AuthenticationModule.AUTHENTICATED_HTTP_CLIENT) okHttpClient: OkHttpClient) =
-        Retrofit
-            .Builder()
-            .client(okHttpClient)
-            .addConverterFactory(MoshiConverterFactory.create())
-            .baseUrl(KAMEREON_BASE_URL)
-            .build()
-            .create(VehicleCoreService::class.java)
-
+    internal fun provideVehicleCoreService(
+        @Named(AuthenticationModule.AUTHENTICATED_HTTP_CLIENT) okHttpClient: OkHttpClient
+    ) = Retrofit
+        .Builder()
+        .client(okHttpClient)
+        .addConverterFactory(MoshiConverterFactory.create())
+        .baseUrl(KAMEREON_BASE_URL)
+        .build()
+        .create(VehicleCoreService::class.java)
 }

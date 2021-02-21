@@ -59,14 +59,14 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        //Workmanager seems to continue work when you ask for work info, so we just ask for anything
+        // Workmanager seems to continue work when you ask for work info, so we just ask for anything
         workManager.getWorkInfosForUniqueWorkLiveData("egal")
     }
 
     private fun observeLogout() {
         lifecycleScope.launchWhenCreated {
             logoutHandler.loggedOutEvent.collect {
-                //On logout the shortcuts we created are not valid anymore!
+                // On logout the shortcuts we created are not valid anymore!
                 ContextCompat.getSystemService<ShortcutManager>(
                     this@MainActivity,
                     ShortcutManager::class.java

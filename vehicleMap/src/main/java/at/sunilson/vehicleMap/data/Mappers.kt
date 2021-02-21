@@ -1,13 +1,12 @@
 package at.sunilson.vehicleMap.data
 
-import at.sunilson.vehicleMap.data.models.NetworkCharingStation
+import at.sunilson.vehicleMap.data.models.ChargingStationsResponse
 import at.sunilson.vehicleMap.domain.entities.ChargingStation
 import at.sunilson.vehicleMap.domain.entities.OpeningTime
 import com.google.android.libraries.maps.model.LatLng
 import java.time.DayOfWeek
-import java.time.LocalTime
 
-internal fun NetworkCharingStation.toEntity() = ChargingStation(
+internal fun ChargingStationsResponse.toEntity() = ChargingStation(
     id,
     name,
     type,

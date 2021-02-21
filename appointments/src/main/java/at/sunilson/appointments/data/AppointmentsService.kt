@@ -9,6 +9,7 @@ import retrofit2.http.PATCH
 import retrofit2.http.Path
 import retrofit2.http.Query
 
+@Suppress("MaxLineLength", "MaximumLineLength")
 internal interface AppointmentsService {
 
     @PATCH("accounts/{accountId}/vehicles/{vin}?&country=AT")

@@ -12,7 +12,7 @@ sealed class Statistic {
     data class Fact(override val id: String, override val label: String, val value: String) :
         Statistic()
 
-    sealed class Chart<T : BaseEntry>() : Statistic() {
+    sealed class Chart<T : BaseEntry> : Statistic() {
         abstract val entries: List<BaseEntry>
         abstract val xGranularity: Float
         abstract val yGranularity: Float
@@ -40,4 +40,3 @@ sealed class Statistic {
         ) : Chart<BarEntry>()
     }
 }
-

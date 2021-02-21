@@ -5,7 +5,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-abstract class AsyncUseCase<out Result, in Params>() {
+abstract class AsyncUseCase<out Result, in Params> {
 
     var dispatcher: CoroutineDispatcher = Dispatchers.IO
 

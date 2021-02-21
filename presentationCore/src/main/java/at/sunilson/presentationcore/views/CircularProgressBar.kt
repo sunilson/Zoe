@@ -42,7 +42,6 @@ class CircularProgressBar @JvmOverloads constructor(
             backgroundPaint.strokeWidth = value
         }
 
-
     /**
      * Progress of the [CircularProgressBar] in percent. Changes are animated
      */
@@ -53,7 +52,10 @@ class CircularProgressBar @JvmOverloads constructor(
             field = value
             val newAngle = 3.6f * value
 
-            if (currentAnimator != null && currentAnimator?.isRunning == true) currentAnimator?.cancel()
+            if (currentAnimator != null && currentAnimator?.isRunning == true) {
+                currentAnimator?.cancel()
+            }
+
             currentAnimator = ValueAnimator.ofFloat(angle, newAngle).apply {
                 interpolator = AccelerateDecelerateInterpolator()
                 duration = 1000
@@ -95,20 +97,19 @@ class CircularProgressBar @JvmOverloads constructor(
     private var angle = 18f
     private val rect = RectF()
 
-    //Paint used for main progress stroke
+    // Paint used for main progress stroke
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = context.getColor(android.R.color.black)
         setStyle(Paint.Style.STROKE)
         strokeCap = Paint.Cap.ROUND
     }
 
-    //Paint used for background circle
+    // Paint used for background circle
     private val backgroundPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = context.getColor(android.R.color.black).apply { alpha = 100 }
         setStyle(Paint.Style.STROKE)
         strokeWidth = backgroundStrokeWidth
     }
-
 
     /**
      * Recalculate circle width and height when the views size changes
@@ -140,7 +141,7 @@ class CircularProgressBar @JvmOverloads constructor(
     }
 
     override fun onRestoreInstanceState(state: Parcelable?) {
-        if(state is Bundle) {
+        if (state is Bundle) {
             angle = 3.6f * state.getFloat("progress", 0f)
             invalidate()
             progress = state.getFloat("progress", 0f)
@@ -157,27 +158,27 @@ class CircularProgressBar @JvmOverloads constructor(
         )
     }
 
-init {
-    //Get initial attributes
-    context.theme.obtainStyledAttributes(
-        attributeSet,
-        R.styleable.CircularProgressBar,
-        R.attr.circularProgressBarStyle,
-        R.style.CircularProgressBar
-    ).apply {
-        try {
-            strokeWidth = getFloat(R.styleable.CircularProgressBar_foregroundStrokeWidth, 50f)
-            backgroundStrokeWidth =
-                getFloat(R.styleable.CircularProgressBar_backgroundStrokeWidth, 50f)
-            progress = getFloat(R.styleable.CircularProgressBar_progress, 0f)
-            strokeColor = getColor(R.styleable.CircularProgressBar_strokeColor, Color.WHITE)
-            backgroundStrokeColor =
-                getColor(R.styleable.CircularProgressBar_backgroundStrokeColor, Color.WHITE)
-            hasBackgroundRing =
-                getBoolean(R.styleable.CircularProgressBar_hasBackgroundRing, true)
-        } finally {
-            recycle()
+    init {
+        // Get initial attributes
+        context.theme.obtainStyledAttributes(
+            attributeSet,
+            R.styleable.CircularProgressBar,
+            R.attr.circularProgressBarStyle,
+            R.style.CircularProgressBar
+        ).apply {
+            try {
+                strokeWidth = getFloat(R.styleable.CircularProgressBar_foregroundStrokeWidth, 50f)
+                backgroundStrokeWidth =
+                    getFloat(R.styleable.CircularProgressBar_backgroundStrokeWidth, 50f)
+                progress = getFloat(R.styleable.CircularProgressBar_progress, 0f)
+                strokeColor = getColor(R.styleable.CircularProgressBar_strokeColor, Color.WHITE)
+                backgroundStrokeColor =
+                    getColor(R.styleable.CircularProgressBar_backgroundStrokeColor, Color.WHITE)
+                hasBackgroundRing =
+                    getBoolean(R.styleable.CircularProgressBar_hasBackgroundRing, true)
+            } finally {
+                recycle()
+            }
         }
     }
-}
 }

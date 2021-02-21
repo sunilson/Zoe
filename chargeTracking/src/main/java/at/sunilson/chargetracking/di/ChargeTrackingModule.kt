@@ -3,8 +3,6 @@ package at.sunilson.chargetracking.di
 import android.content.Context
 import androidx.room.Room
 import at.sunilson.chargetracking.data.Database
-import at.sunilson.chargetracking.data.MIGRATION_1_2
-import at.sunilson.chargetracking.data.MIGRATION_2_3
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

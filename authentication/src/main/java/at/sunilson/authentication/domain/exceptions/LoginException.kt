@@ -1,3 +1,3 @@
 package at.sunilson.authentication.domain.exceptions
 
-class LoginException: Exception()
+class LoginException : Exception()

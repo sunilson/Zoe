@@ -12,7 +12,7 @@ import androidx.paging.LoadState
 import at.sunilson.chargestatistics.R
 import at.sunilson.chargestatistics.databinding.DeChargeEntriesFragmentBinding
 import at.sunilson.chargestatistics.presentation.overview.ChargeStatisticsOverviewFragment
-import at.sunilson.presentationcore.ViewpagerFragmentParentWithHeaderAnimation
+import at.sunilson.presentationcore.ViewpagerFragmentParentWithAnimation
 import at.sunilson.presentationcore.base.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import jp.wasabeef.recyclerview.animators.ScaleInAnimator
@@ -71,7 +71,7 @@ internal class DeChargeEntriesFragment private constructor() :
 
     override fun onResume() {
         super.onResume()
-        (parentFragment as? ViewpagerFragmentParentWithHeaderAnimation)?.childBecameActive(binding.recyclerView)
+        (parentFragment as? ViewpagerFragmentParentWithAnimation)?.childBecameActive(binding.recyclerView)
     }
 
     companion object {

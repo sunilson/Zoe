@@ -7,7 +7,6 @@ import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
 
-
 @EpoxyModelClass
 abstract class ClimateControlWidgetModel :
     EpoxyModelWithHolder<ClimateControlWidgetModel.Holder>() {

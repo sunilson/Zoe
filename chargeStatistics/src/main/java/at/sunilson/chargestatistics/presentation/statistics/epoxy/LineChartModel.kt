@@ -3,7 +3,7 @@ package at.sunilson.chargestatistics.presentation.statistics.epoxy
 import android.widget.TextView
 import at.sunilson.chargestatistics.R
 import at.sunilson.chargestatistics.domain.entities.Statistic
-import at.sunilson.presentationcore.delegates.ThemeColor
+import at.sunilson.presentationcore.delegates.ThemeColorDelegate
 import at.sunilson.presentationcore.epoxy.KotlinEpoxyHolder
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
@@ -20,7 +20,7 @@ abstract class LineChartModel : EpoxyModelWithHolder<LineChartModel.Holder>() {
     lateinit var data: Statistic.Chart.Line
 
     override fun bind(holder: Holder) {
-        val primaryColor by ThemeColor(holder.chart.context, R.attr.colorPrimary)
+        val primaryColor by ThemeColorDelegate(holder.chart.context, R.attr.colorPrimary)
 
         holder.title.text = data.label
         holder.chart.setDrawBorders(true)

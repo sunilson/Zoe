@@ -8,6 +8,6 @@ import at.sunilson.contracts.data.models.DatabaseContract
     entities = [DatabaseContract::class],
     version = 1
 )
-internal abstract class ContractsDatabase: RoomDatabase() {
+internal abstract class ContractsDatabase : RoomDatabase() {
     abstract fun contractsDao(): ContractsDao
 }

@@ -69,7 +69,6 @@ internal class LoginFragment : Fragment(R.layout.fragment_login) {
         observeSideEffects()
     }
 
-
     private fun observeSideEffects() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.container.sideEffectFlow.collect {

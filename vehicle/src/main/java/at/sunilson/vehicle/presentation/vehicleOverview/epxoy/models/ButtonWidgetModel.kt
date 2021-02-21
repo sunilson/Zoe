@@ -23,7 +23,6 @@ abstract class ButtonWidgetModel : EpoxyModelWithHolder<ButtonWidgetModel.Holder
         button.text = buttonText
     }
 
-
     class Holder : KotlinEpoxyHolder() {
         val button by bind<MaterialButton>(R.id.button)
     }

@@ -7,7 +7,7 @@ import at.sunilson.navigation.ActivityNavigator
 import at.sunilson.navigation.ActivityNavigatorParams
 import at.sunilson.zoe.MainActivity
 
-internal class ActivityNavigatorImpl() : ActivityNavigator {
+internal class ActivityNavigatorImpl : ActivityNavigator {
 
     private fun <T : AppCompatActivity> startActivity(
         target: Class<T>,

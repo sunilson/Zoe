@@ -8,7 +8,8 @@ import com.github.kittinunf.result.coroutines.SuspendableResult
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
-class StopChargeTracking @Inject constructor(private val workManager: WorkManager) : AsyncUseCase<Unit, String>() {
+class StopChargeTracking @Inject constructor(private val workManager: WorkManager) :
+    AsyncUseCase<Unit, String>() {
     override suspend fun run(params: String) = SuspendableResult.of<Unit, Exception> {
         val operation = workManager.cancelUniqueWork(params)
         val result = operation.state.asFlow().first()

@@ -16,7 +16,7 @@ import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.ZoneOffset
 
-class GetMostChargedWeekdayTests: BaseUnitTest() {
+class GetMostChargedWeekdayTests : BaseUnitTest() {
 
     private lateinit var useCase: GetMostChargedWeekday
 
@@ -33,7 +33,6 @@ class GetMostChargedWeekdayTests: BaseUnitTest() {
             val result = useCase(params).get()
             Assertions.assertEquals(expectedResult, result?.value)
         }
-
 
     companion object {
         @JvmStatic
@@ -96,5 +95,4 @@ class GetMostChargedWeekdayTests: BaseUnitTest() {
             null
         )
     }
-
 }

@@ -11,11 +11,15 @@ import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
 
-internal data class EntriesState(val chargingProcedures: PagingData<ChargingProcedure> = PagingData.empty())
+internal data class EntriesState(
+    val chargingProcedures: PagingData<ChargingProcedure> = PagingData.empty()
+)
+
 internal sealed class EntriesSideEffects
 
-internal class ChargeEntriesViewModel @ViewModelInject constructor(private val getChargingProcedures: GetChargingProcedures) :
-    ViewModel(), ContainerHost<EntriesState, EntriesSideEffects> {
+internal class ChargeEntriesViewModel @ViewModelInject constructor(
+    private val getChargingProcedures: GetChargingProcedures
+) : ViewModel(), ContainerHost<EntriesState, EntriesSideEffects> {
 
     override val container = container<EntriesState, EntriesSideEffects>(EntriesState())
 

@@ -33,7 +33,6 @@ class GetAverageMileagePerDayTests : BaseUnitTest() {
             assertEquals(expectedResult, result?.value)
         }
 
-
     companion object {
         @JvmStatic
         fun testData() = listOf(

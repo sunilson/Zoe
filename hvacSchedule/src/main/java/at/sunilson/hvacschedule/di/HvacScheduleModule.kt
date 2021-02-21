@@ -19,7 +19,7 @@ import javax.inject.Singleton
 
 @InstallIn(ApplicationComponent::class)
 @Module
-object ChargeScheduleModule {
+object HvacScheduleModule {
 
     @Provides
     @Singleton
@@ -30,13 +30,13 @@ object ChargeScheduleModule {
 
     @Provides
     @Singleton
-    internal fun provideChargeScheduleService(@Named(AuthenticationModule.AUTHENTICATED_HTTP_CLIENT) okHttpClient: OkHttpClient) =
-        Retrofit
-            .Builder()
-            .client(okHttpClient)
-            .addConverterFactory(MoshiConverterFactory.create())
-            .baseUrl(Constants.KAMEREON_BASE_URL)
-            .build()
-            .create(HvacScheduleService::class.java)
-
+    internal fun provideChargeScheduleService(
+        @Named(AuthenticationModule.AUTHENTICATED_HTTP_CLIENT) okHttpClient: OkHttpClient
+    ) = Retrofit
+        .Builder()
+        .client(okHttpClient)
+        .addConverterFactory(MoshiConverterFactory.create())
+        .baseUrl(Constants.KAMEREON_BASE_URL)
+        .build()
+        .create(HvacScheduleService::class.java)
 }

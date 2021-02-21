@@ -7,8 +7,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-internal class GetVehicleLocations @Inject constructor(private val getAllChargeTrackingPoints: GetAllChargeTrackingPoints) :
-    FlowUseCase<List<Location>, String>() {
+internal class GetVehicleLocations @Inject constructor(
+    private val getAllChargeTrackingPoints: GetAllChargeTrackingPoints
+) : FlowUseCase<List<Location>, String>() {
 
     override fun run(params: String): Flow<List<Location>> {
         return getAllChargeTrackingPoints(params).map {

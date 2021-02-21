@@ -22,7 +22,9 @@ class CheckNotifications @Inject constructor(
 
     override fun run(params: CheckNotificationsParams) = Result.of<Unit, Exception> {
         val oldStatus = try {
-            moshiAdapter.fromJson(sharedPreferences.getString("batteryStatus${params.vin}", ""))
+            moshiAdapter.fromJson(
+                sharedPreferences.getString("batteryStatus${params.vin}", "")
+            )
         } catch (e: Throwable) {
             null
         }
@@ -45,7 +47,9 @@ class CheckNotifications @Inject constructor(
         newStatus: Vehicle.BatteryStatus,
         oldStatus: Vehicle.BatteryStatus?
     ) {
-        if (oldStatus?.chargeState != Vehicle.BatteryStatus.ChargeState.CHARGE_ERROR && newStatus.chargeState == Vehicle.BatteryStatus.ChargeState.CHARGE_ERROR) {
+        if (oldStatus?.chargeState != Vehicle.BatteryStatus.ChargeState.CHARGE_ERROR &&
+            newStatus.chargeState == Vehicle.BatteryStatus.ChargeState.CHARGE_ERROR
+        ) {
             sendNotification(
                 SendNotificationParams(
                     "Ladefehler",
@@ -80,7 +84,10 @@ class CheckNotifications @Inject constructor(
         newStatus: Vehicle.BatteryStatus,
         oldStatus: Vehicle.BatteryStatus?
     ) {
-        if (repository.lowBatteryNotificationEnabled(vin) && newStatus.batteryLevel <= 20 && oldStatus?.batteryLevel ?: 100 > 20) {
+        if (repository.lowBatteryNotificationEnabled(vin) &&
+            newStatus.batteryLevel <= 20 &&
+            oldStatus?.batteryLevel ?: 100 > 20
+        ) {
             sendNotification(
                 SendNotificationParams(
                     "Batterie niedrig",
@@ -113,7 +120,10 @@ class CheckNotifications @Inject constructor(
         newStatus: Vehicle.BatteryStatus,
         oldStatus: Vehicle.BatteryStatus?
     ) {
-        if (repository.chargeFinishedNotificationEnabled(vin) && oldStatus?.isCharging == true && newStatus.chargeState == Vehicle.BatteryStatus.ChargeState.CHARGE_ENDED) {
+        if (repository.chargeFinishedNotificationEnabled(vin) &&
+            oldStatus?.isCharging == true &&
+            newStatus.chargeState == Vehicle.BatteryStatus.ChargeState.CHARGE_ENDED
+        ) {
             sendNotification(
                 SendNotificationParams(
                     "Laden fertig",

@@ -22,7 +22,8 @@ internal class VehicleWidgetConfigurationViewModel @ViewModelInject constructor(
     private val selectVehicleForWidget: SelectVehicleForWidget
 ) : ViewModel(), ContainerHost<VehicleWidgetState, VehicleWidgetSideEffects> {
 
-    override val container = container<VehicleWidgetState, VehicleWidgetSideEffects>(VehicleWidgetState())
+    override val container =
+        container<VehicleWidgetState, VehicleWidgetSideEffects>(VehicleWidgetState())
 
     init {
         viewModelScope.launch {

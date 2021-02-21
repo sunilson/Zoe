@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="Base.Theme.Zoe.Blue">
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryLight">@color/blue_half_transparent</item>

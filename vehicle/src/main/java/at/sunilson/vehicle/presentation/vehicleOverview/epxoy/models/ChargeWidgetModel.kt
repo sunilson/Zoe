@@ -48,13 +48,11 @@ abstract class ChargeWidgetModel : EpoxyModelWithHolder<ChargeWidgetModel.Holder
 
         chargeNowButton.setOnClickListener { chargeNowClicked() }
         chargeNowButton.isEnabled =
-            !vehicle.batteryStatus.isCharging && vehicle.batteryStatus.pluggedIn
-                    && (vehicle.batteryStatus.chargeState == Vehicle.BatteryStatus.ChargeState.NOT_CHARGING
-                    || vehicle.batteryStatus.chargeState == Vehicle.BatteryStatus.ChargeState.WAITING_FOR_CURRENT_CHARGE
-                    || vehicle.batteryStatus.chargeState == Vehicle.BatteryStatus.ChargeState.WATING_FOR_PLANNED_CHARGE
+            !vehicle.batteryStatus.isCharging && vehicle.batteryStatus.pluggedIn &&
+                    (vehicle.batteryStatus.chargeState == Vehicle.BatteryStatus.ChargeState.NOT_CHARGING ||
+                    vehicle.batteryStatus.chargeState == Vehicle.BatteryStatus.ChargeState.WAITING_FOR_CURRENT_CHARGE ||
+                    vehicle.batteryStatus.chargeState == Vehicle.BatteryStatus.ChargeState.WATING_FOR_PLANNED_CHARGE
                     )
-
-
     }
 
     class Holder : KotlinEpoxyHolder() {
@@ -66,4 +64,3 @@ abstract class ChargeWidgetModel : EpoxyModelWithHolder<ChargeWidgetModel.Holder
         val chargeNowButton by bind<Button>(R.id.charge_now_button)
     }
 }
-

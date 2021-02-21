@@ -30,7 +30,6 @@ interface HvacScheduleService {
         @Body kamereonPostBody: KamereonPostBody
     ): ResponseBody
 
-
     @Headers("Content-Type: application/vnd.api+json")
     @POST("accounts/{accountId}/kamereon/kca/car-adapter/v1/cars/{vin}/actions/hvac-mode?country=AT")
     suspend fun setChargeMode(
@@ -38,5 +37,4 @@ interface HvacScheduleService {
         @Path("vin") vin: String,
         @Body kamereonPostBody: KamereonPostBody
     ): ResponseBody
-
 }

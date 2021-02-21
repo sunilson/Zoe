@@ -30,7 +30,6 @@ class CustomBackupAgent : BackupAgent() {
         Log.d("Linus", newState.toString())
     }
 
-
     override fun onBackup(
         oldState: ParcelFileDescriptor?,
         data: BackupDataOutput?,
@@ -40,6 +39,7 @@ class CustomBackupAgent : BackupAgent() {
         Log.d("Linus", data.toString())
         Log.d("Linus", newState.toString())
     }
+
     override fun onFullBackup(data: FullBackupDataOutput?) {
         super.onFullBackup(data)
         Log.d("Linus", data.toString())

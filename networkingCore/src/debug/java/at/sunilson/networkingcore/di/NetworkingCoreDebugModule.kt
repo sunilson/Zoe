@@ -29,5 +29,4 @@ object NetworkingCoreDebugModule {
     @IntoSet
     fun provideFlipperInterceptor(networkFlipperPlugin: NetworkFlipperPlugin): Interceptor =
         FlipperOkhttpInterceptor(networkFlipperPlugin)
-
 }

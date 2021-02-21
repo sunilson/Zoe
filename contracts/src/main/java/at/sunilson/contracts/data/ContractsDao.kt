@@ -25,5 +25,4 @@ internal interface ContractsDao {
 
     @Query("SELECT * FROM DatabaseContract WHERE vin = :vin")
     fun getAllContracts(vin: String): Flow<List<DatabaseContract>>
-
 }

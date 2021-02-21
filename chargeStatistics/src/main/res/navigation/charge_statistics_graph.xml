@@ -15,9 +15,8 @@
 
         <argument
                 android:name="manage"
-                app:argType="boolean"
                 android:defaultValue="false"
-                />
+                app:argType="boolean" />
 
         <argument
                 android:name="vin"
