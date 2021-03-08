@@ -1,3 +1,5 @@
 -keepnames class androidx.navigation.fragment.NavHostFragment
 -keep class com.google.android.libraries.maps.** { *; }
 -keep interface com.google.android.libraries.maps.** { *; }
+-keepattributes SourceFile,LineNumberTable
+-keep public class * extends java.lang.Exception
