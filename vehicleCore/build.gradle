@@ -21,6 +21,8 @@ dependencies {
     implementation(Dependencies.hilt)
     implementation(Dependencies.room)
     implementation(Dependencies.roomCoroutines)
+    implementation platform('com.google.firebase:firebase-bom:25.12.0')
+    api('com.google.firebase:firebase-crashlytics-ktx')
     kapt(Dependencies.moshiKapt)
     kapt(Dependencies.hiltKapt)
     kapt(Dependencies.hiltKaptJetpack)
