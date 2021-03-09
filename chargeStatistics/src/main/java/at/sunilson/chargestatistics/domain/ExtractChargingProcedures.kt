@@ -26,9 +26,6 @@ internal class ExtractChargingProcedures @Inject constructor() :
                 }
 
                 val prevBatteryLevel = prev.batteryStatus.batteryLevel
-                val currentBatteryLevel = currentStartTrackingPoint!!.batteryStatus.batteryLevel
-                val currentAvailableEnergy =
-                    currentStartTrackingPoint!!.batteryStatus.availableEnery
                 val availableEnergy = cp.batteryStatus.availableEnery
                 val batteryLevel = cp.batteryStatus.batteryLevel
                 val isCharging = cp.batteryStatus.chargeState == CHARGING
@@ -37,6 +34,11 @@ internal class ExtractChargingProcedures @Inject constructor() :
 
                 if (chargingProcedureOnGoing) {
                     if (!batteryLevelIncreased && !isCharging) {
+                        val currentBatteryLevel =
+                            currentStartTrackingPoint!!.batteryStatus.batteryLevel
+                        val currentAvailableEnergy =
+                            currentStartTrackingPoint!!.batteryStatus.availableEnery
+
                         // Stop and save procedure
                         result.add(
                             ChargingProcedure(

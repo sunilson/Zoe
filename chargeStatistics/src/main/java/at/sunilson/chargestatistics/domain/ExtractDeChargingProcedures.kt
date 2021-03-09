@@ -23,14 +23,14 @@ internal class ExtractDeChargingProcedures @Inject constructor() :
                     previousTrackingPoint!!
                 }
 
-                val currentAvailableEnergy =
-                    currentStartTrackingPoint!!.batteryStatus.availableEnery
                 val deChargingProcedureOnGoing = currentStartTrackingPoint != null
                 val batteryLevelDecreased =
                     prev.batteryStatus.batteryLevel > chargeTrackingPoint.batteryStatus.batteryLevel
 
                 if (deChargingProcedureOnGoing) {
                     if (!batteryLevelDecreased) {
+                        val currentAvailableEnergy =
+                            currentStartTrackingPoint!!.batteryStatus.availableEnery
                         // Stop and save procedure
                         result.add(
                             DeChargingProcedure(
