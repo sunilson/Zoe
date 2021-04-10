@@ -17,15 +17,4 @@ internal class ChargeScheduleOverviewFragment : ScheduleFragment() {
     override val viewModel by viewModels<ChargeScheduleOverviewViewModel>()
     override val vin: String
         get() = args.vin
-
-    override fun onResume() {
-        super.onResume()
-        useLightStatusBarIcons(requireContext().nightMode)
-        setStatusBarColor(android.R.color.transparent)
-        if (requireContext().nightMode) {
-            setNavigationBarThemeColor(R.attr.colorSurface)
-        } else {
-            setNavigationBarColor(android.R.color.white)
-        }
-    }
 }

@@ -19,15 +19,4 @@ internal class HvacScheduleOverviewFragment : ScheduleFragment() {
         get() = args.vin
     override val viewModel by viewModels<HvacScheduleViewModel>()
     override val isHvac: Boolean = true
-
-    override fun onResume() {
-        super.onResume()
-        useLightStatusBarIcons(requireContext().nightMode)
-        setStatusBarColor(android.R.color.transparent)
-        if (requireContext().nightMode) {
-            setNavigationBarThemeColor(R.attr.colorSurface)
-        } else {
-            setNavigationBarColor(android.R.color.white)
-        }
-    }
 }
