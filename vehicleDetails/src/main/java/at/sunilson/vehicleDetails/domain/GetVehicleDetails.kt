@@ -22,7 +22,7 @@ internal class GetVehicleDetails @Inject constructor(
                 val entities = databaseDetails
                     ?.vehicleDetails
                     ?.toMutableList()
-                    ?: listOf<VehicleDetailsEntry>()
+                    ?: listOf()
 
                 val informationEntries =
                     entities.filterIsInstance<VehicleDetailsEntry.Information>()

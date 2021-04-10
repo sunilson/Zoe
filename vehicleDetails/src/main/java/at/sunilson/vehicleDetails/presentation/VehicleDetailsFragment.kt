@@ -36,6 +36,7 @@ import com.airbnb.epoxy.EpoxyController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.Insetter
 import dev.chrisbanes.insetter.Side
+import dev.chrisbanes.insetter.windowInsetTypesOf
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
@@ -110,11 +111,12 @@ internal class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_detai
     private fun setupMotionLayout() {
         Insetter
             .builder()
-            .applySystemWindowInsetsToPadding(Side.TOP)
+            .padding(windowInsetTypesOf(statusBars = true))
             .applyToView(binding.topContainer)
+
         Insetter
             .builder()
-            .applySystemWindowInsetsToPadding(Side.BOTTOM)
+            .padding(windowInsetTypesOf(statusBars = true))
             .applyToView(binding.refreshLayout)
 
         binding.topContainer.setTransitionListener(object : MotionLayout.TransitionListener {
