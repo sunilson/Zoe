@@ -121,7 +121,7 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
                         .connections
                         .joinToString("\n") { "\u2022 ${it.maxKW} - ${it.quantity}" }
                     binding.address.text = chargingStation.address
-                    //binding.freeSpaces.text = "Freie Plätze: ${chargingStation.availableSpots}"
+                    // binding.freeSpaces.text = "Freie Plätze: ${chargingStation.availableSpots}"
                     return binding.root
                 }
             })

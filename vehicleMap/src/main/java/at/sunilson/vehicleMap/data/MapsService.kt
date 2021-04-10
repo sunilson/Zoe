@@ -5,7 +5,6 @@ import at.sunilson.vehicleMap.data.models.ChargingStationsResponse
 import at.sunilson.vehicleMap.data.models.ReachableAreaPostBody
 import at.sunilson.vehicleMap.data.models.ReachableAreaResponse
 import at.sunilson.vehicleMap.data.models.WeatherResponse
-import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST

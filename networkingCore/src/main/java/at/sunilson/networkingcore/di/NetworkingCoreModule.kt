@@ -7,7 +7,6 @@ import dagger.hilt.android.components.ApplicationComponent
 import dagger.multibindings.ElementsIntoSet
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import java.util.concurrent.TimeUnit
 import javax.inject.Named
 
 @InstallIn(ApplicationComponent::class)
