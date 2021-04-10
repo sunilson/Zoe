@@ -35,7 +35,6 @@ import at.sunilson.vehiclecore.domain.VehicleCoreRepository
 import com.airbnb.epoxy.EpoxyController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.Insetter
-import dev.chrisbanes.insetter.Side
 import dev.chrisbanes.insetter.windowInsetTypesOf
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
