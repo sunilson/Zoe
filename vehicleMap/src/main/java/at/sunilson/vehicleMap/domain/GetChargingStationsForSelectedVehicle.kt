@@ -40,11 +40,12 @@ internal class GetChargingStationsForSelectedVehicle @Inject constructor(
                 previousRadius = params
             }
 
-            val result = mapsService.getChargingStations(
-                location.lat,
-                location.lng,
-                radius
-            ).map { it.toEntity() }.filter { it.location != null && it.type == "charging spot" }
+            val result = mapsService.getChargingStations(location.lat, location.lng, radius)
+                .map { it.toEntity() }
+                .filter { chargingLocation ->
+                    chargingLocation.location != null
+                            && chargingLocation.connections.none { connection -> !connection.operational }
+                }
 
             previousResult = result
             result

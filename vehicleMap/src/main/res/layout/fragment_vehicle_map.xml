@@ -71,7 +71,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:backgroundTint="?colorPrimary"
+            android:backgroundTint="?colorVehicleBackground"
             android:textColor="@color/white"
             app:icon="@drawable/ic_baseline_refresh_24"
             app:iconTint="?colorSurface"

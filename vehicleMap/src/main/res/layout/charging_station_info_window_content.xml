@@ -4,6 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="?colorSurface"
         android:orientation="vertical"
         android:padding="20dp">
 
@@ -42,43 +43,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="@string/opening_times"
+            android:text="@string/connections"
             android:textStyle="bold" />
 
     <TextView
-            android:id="@+id/opening_times"
-            style="?textAppearanceBody2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:text="Montag: 00:00 - 24:00 \nDienstag: 00:00 - 24:00 \nMittwoch: 00:00 - 24:00 \nDonnerstag: 00:00 - 24:00 \nFreitag: 00:00 - 24:00 \nSamstag: 00:00 - 24:00  \nSonntag: 00:00 - 24:00 " />
-
-
-    <TextView
-            style="?textAppearanceSubtitle2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="@string/payment_methods"
-            android:textStyle="bold" />
-
-    <TextView
-            android:id="@+id/payment_modes"
+            android:id="@+id/connections"
             style="?textAppearanceBody2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:text="\u2022 operator contract \n\u2022 credit card" />
 
-    <TextView
-            style="?textAppearanceSubtitle2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="@string/charging_modes"
-            android:textStyle="bold" />
-
-    <TextView
-            style="?textAppearanceBody2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Coming soon..." />
 </LinearLayout>

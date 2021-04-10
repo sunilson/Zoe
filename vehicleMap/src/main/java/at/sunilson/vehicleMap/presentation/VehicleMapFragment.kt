@@ -21,7 +21,6 @@ import at.sunilson.ktx.fragment.useLightNavigationBarIcons
 import at.sunilson.ktx.fragment.useLightStatusBarIcons
 import at.sunilson.presentationcore.base.viewBinding
 import at.sunilson.presentationcore.extensions.formatFull
-import at.sunilson.presentationcore.extensions.formatPattern
 import at.sunilson.presentationcore.extensions.getThemeColor
 import at.sunilson.vehicleMap.R
 import at.sunilson.vehicleMap.databinding.ChargingStationInfoWindowContentBinding
@@ -47,7 +46,7 @@ import com.google.android.libraries.maps.model.StrokeStyle
 import com.google.android.libraries.maps.model.StyleSpan
 import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
-import dev.chrisbanes.insetter.applySystemWindowInsetsToMargin
+import dev.chrisbanes.insetter.applyInsetter
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
@@ -85,8 +84,12 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
 
         binding.refreshFab.setOnClickListener { viewModel.refreshPosition(args.vin) }
 
-        binding.refreshFab.applySystemWindowInsetsToMargin(bottom = true)
-        binding.backButton.applySystemWindowInsetsToMargin(top = true)
+        binding.refreshFab.applyInsetter {
+            type(statusBars = true, navigationBars = true) { margin() }
+        }
+        binding.backButton.applyInsetter {
+            type(statusBars = true, navigationBars = true) { margin() }
+        }
         binding.chargingStationButton.setOnClickListener { viewModel.toggleChargingStations() }
         binding.centerAreaButton.setOnClickListener { centerReachableArea() }
         binding.centerCarButton.setOnClickListener { centerCar() }
@@ -113,17 +116,12 @@ class VehicleMapFragment : Fragment(R.layout.fragment_vehicle_map) {
                             ?: return null
                     val binding =
                         ChargingStationInfoWindowContentBinding.inflate(layoutInflater, null, false)
-                    binding.name.text = chargingStation.name
-                    binding.freeSpaces.text = "Freie Plätze: ${chargingStation.availableSpots}"
+                    binding.name.text = chargingStation.operator
+                    binding.connections.text = chargingStation
+                        .connections
+                        .joinToString("\n") { "\u2022 ${it.maxKW} - ${it.quantity}" }
                     binding.address.text = chargingStation.address
-                    binding.openingTimes.text = chargingStation
-                        .openingTimes
-                        .joinToString("") { "${it.dayOfWeek.formatPattern("EEEE")}: ${it.startTime} - ${it.endTime}\n" }
-                        .trim()
-                    binding.paymentModes.text = chargingStation
-                        .paymentModes
-                        .joinToString("") { "\u2022 $it\n" }
-                        .trim()
+                    //binding.freeSpaces.text = "Freie Plätze: ${chargingStation.availableSpots}"
                     return binding.root
                 }
             })

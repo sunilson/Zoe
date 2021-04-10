@@ -4,18 +4,17 @@ import com.google.android.libraries.maps.model.LatLng
 import java.time.DayOfWeek
 
 internal data class ChargingStation(
-    val id: String,
-    val name: String,
-    val type: String,
+    val id: Int,
+    val operator: String,
     val address: String,
-    val powerLevels: List<Float>,
-    val plugs: List<String>,
-    val paymentInfo: String,
-    val paymentModes: List<String>,
-    val availableSpots: Int,
-    val usabilityStatus: String,
-    val openingTimes: List<OpeningTime>,
+    val connections: List<Connection>,
     val location: LatLng?
+)
+
+internal data class Connection(
+    val maxKW: Int,
+    val quantity: Int,
+    val operational: Boolean
 )
 
 internal data class OpeningTime(

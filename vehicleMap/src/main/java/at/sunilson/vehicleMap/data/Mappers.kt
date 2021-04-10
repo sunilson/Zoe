@@ -2,33 +2,19 @@ package at.sunilson.vehicleMap.data
 
 import at.sunilson.vehicleMap.data.models.ChargingStationsResponse
 import at.sunilson.vehicleMap.domain.entities.ChargingStation
+import at.sunilson.vehicleMap.domain.entities.Connection
 import at.sunilson.vehicleMap.domain.entities.OpeningTime
 import com.google.android.libraries.maps.model.LatLng
 import java.time.DayOfWeek
 
 internal fun ChargingStationsResponse.toEntity() = ChargingStation(
-    id,
-    name,
-    type,
-    address.run {
-        """
-          $streetName $streetNumber
-          $city $postCode
-          $country
-      """.trimIndent()
-    },
-    powerLevels,
-    plugs,
-    payment.info,
-    payment.paymentModes,
-    availabilityStatus.availableSpotsNumber,
-    availabilityStatus.usabilityStatus,
-    openingTime.map {
-        OpeningTime(
-            DayOfWeek.of(it.dayOfWeek),
-            it.startTime,
-            it.endTime
-        )
-    },
-    if (latitude != null && longitude != null) LatLng(latitude, longitude) else null
+    id = iD,
+    operator = operatorInfo.title,
+    address = """
+        ${addressInfo.title}
+        ${addressInfo.addressLine1}
+        ${addressInfo.postcode} ${addressInfo.town} ${addressInfo.country.iSOCode}
+    """.trimIndent(),
+    location = LatLng(addressInfo.latitude, addressInfo.longitude),
+    connections = connections.map { Connection(it.powerKW, it.quantity, it.statusType.isOperational) }
 )

@@ -26,7 +26,6 @@ object NetworkingCoreModule {
         .Builder()
         .apply {
             interceptors.forEach { addInterceptor(it) }
-            callTimeout(30, TimeUnit.SECONDS)
         }
         .build()
 }

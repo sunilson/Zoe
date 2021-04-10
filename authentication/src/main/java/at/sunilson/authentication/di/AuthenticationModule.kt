@@ -43,7 +43,6 @@ object AuthenticationModule {
         .Builder()
         .apply {
             interceptors.forEach { addInterceptor(it) }
-            callTimeout(30, TimeUnit.SECONDS)
             addInterceptor(authenticationInterceptor)
         }
         .build()

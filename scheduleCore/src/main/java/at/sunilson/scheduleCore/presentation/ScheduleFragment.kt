@@ -24,7 +24,7 @@ import at.sunilson.scheduleCore.domain.entities.Schedule
 import at.sunilson.scheduleCore.domain.entities.ScheduleType
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.chrisbanes.insetter.Insetter
-import dev.chrisbanes.insetter.Side
+import dev.chrisbanes.insetter.windowInsetTypesOf
 import jp.wasabeef.recyclerview.animators.ScaleInAnimator
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
@@ -38,13 +38,13 @@ abstract class ScheduleFragment : Fragment(R.layout.fragment_schedule_overview) 
 
     override fun onResume() {
         super.onResume()
-        useLightStatusBarIcons(requireContext().nightMode)
         setStatusBarColor(android.R.color.transparent)
         if (requireContext().nightMode) {
             setNavigationBarThemeColor(R.attr.colorSurface)
         } else {
             setNavigationBarColor(android.R.color.white)
         }
+        useLightStatusBarIcons(requireContext().nightMode)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -57,7 +57,7 @@ abstract class ScheduleFragment : Fragment(R.layout.fragment_schedule_overview) 
 
         Insetter
             .builder()
-            .applySystemWindowInsetsToPadding(Side.TOP)
+            .padding(windowInsetTypesOf(statusBars = true))
             .applyToView(binding.headerContainer)
 
         binding.swipeRefreshLayout.setOnRefreshListener { viewModel.refreshSchedules(vin) }
