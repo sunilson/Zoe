@@ -2,7 +2,7 @@ package at.sunilson.vehicleDetails.presentation
 
 import android.os.Bundle
 import android.view.View
-import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -71,7 +71,9 @@ internal class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_detai
         observeState()
         observeSideEffects()
 
-        setupMotionLayout()
+        setupInsets()
+        binding.searchButton.setOnClickListener { viewModel.searchButtonClicked() }
+        binding.cancelButton.setOnClickListener { viewModel.searchButtonClicked() }
         binding.backButton.setOnClickListener { findNavController().navigateUp() }
         binding.searchInput.doAfterTextChanged { viewModel.searchQueryEntered(it.toString()) }
         binding.refreshLayout.setOnRefreshListener { viewModel.refreshDetailsRequested(args.vin) }
@@ -97,17 +99,33 @@ internal class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_detai
     }
 
     private fun observeState() {
+        var previousShowSearch = false
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            viewModel.container.stateFlow.collect {
-                binding.refreshLayout.isRefreshing = it.loading
+            viewModel.container.stateFlow.collect { state ->
+
+                binding.searchInputLayout.isVisible = state.showSearch
+                binding.cancelButton.isVisible = state.showSearch
+                binding.searchButton.isVisible = !state.showSearch
+                binding.headline.isVisible = !state.showSearch
+
+                if (state.showSearch && !previousShowSearch) {
+                    binding.searchInput.requestFocus()
+                    binding.searchInput.showKeyboard()
+                } else {
+                    binding.searchInput.clearFocus()
+                    binding.searchInput.hideKeyboard()
+                }
+                previousShowSearch = state.showSearch
+
+                binding.refreshLayout.isRefreshing = state.loading
                 binding.recyclerView.withModels {
-                    renderDetailItems(it.details, it.searchedIndex)
+                    renderDetailItems(state.details, state.searchedIndex)
                 }
             }
         }
     }
 
-    private fun setupMotionLayout() {
+    private fun setupInsets() {
         Insetter
             .builder()
             .padding(windowInsetTypesOf(statusBars = true))
@@ -117,40 +135,6 @@ internal class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_detai
             .builder()
             .padding(windowInsetTypesOf(statusBars = true))
             .applyToView(binding.refreshLayout)
-
-        binding.topContainer.setTransitionListener(object : MotionLayout.TransitionListener {
-            override fun onTransitionChange(
-                p0: MotionLayout?,
-                start: Int,
-                end: Int,
-                progress: Float
-            ) {
-                binding.searchInput.isEnabled = progress >= 0.5f
-                binding.searchButton.setImageResource(
-                    if (progress >= 0.5f) {
-                        R.drawable.ic_baseline_close_24
-                    } else {
-                        R.drawable.ic_baseline_search_24
-                    }
-                )
-            }
-
-            override fun onTransitionCompleted(p0: MotionLayout?, newId: Int) {
-                if (newId == R.id.end) {
-                    binding.searchInput.requestFocus()
-                    binding.searchInput.showKeyboard()
-                } else {
-                    binding.searchInput.clearFocus()
-                    binding.searchInput.hideKeyboard()
-                }
-            }
-
-            override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
-            }
-
-            override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {
-            }
-        })
     }
 
     private fun EpoxyController.renderDetailItems(

@@ -15,6 +15,7 @@ import timber.log.Timber
 
 internal data class VehicleDetailsState(
     val loading: Boolean = false,
+    val showSearch: Boolean = false,
     val details: List<VehicleDetailsEntry> = listOf(),
     val searchedIndex: Int = -1
 )
@@ -46,6 +47,10 @@ internal class VehicleDetailsViewModel @ViewModelInject constructor(
             { Timber.e(it) }
         )
         reduce { state.copy(loading = false) }
+    }
+
+    fun searchButtonClicked() = intent {
+        reduce { state.copy(showSearch = !state.showSearch) }
     }
 
     fun searchQueryEntered(query: String) = intent {
