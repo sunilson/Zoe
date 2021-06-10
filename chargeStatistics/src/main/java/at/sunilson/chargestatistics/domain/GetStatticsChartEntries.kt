@@ -20,12 +20,14 @@ internal class GetStatticsChartEntries @Inject constructor(
     private val getAverageChargePerCharge: GetAverageChargePerCharge,
     private val getAverageEnergyPerDay: GetAverageEnergyPerDay,
     private val getMostVisitedLocation: GetMostVisitedLocation,
-    private val getEnergyPerMonth: GetEnergyPerMonth
+    private val getEnergyPerMonth: GetEnergyPerMonth,
+    private val getAverageMileageTotal: GetAverageMileageTotal
 ) : FlowUseCase<List<Statistic>, String>() {
     @ExperimentalCoroutinesApi
     override fun run(params: String) = getAllChargeTrackingPoints(params)
         .map { chargeTrackingPoints ->
             doParallelWithResult(
+                { getAverageMileageTotal(chargeTrackingPoints).getOrNull() },
                 { getMileageChartEntries(chargeTrackingPoints).getOrNull() },
                 { getBatterylevelChartEntries(chargeTrackingPoints).getOrNull() },
                 { getMileagePerMonthEntries(chargeTrackingPoints).getOrNull() },
