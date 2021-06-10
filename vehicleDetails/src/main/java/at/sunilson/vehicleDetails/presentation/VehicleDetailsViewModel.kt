@@ -1,10 +1,10 @@
 package at.sunilson.vehicleDetails.presentation
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import at.sunilson.vehicleDetails.domain.GetVehicleDetails
 import at.sunilson.vehicleDetails.domain.RefreshVehicleDetails
 import at.sunilson.vehicleDetails.domain.entities.VehicleDetailsEntry
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -12,6 +12,7 @@ import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
 import timber.log.Timber
+import javax.inject.Inject
 
 internal data class VehicleDetailsState(
     val loading: Boolean = false,
@@ -25,7 +26,8 @@ internal sealed class VehicleDetailsSideEffects {
     data class ScrollToPosition(val position: Int) : VehicleDetailsSideEffects()
 }
 
-internal class VehicleDetailsViewModel @ViewModelInject constructor(
+@HiltViewModel
+internal class VehicleDetailsViewModel @Inject constructor(
     private val refreshVehicleDetails: RefreshVehicleDetails,
     private val getVehicleDetails: GetVehicleDetails
 ) : ViewModel(), ContainerHost<VehicleDetailsState, VehicleDetailsSideEffects> {

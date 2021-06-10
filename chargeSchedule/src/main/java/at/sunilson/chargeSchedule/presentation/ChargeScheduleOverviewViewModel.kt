@@ -1,6 +1,5 @@
 package at.sunilson.chargeSchedule.presentation
 
-import androidx.hilt.lifecycle.ViewModelInject
 import at.sunilson.chargeSchedule.domain.GetAllChargeSchedules
 import at.sunilson.chargeSchedule.domain.RefreshAllChargeSchedules
 import at.sunilson.chargeSchedule.domain.SetChargeMode
@@ -10,8 +9,11 @@ import at.sunilson.chargeSchedule.domain.UpdateChargeScheduleParams
 import at.sunilson.scheduleCore.domain.entities.Schedule
 import at.sunilson.scheduleCore.domain.entities.ScheduleType
 import at.sunilson.scheduleCore.presentation.SchedulesViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-internal class ChargeScheduleOverviewViewModel @ViewModelInject constructor(
+@HiltViewModel
+internal class ChargeScheduleOverviewViewModel @Inject constructor(
     private val getAllChargeSchedules: GetAllChargeSchedules,
     private val refreshAllChargeSchedules: RefreshAllChargeSchedules,
     private val setChargeMode: SetChargeMode,

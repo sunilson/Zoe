@@ -21,7 +21,6 @@ dependencies {
     api(Dependencies.lifecycleLiveData)
     api(Dependencies.constraintlayout)
     api(Dependencies.material)
-    api(Dependencies.hiltViewModel)
     api(Dependencies.orbit)
     api(Dependencies.orbitViewModel)
     api(Dependencies.orbitCoroutines)

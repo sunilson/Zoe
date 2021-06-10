@@ -1,21 +1,24 @@
 package at.sunilson.chargestatistics.presentation.manage
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import at.sunilson.chargestatistics.domain.GetVehiclesWithTrackerInfo
 import at.sunilson.chargestatistics.domain.entities.VehicleChargeTrackingInfo
 import at.sunilson.chargetracking.domain.StartChargeTracking
 import at.sunilson.chargetracking.domain.StopChargeTracking
+import dagger.hilt.android.lifecycle.HiltViewModel
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.coroutines.transformFlow
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.strict.orbit
 import org.orbitmvi.orbit.syntax.strict.reduce
 import org.orbitmvi.orbit.viewmodel.container
+import javax.inject.Inject
 
 data class ManageState(val trackingInfos: List<VehicleChargeTrackingInfo> = listOf())
 sealed class ManageEvent
-internal class ManageViewModel @ViewModelInject constructor(
+
+@HiltViewModel
+internal class ManageViewModel @Inject constructor(
     private val getVehiclesWithTrackerInfo: GetVehiclesWithTrackerInfo,
     private val startChargeTracking: StartChargeTracking,
     private val stopChargeTracking: StopChargeTracking

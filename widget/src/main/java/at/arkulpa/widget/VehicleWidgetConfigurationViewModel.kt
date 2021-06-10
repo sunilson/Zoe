@@ -1,23 +1,25 @@
 package at.arkulpa.widget
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import at.arkulpa.widget.domain.SelectVehicleForWidget
 import at.arkulpa.widget.domain.SelectVehicleForWidgetParams
 import at.sunilson.vehiclecore.domain.GetAllVehicles
 import at.sunilson.vehiclecore.domain.entities.Vehicle
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
+import javax.inject.Inject
 
 data class VehicleWidgetState(val vehicles: List<Vehicle> = listOf())
 sealed class VehicleWidgetSideEffects
 
-internal class VehicleWidgetConfigurationViewModel @ViewModelInject constructor(
+@HiltViewModel
+internal class VehicleWidgetConfigurationViewModel @Inject constructor(
     private val getAllVehicles: GetAllVehicles,
     private val selectVehicleForWidget: SelectVehicleForWidget
 ) : ViewModel(), ContainerHost<VehicleWidgetState, VehicleWidgetSideEffects> {

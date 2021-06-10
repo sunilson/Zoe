@@ -1,6 +1,8 @@
 package at.sunilson.settings.presentation.settingsOverview
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class SettingsOverviewViewModel @ViewModelInject constructor() : ViewModel()
+@HiltViewModel
+class SettingsOverviewViewModel @Inject constructor() : ViewModel()

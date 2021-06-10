@@ -1,10 +1,10 @@
 package at.sunilson.appointments.presentation.history
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import at.sunilson.appointments.domain.GetAllServices
 import at.sunilson.appointments.domain.RefreshServiceHistory
 import at.sunilson.appointments.domain.entities.Service
+import dagger.hilt.android.lifecycle.HiltViewModel
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.coroutines.transformFlow
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -12,6 +12,7 @@ import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.syntax.strict.orbit
 import org.orbitmvi.orbit.syntax.strict.reduce
 import org.orbitmvi.orbit.viewmodel.container
+import javax.inject.Inject
 
 internal data class HistoryState(
     val loading: Boolean = false,
@@ -20,7 +21,8 @@ internal data class HistoryState(
 
 internal sealed class HistorySideEffects
 
-internal class HistoryViewModel @ViewModelInject constructor(
+@HiltViewModel
+internal class HistoryViewModel @Inject constructor(
     private val refreshServiceHistory: RefreshServiceHistory,
     private val getAllServices: GetAllServices
 ) : ViewModel(), ContainerHost<HistoryState, HistorySideEffects> {

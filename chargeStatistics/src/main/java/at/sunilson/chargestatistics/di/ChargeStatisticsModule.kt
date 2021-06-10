@@ -5,12 +5,12 @@ import android.location.Geocoder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.*
 
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 object ChargeStatisticsModule {
     @Provides
     fun provideGeocoder(@ApplicationContext context: Context) =

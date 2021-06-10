@@ -1,19 +1,21 @@
 package at.sunilson.chargetracking.workmanager
 
 import android.content.Context
-import androidx.hilt.Assisted
-import androidx.hilt.work.WorkerInject
+import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import at.arkulpa.notifications.domain.CheckNotifications
 import at.arkulpa.notifications.domain.entities.CheckNotificationsParams
 import at.sunilson.chargetracking.domain.TrackVehicleChargeState
 import com.github.kittinunf.result.failure
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
-class ChargeTrackingWorker @WorkerInject constructor(
+@HiltWorker
+class ChargeTrackingWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted private val params: WorkerParameters,
     private val trackVehicleChargeState: TrackVehicleChargeState,

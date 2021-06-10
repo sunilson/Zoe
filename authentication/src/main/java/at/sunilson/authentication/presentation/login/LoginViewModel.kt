@@ -1,14 +1,15 @@
 package at.sunilson.authentication.presentation.login
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import at.sunilson.authentication.domain.LoginUseCase
 import at.sunilson.authentication.domain.entities.LoginParams
+import dagger.hilt.android.lifecycle.HiltViewModel
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.viewmodel.container
 import timber.log.Timber
+import javax.inject.Inject
 
 class LoginState
 sealed class LoginSideEffects {
@@ -16,7 +17,8 @@ sealed class LoginSideEffects {
     object LoginFailure : LoginSideEffects()
 }
 
-internal class LoginViewModel @ViewModelInject constructor(private val loginUseCase: LoginUseCase) :
+@HiltViewModel
+internal class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase) :
     ContainerHost<LoginState, LoginSideEffects>, ViewModel() {
 
     override val container = container<LoginState, LoginSideEffects>(LoginState())

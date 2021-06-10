@@ -1,6 +1,5 @@
 package at.sunilson.vehicleMap.presentation
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import at.sunilson.core.extensions.doOnFailure
 import at.sunilson.vehicleMap.domain.GetChargingStationsForSelectedVehicle
@@ -11,6 +10,7 @@ import at.sunilson.vehicleMap.domain.entities.ChargingStation
 import at.sunilson.vehicleMap.domain.entities.ReachableArea
 import at.sunilson.vehiclecore.domain.GetSelectedVehicle
 import at.sunilson.vehiclecore.domain.entities.Location
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.orbitmvi.orbit.ContainerHost
@@ -21,6 +21,7 @@ import org.orbitmvi.orbit.syntax.strict.orbit
 import org.orbitmvi.orbit.syntax.strict.reduce
 import org.orbitmvi.orbit.viewmodel.container
 import timber.log.Timber
+import javax.inject.Inject
 
 internal data class VehicleMapState(
     val location: Location? = null,
@@ -32,7 +33,8 @@ internal data class VehicleMapState(
 
 internal class VehicleMapSideEffects
 
-internal class VehicleMapViewModel @ViewModelInject constructor(
+@HiltViewModel
+internal class VehicleMapViewModel @Inject constructor(
     private val refreshVehicleLocation: RefreshVehicleLocation,
     private val getSelectedVehicle: GetSelectedVehicle,
     private val getVehicleLocations: GetVehicleLocations,

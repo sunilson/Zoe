@@ -1,7 +1,6 @@
 package at.sunilson.vehicle.presentation.vehicleOverview
 
 import android.graphics.Bitmap
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import at.sunilson.appointments.domain.GetNearestAppointment
@@ -16,6 +15,7 @@ import at.sunilson.vehicle.domain.StopHVAC
 import at.sunilson.vehicle.domain.entities.ChargeProcedure
 import at.sunilson.vehiclecore.domain.GetSelectedVehicle
 import at.sunilson.vehiclecore.domain.entities.Vehicle
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -25,6 +25,7 @@ import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
 import timber.log.Timber
+import javax.inject.Inject
 
 data class VehicleOverviewState(
     val loading: Boolean = false,
@@ -50,7 +51,8 @@ sealed class VehicleOverviewSideEffects {
 }
 
 @Suppress("LongParameterList")
-internal class VehicleOverviewViewModel @ViewModelInject constructor(
+@HiltViewModel
+internal class VehicleOverviewViewModel @Inject constructor(
     private val getSelectedVehicle: GetSelectedVehicle,
     private val refreshAllVehicles: RefreshAllVehicles,
     private val startChargingUseCase: StartCharging,

@@ -1,6 +1,5 @@
 package at.sunilson.appointments.presentation.appointments
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import at.sunilson.appointments.domain.ChangeVehicleAnnualMileage
@@ -9,6 +8,7 @@ import at.sunilson.appointments.domain.RefreshAppointments
 import at.sunilson.appointments.domain.entities.Appointment
 import at.sunilson.appointments.domain.entities.ChangeVehicleMileageParams
 import at.sunilson.vehiclecore.domain.GetSelectedVehicle
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -18,6 +18,7 @@ import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
 import timber.log.Timber
+import javax.inject.Inject
 
 internal data class AppointmentsState(
     val loading: Boolean = false,
@@ -30,7 +31,8 @@ internal sealed class AppointmentsSideEffects {
     object RequestFailed : AppointmentsSideEffects()
 }
 
-internal class AppointmentsViewModel @ViewModelInject constructor(
+@HiltViewModel
+internal class AppointmentsViewModel @Inject constructor(
     private val refreshAppointmentsUseCase: RefreshAppointments,
     private val getAllAppointments: GetAllAppointments,
     private val changeVehicleAnnualMileage: ChangeVehicleAnnualMileage,

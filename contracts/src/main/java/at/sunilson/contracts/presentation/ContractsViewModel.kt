@@ -1,11 +1,11 @@
 package at.sunilson.contracts.presentation
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import at.sunilson.contracts.domain.GetAllContrats
 import at.sunilson.contracts.domain.RefreshContracts
 import at.sunilson.contracts.domain.entities.Contract
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -15,6 +15,7 @@ import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
 import timber.log.Timber
+import javax.inject.Inject
 
 internal data class ContractsState(
     val loading: Boolean = false,
@@ -25,7 +26,8 @@ internal sealed class ContractsSideEffects {
     internal object RequestFailed : ContractsSideEffects()
 }
 
-internal class ContractsViewModel @ViewModelInject constructor(
+@HiltViewModel
+internal class ContractsViewModel @Inject constructor(
     private val getAllContrats: GetAllContrats,
     private val refreshContracts: RefreshContracts
 ) : ViewModel(), ContainerHost<ContractsState, ContractsSideEffects> {

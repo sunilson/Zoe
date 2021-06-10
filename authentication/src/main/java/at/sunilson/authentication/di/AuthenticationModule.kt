@@ -10,7 +10,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -19,7 +19,7 @@ import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 abstract class AbstractAuthenticationModule {
 
     @Binds
@@ -28,7 +28,7 @@ abstract class AbstractAuthenticationModule {
 }
 
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 object AuthenticationModule {
 
     const val AUTHENTICATED_HTTP_CLIENT = "vehicleHttpClient"

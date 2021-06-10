@@ -1,6 +1,5 @@
 package at.sunilson.hvacschedule.presentation
 
-import androidx.hilt.lifecycle.ViewModelInject
 import at.sunilson.hvacschedule.domain.GetAllHvacSchedules
 import at.sunilson.hvacschedule.domain.RefreshAllHvacSchedules
 import at.sunilson.hvacschedule.domain.SetChargeMode
@@ -10,8 +9,11 @@ import at.sunilson.hvacschedule.domain.UpdateChargeScheduleParams
 import at.sunilson.scheduleCore.domain.entities.Schedule
 import at.sunilson.scheduleCore.domain.entities.ScheduleType
 import at.sunilson.scheduleCore.presentation.SchedulesViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-internal class HvacScheduleViewModel @ViewModelInject constructor(
+@HiltViewModel
+internal class HvacScheduleViewModel @Inject constructor(
     private val refreshAllHvacSchedules: RefreshAllHvacSchedules,
     private val getAllHvacSchedules: GetAllHvacSchedules,
     private val setChargeMode: SetChargeMode,

@@ -1,12 +1,12 @@
 package at.sunilson.vehicle.presentation.hvacStartDialog
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import at.sunilson.vehiclecore.domain.GetHVACInstantPreferences
 import at.sunilson.vehiclecore.domain.HVACPreferences
 import at.sunilson.vehiclecore.domain.SaveHVACInstantPreferences
 import at.sunilson.vehiclecore.domain.StartHVAC
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.ContainerHost
@@ -19,6 +19,7 @@ import org.orbitmvi.orbit.syntax.strict.reduce
 import org.orbitmvi.orbit.viewmodel.container
 import timber.log.Timber
 import java.time.LocalTime
+import javax.inject.Inject
 
 internal sealed class StartHVACEvent {
     object HVACStarted : StartHVACEvent()
@@ -27,7 +28,8 @@ internal sealed class StartHVACEvent {
 
 internal data class StartHVACState(val temperature: Float = 21f, val startTime: LocalTime? = null)
 
-internal class StartHVACViewModel @ViewModelInject constructor(
+@HiltViewModel
+internal class StartHVACViewModel @Inject constructor(
     private val saveHVACInstantPreferences: SaveHVACInstantPreferences,
     private val getHVACInstantPreferences: GetHVACInstantPreferences,
     private val startHVAC: StartHVAC
