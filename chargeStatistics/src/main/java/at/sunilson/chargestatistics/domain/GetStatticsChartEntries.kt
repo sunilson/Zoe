@@ -14,7 +14,7 @@ internal class GetStatticsChartEntries @Inject constructor(
     private val getAllChargeTrackingPoints: GetAllChargeTrackingPoints,
     private val getMileageChartEntries: GetMileageChartEntries,
     private val getBatterylevelChartEntries: GetBatterylevelChartEntries,
-    private val getMileagePerDayEntries: GetMileagePerDayEntries,
+    private val getMileagePerMonthEntries: GetMileagePerMonthEntries,
     private val getAverageMileagePerDay: GetAverageMileagePerDay,
     private val getMostChargedWeekday: GetMostChargedWeekday,
     private val getAverageChargePerCharge: GetAverageChargePerCharge,
@@ -28,7 +28,7 @@ internal class GetStatticsChartEntries @Inject constructor(
             doParallelWithResult(
                 { getMileageChartEntries(chargeTrackingPoints).getOrNull() },
                 { getBatterylevelChartEntries(chargeTrackingPoints).getOrNull() },
-                { getMileagePerDayEntries(chargeTrackingPoints).getOrNull() },
+                { getMileagePerMonthEntries(chargeTrackingPoints).getOrNull() },
                 { getAverageMileagePerDay(chargeTrackingPoints).getOrNull() },
                 { getAverageEnergyPerDay(chargeTrackingPoints).getOrNull() },
                 { getAverageChargePerCharge(chargeTrackingPoints).getOrNull() },

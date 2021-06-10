@@ -12,33 +12,38 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 import java.time.LocalDate
 import javax.inject.Inject
 
-internal class GetMileagePerDayEntries @Inject constructor() :
+internal class GetMileagePerMonthEntries @Inject constructor() :
     AsyncUseCase<Statistic.Chart.Bar?, List<ChargeTrackingPoint>>() {
     override suspend fun run(params: List<ChargeTrackingPoint>) =
         SuspendableResult.of<Statistic.Chart.Bar?, Exception> {
             var startDate: LocalDate? = null
-            val groupedEntries = params.groupBy { it.timestamp.toZonedDateTime().toLocalDate() }
+            val groupedEntries = params.groupBy {
+                val date = it.timestamp.toZonedDateTime().toLocalDate()
+                "${date.year}.${date.month}"
+            }
 
-            var dayIndex = 0
+            var monthIndex = 0f
             val entries = groupedEntries.map { (_, value) ->
-                val day = value.first().timestamp.toZonedDateTime()
-                if (startDate == null) startDate = day.toLocalDate()
+                if (startDate == null) {
+                    startDate = value.first().timestamp.toZonedDateTime().toLocalDate()
+                }
+
                 BarEntry(
-                    dayIndex.toFloat(),
+                    monthIndex,
                     when {
                         value.isEmpty() -> 0f
                         value.size == 1 -> 0f
                         else -> value.last().mileageKm.toFloat() - value.first().mileageKm.toFloat()
                     }
-                ).also { dayIndex++ }
+                ).also { monthIndex++ }
             }
 
             val result = Statistic.Chart.Bar(
-                "MileagePerDay",
+                "MileagePerMonth",
                 entries,
                 1f,
                 1f,
-                "Gefahrene Kilometer/Tag",
+                "Gefahrene Kilometer/Monat",
                 yValueFormatter = object : ValueFormatter() {
                     override fun getAxisLabel(value: Float, axis: AxisBase?): String {
                         return "${value.toInt()} km"
@@ -46,7 +51,7 @@ internal class GetMileagePerDayEntries @Inject constructor() :
                 },
                 xValueFormatter = object : ValueFormatter() {
                     override fun getFormattedValue(value: Float): String {
-                        return "${startDate?.plusDays(value.toLong())?.formatPattern("dd.MM.YY")}"
+                        return "${startDate?.plusMonths(value.toLong())?.formatPattern("MM.YY")}"
                     }
                 }
             )
