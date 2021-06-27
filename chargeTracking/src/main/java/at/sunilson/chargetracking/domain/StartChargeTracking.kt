@@ -1,9 +1,11 @@
 package at.sunilson.chargetracking.domain
 
+import android.annotation.SuppressLint
 import androidx.work.BackoffPolicy
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
+import androidx.work.OutOfQuotaPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
@@ -23,6 +25,7 @@ class StartChargeTracking @Inject constructor(private val workManager: WorkManag
     /**
      * @param params The id (probably VIN) of the vehicle to track
      */
+    @SuppressLint("UnsafeExperimentalUsageError")
     override fun run(params: String) = Result.of<Unit, Exception> {
         workManager.enqueueUniquePeriodicWork(
             params,
@@ -34,6 +37,7 @@ class StartChargeTracking @Inject constructor(private val workManager: WorkManag
                     Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
                 )
                 .addTag(CHARGE_TRACKER_TAG)
+                .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
                 .build()
         )
     }
