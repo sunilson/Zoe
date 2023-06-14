@@ -5,29 +5,30 @@ apply plugin: 'dagger.hilt.android.plugin'
 
 android {
     buildFeatures.viewBinding = true
+    namespace 'at.sunilson.core'
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api(Dependencies.kotlinStdLib)
-    api(Dependencies.coreKtx)
-    api(Dependencies.appcompat)
-    api(Dependencies.coroutines)
-    api(Dependencies.coroutinesReactive)
-    api(Dependencies.result)
-    api(Dependencies.resultCoroutines)
-    api(Dependencies.kotlinStdLib)
-    api(Dependencies.timber)
-    api(Dependencies.okhttp)
-    api(Dependencies.sunilsonExtensions)
-    api(Dependencies.dataStore)
-    implementation(Dependencies.hilt)
+    api(Deps.kotlinStdLib)
+    api(Deps.coreKtx)
+    api(Deps.appcompat)
+    api(Deps.coroutines)
+    api(Deps.coroutinesReactive)
+    api(Deps.result)
+    api(Deps.resultCoroutines)
+    api(Deps.kotlinStdLib)
+    api(Deps.timber)
+    api(Deps.okhttp)
+    api(Deps.sunilsonExtensions)
+    api(Deps.dataStore)
+    implementation(Deps.hilt)
     implementation "androidx.security:security-crypto:1.1.0-alpha03"
 
-    debugApi(Dependencies.flipper)
-    debugApi(Dependencies.flipperNetwork)
-    releaseApi(Dependencies.flipperNoop)
+    debugApi(Deps.flipper)
+    debugApi(Deps.flipperNetwork)
+    releaseApi(Deps.flipperNoop)
 
-    debugImplementation(Dependencies.chucker)
-    kapt(Dependencies.hiltKapt)
+    debugImplementation(Deps.chucker)
+    kapt(Deps.hiltKapt)
 }

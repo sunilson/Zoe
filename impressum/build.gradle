@@ -6,6 +6,7 @@ apply plugin: "androidx.navigation.safeargs.kotlin"
 
 android {
     buildFeatures.viewBinding = true
+    namespace 'at.sunilson.impressum'
 
 }
 
@@ -14,9 +15,9 @@ dependencies {
     implementation(project(":presentationCore"))
     implementation(project(":networkingCore"))
     implementation(project(":core"))
-    implementation(Dependencies.hilt)
+    implementation(Deps.hilt)
     implementation 'com.google.android.gms:play-services-oss-licenses:17.0.0'
-    kapt(Dependencies.hiltKapt)
-    kapt(Dependencies.hiltKaptJetpack)
-    kapt(Dependencies.epoxyKapt)
+    kapt(Deps.hiltKapt)
+    kapt(Deps.hiltKaptJetpack)
+    kapt(Deps.epoxyKapt)
 }

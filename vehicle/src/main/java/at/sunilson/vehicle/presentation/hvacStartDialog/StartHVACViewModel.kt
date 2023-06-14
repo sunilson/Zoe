@@ -7,15 +7,11 @@ import at.sunilson.vehiclecore.domain.HVACPreferences
 import at.sunilson.vehiclecore.domain.SaveHVACInstantPreferences
 import at.sunilson.vehiclecore.domain.StartHVAC
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.ContainerHost
-import org.orbitmvi.orbit.coroutines.transformFlow
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
-import org.orbitmvi.orbit.syntax.strict.orbit
-import org.orbitmvi.orbit.syntax.strict.reduce
 import org.orbitmvi.orbit.viewmodel.container
 import timber.log.Timber
 import java.time.LocalTime
@@ -38,12 +34,14 @@ internal class StartHVACViewModel @Inject constructor(
     override val container = container<StartHVACState, StartHVACEvent>(StartHVACState())
 
     init {
-        orbit {
-            transformFlow { getHVACInstantPreferences(Unit) }.reduce {
-                state.copy(
-                    temperature = event.temperature.toFloat(),
-                    startTime = event.time
-                )
+        intent {
+            getHVACInstantPreferences(Unit).collect {
+                reduce {
+                    state.copy(
+                        temperature = it.temperature.toFloat(),
+                        startTime = it.time
+                    )
+                }
             }
         }
 

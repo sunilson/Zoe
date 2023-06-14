@@ -5,10 +5,8 @@ apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 
 android {
-
     buildFeatures.viewBinding = true
-
-
+    namespace 'at.sunilson.chargestatistics'
 }
 
 dependencies {
@@ -18,18 +16,18 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":vehicleCore"))
     implementation(project(":chargeTracking"))
-    implementation(Dependencies.hilt)
-    implementation(Dependencies.charts)
-    implementation(Dependencies.paging)
+    implementation(Deps.hilt)
+    implementation(Deps.charts)
+    implementation(Deps.paging)
 
     testImplementation(project(":testCore"))
-    testImplementation(Dependencies.coroutineTesting)
-    testImplementation(Dependencies.junit)
-    testImplementation(Dependencies.junitParams)
-    testImplementation(Dependencies.mockk)
+    testImplementation(Deps.coroutineTesting)
+    testImplementation(Deps.junit)
+    testImplementation(Deps.junitParams)
+    testImplementation(Deps.mockk)
 
-    kapt(Dependencies.moshiKapt)
-    kapt(Dependencies.hiltKapt)
-    kapt(Dependencies.hiltKaptJetpack)
-    kapt(Dependencies.epoxyKapt)
+    kapt(Deps.moshiKapt)
+    kapt(Deps.hiltKapt)
+    kapt(Deps.hiltKaptJetpack)
+    kapt(Deps.epoxyKapt)
 }

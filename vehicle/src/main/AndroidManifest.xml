@@ -1,17 +1,17 @@
-<manifest
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        package="at.sunilson.vehicle">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application>
         <meta-data
-                android:name="com.google.android.geo.API_KEY"
-                android:value="AIzaSyDVSAipIr9ULq7xuVA1mE_sGQDiGe3vLis" />
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDVSAipIr9ULq7xuVA1mE_sGQDiGe3vLis" />
 
         <meta-data
-                android:name="com.google.android.gms.version"
-                android:value="@integer/google_play_services_version" />
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
-        <receiver android:name=".presentation.hvacBroadcastReciever.HvacBroadCastReciever">
+        <receiver
+            android:name=".presentation.hvacBroadcastReciever.HvacBroadCastReciever"
+            android:exported="false">
             <intent-filter>
                 <action android:name="StartHVAC" />
             </intent-filter>

@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 android {
 
     buildFeatures.viewBinding = true
+    namespace 'at.sunilson.presentationcore'
 
 
 }
@@ -10,21 +11,20 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation(project(":core"))
-    implementation(Dependencies.hilt)
+    implementation(Deps.hilt)
     api(project(":stringRes"))
-    api(Dependencies.fragment)
-    api(Dependencies.insetter)
-    api(Dependencies.coil)
-    api(Dependencies.navigation)
-    api(Dependencies.lifecycleViewModel)
-    api(Dependencies.lifecycleRuntime)
-    api(Dependencies.lifecycleLiveData)
-    api(Dependencies.constraintlayout)
-    api(Dependencies.material)
-    api(Dependencies.orbit)
-    api(Dependencies.orbitViewModel)
-    api(Dependencies.orbitCoroutines)
-    api(Dependencies.epoxy)
-    api(Dependencies.recyclerviewAnimations)
+    api(Deps.fragment)
+    api(Deps.insetter)
+    api(Deps.coil)
+    api(Deps.navigation)
+    api(Deps.lifecycleViewModel)
+    api(Deps.lifecycleRuntime)
+    api(Deps.lifecycleLiveData)
+    api(Deps.constraintlayout)
+    api(Deps.material)
+    api(Deps.orbit)
+    api(Deps.orbitViewModel)
+    api(Deps.epoxy)
+    api(Deps.recyclerviewAnimations)
     api("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 }

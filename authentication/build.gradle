@@ -5,6 +5,7 @@ apply plugin: 'dagger.hilt.android.plugin'
 
 android {
     buildFeatures.viewBinding = true
+    namespace 'at.sunilson.authentication'
 }
 
 dependencies {
@@ -14,12 +15,12 @@ dependencies {
 
     implementation(project(":core"))
     implementation(project(":navigation"))
-    implementation(Dependencies.chucker)
-    implementation(Dependencies.retrofitMoshiAdapter)
-    implementation(Dependencies.retrofit)
-    implementation(Dependencies.hilt)
-    implementation(Dependencies.jwt)
-    kapt(Dependencies.hiltKapt)
-    kapt(Dependencies.hiltKaptJetpack)
-    kapt(Dependencies.moshiKapt)
+    implementation(Deps.chucker)
+    implementation(Deps.retrofitMoshiAdapter)
+    implementation(Deps.retrofit)
+    implementation(Deps.hilt)
+    implementation(Deps.jwt)
+    kapt(Deps.hiltKapt)
+    kapt(Deps.hiltKaptJetpack)
+    kapt(Deps.moshiKapt)
 }

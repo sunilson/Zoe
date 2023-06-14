@@ -10,11 +10,9 @@ import at.sunilson.vehiclecore.domain.entities.Vehicle
 import com.github.kittinunf.result.coroutines.success
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.orbitmvi.orbit.ContainerHost
-import org.orbitmvi.orbit.coroutines.transformFlow
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
-import org.orbitmvi.orbit.syntax.strict.orbit
-import org.orbitmvi.orbit.syntax.strict.reduce
+import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
 import javax.inject.Inject
 
@@ -36,7 +34,11 @@ internal class SettingsDialogViewModel @Inject constructor(
         container<SettingsDialogState, SettingsDialogEvent>(SettingsDialogState())
 
     init {
-        orbit { transformFlow { getAllVehicles(Unit) }.reduce { state.copy(vehicles = event) } }
+        intent {
+            getAllVehicles(Unit).collect {
+                reduce { state.copy(vehicles = it) }
+            }
+        }
     }
 
     fun vehicleSelected(vin: String) = intent {

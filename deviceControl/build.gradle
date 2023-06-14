@@ -6,6 +6,7 @@ apply plugin: 'dagger.hilt.android.plugin'
 android {
 
     buildFeatures.viewBinding = true
+    namespace 'at.sunilson.zoe.deviceControl'
 
 
 }
@@ -15,7 +16,7 @@ dependencies {
     implementation(project(":presentationCore"))
     implementation(project(":vehicleCore"))
     implementation(project(":core"))
-    implementation(Dependencies.hilt)
-    kapt(Dependencies.hiltKapt)
-    kapt(Dependencies.hiltKaptJetpack)
+    implementation(Deps.hilt)
+    kapt(Deps.hiltKapt)
+    kapt(Deps.hiltKaptJetpack)
 }

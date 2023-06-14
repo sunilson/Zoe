@@ -7,10 +7,8 @@ import at.sunilson.chargetracking.domain.StartChargeTracking
 import at.sunilson.chargetracking.domain.StopChargeTracking
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.orbitmvi.orbit.ContainerHost
-import org.orbitmvi.orbit.coroutines.transformFlow
 import org.orbitmvi.orbit.syntax.simple.intent
-import org.orbitmvi.orbit.syntax.strict.orbit
-import org.orbitmvi.orbit.syntax.strict.reduce
+import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
 import javax.inject.Inject
 
@@ -27,8 +25,10 @@ internal class ManageViewModel @Inject constructor(
     override val container = container<ManageState, ManageEvent>(ManageState())
 
     init {
-        orbit {
-            transformFlow { getVehiclesWithTrackerInfo(Unit) }.reduce { state.copy(trackingInfos = event) }
+        intent {
+            getVehiclesWithTrackerInfo(Unit).collect {
+                reduce { state.copy(trackingInfos = it) }
+            }
         }
     }
 

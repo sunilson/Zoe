@@ -7,6 +7,7 @@ apply plugin: "androidx.navigation.safeargs.kotlin"
 android {
 
     buildFeatures.viewBinding = true
+    namespace 'at.sunilson.statistics'
 
 
 }
@@ -19,8 +20,8 @@ dependencies {
 
 
     implementation(project(":core"))
-    implementation(Dependencies.hilt)
-    kapt(Dependencies.moshiKapt)
-    kapt(Dependencies.hiltKapt)
-    kapt(Dependencies.hiltKaptJetpack)
+    implementation(Deps.hilt)
+    kapt(Deps.moshiKapt)
+    kapt(Deps.hiltKapt)
+    kapt(Deps.hiltKaptJetpack)
 }

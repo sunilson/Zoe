@@ -6,6 +6,7 @@ apply plugin: 'dagger.hilt.android.plugin'
 android {
 
     buildFeatures.viewBinding = true
+    namespace 'at.arkulpa.notifications'
 
 
 }
@@ -16,9 +17,9 @@ dependencies {
     implementation(project(":vehicleCore"))
     implementation(project(":presentationCore"))
     implementation(project(":core"))
-    implementation(Dependencies.hilt)
-    implementation(Dependencies.moshi)
-    kapt(Dependencies.hiltKapt)
-    kapt(Dependencies.hiltKaptJetpack)
-    kapt(Dependencies.epoxyKapt)
+    implementation(Deps.hilt)
+    implementation(Deps.moshi)
+    kapt(Deps.hiltKapt)
+    kapt(Deps.hiltKaptJetpack)
+    kapt(Deps.epoxyKapt)
 }

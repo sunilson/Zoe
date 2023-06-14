@@ -263,7 +263,7 @@ internal class VehicleOverviewFragment : Fragment(R.layout.fragment_vehicle_over
     private fun finishSplashAnimation() {
         viewLifecycleOwner.lifecycleScope.launch {
             while (true) {
-                if (viewModel.container.currentState.selectedVehicle != null) {
+                if (viewModel.container.stateFlow.value.selectedVehicle != null) {
                     break
                 }
                 delay(300L)

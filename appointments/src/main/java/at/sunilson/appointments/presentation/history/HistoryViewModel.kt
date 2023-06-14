@@ -5,12 +5,11 @@ import at.sunilson.appointments.domain.GetAllServices
 import at.sunilson.appointments.domain.RefreshServiceHistory
 import at.sunilson.appointments.domain.entities.Service
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import org.orbitmvi.orbit.ContainerHost
-import org.orbitmvi.orbit.coroutines.transformFlow
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.reduce
-import org.orbitmvi.orbit.syntax.strict.orbit
-import org.orbitmvi.orbit.syntax.strict.reduce
+import org.orbitmvi.orbit.syntax.simple.repeatOnSubscription
 import org.orbitmvi.orbit.viewmodel.container
 import javax.inject.Inject
 
@@ -29,9 +28,15 @@ internal class HistoryViewModel @Inject constructor(
 
     override val container = container<HistoryState, HistorySideEffects>(HistoryState())
 
+    private var servicesJob: Job? = null
+
     fun viewCreated(vin: String) {
-        orbit {
-            transformFlow { getAllServices(vin) }.reduce { state.copy(services = event) }
+        servicesJob?.cancel()
+        servicesJob = intent {
+            repeatOnSubscription {  }
+            getAllServices(vin).collect {
+                reduce { state.copy(services = it) }
+            }
         }
     }
 

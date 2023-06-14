@@ -6,6 +6,7 @@ apply plugin: "androidx.navigation.safeargs.kotlin"
 
 android {
     buildFeatures.viewBinding = true
+    namespace 'at.sunilson.scheduleCore'
 
 }
 
@@ -14,15 +15,15 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":networkingCore"))
     implementation(project(":presentationCore"))
-    implementation(Dependencies.hilt)
-    implementation(Dependencies.room)
+    implementation(Deps.hilt)
+    implementation(Deps.room)
 
-    kapt(Dependencies.epoxyKapt)
-    kapt(Dependencies.moshiKapt)
-    kapt(Dependencies.hiltKapt)
-    kapt(Dependencies.hiltKaptJetpack)
+    kapt(Deps.epoxyKapt)
+    kapt(Deps.moshiKapt)
+    kapt(Deps.hiltKapt)
+    kapt(Deps.hiltKaptJetpack)
 
-    implementation(Dependencies.moshixSealedRuntime)
-    implementation(Dependencies.moshixAdapters)
-    kapt(Dependencies.moshixSealedCodegen)
+    implementation(Deps.moshixSealedRuntime)
+    implementation(Deps.moshixAdapters)
+    kapt(Deps.moshixSealedCodegen)
 }

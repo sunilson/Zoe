@@ -14,11 +14,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.orbitmvi.orbit.ContainerHost
-import org.orbitmvi.orbit.coroutines.transformFlow
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.reduce
-import org.orbitmvi.orbit.syntax.strict.orbit
-import org.orbitmvi.orbit.syntax.strict.reduce
 import org.orbitmvi.orbit.viewmodel.container
 import timber.log.Timber
 import javax.inject.Inject
@@ -51,15 +48,19 @@ internal class VehicleMapViewModel @Inject constructor(
     private var lastRadius: Double? = null
 
     init {
-        orbit {
-            transformFlow { getSelectedVehicle(Unit) }.reduce {
-                state.copy(location = event?.location)
+        intent {
+            getSelectedVehicle(Unit).collect {
+                reduce {
+                    state.copy(location = it?.location)
+                }
             }
         }
 
-        orbit {
-            transformFlow { getReachableArea(Unit) }.reduce {
-                state.copy(reachableArea = event)
+        intent {
+            getReachableArea(Unit).collect {
+                reduce {
+                    state.copy(reachableArea = it)
+                }
             }
         }
     }

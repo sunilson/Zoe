@@ -12,12 +12,16 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":vehicleCore"))
     implementation(project(":scheduleCore"))
-    implementation(Dependencies.room)
-    implementation(Dependencies.roomCoroutines)
-    implementation(Dependencies.hilt)
-    kapt(Dependencies.moshiKapt)
-    kapt(Dependencies.hiltKapt)
-    kapt(Dependencies.hiltKaptJetpack)
-    kapt(Dependencies.epoxyKapt)
-    kapt(Dependencies.roomKapt)
+    implementation(Deps.room)
+    implementation(Deps.roomCoroutines)
+    implementation(Deps.hilt)
+    kapt(Deps.moshiKapt)
+    kapt(Deps.hiltKapt)
+    kapt(Deps.hiltKaptJetpack)
+    kapt(Deps.epoxyKapt)
+    kapt(Deps.roomKapt)
+}
+
+android {
+    namespace 'at.sunilson.chargeSchedule'
 }

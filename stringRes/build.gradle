@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 
 android {
 
+namespace 'at.sunilson.zoe.stringRes'
 }
 
 dependencies {

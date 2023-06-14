@@ -1,6 +1,7 @@
 package at.sunilson.chargestatistics.data
 
 import androidx.paging.PagingSource
+import androidx.paging.PagingState
 import at.sunilson.chargestatistics.domain.ExtractDeChargingProcedures
 import at.sunilson.chargestatistics.domain.entities.DeChargingProcedure
 import at.sunilson.chargetracking.domain.GetOffsetChargeTrackingPoints
@@ -15,6 +16,9 @@ internal class DeChargingProceduresPagingSource @Inject constructor(
     private val extractDeChargingProcedures: ExtractDeChargingProcedures,
     private val vehicleCoreRepository: VehicleCoreRepository
 ) : PagingSource<Int, DeChargingProcedure>() {
+
+    override fun getRefreshKey(state: PagingState<Int, DeChargingProcedure>) = null
+
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, DeChargingProcedure> {
         return try {
             val offset = params.key ?: 0

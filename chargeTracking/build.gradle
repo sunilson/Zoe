@@ -6,6 +6,7 @@ apply plugin: 'dagger.hilt.android.plugin'
 android {
 
     buildFeatures.viewBinding = true
+    namespace 'at.sunilson.chargetracking'
 
 
 }
@@ -19,14 +20,14 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":vehicleCore"))
     implementation(project(":notifications"))
-    implementation(Dependencies.room)
-    implementation(Dependencies.roomCoroutines)
-    implementation(Dependencies.lifecycleLiveData)
-    implementation(Dependencies.workManager)
-    implementation(Dependencies.hilt)
-    implementation(Dependencies.hiltWorkManager)
-    kapt(Dependencies.moshiKapt)
-    kapt(Dependencies.roomKapt)
-    kapt(Dependencies.hiltKapt)
-    kapt(Dependencies.hiltKaptJetpack)
+    implementation(Deps.room)
+    implementation(Deps.roomCoroutines)
+    implementation(Deps.lifecycleLiveData)
+    implementation(Deps.workManager)
+    implementation(Deps.hilt)
+    implementation(Deps.hiltWorkManager)
+    kapt(Deps.moshiKapt)
+    kapt(Deps.roomKapt)
+    kapt(Deps.hiltKapt)
+    kapt(Deps.hiltKaptJetpack)
 }

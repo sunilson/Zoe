@@ -24,7 +24,7 @@ internal class GetMostVisitedLocation @Inject constructor(private val geocoder: 
 
             val address = geocoder
                 .getFromLocation(location.lat, location.lng, 1)
-                .firstOrNull() ?: return@of null
+                ?.firstOrNull() ?: return@of null
 
             Statistic.Fact(
                 "mostVisitedLocation",

@@ -5,6 +5,7 @@ apply plugin: 'dagger.hilt.android.plugin'
 
 android {
     buildFeatures.viewBinding = true
+    namespace 'at.sunilson.vehiclecore'
 }
 
 dependencies {
@@ -13,13 +14,13 @@ dependencies {
     implementation(project(":networkingCore"))
     implementation(project(":core"))
     implementation(project(":presentationCore"))
-    implementation(Dependencies.lifecycleLiveData)
-    implementation(Dependencies.hilt)
-    implementation(Dependencies.room)
-    implementation(Dependencies.roomCoroutines)
-    kapt(Dependencies.moshiKapt)
-    kapt(Dependencies.hiltKapt)
-    kapt(Dependencies.hiltKaptJetpack)
-    kapt(Dependencies.roomKapt)
-    kapt(Dependencies.epoxyKapt)
+    implementation(Deps.lifecycleLiveData)
+    implementation(Deps.hilt)
+    implementation(Deps.room)
+    implementation(Deps.roomCoroutines)
+    kapt(Deps.moshiKapt)
+    kapt(Deps.hiltKapt)
+    kapt(Deps.hiltKaptJetpack)
+    kapt(Deps.roomKapt)
+    kapt(Deps.epoxyKapt)
 }

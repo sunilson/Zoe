@@ -6,6 +6,7 @@ apply plugin: "androidx.navigation.safeargs.kotlin"
 
 android {
     buildFeatures.viewBinding = true
+    namespace 'at.sunilson.vehicle'
 }
 
 dependencies {
@@ -20,11 +21,11 @@ dependencies {
     implementation(project(":chargeTracking"))
     implementation(project(":appointments"))
     implementation(project(":contracts"))
-    implementation(Dependencies.lottie)
-    implementation(Dependencies.hilt)
-    implementation(Dependencies.maps)
-    kapt(Dependencies.moshiKapt)
-    kapt(Dependencies.hiltKapt)
-    kapt(Dependencies.hiltKaptJetpack)
-    kapt(Dependencies.epoxyKapt)
+    implementation(Deps.lottie)
+    implementation(Deps.hilt)
+    implementation(Deps.maps)
+    kapt(Deps.moshiKapt)
+    kapt(Deps.hiltKapt)
+    kapt(Deps.hiltKaptJetpack)
+    kapt(Deps.epoxyKapt)
 }

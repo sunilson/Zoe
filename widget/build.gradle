@@ -5,6 +5,7 @@ apply plugin: 'dagger.hilt.android.plugin'
 
 android {
     buildFeatures.viewBinding = true
+    namespace 'at.arkulpa.widget'
 }
 
 dependencies {
@@ -13,8 +14,8 @@ dependencies {
     implementation(project(":vehicleCore"))
     implementation(project(":vehicleMap"))
     implementation(project(":core"))
-    implementation(Dependencies.hilt)
-    implementation(Dependencies.maps)
-    kapt(Dependencies.hiltKapt)
-    kapt(Dependencies.hiltKaptJetpack)
+    implementation(Deps.hilt)
+    implementation(Deps.maps)
+    kapt(Deps.hiltKapt)
+    kapt(Deps.hiltKaptJetpack)
 }

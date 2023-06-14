@@ -1,17 +1,16 @@
-<manifest
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        package="at.arkulpa.widget">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application>
         <receiver
-                android:name=".VehicleWidgetProvider"
-                android:label="Vehicle Widget">
+            android:name=".VehicleWidgetProvider"
+            android:exported="false"
+            android:label="Vehicle Widget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
             <meta-data
-                    android:name="android.appwidget.provider"
-                    android:resource="@xml/vehicle_widget_provider" />
+                android:name="android.appwidget.provider"
+                android:resource="@xml/vehicle_widget_provider" />
         </receiver>
 
         <!--
@@ -28,8 +27,9 @@
         -->
 
         <activity
-                android:name=".VehicleWidgetConfigurationActivity"
-                android:theme="@style/Base.Theme.Zoe.Blue">
+            android:name=".VehicleWidgetConfigurationActivity"
+            android:exported="true"
+            android:theme="@style/Base.Theme.Zoe.Blue">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>

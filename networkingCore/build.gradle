@@ -6,6 +6,7 @@ apply plugin: 'dagger.hilt.android.plugin'
 android {
 
     buildFeatures.viewBinding = true
+    namespace 'at.sunilson.networkingcore'
 
 
 }
@@ -13,14 +14,14 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation(project(":core"))
-    implementation(Dependencies.okhttp)
-    implementation(Dependencies.chucker)
-    implementation(Dependencies.hilt)
-    debugApi(Dependencies.flipperNetwork)
-    api(Dependencies.moshi)
-    api(Dependencies.moshiAdapters)
-    api(Dependencies.retrofit)
-    api(Dependencies.retrofitMoshiAdapter)
-    kapt(Dependencies.moshiKapt)
-    kapt(Dependencies.hiltKapt)
+    implementation(Deps.okhttp)
+    implementation(Deps.chucker)
+    implementation(Deps.hilt)
+    debugApi(Deps.flipperNetwork)
+    api(Deps.moshi)
+    api(Deps.moshiAdapters)
+    api(Deps.retrofit)
+    api(Deps.retrofitMoshiAdapter)
+    kapt(Deps.moshiKapt)
+    kapt(Deps.hiltKapt)
 }

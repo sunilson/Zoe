@@ -6,6 +6,7 @@ apply plugin: "androidx.navigation.safeargs.kotlin"
 
 android {
     buildFeatures.viewBinding = true
+    namespace 'at.sunilson.appointments'
 }
 
 dependencies {
@@ -15,13 +16,13 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":vehicleCore"))
     implementation(project(":networkingCore"))
-    implementation(Dependencies.hilt)
-    implementation(Dependencies.room)
-    implementation(Dependencies.roomCoroutines)
+    implementation(Deps.hilt)
+    implementation(Deps.room)
+    implementation(Deps.roomCoroutines)
 
-    kapt(Dependencies.moshiKapt)
-    kapt(Dependencies.roomKapt)
-    kapt(Dependencies.hiltKapt)
-    kapt(Dependencies.hiltKaptJetpack)
-    kapt(Dependencies.epoxyKapt)
+    kapt(Deps.moshiKapt)
+    kapt(Deps.roomKapt)
+    kapt(Deps.hiltKapt)
+    kapt(Deps.hiltKaptJetpack)
+    kapt(Deps.epoxyKapt)
 }

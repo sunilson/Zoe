@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android'
 android {
 
     buildFeatures.viewBinding = true
+    namespace 'at.sunilson.navigation'
 
 
 }

@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'com.google.dagger.hilt.android'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.google.android.gms.oss-licenses-plugin'
@@ -28,6 +28,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    namespace 'at.sunilson.zoe'
 }
 
 dependencies {
@@ -54,28 +55,28 @@ dependencies {
     implementation(project(":contracts"))
     implementation(project(":vehicleDetails"))
     implementation(project(":deviceControl"))
-    implementation Dependencies.coreKtx
-    implementation Dependencies.paging
-    implementation(Dependencies.appcompat)
-    implementation(Dependencies.room)
-    implementation(Dependencies.workManager)
-    implementation(Dependencies.hilt)
-    implementation(Dependencies.hiltWorkManager)
-    debugImplementation(Dependencies.flipperSoloader)
-    releaseImplementation(Dependencies.flipperNoop)
+    implementation(Deps.coreKtx)
+    implementation(Deps.paging)
+    implementation(Deps.appcompat)
+    implementation(Deps.room)
+    implementation(Deps.workManager)
+    implementation(Deps.hilt)
+    implementation(Deps.hiltWorkManager)
+    debugImplementation(Deps.flipperSoloader)
+    releaseImplementation(Deps.flipperNoop)
 
     implementation platform('com.google.firebase:firebase-bom:25.12.0')
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
 
     //debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'
-    kapt(Dependencies.hiltKapt)
-    kapt(Dependencies.hiltKaptJetpack)
+    kapt(Deps.hiltKapt)
+    kapt(Deps.hiltKaptJetpack)
 
-    testImplementation(Dependencies.junit4)
-    androidTestImplementation(Dependencies.junit4)
-    androidTestImplementation(Dependencies.espresso)
-    androidTestImplementation(Dependencies.workManagerTesting)
-    androidTestImplementation("androidx.test.ext:junit:1.1.2")
+    testImplementation(Deps.junit4)
+    androidTestImplementation(Deps.junit4)
+    androidTestImplementation(Deps.espresso)
+    androidTestImplementation(Deps.workManagerTesting)
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation 'com.google.dagger:hilt-android-testing:2.35.1'
-    kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.35.1'
+    kaptAndroidTest 'com.google.dagger:hilt-compiler:2.35.1'
 }

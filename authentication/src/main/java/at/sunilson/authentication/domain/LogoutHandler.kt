@@ -1,8 +1,11 @@
 package at.sunilson.authentication.domain
 
-import kotlinx.coroutines.channels.BroadcastChannel
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 interface LogoutHandler {
@@ -12,12 +15,15 @@ interface LogoutHandler {
 
 internal class LogoutHandlerImpl @Inject constructor() : LogoutHandler {
 
-    private val eventsChannel = BroadcastChannel<Unit>(1)
+    private val eventsChannel = MutableSharedFlow<Unit>()
 
     override val loggedOutEvent: Flow<Unit>
-        get() = eventsChannel.asFlow()
+        get() = eventsChannel.asSharedFlow()
 
+    @OptIn(DelicateCoroutinesApi::class)
     override fun emitLogout() {
-        eventsChannel.offer(Unit)
+        GlobalScope.launch {
+            eventsChannel.emit(Unit)
+        }
     }
 }
