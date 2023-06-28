@@ -3,6 +3,7 @@ package at.sunilson.zoe
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.ShortcutManager
+import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -15,7 +16,6 @@ import at.sunilson.navigation.ActivityNavigator
 import at.sunilson.navigation.ActivityNavigatorParams
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -42,6 +42,13 @@ class MainActivity : AppCompatActivity() {
         if (!checkLoggedIn()) return
         observeLogout()
         setContentView(R.layout.activity_main)
+        requirePermissions()
+    }
+
+    private fun requirePermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 0)
+        }
     }
 
     override fun onNewIntent(intent: Intent?) {

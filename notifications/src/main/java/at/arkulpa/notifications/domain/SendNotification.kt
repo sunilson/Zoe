@@ -1,5 +1,6 @@
 package at.arkulpa.notifications.domain
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -19,6 +20,7 @@ class SendNotification @Inject constructor(@ApplicationContext private val conte
     private val notificationManager: NotificationManagerCompat
         get() = NotificationManagerCompat.from(context)
 
+    @SuppressLint("MissingPermission")
     override fun run(params: SendNotificationParams) = Result.of<Unit, Exception> {
         createNotificationChannel()
 

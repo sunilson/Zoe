@@ -1,1 +1,5 @@
-<manifest></manifest>
+<manifest>
+
+    <uses-permission name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission name="android.permission.POST_NOTIFICATIONS" />
+</manifest>
