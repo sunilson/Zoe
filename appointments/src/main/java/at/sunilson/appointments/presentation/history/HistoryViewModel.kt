@@ -33,7 +33,7 @@ internal class HistoryViewModel @Inject constructor(
     fun viewCreated(vin: String) {
         servicesJob?.cancel()
         servicesJob = intent {
-            repeatOnSubscription {  }
+            repeatOnSubscription { }
             getAllServices(vin).collect {
                 reduce { state.copy(services = it) }
             }

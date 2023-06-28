@@ -3,7 +3,6 @@ package at.sunilson.presentationcore.delegates
 import android.content.Context
 import android.util.TypedValue
 import androidx.annotation.AttrRes
-import androidx.annotation.ColorInt
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 

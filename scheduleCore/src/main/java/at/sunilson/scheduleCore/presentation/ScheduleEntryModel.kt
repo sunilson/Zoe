@@ -39,8 +39,7 @@ abstract class ScheduleEntryModel :
     lateinit var scheduleToggled: (Boolean) -> Unit
 
     @EpoxyAttribute
-    @JvmField
-    var isHvac: Boolean = false
+    open var isHvac: Boolean = false
 
     private val formatter = DateTimeFormatter.ofPattern("HH:mm")
 

@@ -1,3 +1,7 @@
+plugins {
+    id 'com.google.devtools.ksp'
+}
+
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
@@ -22,6 +26,6 @@ dependencies {
     api(Deps.moshiAdapters)
     api(Deps.retrofit)
     api(Deps.retrofitMoshiAdapter)
-    kapt(Deps.moshiKapt)
+    ksp(Deps.moshiKapt)
     kapt(Deps.hiltKapt)
 }

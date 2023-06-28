@@ -1,3 +1,7 @@
+plugins {
+    id 'com.google.devtools.ksp'
+}
+
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
@@ -19,5 +23,5 @@ dependencies {
     implementation 'com.google.android.gms:play-services-oss-licenses:17.0.0'
     kapt(Deps.hiltKapt)
     kapt(Deps.hiltKaptJetpack)
-    kapt(Deps.epoxyKapt)
+    ksp(Deps.epoxyKapt)
 }

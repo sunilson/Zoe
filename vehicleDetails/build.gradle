@@ -1,3 +1,7 @@
+plugins {
+    id 'com.google.devtools.ksp'
+}
+
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
@@ -20,13 +24,13 @@ dependencies {
     implementation(Deps.hilt)
     implementation(Deps.room)
     implementation(Deps.roomCoroutines)
-    kapt(Deps.roomKapt)
-    kapt(Deps.moshiKapt)
+    ksp(Deps.roomKapt)
+    ksp(Deps.moshiKapt)
     kapt(Deps.hiltKapt)
     kapt(Deps.hiltKaptJetpack)
-    kapt(Deps.epoxyKapt)
+    ksp(Deps.epoxyKapt)
 
     implementation(Deps.moshixSealedRuntime)
     implementation(Deps.moshixAdapters)
-    kapt(Deps.moshixSealedCodegen)
+    ksp(Deps.moshixSealedCodegen)
 }

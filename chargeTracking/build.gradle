@@ -1,3 +1,7 @@
+plugins {
+    id 'com.google.devtools.ksp'
+}
+
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
@@ -26,8 +30,8 @@ dependencies {
     implementation(Deps.workManager)
     implementation(Deps.hilt)
     implementation(Deps.hiltWorkManager)
-    kapt(Deps.moshiKapt)
-    kapt(Deps.roomKapt)
+    ksp(Deps.moshiKapt)
+    ksp(Deps.roomKapt)
     kapt(Deps.hiltKapt)
     kapt(Deps.hiltKaptJetpack)
 }

@@ -1,3 +1,7 @@
+plugins {
+    id 'com.google.devtools.ksp'
+}
+
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
@@ -7,7 +11,6 @@ apply plugin: "androidx.navigation.safeargs.kotlin"
 android {
     buildFeatures.viewBinding = true
     namespace 'at.sunilson.scheduleCore'
-
 }
 
 dependencies {
@@ -18,12 +21,12 @@ dependencies {
     implementation(Deps.hilt)
     implementation(Deps.room)
 
-    kapt(Deps.epoxyKapt)
-    kapt(Deps.moshiKapt)
+    ksp(Deps.epoxyKapt)
+    ksp(Deps.moshiKapt)
     kapt(Deps.hiltKapt)
     kapt(Deps.hiltKaptJetpack)
 
     implementation(Deps.moshixSealedRuntime)
     implementation(Deps.moshixAdapters)
-    kapt(Deps.moshixSealedCodegen)
+    ksp(Deps.moshixSealedCodegen)
 }
